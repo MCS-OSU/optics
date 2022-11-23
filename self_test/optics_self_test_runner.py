@@ -9,7 +9,8 @@ import self_test.optics_self_test_util as util
 from scripts.opics_run_state   import FAILED_GPU_MEM_RETRY, FAILED_TIMEOUT
 
 class OpticsSelfTestRunner():
-    def __init__(self, optics_spec, manager_proximity):
+    def __init__(self, optics_spec, manager_proximity, run_mode):
+        self.run_mode = run_mode
         self.optics_spec = optics_spec
         if manager_proximity == 'local':  
             home_dir = str(Path.home())
@@ -37,7 +38,7 @@ class OpticsSelfTestRunner():
 
 
     def normal_healthy_state_progression(self):
-        scene_path = self.test_register.request_job('self_test')
+        scene_path = self.test_register.request_job('self_test', self.run_mode)
         print(f'...tasked with {scene_path}...')
         time.sleep(2)
         run_state = OpicsRunState(scene_path)

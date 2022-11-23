@@ -86,7 +86,8 @@ if __name__ == '__main__':
         ots.start()
 
     elif cmd == 'run_scenes':
-        verify_conda_env_for_project_is_activated(proj)
+        if version != 'self_test':
+            verify_conda_env_for_project_is_activated(proj)
         print('...running scenes...')
         if version == 'self_test':
             if not is_optics_manager_running_locally(optics_spec_path):
@@ -95,7 +96,7 @@ if __name__ == '__main__':
                     print('exiting')
                     sys.exit()
             print('...running self_test')
-            otsr = OpticsSelfTestRunner(optics_spec, manager_proximity)
+            otsr = OpticsSelfTestRunner(optics_spec, manager_proximity, TEST_SET_ORDER)
             otsr.normal_healthy_state_progression()
             otsr.test_gpu_mem_failure()
             otsr.test_timeout_failure()
