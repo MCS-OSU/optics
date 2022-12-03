@@ -8,11 +8,13 @@ from opics.common.logging.opics_logs import OpicsLogs
 from opics.common.logging.stats_pvoe import StatsPvoe
 from opics.common.logging.stats_avoe import StatsAvoe
 from opics.common.logging.stats_inter import StatsInter
+from scripts.systests.components.optics_spec_loader      import OpticsSpec
+
 from core.optics_dirs import SystestDirectories
 
 
 def usage():
-    print('python results_reader.py avoe|pvoe|inter <version> ')
+    print('python results_reader.py spec_path')
 
 
 if __name__ == "__main__":
@@ -22,20 +24,21 @@ if __name__ == "__main__":
         print('')
         sys.exit()
 
-    if len(sys.argv) < 3:
+    if len(sys.argv) < 2:
         usage()
         sys.exit()
 
-    if sys.argv[1] not in ['avoe', 'pvoe', 'inter']:
-        usage()
-        sys.exit()
+    # if sys.argv[1] not in ['avoe', 'pvoe', 'inter']:
+    #     usage()
+    #     sys.exit()
 
-
-    proj = sys.argv[1]
-    version = sys.argv[2]
-    systest_dirs = SystestDirectories(str(Path.home()), proj, version) 
+    optics_spec_path = sys.argv[1]
+    optics_spec = OpticsSpec(optics_spec_path)
+    
+    systest_dirs = SystestDirectories(str(Path.home()), optics_spec) 
     proj_log_dir = systest_dirs.result_logs_dir
-
+    proj = optics_spec.proj
+    
     opics_logs = OpicsLogs()
     for type in formal_type:    #just look for all types for all projects - those not present will be ignored
         type_dir = os.path.join(proj_log_dir, type)
