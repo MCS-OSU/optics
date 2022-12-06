@@ -21,6 +21,8 @@ class OpticsTestSet():
         f.close()
         self.scene_jsons = []
         for line in lines:
+            if line.strip() == '':
+                continue
             full_path_to_json_scene_file = os.path.join(root_dir, line.strip())
             scene_paths.append(full_path_to_json_scene_file)
         return scene_paths
