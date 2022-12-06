@@ -40,8 +40,8 @@ if __name__ == "__main__":
     proj = optics_spec.proj
     
     opics_logs = OpicsLogs()
-    for type in formal_type:    #just look for all types for all projects - those not present will be ignored
-        type_dir = os.path.join(proj_log_dir, type)
+    for scene_type in formal_type:    #just look for all types for all projects - those not present will be ignored
+        type_dir = os.path.join(proj_log_dir, scene_type)
         if os.path.exists(type_dir):
             files = os.listdir(type_dir)
             print(type_dir)
@@ -49,15 +49,14 @@ if __name__ == "__main__":
                 filepath = os.path.join(type_dir, file)
                 if os.path.isfile(filepath):
                     print(f'file:  {filepath}')
-                    opics_logs.load_file(filepath, proj, type)
+                    opics_logs.load_file(filepath, proj, scene_type)
     
-    category_logs = opics_logs.logs[proj]                
     if proj == 'pvoe':
-        pvoe_stats = StatsPvoe(category_logs)
+        pvoe_stats = StatsPvoe(opics_logs,'pvoe')
     elif proj == 'avoe':
-        avoe_stats = StatsAvoe(category_logs)
+        avoe_stats = StatsAvoe(opics_logs, 'avoe')
     else:
-        inter_stats = StatsInter(category_logs)
+        inter_stats = StatsInter(opics_logs, 'inter')
 
     
     
@@ -67,8 +66,8 @@ if __name__ == "__main__":
         pvoe_stats.results_by_scene_type()
         pvoe_stats.results_plausible_by_scene_type()
         pvoe_stats.results_implausible_by_scene_type()
-
-        pvoe_stats.compare_results_to_ta2_eval5_runs(systest_dirs.eval5_answer_keys_dir)
+        pvoe_stats.results_by_scene_type_and_cube_id()
+        #pvoe_stats.compare_results_to_ta2_eval5_runs(systest_dirs.eval5_answer_keys_dir)
         print('')
     
         # pvoe_stats.outcome_by_category('plausible','correct')
