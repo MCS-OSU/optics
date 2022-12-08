@@ -6,7 +6,7 @@ remote_url = ec2b_url
 
 def get_public_key_path():
     opics_home = os.environ['OPICS_HOME']
-    return opics_home + '/scripts/systests/shared-with-opics.pem'
+    return opics_home + '/scripts/ec2/shared-with-opics.pem'
 
 def remote_copy_file(src, dest):
     remote_dir = os.path.dirname(dest)
