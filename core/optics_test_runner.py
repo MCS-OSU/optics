@@ -143,11 +143,10 @@ class OpticsTestRunner():
             stdout_log_path = self.tmp_stdout_log_dir + '/' + scene_name + '_stdout.txt'
             print(f'stdout_path {stdout_log_path}')
 
-            optics_spec_full_path = os.path.join(self.optics_scripts_dir, self.optics_spec_path)
             # run the scene
             print('')
             print(f'[optics]...tasked with {scene_path}...')
-            run_command = f"cd {self.run_dir};python optics_run_scene.py --scene {local_scene_path} --optics_spec {optics_spec_full_path}  --log_dir {self.tmp_mcs_log_dir} --manager_proximity {self.manager_proximity} --session_path {self.test_register.session_path} 2>&1 | tee {stdout_log_path}"  # redirect stderr to stdout and tee to stdout_logname
+            run_command = f"cd {self.run_dir};python optics_run_scene.py --scene {local_scene_path} --optics_spec {self.optics_spec_path}  --log_dir {self.tmp_mcs_log_dir} --manager_proximity {self.manager_proximity} --session_path {self.test_register.session_path} 2>&1 | tee {stdout_log_path}"  # redirect stderr to stdout and tee to stdout_logname
             print(f'[optics]....RUN PROFILE: ')
             print(f'[optics].......controller:      {self.controller_type}')
             print(f'[optics].......manager is:      {self.manager_proximity}') 

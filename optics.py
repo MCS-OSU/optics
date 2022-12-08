@@ -12,6 +12,11 @@ from results.optics_dashboard          import OpticsDashboard
 from env.env_snapshot                  import EnvSnapshot
 from opics.common.constants            import EC2B_UNAME_OUTPUT
 
+def resolve_given_optics_spec_path(given_path):
+    if given_path.startswith('/'):
+        return given_path
+    return os.path.join(os.getcwd(), given_path)
+    
 def verify_conda_env_for_project_is_activated(proj):
     if 'CONDA_DEFAULT_ENV' not in os.environ:
         exit_with(f'ERROR: CONDA_DEFAULT_ENV not set - do "conda activate env_{proj}')
@@ -64,7 +69,8 @@ if __name__ == '__main__':
         sys.exit()
 
     cmd = sys.argv[1]
-    optics_spec_path = sys.argv[2]
+    given_optics_spec_path = sys.argv[2]
+    optics_spec_path = resolve_given_optics_spec_path(given_optics_spec_path)
     optics_spec = OpticsSpec(optics_spec_path)
 
     proj            = optics_spec.proj
@@ -119,7 +125,7 @@ if __name__ == '__main__':
             sys.exit()
         manager_process = os.popen(f'ps -edalf | grep -v edalf | grep optics | grep {optics_spec}').read()
         if manager_process:
-            print(f'[optics]...ERROR: optics manager is running for {optics_spec_path} - stop it and try again')
+            print(f'[optics]...ERROR: optics manager is running for {given_optics_spec_path} - stop it and try again')
             print(f'[optics]...manager_process {manager_process}')
             sys.exit()
         else:
@@ -133,7 +139,7 @@ if __name__ == '__main__':
 
     elif cmd == 'env_snapshot':
         verify_conda_env_for_project_is_activated(proj)
-        ss = EnvSnapshot(optics_spec_path)
+        ss = EnvSnapshot(given_optics_spec_path)
         sys.exit()
 
     else:

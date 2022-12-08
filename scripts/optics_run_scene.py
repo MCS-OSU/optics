@@ -47,7 +47,7 @@ def get_scene_type_from_scene_file(path):
     
 def make_parser():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--cfg_dir', default='../cfg')
+    parser.add_argument('--cfg_dir', default='../../../cfg')
     parser.add_argument('--scene', default='undefined')
     parser.add_argument('--optics_spec', default='undefined')
     parser.add_argument('--manager_proximity', default='default')
