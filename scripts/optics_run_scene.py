@@ -7,7 +7,7 @@ from opics.common.launch.utils       import get_level_from_config_ini
 from scripts.opics_run_state         import OpicsRunState
 from core.optics_dirs                import SystestDirectories
 from core.test_register              import TestRegisterLocal, TestRegisterRemote
-from core.constants                  import EC2B_HOME
+from opics.common.constants          import EC2B_HOME
 from core.optics_spec_loader         import OpticsSpec
 from rich                            import traceback, pretty
 from pathlib                         import Path

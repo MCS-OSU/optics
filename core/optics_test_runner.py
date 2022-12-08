@@ -3,11 +3,12 @@ from opics.common.logging.scene_logger  import get_scene_name_from_path, get_log
 from opics.common.launch.utils          import get_unity_path
 from opics.common.launch.utils          import get_config_ini_path
 from opics.common.launch.utils          import get_level_from_config_ini
+from opics.common.constants             import EC2B_HOME
 from core.test_register                 import TestRegisterLocal, TestRegisterRemote
 from core.optics_dirs                   import SystestDirectories
 from core.utils                         import ensure_dirs_exist, remote_ensure_dirs_exist, ensure_dir_exists
 from core.utils                         import get_scene_type_from_scene_name
-from core.constants                     import NO_MORE_SCENES_TO_RUN, EC2B_HOME
+from core.constants                     import NO_MORE_SCENES_TO_RUN
 from core.optics_spec_loader            import OpticsSpec
 
 import subprocess
@@ -61,9 +62,9 @@ class OpticsTestRunner():
 
     def configure_tmp_log_dirs(self):
         opics_home               = os.environ["OPICS_HOME"]
-        self.systest_scripts_dir = opics_home + '/scripts/systests' # this is where this script lives
-        self.tmp_mcs_log_dir     = self.systest_scripts_dir + '/tmp_mcs_logs'
-        self.tmp_stdout_log_dir  = self.systest_scripts_dir + '/tmp_stdout_logs'
+        self.optics_scripts_dir = opics_home + '/scripts/optics/scripts' # this is where this script lives
+        self.tmp_mcs_log_dir     = self.optics_scripts_dir + '/tmp_mcs_logs'
+        self.tmp_stdout_log_dir  = self.optics_scripts_dir + '/tmp_stdout_logs'
         ensure_dir_exists(self.tmp_mcs_log_dir) 
         ensure_dir_exists(self.tmp_stdout_log_dir) 
         print(f'[optics].......tmp log dir - mcs log root {self.tmp_mcs_log_dir}')
@@ -72,7 +73,7 @@ class OpticsTestRunner():
 
     def configure_tmp_scene_file_dir(self):
         if self.manager_proximity == 'remote':
-            self.scenes_dir = self.systest_scripts_dir + '/scenes_being_run'
+            self.scenes_dir = self.optics_scripts_dir + '/scenes_being_run'
             ensure_dir_exists(self.scenes_dir) 
 
     def configure_systest_dirs(self):
@@ -98,7 +99,7 @@ class OpticsTestRunner():
             self.test_register = TestRegisterRemote(self.systest_dirs)
         self.test_register.register_session(self.optics_spec.version)
         opics_home = os.environ["OPICS_HOME"]
-        self.run_dir = os.path.join(opics_home,'scripts')
+        self.run_dir = os.path.join(opics_home,'scripts','optics','scripts')
         
     def acquire_scene_from_manager(self, run_mode):
         if self.test_register.is_session_killed():
@@ -141,14 +142,12 @@ class OpticsTestRunner():
             # configure log names
             stdout_log_path = self.tmp_stdout_log_dir + '/' + scene_name + '_stdout.txt'
             print(f'stdout_path {stdout_log_path}')
-            # make the mcs log dir undir log_dir and then copy into register after
-            mcs_log_dir = os.path.dirname(get_log_path(local_scene_path, scene_name, self.tmp_mcs_log_dir))
 
-            optics_spec_full_path = os.path.join(self.systest_scripts_dir, self.optics_spec_path)
+            optics_spec_full_path = os.path.join(self.optics_scripts_dir, self.optics_spec_path)
             # run the scene
             print('')
             print(f'[optics]...tasked with {scene_path}...')
-            run_command = f"cd {self.run_dir};python systest_run_opics_scene.py --scene {local_scene_path} --optics_spec {optics_spec_full_path}  --log_dir {self.tmp_mcs_log_dir} --manager_proximity {self.manager_proximity} --session_path {self.test_register.session_path} 2>&1 | tee {stdout_log_path}"  # redirect stderr to stdout and tee to stdout_logname
+            run_command = f"cd {self.run_dir};python optics_run_scene.py --scene {local_scene_path} --optics_spec {optics_spec_full_path}  --log_dir {self.tmp_mcs_log_dir} --manager_proximity {self.manager_proximity} --session_path {self.test_register.session_path} 2>&1 | tee {stdout_log_path}"  # redirect stderr to stdout and tee to stdout_logname
             print(f'[optics]....RUN PROFILE: ')
             print(f'[optics].......controller:      {self.controller_type}')
             print(f'[optics].......manager is:      {self.manager_proximity}') 

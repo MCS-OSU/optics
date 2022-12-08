@@ -1,8 +1,8 @@
 from pathlib import Path
 
-from core.constants      import EC2B_HOME
-from core.optics_dirs    import SystestDirectories
-from core.test_register  import TestRegisterLocal, TestRegisterRemote
+from opics.common.constants      import EC2B_HOME
+from core.optics_dirs            import SystestDirectories
+from core.test_register          import TestRegisterLocal, TestRegisterRemote
 
 
 class OpticsDashboard():

@@ -4,7 +4,8 @@ from scripts.opics_run_state   import OpicsRunState
 from core.test_register        import TestRegisterLocal, TestRegisterRemote
 from core.optics_dirs          import SystestDirectories
 from core.utils                import ensure_dirs_exist, remote_ensure_dirs_exist, ensure_dir_exists
-from core.constants            import NO_MORE_SCENES_TO_RUN, EC2B_HOME
+from core.constants            import NO_MORE_SCENES_TO_RUN
+from opics.common.constants    import EC2B_HOME
 import self_test.optics_self_test_util as util
 from scripts.opics_run_state   import FAILED_GPU_MEM_RETRY, FAILED_TIMEOUT
 

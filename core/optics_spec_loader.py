@@ -1,6 +1,6 @@
 import sys, os
 import configparser
-from core.constants import REPLAY_CONTROLLER, MCS_CONTROLLER
+from opics.common.constants import REPLAY_CONTROLLER, MCS_CONTROLLER
 from opics.common.logging.log_constants import abbrev_types
 
 def exit_with(msg):
