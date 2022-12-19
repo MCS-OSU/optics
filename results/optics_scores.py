@@ -47,7 +47,7 @@ if __name__ == "__main__":
             for file in files:
                 filepath = os.path.join(type_dir, file)
                 if os.path.isfile(filepath):
-                    print(f'file:  {filepath}')
+                    #print(f'file:  {filepath}')
                     opics_logs.load_file(filepath, proj, scene_type)
     
     if proj == 'pvoe':
@@ -87,6 +87,7 @@ if __name__ == "__main__":
         # inter
         inter_stats.results_summary()
         inter_stats.results_by_scene_type()
+        inter_stats.results_by_scene_type_and_cube_id()
         print('')
 
 
