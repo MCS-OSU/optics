@@ -7,7 +7,7 @@ from opics.common.launch.utils       import get_level_from_config_ini
 from scripts.opics_run_state         import OpicsRunState
 from core.optics_dirs                import SystestDirectories
 from core.test_register              import TestRegisterLocal, TestRegisterRemote
-from opics.common.constants          import EC2B_HOME
+from opics.common.constants          import EC2B_HOME, MCS_CONTROLLER, MCS_RECORDING_CONTROLLER, REPLAY_CONTROLLER
 from core.optics_spec_loader         import OpticsSpec
 from rich                            import traceback, pretty
 from pathlib                         import Path
@@ -57,7 +57,7 @@ def make_parser():
 
 
 def usage():
-    print("python systest_run_opics_scene.py --scene <scene_path>  --optics_spec <optics_spec_path> --log_dir <log_dir> --manager_proximity local|remote --session_path <session_path>")
+    print("python optics_run_scene.py --scene <scene_path>  --optics_spec <optics_spec_path> --log_dir <log_dir> --manager_proximity local|remote --session_path <session_path>")
 
 if __name__ == "__main__":
 
@@ -82,7 +82,7 @@ if __name__ == "__main__":
     session_path       = args.session_path
     log_dir            = args.log_dir
     
-    validate_enum_arg('controller_type', controller_type, ['mcs', 'replay'])
+    validate_enum_arg('controller_type', controller_type, [MCS_CONTROLLER, REPLAY_CONTROLLER, MCS_RECORDING_CONTROLLER])
     validate_enum_arg('project',         project,         ['pvoe', 'inter', 'avoe'])
     validate_enum_arg('manager_proximity',  manager_proximity,  ['local', 'remote'])
 
