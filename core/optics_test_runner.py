@@ -127,7 +127,7 @@ class OpticsTestRunner():
         self.test_register.store_stdout_log(stdout_log_path)
         os.system(f"rm {stdout_log_path} {mcs_log_path}") # remove the log files after copying them to the register
         
-    def pass_video_files_to_manager(self, videos_dir)
+    def pass_video_files_to_manager(self, videos_dir):
         if os.path.exists(videos_dir):
             self.test_register.store_videos(videos_dir)
 
