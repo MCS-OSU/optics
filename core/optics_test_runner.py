@@ -135,7 +135,7 @@ class OpticsTestRunner():
         # mcs controller puts video dir under the current directory
         opics_home = os.environ('OPICS_HOME')
         optics_dir = os.path.join(opics_home, 'scripts', 'optics')
-        video dir  = os.path.join(optics_dir, 'scripts', scene_name)
+        video_dir  = os.path.join(optics_dir, 'scripts', scene_name)
         print(f'[optics].......video dir determined as {video_dir}')
         return video_dir
 
