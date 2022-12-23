@@ -96,6 +96,8 @@ if __name__ == "__main__":
 
     try:
         scene_json = mcs.load_scene_json_file(scene_path)
+        # replace name with our full scene name so that videos easier to find
+        scene_json['name'] = os.path.basename(scene_path).split('.')[0]
     except FileNotFoundError:
         print(f"Error : scene file {scene_path} not found")
         sys.exit()
