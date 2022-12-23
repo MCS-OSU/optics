@@ -235,8 +235,8 @@ def remove_datestamp(fname):
 
 
 def get_pathnames_for_video(videos_dir, scene_type, target_dir, video_id):
-    src_fname  = utils.get_video_of_type(videos_dir, video_id)
-    dest_fname = utils.clean_video_fname(src_fname)
+    src_fname  = get_video_of_type(videos_dir, video_id)
+    dest_fname = clean_video_fname(src_fname)
     src_path   = os.path.join(videos_dir, src_fname)
     dest_path  = os.path.join(target_dir, scene_type, dest_fname)
     print(f'[optics]...video local path {src_path} ; video target path {dest_path}')
