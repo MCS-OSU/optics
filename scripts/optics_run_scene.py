@@ -76,7 +76,7 @@ if __name__ == "__main__":
     version            = optics_spec.version
     controller_type    = optics_spec.controller
     spec_name          = optics_spec.name
-    config_ini_path    = optics.mcs_config_path
+    config_ini_path    = optics_spec.mcs_config_path
     print(f'------mcs_config_ini sensed as {config_ini_path}')
     manager_proximity  = args.manager_proximity
     session_path       = args.session_path
