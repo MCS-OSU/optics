@@ -166,6 +166,7 @@ class OpticsTestRunner():
             print('[optics].......scene run complete')
             mcs_log_path = find_mcs_log_path(self.tmp_mcs_log_dir, self.optics_spec.proj, scene_name)
             self.pass_logs_to_manager(mcs_log_path, stdout_log_path)
+            print(f'[optics]......checking to see if video dir {scene_name} is present...')
             if os.path.exists(scene_name):
                 print(f'[optics]......moving video files to register...')
                 self.pass_video_files_to_manager(scene_name)
