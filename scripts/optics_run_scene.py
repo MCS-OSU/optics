@@ -7,7 +7,7 @@ from opics.common.launch.utils       import get_level_from_config_ini
 from scripts.opics_run_state         import OpicsRunState
 from core.optics_dirs                import SystestDirectories
 from core.test_register              import TestRegisterLocal, TestRegisterRemote
-from opics.common.constants          import EC2B_HOME, MCS_CONTROLLER, MCS_RECORDING_CONTROLLER, REPLAY_CONTROLLER
+from opics.common.constants          import EC2B_HOME, MCS_CONTROLLER, REPLAY_CONTROLLER #, MCS_RECORDING_CONTROLLER
 from core.optics_spec_loader         import OpticsSpec
 from rich                            import traceback, pretty
 from pathlib                         import Path
@@ -47,7 +47,6 @@ def get_scene_type_from_scene_file(path):
     
 def make_parser():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--cfg_dir', default='../../../cfg')
     parser.add_argument('--scene', default='undefined')
     parser.add_argument('--optics_spec', default='undefined')
     parser.add_argument('--manager_proximity', default='default')
@@ -57,7 +56,7 @@ def make_parser():
 
 
 def usage():
-    print("python optics_run_scene.py --scene <scene_path>  --optics_spec <optics_spec_path> --log_dir <log_dir> --manager_proximity local|remote --session_path <session_path>")
+    print("python optics_run_scene.py --scene <scene_path>  --optics_spec <optics_spec_path> --log_dir <log_dir> --manager_proximity local|remote --session_path <session_path> ")
 
 if __name__ == "__main__":
 
@@ -67,8 +66,7 @@ if __name__ == "__main__":
         print('')
         sys.exit()
     
-    args       = make_parser().parse_args()
-    cfg_dir    = args.cfg_dir
+    args            = make_parser().parse_args()
 
     optics_spec_path = args.optics_spec
     print("trying to open optics spec: ", optics_spec_path)
@@ -78,11 +76,12 @@ if __name__ == "__main__":
     version            = optics_spec.version
     controller_type    = optics_spec.controller
     spec_name          = optics_spec.name
+    config_ini_path    = optics.mcs_config_path
+    print(f'------mcs_config_ini sensed as {config_ini_path}')
     manager_proximity  = args.manager_proximity
     session_path       = args.session_path
     log_dir            = args.log_dir
-    
-    validate_enum_arg('controller_type', controller_type, [MCS_CONTROLLER, REPLAY_CONTROLLER, MCS_RECORDING_CONTROLLER])
+    validate_enum_arg('controller_type', controller_type, [MCS_CONTROLLER, REPLAY_CONTROLLER])#, MCS_RECORDING_CONTROLLER
     validate_enum_arg('project',         project,         ['pvoe', 'inter', 'avoe'])
     validate_enum_arg('manager_proximity',  manager_proximity,  ['local', 'remote'])
 
@@ -95,8 +94,6 @@ if __name__ == "__main__":
         usage()
         sys.exit()
 
-    config_ini_path = get_config_ini_path(cfg_dir)
-    
     try:
         scene_json = mcs.load_scene_json_file(scene_path)
     except FileNotFoundError:
@@ -112,7 +109,7 @@ if __name__ == "__main__":
     
     level = get_level_from_config_ini(config_ini_path)   
     if level != 'level2':
-        print(f'ERROR - level {level} not supported for systest runs - check {config_ini_path}')
+        print(f'ERROR - level {level} not supported for optics runs - check {config_ini_path}')
         sys.exit()
     print("==================================================================")
     print("")
