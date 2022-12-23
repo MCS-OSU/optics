@@ -216,7 +216,7 @@ def get_first_for_type(paths, scene_type):
 
 def clean_video_fname(fname):
     fname = fname.replace('_level2__','')
-    fname = self.remove_datestamp(target_fname)
+    fname = remove_datestamp(fname)
     return fname
 
 def get_video_of_type(videos_dirname, video_id):
@@ -229,7 +229,7 @@ def get_video_of_type(videos_dirname, video_id):
 
 def remove_datestamp(fname):
     suffix = fname.split('.')[1]
-    date_index = fname.index('202')
+    date_index = fname.index('_202')
     dateless_fname = fname[:date_index]
     return dateless_fname + '.' + suffix
 

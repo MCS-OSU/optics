@@ -379,20 +379,21 @@ class TestRegisterRemote():
         utils.remote_copy_file(log_path, dest_log_path)
 
 
-    def store_videos(self, videos_dir):
+    def store_videos(self, videos_dir_path):
         # videos_dir == scene_name
+        videos_dir = os.path.basename(videos_dir_path)
         scene_type = log_constants.get_abbrev_scene_type_from_file_name(videos_dir)
-        (src, dest) = utils.get_pathnames_for_video(videos_dir, scene_type, self.systest_dirs.videos_dir, 'depth')
+        (src, dest) = utils.get_pathnames_for_video(videos_dir_path, scene_type, self.systest_dirs.videos_dir, 'depth')
         utils.remote_ensure_dir_exists(os.path.dirname(dest))
         utils.remote_copy_file(src, dest)
 
-        (src, dest) = utils.get_pathnames_for_video(videos_dir, scene_type, self.systest_dirs.videos_dir, 'segmentation')
+        (src, dest) = utils.get_pathnames_for_video(videos_dir_path, scene_type, self.systest_dirs.videos_dir, 'segmentation')
         utils.remote_copy_file(src, dest)
 
-        (src, dest) = utils.get_pathnames_for_video(videos_dir, scene_type, self.systest_dirs.videos_dir, 'topdown')
+        (src, dest) = utils.get_pathnames_for_video(videos_dir_path, scene_type, self.systest_dirs.videos_dir, 'topdown')
         utils.remote_copy_file(src, dest)
 
-        (src, dest) = utils.get_pathnames_for_video(videos_dir, scene_type, self.systest_dirs.videos_dir, 'visual')
+        (src, dest) = utils.get_pathnames_for_video(videos_dir_path, scene_type, self.systest_dirs.videos_dir, 'visual')
         utils.remote_copy_file(src, dest)
 
 
