@@ -127,6 +127,9 @@ class OpticsTestRunner():
         self.test_register.store_stdout_log(stdout_log_path)
         os.system(f"rm {stdout_log_path} {mcs_log_path}") # remove the log files after copying them to the register
         
+    def pass_video_files_to_manager(self, videos_dir)
+        if os.path.exists(videos_dir):
+            self.test_register.store_videos(videos_dir)
 
     def run(self):
         while True:
@@ -163,6 +166,12 @@ class OpticsTestRunner():
             print('[optics].......scene run complete')
             mcs_log_path = find_mcs_log_path(self.tmp_mcs_log_dir, self.optics_spec.proj, scene_name)
             self.pass_logs_to_manager(mcs_log_path, stdout_log_path)
+            if os.path.exists(scene_name):
+                print(f'[optics]......moving video files to register...')
+                self.pass_video_files_to_manager(scene_name)
+                print(f'[optics]......removing video dir...')
+                os.system(f"rm -rf {scene_name}")
             if self.manager_proximity == 'remote':
                 os.system(f"rm {local_scene_path}") # remove the temp copy of the scene just run
             print(f'[optics].......done with {local_scene_path}')
+

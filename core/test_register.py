@@ -100,6 +100,25 @@ class TestRegisterLocal():
         utils.ensure_dir_exists(os.path.dirname(dest_path))
         os.system(f' cp {log_path} {dest_path}')
 
+
+
+    def store_videos(self, videos_dir):
+        # videos_dir == scene_name
+        scene_type = log_constants.get_abbrev_scene_type_from_file_name(videos_dir)
+        (src, dest) = utils.get_pathnames_for_video(videos_dir, scene_type, self.systest_dirs.videos_dir, 'depth')
+        utils.ensure_dir_exists(os.path.dirname(dest))
+        os.system(f' cp {src} {dest}')
+
+        (src, dest) = utils.get_pathnames_for_video(videos_dir, scene_type, self.systest_dirs.videos_dir, 'segmentation')
+        os.system(f' cp {src} {dest}')
+
+        (src, dest) = utils.get_pathnames_for_video(videos_dir, scene_type, self.systest_dirs.videos_dir, 'topdown')
+        os.system(f' cp {src} {dest}')
+
+        (src, dest) = utils.get_pathnames_for_video(videos_dir, scene_type, self.systest_dirs.videos_dir, 'visual')
+        os.system(f' cp {src} {dest}')
+
+
     ##########################################################################
     # api used by manager
     ##########################################################################
@@ -358,6 +377,23 @@ class TestRegisterRemote():
         print(f'[optics]...storing log')
         utils.remote_ensure_dir_exists(os.path.dirname(dest_log_path))
         utils.remote_copy_file(log_path, dest_log_path)
+
+
+    def store_videos(self, videos_dir):
+        # videos_dir == scene_name
+        scene_type = log_constants.get_abbrev_scene_type_from_file_name(videos_dir)
+        (src, dest) = utils.get_pathnames_for_video(videos_dir, scene_type, self.systest_dirs.videos_dir, 'depth')
+        utils.remote_ensure_dir_exists(os.path.dirname(dest))
+        utils.remote_copy_file(src, dest)
+
+        (src, dest) = utils.get_pathnames_for_video(videos_dir, scene_type, self.systest_dirs.videos_dir, 'segmentation')
+        utils.remote_copy_file(src, dest)
+
+        (src, dest) = utils.get_pathnames_for_video(videos_dir, scene_type, self.systest_dirs.videos_dir, 'topdown')
+        utils.remote_copy_file(src, dest)
+
+        (src, dest) = utils.get_pathnames_for_video(videos_dir, scene_type, self.systest_dirs.videos_dir, 'visual')
+        utils.remote_copy_file(src, dest)
 
 
     def fetch_remote_file(self, remote_path, local_path):

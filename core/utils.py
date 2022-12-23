@@ -213,3 +213,34 @@ def get_first_for_type(paths, scene_type):
             return path
     print(f'[optics] WARNING - no scene of type {scene_type} found in get_first_for_type')
     return None
+
+def clean_video_fname(fname):
+    fname = fname.replace('_level2__','')
+    fname = self.remove_datestamp(target_fname)
+    return fname
+
+def get_video_of_type(videos_dirname, video_id):
+    files = os.listdir(videos_dirname):
+    for file in files:
+        if file.endswith('.mp4'):
+            if video_id in file:
+                return file
+    return "not_found"
+
+def remove_datestamp(fname):
+    suffix = fname.split('.')[1]
+    date_index = fname.index('202')
+    dateless_fname = fname[:date_index]
+    return dateless_fname + '.' + suffix
+
+
+
+
+def get_pathnames_for_video(videos_dir, scene_type, target_dir, video_id):
+    src_fname  = utils.get_video_of_type(videos_dir, video_id)
+    dest_fname = utils.clean_video_fname(src_fname)
+    src_path   = os.path.join(videos_dir, src_fname)
+    dest_path  = os.path.join(target_dir, scene_type, dest_fname)
+    print(f'[optics]...video local path {src_path} ; video target path {dest_path}')
+    return (src_path, dest_path)
+

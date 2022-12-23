@@ -17,12 +17,14 @@ class SystestDirectories():
         self.stdout_logs_dir   = os.path.join(self.systest_dir, proj, 'versions', version, 'stdout_logs')
         self.sessions_dir      = os.path.join(self.systest_dir, proj, 'versions', version, 'sessions')
         self.scene_state_dir   = os.path.join(self.systest_dir, proj, 'versions', version, 'scene_state')
+        self.videos_dir        = os.path.join(self.systest_dir, proj, 'versions', version, 'videos')
         self.eval5_answer_keys_dir = os.path.join(self.systest_dir, 'answer_keys', proj)
         print('optics dirs:')
         print(f' - systest_dir:      {self.systest_dir}')
         print(f' - result_logs_dir:  {self.result_logs_dir}')
         print(f' - stdout_logs_dir:  {self.stdout_logs_dir}')
         print(f' - sessions_dir:     {self.sessions_dir}')
+        print(f' - videos_dir:       {self.videos_dir}')
 
     
     def get_top_level_dirs(self):
@@ -32,6 +34,7 @@ class SystestDirectories():
         dirs.append(self.stdout_logs_dir)
         dirs.append(self.sessions_dir)
         dirs.append(self.scene_state_dir)
+        dirs.append(self.videos_dir)
         return dirs
 
 
