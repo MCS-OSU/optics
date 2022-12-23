@@ -74,7 +74,7 @@ class OpticsSpec():
         for line in lines:
             if line.startswith('save_videos'):
                 print('---------optics run configured to save videos ----------')
-                return os.path.join(os.environ['OPICS_HOME'],'cfg','mcs_config_videos.ini')
+                return os.path.join(os.environ['OPICS_HOME'],'cfg','mcs_config_video.ini')
         print('---------optics run configured to NOT save videos ----------')
         return os.path.join(os.environ['OPICS_HOME'],'cfg','mcs_config.ini')
         
