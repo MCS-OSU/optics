@@ -220,7 +220,7 @@ def clean_video_fname(fname):
     return fname
 
 def get_video_of_type(videos_dirname, video_id):
-    files = os.listdir(videos_dirname):
+    files = os.listdir(videos_dirname)
     for file in files:
         if file.endswith('.mp4'):
             if video_id in file:
@@ -232,8 +232,6 @@ def remove_datestamp(fname):
     date_index = fname.index('202')
     dateless_fname = fname[:date_index]
     return dateless_fname + '.' + suffix
-
-
 
 
 def get_pathnames_for_video(videos_dir, scene_type, target_dir, video_id):
