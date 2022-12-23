@@ -131,6 +131,16 @@ class OpticsTestRunner():
         if os.path.exists(videos_dir):
             self.test_register.store_videos(videos_dir)
 
+    def get_video_dir(self, scene_name):
+        # mcs controller puts video dir under the current directory
+        opics_home = os.environ('OPICS_HOME')
+        optics_dir = os.path.join(opics_home, 'scripts', 'optics')
+        video dir  = os.path.join(optics_dir, 'scripts', scene_name)
+        print(f'[optics].......video dir determined as {video_dir}')
+        return video_dir
+
+
+
     def run(self):
         while True:
             (scene_path, scene_name) = self.acquire_scene_from_manager(self.run_mode)
@@ -167,11 +177,12 @@ class OpticsTestRunner():
             mcs_log_path = find_mcs_log_path(self.tmp_mcs_log_dir, self.optics_spec.proj, scene_name)
             self.pass_logs_to_manager(mcs_log_path, stdout_log_path)
             print(f'[optics]......checking to see if video dir {scene_name} is present...')
-            if os.path.exists(scene_name):
+            video_dir = self.get_video_dir(scene_name)
+            if os.path.exists(video_dir):
                 print(f'[optics]......moving video files to register...')
-                self.pass_video_files_to_manager(scene_name)
+                self.pass_video_files_to_manager(video_dir)
                 print(f'[optics]......removing video dir...')
-                os.system(f"rm -rf {scene_name}")
+                os.system(f"rm -rf {video_dir}")
             if self.manager_proximity == 'remote':
                 os.system(f"rm {local_scene_path}") # remove the temp copy of the scene just run
             print(f'[optics].......done with {local_scene_path}')
