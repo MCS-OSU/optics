@@ -290,6 +290,8 @@ class TestRegisterLocal():
         os.system(f'rm -rf {self.systest_dirs.result_logs_dir}/*')
         print('    forgetting stdout logs')
         os.system(f'rm -rf {self.systest_dirs.stdout_logs_dir}/*')
+        print('    forgetting videos')
+        os.system(f'rm -rf {self.systest_dirs.videos_dir}/*')
 
 class TestRegisterRemote():
     def __init__(self, systest_dirs):
