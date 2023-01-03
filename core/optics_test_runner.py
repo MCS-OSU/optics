@@ -1,15 +1,11 @@
 import sys, os
-from opics.common.logging.scene_logger  import get_scene_name_from_path, get_log_path
-from opics.common.launch.utils          import get_unity_path
-from opics.common.launch.utils          import get_config_ini_path
-from opics.common.launch.utils          import get_level_from_config_ini
-from opics.common.constants             import EC2B_HOME
-from core.test_register                 import TestRegisterLocal, TestRegisterRemote
-from core.optics_dirs                   import SystestDirectories
-from core.utils                         import ensure_dirs_exist, remote_ensure_dirs_exist, ensure_dir_exists
-from core.utils                         import get_scene_type_from_scene_name
-from core.constants                     import NO_MORE_SCENES_TO_RUN
-from core.optics_spec_loader            import OpticsSpec
+from core.test_register        import TestRegisterLocal, TestRegisterRemote
+from core.optics_dirs          import SystestDirectories
+from core.utils                import get_scene_name_from_path
+from core.utils                import ensure_dirs_exist, remote_ensure_dirs_exist, ensure_dir_exists
+from core.utils                import get_scene_type_from_scene_name
+from core.constants            import NO_MORE_SCENES_TO_RUN, EC2B_HOME
+from core.optics_spec_loader   import OpticsSpec
 
 import subprocess
 
@@ -32,12 +28,6 @@ def find_mcs_log_path(log_root, proj, scene_name):
         raise Exception(f"ERROR: no log file found for scene {scene_name} in {log_dir}")
     return max(candidates, key=os.path.getctime)
 
-def verify_level2():
-    opics_home      = os.environ["OPICS_HOME"]
-    config_ini_path = get_config_ini_path(opics_home + '/cfg')
-    level           = get_level_from_config_ini(config_ini_path)
-    print(f'...using config_init_path {config_ini_path}')
-    assert level in ['level2']
 
 class OpticsTestRunner():
     def __init__(self, optics_spec_path, manager_proximity, run_mode):

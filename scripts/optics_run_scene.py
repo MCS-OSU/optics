@@ -1,13 +1,12 @@
 import sys, os, argparse
 import machine_common_sense as mcs
-import yaml, json
+import json
 from opics.common.launch.eval6_agent import Evaluation6_Agent
-from opics.common.launch.utils       import get_config_ini_path
-from opics.common.launch.utils       import get_level_from_config_ini
-from scripts.opics_run_state         import OpicsRunState
+from core.optics_run_state           import OpticsRunState
+from core.utils                      import get_level_from_config_ini
 from core.optics_dirs                import SystestDirectories
 from core.test_register              import TestRegisterLocal, TestRegisterRemote
-from opics.common.constants          import EC2B_HOME, MCS_CONTROLLER, REPLAY_CONTROLLER #, MCS_RECORDING_CONTROLLER
+from core.constants                  import EC2B_HOME, MCS_CONTROLLER, REPLAY_CONTROLLER
 from core.optics_spec_loader         import OpticsSpec
 from rich                            import traceback, pretty
 from pathlib                         import Path
@@ -32,6 +31,12 @@ def create_systest_test_register(optics_spec, manager_proximity):
         test_register = TestRegisterRemote(systest_dirs)
     return test_register
 
+
+def verify_level2(config_ini_path):
+    level = get_level_from_config_ini(config_ini_path)
+    if level != 'level2':
+        print(f'ERROR - level {level} not supported for optics runs - check {config_ini_path}')
+        sys.exit()
 
 def validate_enum_arg(arg_name, arg, valid_vals):
     if arg not in valid_vals:
@@ -78,6 +83,7 @@ if __name__ == "__main__":
     spec_name          = optics_spec.name
     config_ini_path    = optics_spec.mcs_config_path
     print(f'------mcs_config_ini sensed as {config_ini_path}')
+    verify_level2(config_ini_path)
     manager_proximity  = args.manager_proximity
     session_path       = args.session_path
     log_dir            = args.log_dir
@@ -110,9 +116,7 @@ if __name__ == "__main__":
         sys.exit()
     
     level = get_level_from_config_ini(config_ini_path)   
-    if level != 'level2':
-        print(f'ERROR - level {level} not supported for optics runs - check {config_ini_path}')
-        sys.exit()
+    
     print("==================================================================")
     print("")
     print(f"METADATA LEVEL: {level}")
@@ -124,7 +128,7 @@ if __name__ == "__main__":
     scene_type = get_scene_type_from_scene_file(scene_path)
     start_time = datetime.datetime.now()
 
-    run_state = OpicsRunState(scene_path)
+    run_state = OpticsRunState(scene_path)
     tr = create_systest_test_register(optics_spec, manager_proximity)
     # share the session path passed in from trun.py
     tr.set_session_path(session_path)

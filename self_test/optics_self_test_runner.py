@@ -1,11 +1,11 @@
 from pathlib import Path
 import time
-from scripts.opics_run_state   import OpicsRunState
+from core.optics_run_state     import OpticsRunState
 from core.test_register        import TestRegisterLocal, TestRegisterRemote
 from core.optics_dirs          import SystestDirectories
 from core.utils                import ensure_dirs_exist, remote_ensure_dirs_exist, ensure_dir_exists
 from core.constants            import NO_MORE_SCENES_TO_RUN
-from opics.common.constants    import EC2B_HOME
+from core.constants            import EC2B_HOME
 import self_test.optics_self_test_util as util
 from scripts.opics_run_state   import FAILED_GPU_MEM_RETRY, FAILED_TIMEOUT
 
@@ -42,7 +42,7 @@ class OpticsSelfTestRunner():
         scene_path = self.test_register.request_job('self_test', self.run_mode)
         print(f'...tasked with {scene_path}...')
         time.sleep(2)
-        run_state = OpicsRunState(scene_path)
+        run_state = OpticsRunState(scene_path)
         run_state.set_test_register(self.test_register)
         run_state.starting_scene()
         #test_register.note_starting_scene(     scene_path, machine, t)
@@ -66,7 +66,7 @@ class OpticsSelfTestRunner():
 
 
     def test_gpu_mem_failure(self):
-        run_state = OpicsRunState('')
+        run_state = OpticsRunState('')
         try:
             s = 'line1\nline2\nCUDA out of memory\nline4'
             raise Exception(s)
@@ -76,7 +76,7 @@ class OpticsSelfTestRunner():
             print('[optics]...test_gpu_mem_failure passed')
 
     def test_timeout_failure(self):
-        run_state = OpicsRunState('')
+        run_state = OpticsRunState('')
         try:
             s = 'line1\nline2\nController instantiation Time out condition \nline4'
             raise Exception(s)

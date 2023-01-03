@@ -9,3 +9,7 @@ JOB_ASSIGN        = 'TMAN_JOB_ASSIGN'
 
 TEST_SET_ORDER = 'test_set_order'
 SMOKE_TEST  = 'smoke_test'
+EC2B_HOME = '/home/ubuntu'
+
+MCS_CONTROLLER           = 'mcs'
+REPLAY_CONTROLLER        = 'replay'

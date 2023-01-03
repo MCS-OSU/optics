@@ -27,10 +27,12 @@ def is_running_on_ec2b():
     return os.uname()[1] == EC2B_UNAME_OUTPUT
 
 def is_optics_manager_running_locally(spec_path):
+    print(f'checking if optics manager running locally for {spec_path}')
     #result = sh.grep(sh.grep(sh.grep(sh.ps('edalf'),'optics'),'manager'), spec_name)
     ps = subprocess.Popen(('ps', '-edalf'), stdout=subprocess.PIPE)
     result = ps.communicate()[0].decode('utf-8')
     for line in result.splitlines():
+        #print(f'found line : {line}')
         if 'optics' in line and 'manager' in line and spec_path in line:
             print(f'found optics manager running locally for {spec_path}')
             return True
@@ -71,6 +73,7 @@ if __name__ == '__main__':
     cmd = sys.argv[1]
     given_optics_spec_path = sys.argv[2]
     optics_spec_path = resolve_given_optics_spec_path(given_optics_spec_path)
+    print(f'optics_spec_path: {optics_spec_path}')
     optics_spec = OpticsSpec(optics_spec_path)
 
     proj            = optics_spec.proj
@@ -79,7 +82,8 @@ if __name__ == '__main__':
     spec_name       = optics_spec.name
     
     if not cmd == 'manager':
-        manager_proximity = get_manager_proximity(optics_spec_path)
+        print(f'KJHFDKJHDFGKJDFGJ given_optics_spec_path: {given_optics_spec_path}')
+        manager_proximity = get_manager_proximity(given_optics_spec_path)
         print(f'manager_proximity: {manager_proximity}')
 
 
@@ -97,7 +101,7 @@ if __name__ == '__main__':
             verify_conda_env_for_project_is_activated(proj)
         print('...running scenes...')
         if version == 'self_test':
-            if not is_optics_manager_running_locally(optics_spec_path):
+            if not is_optics_manager_running_locally(given_optics_spec_path):
                 answer = input('no manager running locally - are you self-testing remote?')
                 if answer != 'y':
                     print('exiting')

@@ -1,5 +1,6 @@
 import os
 import time
+import configparser
 
 ec2b_url = 'ubuntu@3.221.218.227'
 remote_url = ec2b_url
@@ -242,3 +243,24 @@ def get_pathnames_for_video(videos_dir, scene_type, target_dir, video_id):
     print(f'[optics]...video local path {src_path} ; video target path {dest_path}')
     return (src_path, dest_path)
 
+
+def get_level_from_config_ini(config_ini_path):
+    config_ini = configparser.ConfigParser()
+    config_ini.read(config_ini_path)
+    return config_ini['MCS']['metadata']
+
+
+def get_config_ini_path(cfg_dir):
+    print(f'cwd: {os.getcwd()}')
+    print("cfg_dir: ", cfg_dir)
+    ini_path = os.path.join(cfg_dir, "mcs_config.ini")
+    print("ini_path: ", ini_path)
+    if not os.path.exists(ini_path):
+        raise FileNotFoundError("mcs_config.ini missing from cfg dir")
+    return ini_path
+
+
+def get_scene_name_from_path(scene_path):
+    fname = os.path.basename(scene_path)
+    scene_name = fname.split('.')[0]
+    return scene_name
