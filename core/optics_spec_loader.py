@@ -32,7 +32,8 @@ class OpticsSpec():
         f.close()
         self.test_sets        = self.load_test_sets(lines)
         self.controller       = self.load_controller(lines)
-        self.mcs_config_path  = self.load_mcs_config_path(lines)
+        self.save_videos      = self.load_save_videos_setting(lines)
+        self.mcs_config_path  = self.load_mcs_config_path(self.save_videos)
         self.skip_scene_types = self.load_skip_scene_types(lines)
         for sst in self.skip_scene_types:
             print(f'skipping scene type {sst}')
@@ -40,7 +41,7 @@ class OpticsSpec():
         print(f'optics_spec: version {self.version}')
         print(f'optics_spec: test_sets {len(self.test_sets)}')
         print(f'optics_spec: controller {self.controller}')
-          
+
     def load_test_sets(self, lines):
         test_sets = []
         for line in lines:
@@ -70,11 +71,17 @@ class OpticsSpec():
         return controller
         
 
-    def load_mcs_config_path(self, lines):
-        for line in lines:
-            if line.startswith('save_videos'):
-                print('---------optics run configured to save videos ----------')
-                return os.path.join(os.environ['OPICS_HOME'],'cfg','mcs_config_video.ini')
+    def load_mcs_config_path(self, save_videos):
+        if save_videos:
+            print('---------optics run configured to save videos ----------')
+            return os.path.join(os.environ['OPICS_HOME'],'cfg','mcs_config_video.ini')
         print('---------optics run configured to NOT save videos ----------')
         return os.path.join(os.environ['OPICS_HOME'],'cfg','mcs_config.ini')
+
+
+    def load_save_videos_setting(self, lines):
+        for line in lines:
+            if line.startswith('save_videos'):
+                return True
+        return False
         

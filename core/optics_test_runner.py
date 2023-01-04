@@ -166,12 +166,13 @@ class OpticsTestRunner():
             mcs_log_path = find_mcs_log_path(self.tmp_mcs_log_dir, self.optics_spec.proj, scene_name)
             self.pass_logs_to_manager(mcs_log_path, stdout_log_path)
             print(f'[optics]......checking to see if video dir {scene_name} is present...')
-            video_dir = self.get_video_dir(scene_name)
-            if os.path.exists(video_dir):
-                print(f'[optics]......moving video files to register...')
-                self.pass_video_files_to_manager(video_dir)
-                print(f'[optics]......removing video dir...')
-                os.system(f"rm -rf {video_dir}")
+            if self.optics_spec.save_videos:
+                video_dir = self.get_video_dir(scene_name)
+                if os.path.exists(video_dir):
+                    print(f'[optics]......moving video files to register...')
+                    self.pass_video_files_to_manager(video_dir)
+                    print(f'[optics]......removing video dir...')
+                    os.system(f"rm -rf {video_dir}")
             if self.manager_proximity == 'remote':
                 os.system(f"rm {local_scene_path}") # remove the temp copy of the scene just run
             print(f'[optics].......done with {local_scene_path}')
