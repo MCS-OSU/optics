@@ -31,7 +31,6 @@ def find_mcs_log_path(log_root, proj, scene_name):
 
 class OpticsTestRunner():
     def __init__(self, optics_spec_path, manager_proximity, run_mode):
-        verify_level2()
         self.optics_spec_path   = optics_spec_path
         self.optics_spec        = OpticsSpec(optics_spec_path)
         self.manager_proximity  = manager_proximity
