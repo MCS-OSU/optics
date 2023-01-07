@@ -84,7 +84,7 @@ class TestRegisterLocal():
     def store_scene_log(self, log_path):
         log_file = os.path.basename(log_path)
         log_name = log_file.split('.')[0]
-        scene_type = log_constants.get_abbrev_scene_type_from_file_name(log_name)
+        scene_type = log_constants.get_abbrev_scene_type_from_filename(log_name)
         dest_path = os.path.join(self.systest_dirs.result_logs_dir, scene_type, log_file)
         print(f'...storing mcs log')
         utils.ensure_dir_exists(os.path.dirname(dest_path))
@@ -94,7 +94,7 @@ class TestRegisterLocal():
     def store_stdout_log(self, log_path):
         log_file = os.path.basename(log_path)
         log_name = log_file.split('.')[0]
-        scene_type = log_constants.get_abbrev_scene_type_from_file_name(log_name)
+        scene_type = log_constants.get_abbrev_scene_type_from_filename(log_name)
         dest_path = os.path.join(self.systest_dirs.stdout_logs_dir, scene_type, log_file)
         print(f'[optics]...storing stdout log')
         utils.ensure_dir_exists(os.path.dirname(dest_path))
@@ -104,7 +104,7 @@ class TestRegisterLocal():
 
     def store_videos(self, videos_dir):
         # videos_dir == scene_name
-        scene_type = log_constants.get_abbrev_scene_type_from_file_name(videos_dir)
+        scene_type = log_constants.get_abbrev_scene_type_from_filename(videos_dir)
         (src, dest) = utils.get_pathnames_for_video(videos_dir, scene_type, self.systest_dirs.videos_dir, 'depth')
         utils.ensure_dir_exists(os.path.dirname(dest))
         os.system(f' cp {src} {dest}')
@@ -365,7 +365,7 @@ class TestRegisterRemote():
     def store_scene_log(self, log_path):
         log_file = os.path.basename(log_path)
         log_name = log_file.split('.')[0]
-        scene_type = log_constants.get_abbrev_scene_type_from_file_name(log_name)
+        scene_type = log_constants.get_abbrev_scene_type_from_filename(log_name)
         dest_log_path = os.path.join(self.systest_dirs.result_logs_dir, scene_type, log_file)
         utils.remote_ensure_dir_exists(os.path.dirname(dest_log_path))
         utils.remote_copy_file(log_path, dest_log_path)
@@ -374,7 +374,7 @@ class TestRegisterRemote():
     def store_stdout_log(self, log_path):
         log_file = os.path.basename(log_path)
         log_name = log_file.split('.')[0]
-        scene_type = log_constants.get_abbrev_scene_type_from_file_name(log_name)
+        scene_type = log_constants.get_abbrev_scene_type_from_filename(log_name)
         dest_log_path = os.path.join(self.systest_dirs.stdout_logs_dir, scene_type, log_file)
         print(f'[optics]...storing log')
         utils.remote_ensure_dir_exists(os.path.dirname(dest_log_path))
@@ -384,7 +384,7 @@ class TestRegisterRemote():
     def store_videos(self, videos_dir_path):
         # videos_dir == scene_name
         videos_dir = os.path.basename(videos_dir_path)
-        scene_type = log_constants.get_abbrev_scene_type_from_file_name(videos_dir)
+        scene_type = log_constants.get_abbrev_scene_type_from_filename(videos_dir)
         (src, dest) = utils.get_pathnames_for_video(videos_dir_path, scene_type, self.systest_dirs.videos_dir, 'depth')
         utils.remote_ensure_dir_exists(os.path.dirname(dest))
         utils.remote_copy_file(src, dest)
