@@ -34,13 +34,25 @@ class OpticsSpec():
         self.controller       = self.load_controller(lines)
         self.save_videos      = self.load_save_videos_setting(lines)
         self.mcs_config_path  = self.load_mcs_config_path(self.save_videos)
-        self.skip_scene_types = self.load_skip_scene_types(lines)
-        for sst in self.skip_scene_types:
-            print(f'skipping scene type {sst}')
+        self.types_to_run     = self.load_types_to_run(lines)
+        self.types_to_skip    = self.deduce_types_to_skip()
+        self.print_scene_execution_summary()
         print(f'optics_spec: proj {self.proj}')
         print(f'optics_spec: version {self.version}')
         print(f'optics_spec: test_sets {len(self.test_sets)}')
         print(f'optics_spec: controller {self.controller}')
+
+    def print_scene_execution_summary(self):
+        print('[optics]....which scene types are running')
+        print('')
+        for t in self.types_to_run:
+            print('  ' + t)
+        print('')
+        print('[optics]....which scene types are being skipped')
+        print('')
+        for sst in self.types_to_skip:
+            print(f'  {sst}')
+        print('')
 
     def load_test_sets(self, lines):
         test_sets = []
@@ -49,16 +61,29 @@ class OpticsSpec():
                 test_sets.append(line.split(':')[1].strip())
         return test_sets
 
-    def load_skip_scene_types(self, lines):
-        skip_scene_types = []
+    def load_types_to_run(self, lines):
+        types_to_run = []
+        # find all valid do_type declarations, complain if unknown type
         for line in lines:
             if line.startswith('skip_scene_types'):
-                skip_scene_types = list(map(str.strip, line.split(':')[1].strip().split(',')))
-        for scene_type in skip_scene_types:
-            if scene_type not in abbrev_types[self.proj]:
-                exit_with(f'OPTICS ERROR - scene type {scene_type} unknown for {self.proj}')
-        return skip_scene_types
+                exit_with(f'ERROR - cfg file contains deprecated skip_scene_types line: {line} - revise spec using the do_type:<scene_type> syntax')
+            if line.startswith('do_type'):
+                type = line.split(':')[1].strip()
+                if type not in abbrev_types[self.proj]:
+                    exit_with(f'ERROR - cfg file contains type unknown for project {self.proj}: {type}')
+                types_to_run.append(type)
+        # if no do_type lines, then run all types
+        if len(types_to_run) == 0:
+            types_to_run = abbrev_types[self.proj]
+        return types_to_run
 
+    def deduce_types_to_skip(self):
+        types_to_skip = []
+        for scene_type in abbrev_types[self.proj]:
+            if scene_type not in self.types_to_run:
+                types_to_skip.append(scene_type)
+        return types_to_skip
+                
 
     def load_controller(self, lines):
         controller = MCS_CONTROLLER

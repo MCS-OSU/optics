@@ -38,7 +38,7 @@ class OpticsTestSequencer():
             potential_job_request = get_last_line(session)
             machine,command = parse_job_request(potential_job_request)
             print(f' machine: {machine} command: {command}')
-            types_to_skip = self.optics_spec.skip_scene_types
+            types_to_skip = self.optics_spec.types_to_skip
             if command == JOB_REQUEST:
                 if self.test_register.has_more_scenes_to_run(self.scene_path_list, types_to_skip):
                     print(f'job request from {machine} for {self.optics_spec.name}')
