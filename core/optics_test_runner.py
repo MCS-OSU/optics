@@ -9,11 +9,11 @@ from core.optics_spec_loader   import OpticsSpec
 
 import subprocess
 
-#from rich import traceback, pretty
+from rich import traceback, pretty
 from pathlib import Path
 import datetime
-#traceback.install()
-#pretty.install()
+traceback.install()
+pretty.install()
 
 
 def find_mcs_log_path(log_root, proj, scene_name):
@@ -128,52 +128,74 @@ class OpticsTestRunner():
         print(f'[optics].......video dir determined as {video_dir}')
         return video_dir
 
+    def print_summary_of_run(self, scene_path, scene_name, stdout_log_path):
+        print('')
+        print(f'[optics]...tasked with {scene_path}...')
+        print(f'[optics]....RUN PROFILE: ')
+        print(f'[optics].......controller:      {self.controller_type}')
+        print(f'[optics].......manager is:      {self.manager_proximity}') 
+        print('')
+        print(f'[optics].......spec:            {self.optics_spec.name}')
+        print(f'[optics].......scene_name:      {scene_name}') 
+        print('')
+        print(f'[optics].......mcs_log_dir:     {self.tmp_mcs_log_dir}')
+        print(f'[optics].......stdout_log_path: {stdout_log_path}')
+        print('')
+        print('[optics].......running scene...')
 
+    def save_logs(self, scene_name, stdout_log_path):
+        mcs_log_path = find_mcs_log_path(self.tmp_mcs_log_dir, self.optics_spec.proj, scene_name)
+        self.pass_logs_to_manager(mcs_log_path, stdout_log_path)
+
+    def save_videos(self, scene_name):
+        print(f'[optics]......checking to see if video dir {scene_name} is present...')
+        if self.optics_spec.save_videos:
+            video_dir = self.get_video_dir(scene_name)
+            if os.path.exists(video_dir):
+                print(f'[optics]......moving video files to register...')
+                self.pass_video_files_to_manager(video_dir)
+                print(f'[optics]......removing video dir...')
+                os.system(f"rm -rf {video_dir}")
 
     def run(self):
+        next_todo = 'run_loop'
         while True:
-            (scene_path, scene_name) = self.acquire_scene_from_manager(self.run_mode)
-            if NO_MORE_SCENES_TO_RUN == scene_path:
-                print('[optics].......no more scenes to run')
-                sys.exit()
-            else:
-                print(f'[optics].......acquired scene {scene_name} at {scene_path}')
-            
-            local_scene_path         = self.ensure_scene_positioned_locally(scene_path, scene_name)
-            print(f'[optics].......local_scene_path found as {local_scene_path}')
-            # configure log names
-            stdout_log_path = self.tmp_stdout_log_dir + '/' + scene_name + '_stdout.txt'
-            print(f'stdout_path {stdout_log_path}')
+            try:
+                next_todo = 'acquire_scene_from_manager'
+                (scene_path, scene_name) = self.acquire_scene_from_manager(self.run_mode)
+                if NO_MORE_SCENES_TO_RUN == scene_path:
+                    print('[optics].......no more scenes to run')
+                    sys.exit()
+                else:
+                    print(f'[optics].......acquired scene {scene_name} at {scene_path}')
+                
+                next_todo = 'ensure_scene_positioned_locally'
+                local_scene_path         = self.ensure_scene_positioned_locally(scene_path, scene_name)
+                print(f'[optics].......local_scene_path found as {local_scene_path}')
+                # configure log names
+                stdout_log_path = self.tmp_stdout_log_dir + '/' + scene_name + '_stdout.txt'
+               
+                # run the scene
+                next_todo = 'launch_scene'
+                self.print_summary_of_run(scene_path, scene_name, stdout_log_path)
+                run_command = f"cd {self.run_dir};python optics_run_scene.py --scene {local_scene_path} --optics_spec {self.optics_spec_path}  --log_dir {self.tmp_mcs_log_dir} --manager_proximity {self.manager_proximity} --session_path {self.test_register.session_path}  2>&1 | tee {stdout_log_path}"  # redirect stderr to stdout and tee to stdout_logname
+                os.system(run_command)
+                print('[optics].......scene run complete')
 
-            # run the scene
-            print('')
-            print(f'[optics]...tasked with {scene_path}...')
-            run_command = f"cd {self.run_dir};python optics_run_scene.py --scene {local_scene_path} --optics_spec {self.optics_spec_path}  --log_dir {self.tmp_mcs_log_dir} --manager_proximity {self.manager_proximity} --session_path {self.test_register.session_path}  2>&1 | tee {stdout_log_path}"  # redirect stderr to stdout and tee to stdout_logname
-            print(f'[optics]....RUN PROFILE: ')
-            print(f'[optics].......controller:      {self.controller_type}')
-            print(f'[optics].......manager is:      {self.manager_proximity}') 
-            print('')
-            print(f'[optics].......spec:            {self.optics_spec.name}')
-            print(f'[optics].......scene_name:      {scene_name}') 
-            print('')
-            print(f'[optics].......mcs_log_dir:     {self.tmp_mcs_log_dir}')
-            print(f'[optics].......stdout_log_path: {stdout_log_path}')
-            print('')
-            print('[optics].......running scene...')
-            #print(f' attempting command : {run_command}')
-            os.system(run_command)
-            print('[optics].......scene run complete')
-            mcs_log_path = find_mcs_log_path(self.tmp_mcs_log_dir, self.optics_spec.proj, scene_name)
-            self.pass_logs_to_manager(mcs_log_path, stdout_log_path)
-            print(f'[optics]......checking to see if video dir {scene_name} is present...')
-            if self.optics_spec.save_videos:
-                video_dir = self.get_video_dir(scene_name)
-                if os.path.exists(video_dir):
-                    print(f'[optics]......moving video files to register...')
-                    self.pass_video_files_to_manager(video_dir)
-                    print(f'[optics]......removing video dir...')
-                    os.system(f"rm -rf {video_dir}")
-            if self.manager_proximity == 'remote':
-                os.system(f"rm {local_scene_path}") # remove the temp copy of the scene just run
-            print(f'[optics].......done with {local_scene_path}')
+                # save info to register
+                next_todo = 'save_logs'
+                self.save_logs(scene_name, stdout_log_path)
+                next_todo = 'save_videoa'
+                self.save_videos(scene_name)
+                
+                # cleanup temp files
+                next_todo = 'cleanup_temp_files'
+                if self.manager_proximity == 'remote':
+                    os.system(f"rm {local_scene_path}") # remove the temp copy of the scene just run
+                print(f'[optics].......done with {local_scene_path}')
+            except:
+                print(f'[optics].......exception in optics_run_scene.run()')
+                print(f'[optics].......failed at step {next_todo}')
+                traceback.print_exc()
+                
 
