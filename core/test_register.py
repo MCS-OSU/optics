@@ -215,8 +215,12 @@ class TestRegisterLocal():
             f = open(session_path, 'r')
             lines = f.readlines()
             f.close()
+            #print(f'session path {session_path}')
             trun_session = OpticsSession(lines)
-            trun_session.summary()
+            if trun_session.healthy:
+                trun_session.summary()
+            else:
+                print(f'session not healthy: {session_path} {trun_session.state}')
 
     def gather_scene_state_paths(self):
         result = []
