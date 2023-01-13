@@ -9,11 +9,12 @@ from core.optics_spec_loader   import OpticsSpec
 
 import subprocess
 
-from rich import traceback, pretty
+import traceback
+#from rich import traceback, pretty
 from pathlib import Path
 import datetime
-traceback.install()
-pretty.install()
+# traceback.install()
+# pretty.install()
 
 
 def find_mcs_log_path(log_root, proj, scene_name):
@@ -193,9 +194,10 @@ class OpticsTestRunner():
                 if self.manager_proximity == 'remote':
                     os.system(f"rm {local_scene_path}") # remove the temp copy of the scene just run
                 print(f'[optics].......done with {local_scene_path}')
-            except:
+            except Exception:
                 print(f'[optics].......exception in optics_run_scene.run()')
                 print(f'[optics].......failed at step {next_todo}')
-                traceback.print_exc()
+                print(f'[optics].......error:  {error}')
+                traceback.format_exc()
                 
 
