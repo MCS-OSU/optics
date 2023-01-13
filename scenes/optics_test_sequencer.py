@@ -55,5 +55,6 @@ class OpticsTestSequencer():
                     add_last_line(session, get_register_control_message(JOB_ASSIGN, next_scene_path))
                 else:
                     add_last_line(session, get_register_control_message(NO_MORE_SCENES_TO_RUN, '---'))
+                    print('NO MORE SCENES TO RUN...')
             else:
                 print(f'unknown command {command} in {session}')
