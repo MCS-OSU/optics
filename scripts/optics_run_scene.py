@@ -15,6 +15,10 @@ import datetime
 traceback.install()
 pretty.install()
 
+# the tensorflow and torch imports below must be in there and in this order to prevent core dump in pvoe runs
+import tensorflow as tf 
+import torch
+            
 def create_systest_test_register(optics_spec, manager_proximity):
     if manager_proximity == 'local':  
         home_dir = str(Path.home())
