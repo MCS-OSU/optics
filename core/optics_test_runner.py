@@ -197,7 +197,6 @@ class OpticsTestRunner():
             except Exception:
                 print(f'[optics].......exception in optics_run_scene.run()')
                 print(f'[optics].......failed at step {next_todo}')
-                print(f'[optics].......error:  {error}')
                 traceback.format_exc()
                 
 
