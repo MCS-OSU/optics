@@ -21,10 +21,8 @@ def resolve_given_optics_spec_path(given_path):
     return os.path.join(os.getcwd(), given_path)
     
 def verify_conda_env_for_project_is_activated(proj):
-    if 'CONDA_DEFAULT_ENV' not in os.environ:
-        optics_fatal(f'CONDA_DEFAULT_ENV not set - do "conda activate env_{proj}')
-    if os.environ['CONDA_DEFAULT_ENV'] != f'env_{proj}':
-        optics_fatal(f'CONDA_DEFAULT_ENV does not match {proj} - should be env_{proj}')
+    if not proj in os.environ['CONDA_DEFAULT_ENV'] :
+        optics_fatal(f'ERROR: {proj} not in CONDA_DEFAULT_ENV - be sure to activate the env first')
 
 def is_running_on_ec2b():
     return os.uname()[1] == EC2B_UNAME_OUTPUT
