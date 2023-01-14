@@ -29,7 +29,7 @@ class OpticsTestSequencer():
         while True:
             #print('...scanning for job requests')
             self.answer_job_requests()
-            time.sleep(10)
+            time.sleep(3)
 
  
     def answer_job_requests(self):
