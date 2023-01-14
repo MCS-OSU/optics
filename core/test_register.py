@@ -384,7 +384,7 @@ class TestRegisterRemote():
     def note_scene_state(self, scene_path, state):
         state_dir = self.systest_dirs.scene_state_dir
         state_path = utils.get_state_path_for_scene_path(scene_path, state_dir)
-        optics_debug(f'noting scene state {state} for scene {os.path.basedir(scene_path)}')
+        optics_debug(f'noting scene state {state} for scene {os.path.basename(scene_path)}')
         utils.remote_add_last_line(state_path, utils.get_register_status_message(state))
         if 'SESSION_FATAL' in state:
             optics_debug(f'SESSION_FATAL detected - noting that')

@@ -97,7 +97,7 @@ class OpticsTestRunner():
             optics_info('session killed, likely due to detected resource constraints')
             sys.exit()
         scene_path = self.test_register.request_job(self.optics_spec.version, run_mode)
-        optics.debug(f'request_job returned scene_path: {scene_path}')
+        optics_debug(f'request_job returned scene_path: {scene_path}')
         if scene_path == NO_MORE_SCENES_TO_RUN:
             return (NO_MORE_SCENES_TO_RUN, NO_MORE_SCENES_TO_RUN)
         scene_name = get_scene_name_from_path(scene_path)
@@ -197,7 +197,7 @@ class OpticsTestRunner():
                     os.system(f"rm {local_scene_path}") # remove the temp copy of the scene just run
                 optics_info(f'done with {local_scene_path}')
             except Exception as err:
-                optics_error(f'exception in optics_run_scene.run() + {err}')
+                optics_error(f'exception in OpticsTestRunner.run() + {err}')
                 optics_error(f'failed at step {next_todo}')
                 traceback.format_exc()
                 
