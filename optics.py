@@ -96,7 +96,7 @@ if __name__ == '__main__':
     spec_name       = optics_spec.name
     
     if not cmd == 'manager':
-        print(f'KJHFDKJHDFGKJDFGJ given_optics_spec_path: {given_optics_spec_path}')
+        print(f'given_optics_spec_path: {given_optics_spec_path}')
         manager_proximity = get_manager_proximity(given_optics_spec_path)
         print(f'manager_proximity: {manager_proximity}')
 
