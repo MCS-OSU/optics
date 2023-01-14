@@ -2,7 +2,7 @@ from importlib.util import set_loader
 import os, time, sys
 import core.utils as utils
 import opics.common.logging.log_constants as log_constants
-from scripts.optics_run_state        import NOT_ATTEMPTED, IN_PROGRESS_SCENE_ASSIGNED, OpticsRunState
+from core.optics_run_state        import NOT_ATTEMPTED, IN_PROGRESS_SCENE_ASSIGNED, OpticsRunState
 from core.constants                 import JOB_REQUEST, JOB_REQUEST_SMOKE, JOB_ASSIGN, NO_MORE_SCENES_TO_RUN, SESSION_KILLED, SMOKE_TEST
 from core.optics_session            import OpticsSession
 from results.scene_state_history    import SceneStateHistory
