@@ -326,9 +326,14 @@ class TestRegisterRemote():
         machine = os.uname()[1]
         session_start_string = f'# trun_session;{proj};{machine};{t}'
         session_filename = f'runner_session_{proj}_{machine}_{t}.txt'
+        local_path = session_filename
         self.session_path = os.path.join(self.systest_dirs.sessions_dir, session_filename)
+        f = open(local_path, 'w')
+        f.write(session_start_string + '\n')
+        f.close()
         optics_info(f'registering session {session_filename}')
-        utils.remote_add_last_line(self.session_path, session_start_string)
+        utils.remote_copy_file(local_path, self.session_path)
+        #utils.remote_add_last_line(self.session_path, session_start_string)
 
 
     def is_session_killed(self):
