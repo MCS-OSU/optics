@@ -334,7 +334,7 @@ def optics_error(m):
     logger.info(om)
 
 def optics_debug(m):
-    om = f'{get_depth_prefix()}[optics]...ERROR!...{m}'
+    om = f'{get_depth_prefix()}[optics]...{m}'
     logger = logging.getLogger()
     logger.debug(om)
 
