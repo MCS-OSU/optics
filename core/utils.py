@@ -322,7 +322,7 @@ def get_depth_prefix():
 
 def optics_info(m):
     om = f'{get_depth_prefix()}[optics]...{m}'
-    print(om)
+    #print(om)
     depth = str(len(inspect.stack(0)))
     logger = logging.getLogger()
     logger.info(om)
