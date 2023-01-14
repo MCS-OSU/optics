@@ -6,6 +6,7 @@ from scripts.opics_run_state        import NOT_ATTEMPTED, IN_PROGRESS_SCENE_ASSI
 from core.constants                 import JOB_REQUEST, JOB_REQUEST_SMOKE, JOB_ASSIGN, NO_MORE_SCENES_TO_RUN, SESSION_KILLED, SMOKE_TEST
 from core.optics_session            import OpticsSession
 from results.scene_state_history    import SceneStateHistory
+from core.utils                     import optics_info, optics_error, optics_debug
 
 
 
@@ -22,7 +23,7 @@ class TestRegisterLocal():
         session_start_string = f'# trun_session;{proj};{machine};{t}'
         session_filename = f'runner_session_{proj}_{machine}_{t}.txt'
         self.session_path = os.path.join(self.systest_dirs.sessions_dir, session_filename)
-        print(f'[optics]...registering session')
+        optics_info(f'registering session')
         utils.add_last_line(self.session_path, session_start_string)
 
     def is_session_killed(self):
@@ -44,17 +45,17 @@ class TestRegisterLocal():
         else:
             request = JOB_REQUEST
         job_request = utils.get_register_control_message(request, proj)
-        print(f'[optics]...requesting job')
+        optics_info(f'requesting job')
         utils.add_last_line(self.session_path, job_request)
         scene_path = self.await_job_assign_from_tman(machine, self.session_path, 3, 1.5)
-        print(f'[optics]...got job: {scene_path}')
+        optics_info(f'got job: {scene_path}')
         return scene_path
 
 
     def await_job_assign_from_tman(self, requesting_machine, session_path, tries, sleep_time):
         for i in range(tries):
             time.sleep(sleep_time)
-            print('(checking for response job request)')
+            optics_info('(checking for response job request)')
             last_line = utils.get_last_line(session_path)
             if NO_MORE_SCENES_TO_RUN in last_line:
                 return NO_MORE_SCENES_TO_RUN
@@ -62,14 +63,15 @@ class TestRegisterLocal():
                 designated_machine, _, scene_path = utils.parse_job_assign(last_line)
                 if designated_machine == requesting_machine:
                     return scene_path
-        print(f'[optics]...no response from tman on JOB_REQUEST')
-        print('[optics]...Check to make sure tman.py is running.')
+        optics_errpr(f'no response from tman on JOB_REQUEST')
+        optics_error('Check to make sure tman.py is running.')
         sys.exit(1)
 
 
     def note_scene_state(self, scene_path, state):
         state_dir = self.systest_dirs.scene_state_dir
-        print(f'[optics]...{state}')
+        scene_name = os.path.basename(scene_path).split('.')[0]
+        optics_debug(f'scene {scene_name} set to state {state}')
         state_path = utils.get_state_path_for_scene_path(scene_path, state_dir)
         utils.add_last_line(state_path, utils.get_register_status_message(state))
         if 'SESSION_FATAL' in state:
@@ -86,7 +88,7 @@ class TestRegisterLocal():
         log_name = log_file.split('.')[0]
         scene_type = log_constants.get_abbrev_scene_type_from_filename(log_name)
         dest_path = os.path.join(self.systest_dirs.result_logs_dir, scene_type, log_file)
-        print(f'...storing mcs log')
+        optics_info(f'storing mcs log')
         utils.ensure_dir_exists(os.path.dirname(dest_path))
         os.system(f' cp {log_path} {dest_path}')
 
@@ -96,7 +98,7 @@ class TestRegisterLocal():
         log_name = log_file.split('.')[0]
         scene_type = log_constants.get_abbrev_scene_type_from_filename(log_name)
         dest_path = os.path.join(self.systest_dirs.stdout_logs_dir, scene_type, log_file)
-        print(f'[optics]...storing stdout log')
+        optics_info(f'storing stdout log')
         utils.ensure_dir_exists(os.path.dirname(dest_path))
         os.system(f' cp {log_path} {dest_path}')
 
@@ -124,26 +126,34 @@ class TestRegisterLocal():
     ##########################################################################
 
     def init_scene_state_files(self, scene_paths):
+        optics_debug('initialize scene state files...')
         for scene_path in scene_paths:
-            #print(f'path: {path}')
             scene_fname = os.path.basename(scene_path)
             scene_name = scene_fname.split('.')[0]
-            #state_file_path  = os.path.join(self.systest_dirs.scene_state_dir, scene_name + '_state.txt')
             state_file_path = utils.get_state_path_for_scene_path(scene_path, self.systest_dirs.scene_state_dir)
             utils.ensure_dir_exists(os.path.dirname(state_file_path))
             if not os.path.exists(state_file_path):
+                optics_debug(f'creating {state_file_path}')
                 utils.add_last_line(state_file_path,'# test history for scene: ' + scene_name)          
                 init_state = utils.get_session_message(NOT_ATTEMPTED)
                 utils.add_last_line(state_file_path, init_state)
 
     def has_more_scenes_to_run(self, path_list, types_to_skip):
+        optics_debug('has more scenes to run?')
         state_dir = self.systest_dirs.scene_state_dir
         for path in path_list:
             state_path = utils.get_state_path_for_scene_path(path, state_dir)
             scene_type = utils.get_scene_type_for_state_path(state_path)
-            if not scene_type in types_to_skip:
+            optics_debug(f'checking {state_path}')
+            optics_debug(f'deduced scene type {scene_type}')
+            if scene_type in types_to_skip:
+                optics_debug(f'found scene type {scene_type} in types_to_skip: {types_to_skip}')
+            else:
+                optics_debug(f'not supposed to skip {scene_type}')
                 if self.is_awaiting_assignment(state_path):
+                    optics_debug(f'{state_path} was awaiting assignment ... returning True')
                     return True
+        optics_info('found no more scenes to run... return False')
         return False
 
     def has_more_smoke_test_scenes_to_run(self, path_list, types_to_skip):
@@ -158,6 +168,8 @@ class TestRegisterLocal():
         return False
 
     def assign_next_scene(self, scene_path_list, types_to_skip):
+        optics_debug(f'assigning next scene from scene_path_list of length {len(scene_path_list)}')
+        optics_debug(f'abiding types to skip: {types_to_skip}')
         state_dir = self.systest_dirs.scene_state_dir
         for scene_path in scene_path_list:
             state_path = utils.get_state_path_for_scene_path(scene_path, state_dir)
@@ -165,10 +177,12 @@ class TestRegisterLocal():
             if not scene_type in types_to_skip:
                 if self.is_awaiting_assignment(state_path):
                     self.note_assignment(state_path)
+                    optics_info(f'{scene_name} ASSIGNED')
                     return scene_path
                 else:
                     scene_name = os.path.basename(scene_path).split('.')[0]
-                    #print(f'[tman]...{scene_name} already assigned')
+                    optics_debug(f'{scene_name} already assigned')
+        optics_debug('returning NO MORE SCENES TO RUN from assign_next_scene()')
         return NO_MORE_SCENES_TO_RUN
 
 
@@ -195,10 +209,13 @@ class TestRegisterLocal():
 
         
     def is_awaiting_assignment(self, state_path):
+        optics_debug(f'is awaiting assignment?: {state_path}')
         if not os.path.exists(state_path):
+            optics_error(f'state_path does not exist: {state_path}')
             return False
         line = utils.get_last_line(state_path)
         run_state = utils.parse_run_state(line)
+        optics_debug(f'encountered run_state {run_state}')
         opics_run_state = OpicsRunState('pretend/scene/path')
         return opics_run_state.should_tman_assign_scene_in_state(run_state)
 
@@ -310,15 +327,19 @@ class TestRegisterRemote():
         session_start_string = f'# trun_session;{proj};{machine};{t}'
         session_filename = f'runner_session_{proj}_{machine}_{t}.txt'
         self.session_path = os.path.join(self.systest_dirs.sessions_dir, session_filename)
-        print(f'[optics]...registering session')
+        optics_info(f'registering session {session_filename}')
         utils.remote_add_last_line(self.session_path, session_start_string)
 
 
     def is_session_killed(self):
+        optics_debug('is session killed? ')
         session_path = self.session_path
         last_line = utils.remote_get_last_line(session_path)
+        optics_debug(f'last line read as : {last_line}')
         if 'SESSION_KILLED' in last_line:
+            optics_debug('SESSION_KILLED determined as YES')
             return True
+        optics_debug('SESSION_KILLED determined as NO')
         return False
 
         
@@ -335,30 +356,35 @@ class TestRegisterRemote():
         else:
             request = JOB_REQUEST
         job_request = utils.get_register_control_message(request, proj)
-        print(f'[optics]...requesting job')
+        optics_info(f'requesting job')
         utils.remote_add_last_line(self.session_path, job_request)
         scene_path = self.await_job_assign_from_tman(machine, self.session_path, 3, 4)
         return scene_path
 
 
     def await_job_assign_from_tman(self, requesting_machine, session_path, tries, sleep_time):
+        optics_debug('awaiting job assing from manager')
         for i in range(tries):
             time.sleep(sleep_time)
-            #print('(checking for response job request)')
+            optics_debug('(checking for response job request)')
             last_line = utils.remote_get_last_line(session_path)
             if JOB_ASSIGN in last_line:
                 designated_machine, _, scene_path = utils.parse_job_assign(last_line)
+                optics_debug(f'job assign found for scene {scene_path}')
                 #if designated_machine == requesting_machine:
                 return scene_path
-        print(f'[optics]...no response from tman on JOB_REQUEST - check to make sure tman.py is running')
-        sys.exit(1)
+            else:
+                optics_debug(f'job assign NOT FOUND for {scene_path}')
+        optics_fatal(f'no response from tman on JOB_REQUEST - check to make sure tman.py is running')
 
 
     def note_scene_state(self, scene_path, state):
         state_dir = self.systest_dirs.scene_state_dir
         state_path = utils.get_state_path_for_scene_path(scene_path, state_dir)
+        optics_debug(f'noting scene state {state} for scene {os.path.basedir(scene_path)}')
         utils.remote_add_last_line(state_path, utils.get_register_status_message(state))
         if 'SESSION_FATAL' in state:
+            optics_debug(f'SESSION_FATAL detected - noting that')
             self.note_session_fatal(scene_path)
 
 
@@ -367,29 +393,35 @@ class TestRegisterRemote():
         utils.remote_add_last_line(session_path, utils.get_session_message(SESSION_KILLED))
 
     def store_scene_log(self, log_path):
+        optics_info(f'storing scene log {log_path}')
         log_file = os.path.basename(log_path)
         log_name = log_file.split('.')[0]
         scene_type = log_constants.get_abbrev_scene_type_from_filename(log_name)
         dest_log_path = os.path.join(self.systest_dirs.result_logs_dir, scene_type, log_file)
+        optics_debug(f'remote path will be {dest_log_path}')
         utils.remote_ensure_dir_exists(os.path.dirname(dest_log_path))
         utils.remote_copy_file(log_path, dest_log_path)
 
 
     def store_stdout_log(self, log_path):
+        optics_info(f'storing stdout log {log_path}')
         log_file = os.path.basename(log_path)
         log_name = log_file.split('.')[0]
         scene_type = log_constants.get_abbrev_scene_type_from_filename(log_name)
         dest_log_path = os.path.join(self.systest_dirs.stdout_logs_dir, scene_type, log_file)
-        print(f'[optics]...storing log')
+        optics_debug(f'remote path will be {dest_log_path}')
         utils.remote_ensure_dir_exists(os.path.dirname(dest_log_path))
         utils.remote_copy_file(log_path, dest_log_path)
 
 
     def store_videos(self, videos_dir_path):
         # videos_dir == scene_name
+        optics_info(f'storing videos {log_path}')
         videos_dir = os.path.basename(videos_dir_path)
         scene_type = log_constants.get_abbrev_scene_type_from_filename(videos_dir)
         (src, dest) = utils.get_pathnames_for_video(videos_dir_path, scene_type, self.systest_dirs.videos_dir, 'depth')
+        optics_debug(f'src:  {src}')
+        optics_debug(f'dest: {dest}')
         utils.remote_ensure_dir_exists(os.path.dirname(dest))
         utils.remote_copy_file(src, dest)
 

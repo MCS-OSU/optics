@@ -1,6 +1,8 @@
 import sys, os
 #import sh
 import subprocess
+import logging
+import time
 from core.constants                    import TEST_SET_ORDER, SMOKE_TEST
 from scenes.optics_test_sequencer      import OpticsTestSequencer
 from core.optics_test_runner           import OpticsTestRunner
@@ -11,6 +13,7 @@ from admin.optics_results_eraser       import OpticsResultsEraser
 from results.optics_dashboard          import OpticsDashboard
 from env.env_snapshot                  import EnvSnapshot
 from opics.common.constants            import EC2B_UNAME_OUTPUT
+from core.utils                        import optics_fatal, optics_info
 
 def resolve_given_optics_spec_path(given_path):
     if given_path.startswith('/'):
@@ -19,9 +22,9 @@ def resolve_given_optics_spec_path(given_path):
     
 def verify_conda_env_for_project_is_activated(proj):
     if 'CONDA_DEFAULT_ENV' not in os.environ:
-        exit_with(f'ERROR: CONDA_DEFAULT_ENV not set - do "conda activate env_{proj}')
+        optics_fatal(f'CONDA_DEFAULT_ENV not set - do "conda activate env_{proj}')
     if os.environ['CONDA_DEFAULT_ENV'] != f'env_{proj}':
-        exit_with(f'ERROR: CONDA_DEFAULT_ENV does not match {proj} - should be env_{proj}')
+        optics_fatal(f'CONDA_DEFAULT_ENV does not match {proj} - should be env_{proj}')
 
 def is_running_on_ec2b():
     return os.uname()[1] == EC2B_UNAME_OUTPUT
@@ -47,11 +50,23 @@ def get_manager_proximity(spec_path):
             return 'local'
         return 'remote'
 
-def exit_with(msg):
-    print(msg)
-    sys.exit()
 
-def usage():
+def configure_logging(level):
+    optics_info(f'...setting log level to {level}')
+    logger = logging.getLogger()
+    logger.setLevel(level)
+
+    formatter = logging.Formatter(f'%(levelname)s: %(message)s')
+    os.makedirs('optics_logs', exist_ok=True)
+    log_path = 'optics_logs/optics_log_' + str(time.time()) + '.log'
+    #
+    file_handler = logging.FileHandler(filename = log_path)
+    file_handler.setFormatter(formatter)
+    logger.addHandler(file_handler)
+    
+    stderr_handler = logging.StreamHandler(sys.stderr)
+    logger.addHandler(stderr_handler)
+    
     print("python optics.py manager|smoke_test|run_scenes|stop|erase_results|status|env_snapshot <optics_config>")
     print('        manager - will only work when incoked on ec2b')
     print('        run_scene - will run a scene form any machine if the env is deemed to match the one specified in the config')
@@ -60,7 +75,7 @@ def usage():
 if __name__ == '__main__':
     
     if not 'OPICS_HOME' in os.environ:
-        exit_with('ERROR - OPICS_HOME not defined.  Please "export OPICS_HOME=<parent_of_opics_dir>"')
+        optics_fatal('OPICS_HOME not defined.  Please "export OPICS_HOME=<parent_of_opics_dir>"')
         
     if len(sys.argv) < 3:
         usage()
@@ -76,6 +91,7 @@ if __name__ == '__main__':
     print(f'optics_spec_path: {optics_spec_path}')
     optics_spec = OpticsSpec(optics_spec_path)
 
+    configure_logging(optics_spec.log_level)
     proj            = optics_spec.proj
     version         = optics_spec.version
     controller_type = optics_spec.controller
