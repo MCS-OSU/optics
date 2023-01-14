@@ -3,6 +3,7 @@ import time
 import configparser
 import logging
 import sys
+import inspect
 
 ec2b_url = 'ubuntu@3.221.218.227'
 remote_url = ec2b_url
@@ -312,31 +313,39 @@ def get_scene_name_from_path(scene_path):
     scene_name = fname.split('.')[0]
     return scene_name
 
+def get_depth_prefix():
+    depth = len(inspect.stack(0)) - 2
+    result = ''
+    for i in range(depth):
+        result += '   '
+    return result
 
 def optics_info(m):
-    om = f'[optics]...{m}'
-    #print(om)
+    om = f'{get_depth_prefix()}[optics]...{m}'
+    print(om)
+    depth = str(len(inspect.stack(0)))
     logger = logging.getLogger()
-    logger.info(om)
+    logger.info(depth + ' ' + om)
 
 def optics_error(m):
-    om = f'[optics]...ERROR!...{m}'
+    om = f'{get_depth_prefix()}[optics]...ERROR!...{m}'
     #print(om)
     logger = logging.getLogger()
     logger.info(om)
 
 def optics_debug(m):
+    om = f'{get_depth_prefix()}[optics]...ERROR!...{m}'
     logger = logging.getLogger()
-    logger.debug(m)
+    logger.debug(om)
 
 def optics_warning(m):
-    om = f'[optics]...WARNING...{m}'
+    om = f'{get_depth_prefix()}[optics]...WARNING...{m}'
     #print(om)
     logger = logging.getLogger()
     logger.warning(om)
 
 def optics_fatal(m):
-    om = f'[optics]...FATAL ERROR...{m}'
+    om = f'{get_depth_prefix()}[optics]...FATAL ERROR...{m}'
     #print(om)
     logger = logging.getLogger()
     logger.criical(om)
