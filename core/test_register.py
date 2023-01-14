@@ -363,7 +363,7 @@ class TestRegisterRemote():
         job_request = utils.get_register_control_message(request, proj)
         optics_info(f'requesting job')
         utils.remote_add_last_line(self.session_path, job_request)
-        scene_path = self.await_job_assign_from_tman(machine, self.session_path, 3, 4)
+        scene_path = self.await_job_assign_from_tman(machine, self.session_path, 3, 10)
         return scene_path
 
 
@@ -378,8 +378,6 @@ class TestRegisterRemote():
                 optics_debug(f'job assign found for scene {scene_path}')
                 #if designated_machine == requesting_machine:
                 return scene_path
-            else:
-                optics_debug(f'job assign NOT FOUND for {scene_path}')
         optics_fatal(f'no response from tman on JOB_REQUEST - check to make sure tman.py is running')
 
 
