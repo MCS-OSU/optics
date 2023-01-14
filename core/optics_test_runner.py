@@ -196,7 +196,7 @@ class OpticsTestRunner():
                 if self.manager_proximity == 'remote':
                     os.system(f"rm {local_scene_path}") # remove the temp copy of the scene just run
                 optics_info(f'done with {local_scene_path}')
-            except err:
+            except Exception as err:
                 optics_error(f'exception in optics_run_scene.run() + {err}')
                 optics_error(f'failed at step {next_todo}')
                 traceback.format_exc()
