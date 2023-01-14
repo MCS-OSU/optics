@@ -348,7 +348,7 @@ def optics_fatal(m):
     om = f'{get_depth_prefix()}[optics]...FATAL ERROR...{m}'
     #print(om)
     logger = logging.getLogger()
-    logger.criical(om)
+    logger.critical(om)
     sys.exit()
 
 # def exit_with(msg):
