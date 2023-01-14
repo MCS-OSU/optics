@@ -182,7 +182,7 @@ def convert_time_field_to_delta(s):
         secs_since_epoch = fields[time_index]
         optics_debug(f'secs_since_epoch found as {secs_since_epoch}')
         time_delta = int(float(time.time()) - float(secs_since_epoch))
-        optics_debug(f'time_delta computed as {time_delta)')
+        optics_debug(f'time_delta computed as {time_delta}')
         fields[time_index] = ' as of ' + str(time_delta) + ' sec ago'
     return ';'.join(fields)
 
