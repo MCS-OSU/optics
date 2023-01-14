@@ -9,10 +9,12 @@ class RunnerSessions():
         files = os.listdir(self.sessions_dir)
         for file in files:
             path = os.path.join(self.sessions_dir, file)
+            #print(f'opening session {path}')
             f = open(path, 'r')
             lines = f.readlines()
             f.close()
             last_line = lines[-1]
+            #print(f'last line : {last_line}')
             if JOB_REQUEST in last_line:
                 result.append(path)
         return result
