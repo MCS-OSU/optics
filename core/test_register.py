@@ -2,7 +2,7 @@ from importlib.util import set_loader
 import os, time, sys
 import core.utils as utils
 import opics.common.logging.log_constants as log_constants
-from scripts.opics_run_state        import NOT_ATTEMPTED, IN_PROGRESS_SCENE_ASSIGNED, OpicsRunState
+from scripts.optics_run_state        import NOT_ATTEMPTED, IN_PROGRESS_SCENE_ASSIGNED, OpticsRunState
 from core.constants                 import JOB_REQUEST, JOB_REQUEST_SMOKE, JOB_ASSIGN, NO_MORE_SCENES_TO_RUN, SESSION_KILLED, SMOKE_TEST
 from core.optics_session            import OpticsSession
 from results.scene_state_history    import SceneStateHistory
@@ -15,7 +15,7 @@ class TestRegisterLocal():
         self.systest_dirs = systest_dirs
 
     ##########################################################################
-    # api used by OpticsTestRunner and OpicsRunState
+    # api used by OpticsTestRunner and OpticsRunState
     ##########################################################################
     def register_session(self, proj):
         t = int(time.time())
@@ -144,12 +144,12 @@ class TestRegisterLocal():
         for path in path_list:
             state_path = utils.get_state_path_for_scene_path(path, state_dir)
             scene_type = utils.get_scene_type_for_state_path(state_path)
-            optics_debug(f'checking {state_path}')
-            optics_debug(f'deduced scene type {scene_type}')
+            #optics_debug(f'checking {state_path}')
+            #optics_debug(f'deduced scene type {scene_type}')
             if scene_type in types_to_skip:
                 optics_debug(f'found scene type {scene_type} in types_to_skip: {types_to_skip}')
             else:
-                optics_debug(f'not supposed to skip {scene_type}')
+                #optics_debug(f'not supposed to skip {scene_type}')
                 if self.is_awaiting_assignment(state_path):
                     optics_debug(f'{state_path} was awaiting assignment ... returning True')
                     return True
@@ -216,7 +216,7 @@ class TestRegisterLocal():
         line = utils.get_last_line(state_path)
         run_state = utils.parse_run_state(line)
         optics_debug(f'encountered run_state {run_state}')
-        opics_run_state = OpicsRunState('pretend/scene/path')
+        opics_run_state = OpticsRunState('pretend/scene/path')
         return opics_run_state.should_tman_assign_scene_in_state(run_state)
 
     ##########################################################################
@@ -267,17 +267,17 @@ class TestRegisterLocal():
 
     def show_runs_summary(self):
         scene_state_histories = self.load_scene_state_histories()
-        opics_run_state = OpicsRunState('')
+        opics_run_state = OpticsRunState('')
         opics_run_state.show_runs_summary(scene_state_histories)
 
     def show_gpu_mem_fail_retry_count(self):
         scene_state_histories = self.load_scene_state_histories()
-        opics_run_state = OpicsRunState('')
+        opics_run_state = OpticsRunState('')
         opics_run_state.show_gpu_mem_fail_retry_count(scene_state_histories)
 
     def show_scene_timings(self):
         scene_state_histories = self.load_scene_state_histories()
-        opics_run_state = OpicsRunState('')
+        opics_run_state = OpticsRunState('')
         opics_run_state.show_scene_timings(scene_state_histories)
 
     ##########################################################################
