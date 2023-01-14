@@ -325,7 +325,7 @@ def optics_info(m):
     print(om)
     depth = str(len(inspect.stack(0)))
     logger = logging.getLogger()
-    logger.info(depth + ' ' + om)
+    logger.info(om)
 
 def optics_error(m):
     om = f'{get_depth_prefix()}[optics]...ERROR!...{m}'
