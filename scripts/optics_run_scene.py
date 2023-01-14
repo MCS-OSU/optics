@@ -15,9 +15,7 @@ import datetime
 traceback.install()
 pretty.install()
 
-# the tensorflow and torch imports below must be in there and in this order to prevent core dump in pvoe runs
-import tensorflow as tf 
-import torch
+
             
 def create_systest_test_register(optics_spec, manager_proximity):
     if manager_proximity == 'local':  
@@ -82,6 +80,10 @@ if __name__ == "__main__":
     optics_spec = OpticsSpec(optics_spec_path)
 
     project            = optics_spec.proj
+    if project == 'pvoe':
+        # the tensorflow and torch imports below must be in there and in this order to prevent core dump in pvoe runs
+        import tensorflow as tf 
+        import torch
     version            = optics_spec.version
     controller_type    = optics_spec.controller
     spec_name          = optics_spec.name
