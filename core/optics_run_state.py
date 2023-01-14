@@ -154,7 +154,7 @@ class OpticsRunState():
             self.test_register.note_scene_state(self.scene_path, self.state)
 
     def should_tman_assign_scene_in_state(self, run_state):
-        optics_info(f'{run_state} for {self.scene_path}')
+        #optics_info(f'{run_state} for {self.scene_path}')
         if run_state == NOT_ATTEMPTED:
             return True
         elif IN_PROGRESS in run_state:
