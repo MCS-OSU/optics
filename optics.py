@@ -11,6 +11,7 @@ from core.optics_spec_loader           import OpticsSpec
 from admin.optics_stopper              import OpticsStopper
 from admin.optics_results_eraser       import OpticsResultsEraser
 from results.optics_dashboard          import OpticsDashboard
+from results.error_details             import ErrorDetails
 from env.env_snapshot                  import EnvSnapshot
 from opics.common.constants            import EC2B_UNAME_OUTPUT
 from core.utils                        import optics_fatal, optics_info
@@ -65,7 +66,7 @@ def configure_logging(level):
     stderr_handler = logging.StreamHandler(sys.stderr)
     logger.addHandler(stderr_handler)
     
-    print("python optics.py manager|smoke_test|run_scenes|stop|erase_results|status|env_snapshot <optics_config>")
+    print("python optics.py manager|run_scenes|stop|scores|erase_results|status|errors <optics_config>")
     print('        manager - will only work when incoked on ec2b')
     print('        run_scene - will run a scene form any machine if the env is deemed to match the one specified in the config')
 
@@ -79,7 +80,7 @@ if __name__ == '__main__':
         usage()
         sys.exit()
 
-    if sys.argv[1] not in ['manager','smoke_test', 'run_scenes','stop','erase_results','status','env_snapshot']:
+    if sys.argv[1] not in ['manager', 'run_scenes','stop','scores','erase_results','status','errors']:
         usage()
         sys.exit()
 
@@ -106,9 +107,15 @@ if __name__ == '__main__':
             if not is_running_on_ec2b():
                 print('ERROR - manager command can only be invoked on ec2b')
                 sys.exit()
-        print('...running manager...')
-        ots = OpticsTestSequencer(optics_spec)
-        ots.start()
+        manager_process = os.popen(f'ps -edalf | grep -v edalf | grep optics | grep {optics_spec}').read()
+        if manager_process:
+            print(f'[optics]...ERROR: optics manager is running for {given_optics_spec_path} - stop it and try again')
+            print(f'[optics]...manager_process {manager_process}')
+            sys.exit()
+        else:
+            print('...running manager...')
+            ots = OpticsTestSequencer(optics_spec)
+            ots.start()
 
     elif cmd == 'run_scenes':
         if version != 'self_test':
@@ -127,9 +134,6 @@ if __name__ == '__main__':
             otsr.test_timeout_failure()
         else:
             otr = OpticsTestRunner(optics_spec_path, manager_proximity, TEST_SET_ORDER)
-            otr.run()
-    elif cmd == 'smoke_test':
-            otr = OpticsTestRunner(optics_spec_path, manager_proximity, SMOKE_TEST)
             otr.run()
 
     elif cmd == 'stop':
@@ -155,10 +159,15 @@ if __name__ == '__main__':
         dashboard = OpticsDashboard(manager_proximity, optics_spec)
         dashboard.show_all()
 
-    elif cmd == 'env_snapshot':
-        verify_conda_env_for_project_is_activated(proj)
-        ss = EnvSnapshot(given_optics_spec_path)
-        sys.exit()
+    elif cmd == 'errors':
+        if not is_running_on_ec2b():
+            print('ERROR - errors command can only be invoked on ec2b')
+            sys.exit()
+        if proj == 'inter':
+            error_details = ErrorDetails(optics_spec)
+            error_details.show_errors_by_scene_type_inter()
+            error_details.show_error_type_counts_inter()
+
 
     else:
         usage()
