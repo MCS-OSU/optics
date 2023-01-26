@@ -175,12 +175,12 @@ class TestRegisterLocal():
             state_path = utils.get_state_path_for_scene_path(scene_path, state_dir)
             scene_type = utils.get_scene_type_for_state_path(state_path)
             if not scene_type in types_to_skip:
+                scene_name = os.path.basename(scene_path).split('.')[0]
                 if self.is_awaiting_assignment(state_path):
                     self.note_assignment(state_path)
                     optics_info(f'{scene_name} ASSIGNED')
                     return scene_path
                 else:
-                    scene_name = os.path.basename(scene_path).split('.')[0]
                     optics_debug(f'{scene_name} already assigned')
         optics_debug('returning NO MORE SCENES TO RUN from assign_next_scene()')
         return NO_MORE_SCENES_TO_RUN
