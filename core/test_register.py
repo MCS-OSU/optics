@@ -363,7 +363,7 @@ class TestRegisterRemote():
         job_request = utils.get_register_control_message(request, proj)
         optics_info(f'requesting job')
         utils.remote_add_last_line(self.session_path, job_request)
-        scene_path = self.await_job_assign_from_tman(machine, self.session_path, 6, 10)
+        scene_path = self.await_job_assign_from_tman(machine, self.session_path, 20, 5)
         return scene_path
 
 
