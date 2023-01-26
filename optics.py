@@ -66,8 +66,8 @@ def configure_logging(level):
     stderr_handler = logging.StreamHandler(sys.stderr)
     logger.addHandler(stderr_handler)
     
-    print("python optics.py manager|run_scenes|stop|scores|erase_results|status|errors <optics_config>")
-    print('        manager - will only work when incoked on ec2b')
+    print("python optics.py manager|run_scenes|stop|scores|erase_results|status|errors|container_run <optics_config>")
+    print('        manager - will only work when invoked on ec2b')
     print('        run_scene - will run a scene form any machine if the env is deemed to match the one specified in the config')
 
 
@@ -80,7 +80,7 @@ if __name__ == '__main__':
         usage()
         sys.exit()
 
-    if sys.argv[1] not in ['manager', 'run_scenes','stop','scores','erase_results','status','errors']:
+    if sys.argv[1] not in ['manager', 'run_scenes','stop','scores','erase_results','status','errors', 'container_run']:
         usage()
         sys.exit()
 
@@ -117,6 +117,11 @@ if __name__ == '__main__':
             ots = OpticsTestSequencer(optics_spec)
             ots.start()
 
+    elif cmd == 'container_run':
+        print('...running scenes...')
+        otr = OpticsTestRunner(optics_spec_path, manager_proximity, TEST_SET_ORDER)
+        otr.run()
+            
     elif cmd == 'run_scenes':
         if version != 'self_test':
             verify_conda_env_for_project_is_activated(proj)
