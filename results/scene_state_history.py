@@ -7,9 +7,12 @@
 # 1667607607;ip-172-31-72-254;IN_PROGRESS__CONTROLLER_UP
 # 1667607661;ip-172-31-72-254;IN_PROGRESS__SCENE_RUNNING
 from core.optics_run_state import FAILED_GPU_MEM, COMPLETED, IN_PROGRESS_SCENE_STARTED
+import logging
+
 class SceneStateHistory():
     def __init__(self, scene_name, lines):
-
+        logger = logging.getLogger()
+        logger.debug(f'SceneStateHistory {scene_name}')
         end_line = lines[-1]
         self.end_state = end_line.split(';')[2].strip()
         self.scene_name = scene_name
