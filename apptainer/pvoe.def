@@ -1,0 +1,80 @@
+Bootstrap: docker
+From : ubuntu:20.04
+
+%environment
+	export OPICS_HOME=~/optics_inter_vx
+	export PYTHONPATH=~/optics_inter_vx:~/optics_inter_vx/scripts/optics
+    export PATH=/miniconda3/bin:$PATH
+
+%post 
+	# Downloads the latest package lists (important).
+	apt-get update -y
+
+	# Install python and other tools
+	# Non-interactive is used to ensure prompts are omitted.
+	DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    build-essential \
+	python3-dev \
+	python3-tk \
+	python3-pip \
+	python3-setuptools \
+	systemd \
+	imagemagick \
+	curl \
+	openslide-tools \
+    libopencv-dev
+
+    apt-get install -y git
+    cd /
+    # git clone --recurse-submodules https://github.com/MCS-OSU/opics.git
+    git clone https://github.com/MCS-OSU/opics-pvoe.git
+
+    apt-get install -y unzip
+	apt-get install -y wget
+    
+
+    wget https://repo.anaconda.com/miniconda/Miniconda3-py39_22.11.1-1-Linux-x86_64.sh
+    bash Miniconda3-py39_22.11.1-1-Linux-x86_64.sh -b -p /miniconda3
+    
+    export PATH=/miniconda3/bin:$PATH
+
+    cd opics-pvoe
+    git checkout develop
+    echo "Setting up environment..."
+    ./install.sh
+    echo "Setting conda init..."
+    export CONDA_PATH=$(conda info | grep -i 'base environment' | cut -d ":" -f2 | cut -d " " -f2)
+    . $CONDA_PATH/etc/profile.d/conda.sh
+    echo "Cloning and installing DCNv2..."
+    conda activate env_opics_pvoe
+    cd opics_pvoe/vision/center_track/external/src/lib/model/networks
+    git clone https://github.com/CharlesShang/DCNv2/
+    cd DCNv2
+    ./make.sh
+    cd ../../../../../../../../../
+
+    echo "Downloading weights..."
+    python -m gdown "https://drive.google.com/uc?id=1wepo_mdyOqphSn4C_iOD8tVAvSuci3ki"
+    unzip eval5_models_ckpts.zip
+    rm eval5_models_ckpts.zip    
+
+    which python 
+    # #conda create -n inter_test python=3.8
+    # #source activate inter_test
+    # which python
+    # python --version
+    # conda activate
+    # which python
+    # python --version
+    # python -m pip install --upgrade pip setuptools wheel
+    # python -m pip install opencv-python
+    # python -m pip install machine_common_sense
+
+    
+    #git clone https://github.com/NextCenturyCorporation/MCS.git
+    #python osu_cache_addressables.py
+    #cd /
+    mkdir coll_scene
+    cd coll_scene
+    #wget https://resources.machinecommonsense.com/eval-scenes-5/quebec_0001_24_B1_debug.json
+    wget https://resources.machinecommonsense.com/eval-scenes-5/alpha_0001_24_I2_debug.json
