@@ -115,22 +115,7 @@ From : ubuntu:20.04
     python -m pip uninstall -y numpy
     python -m pip install numpy==1.23.5
 
-    which python 
-    # #conda create -n inter_test python=3.8
-    # #source activate inter_test
-    # which python
-    # python --version
-    # conda activate
-    # which python
-    # python --version
-    # python -m pip install --upgrade pip setuptools wheel
-    # python -m pip install opencv-python
-    # python -m pip install machine_common_sense
-
-    
-    #git clone https://github.com/NextCenturyCorporation/MCS.git
-    #python osu_cache_addressables.py
-    #cd /
+   
     mkdir inter_scene
     cd inter_scene
     wget https://resources.machinecommonsense.com/eval-scenes-5/quebec_0001_24_B1_debug.json
