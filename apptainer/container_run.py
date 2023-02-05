@@ -28,8 +28,12 @@ if __name__ == '__main__':
 
     opics_run_dir = get_opics_home()
     print(f'...copying it into {opics_run_dir} under your home dir so that it can write to the filesystem...')
-    # copy the opics_pull dir to the target dir under home so that the system can write to disk
-    os.system(f'cp -r {opics_pull_dir} {opics_run_dir}')
+  
+    # pull in the pem file 
+    os.chdir(f'{opics_run_dir}/scripts/ec2')
+    print(f'...pulling pem file for accessing ec2b...')
+    os.system("wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=1BGff0DlqdUGEHtkCSK2FPjVcw7m5XpnY' -O shared-with-opics.pem")
+
 
     # get the name of the optics spec file to run
     optics_spec_file = get_optics_spec_fname(opics_read_only_image_dirname)
