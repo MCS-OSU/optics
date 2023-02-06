@@ -97,7 +97,7 @@ if __name__ == '__main__':
     controller_type = optics_spec.controller
     spec_name       = optics_spec.name
     
-    if cmd == 'run_scenes':
+    if cmd == 'run_scenes' or cmd == 'container_run':
         print(f'given_optics_spec_path: {given_optics_spec_path}')
         manager_proximity = get_manager_proximity(given_optics_spec_path)
         print(f'manager_proximity: {manager_proximity}')
