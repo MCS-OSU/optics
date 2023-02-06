@@ -26,3 +26,5 @@ From : ubuntu:20.04
     openslide-tools \
     libopencv-dev
 
+    cd /usr/bin
+    ln -s python3 python
