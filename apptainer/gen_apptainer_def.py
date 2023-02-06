@@ -6,9 +6,9 @@ from core.optics_spec_loader import OpticsSpec
 CONTAINER_PULL_ROOT_PREFIX='image__'
 RUN_SYSTEM_PREFIX='test__'
 
-def get_section_base_container():
-    s =  'Bootstrap: docker\n'
-    s += 'From : ubuntu:20.04\n'
+def get_section_base_container(local_image_full_path):
+    s =  'Bootstrap: localimage\n'
+    s += f'From : {local_image_full_path}\n'
     s += '\n'
     s += '\n'
     return s
@@ -16,22 +16,6 @@ def get_section_base_container():
 def get_section_environment(run_time_root_name):
     s =  f'    export OPICS_HOME=$HOME/{run_time_root_name}\n'
     s += f'    export PYTHONPATH=$OPICS_HOME:$OPICS_HOME/scripts/optics\n'
-    s += f'    export PATH=/miniconda3/bin:$PATH\n'
-    s += '\n'
-    s += '\n'
-    return s
-
-
-def get_section_ubuntu_configure():
-    s =  '    ############################################################################\n'
-    s += '    # install basic linux dependencies\n'
-    s += '    ############################################################################\n'
-    s += '    apt-get update -y\n'
-    s += '    apt-get install -y git\n'
-    s += '    apt-get install -y wget\n'
-    s += '    apt-get install -y unzip\n'
-    s += '    apt-get install -y curl\n'
-
     s += '\n'
     s += '\n'
     return s
@@ -54,47 +38,6 @@ def get_section_opics_project_code(repo, branch, run_time_root_name):
     s += '\n'
     return s
 
-# def get_section_pem_file(run_time_root_name):
-#     s =  '    ############################################################################\n'
-#     s += f'    # pull in the key file to access ec2b machine\n'
-#     s += f'    ############################################################################\n'
-#     s += f'    cd /{run_time_root_name}/scripts/ec2\n'
-#     s += f"    wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=1BGff0DlqdUGEHtkCSK2FPjVcw7m5XpnY' -O shared-with-opics.pem\n"
-#     s += '    \n'
-#     s += '    \n'
-#     return s
-
-def get_section_python():
-    s =  '    ############################################################################\n'
-    s += '    # Install python and other tools\n'
-    s += '    # Non-interactive is used to ensure prompts are omitted.\n'
-    s += '    ############################################################################\n'
-    s += '    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \\\n'
-    s += '    build-essential \\\n'
-    s += '    python3-dev \\\n'
-    s += '    python3-tk \\\n'
-    s += '    python3-pip \\\n'
-    s += '    python3-setuptools \\\n'
-    s += '    systemd \\\n'
-    s += '    imagemagick \\\n'
-    s += '    openslide-tools \\\n'
-    s += '    libopencv-dev\n'
-    s += '\n'
-    s += '\n'
-    return s
-
-
-def get_section_miniconda_path():
-    s =  '    ############################################################################\n'
-    s += '    # conda env init\n'
-    s += '    ############################################################################\n'
-    s += '    echo "Setting conda init..."\n'
-    s += '    export CONDA_PATH=$(conda info | grep -i "base environment" | cut -d ":" -f2 | cut -d " " -f2)\n'
-    s += '    . $CONDA_PATH/etc/profile.d/conda.sh\n'
-    s += '    echo "Setting up environment..."\n'
-    s += '\n'
-    s += '\n'
-    return s
 
 def get_section_opics_dependencies(pull_time_root_name, lib_config_steps):
     s =  '    ############################################################################\n'
@@ -108,6 +51,7 @@ def get_section_opics_dependencies(pull_time_root_name, lib_config_steps):
     s += '\n'
     return s
 
+
 def get_section_models(model_config_steps):
     s =  '    ############################################################################\n'
     s += '    # position models\n'
@@ -115,17 +59,6 @@ def get_section_models(model_config_steps):
     s += '    echo "==============  loading models ==================="\n'
     for step in model_config_steps:
         s += f'    {step}\n'
-    s += '\n'
-    s += '\n'
-    return s
-
-def get_section_miniconda():
-    s = '    ############################################################################\n'
-    s += '    # install miniconda\n'
-    s += '    ############################################################################\n'
-    s += '    wget https://repo.anaconda.com/miniconda/Miniconda3-py39_22.11.1-1-Linux-x86_64.sh\n'
-    s += '    bash Miniconda3-py39_22.11.1-1-Linux-x86_64.sh -b -p /miniconda3\n'
-    s += '    export PATH=/miniconda3/bin:$PATH\n'
     s += '\n'
     s += '\n'
     return s
@@ -139,16 +72,16 @@ def get_section_numpy_hack(proj):
     s += '    # Reduce numpy version to solve error when 1.24.1 is in place:\n'
     s += "    # AttributeError: module 'numpy' has no attribute 'float'\n"
     s += '    ############################################################################\n'
-    s += '    python -m pip uninstall -y numpy\n'
-    s += '    python -m pip install numpy==1.23.5\n'
+    s += '    python3 -m pip uninstall -y numpy\n'
+    s += '    python3 -m pip install numpy==1.23.5\n'
     s += '\n'
     s += '\n'
     return s
 
+
 def section_run_script(pull_time_root_name, optics_spec_fname):
     s =  f'    echo "...copying image /{pull_time_root_name} to runnable directory $OPICS_HOME"\n'
     s += f'    cp -r /{pull_time_root_name} $OPICS_HOME\n'
-    
     s += f'    echo "...positioning key file for ec2b ssh commands"\n'
     s += f'    cd $OPICS_HOME/scripts/ec2\n'
     s += f'    wget --no-check-certificate "https://docs.google.com/uc?export=download&id=1BGff0DlqdUGEHtkCSK2FPjVcw7m5XpnY" -O shared-with-opics.pem\n'
@@ -164,7 +97,7 @@ def section_run_script(pull_time_root_name, optics_spec_fname):
 
 
 def usage():
-    print(f'usage:   python gen_apptainer_def.py <optics_spec_path>')
+    print(f'usage:   python gen_apptainer_def.py <optics_spec_path> <local_image_full_path>')
     print('')
     print(f'(where optics_spec_path refers to an optics cfg file configured with the following keys:')
     print('')
@@ -179,18 +112,31 @@ def usage():
     print(f'    apptainer.config_step.models:./load_models.sh')
     print('')
     print('')
-
+    print(f'   and <local_image_full_path> is the full bath of the base_container that has ubuntu and python')
+    print('')
+    print('')
 
 
 if __name__ == '__main__':
-    if len(sys.argv) != 2:
+    if len(sys.argv) != 3:
         usage()
         sys.exit()
+
     if not 'OPICS_HOME' in os.environ:
         print('...Please define OPICS_HOME...')
         sys.exit()
+
     opics_home = os.environ['OPICS_HOME']
     optics_spec_path   = sys.argv[1]
+    if not os.path.exists(optics_spec_path):
+        print(f'given spec path does not exist {optics_spec_path}')
+        sys.exit()
+
+    local_image_full_path = sys.argv[2]
+    if not os.path.exists(local_image_full_path):
+        print(f'given base_container does not exist {local_image_full_path}')
+        sys.exit()
+
     optics_spec_fname  = os.path.basename(optics_spec_path)
     optics_spec = OpticsSpec(optics_spec_path)
     proj                = optics_spec.proj
@@ -203,40 +149,23 @@ if __name__ == '__main__':
     pull_time_root_name = f'{CONTAINER_PULL_ROOT_PREFIX}{spec_name}'
     run_time_root_name   = f'{RUN_SYSTEM_PREFIX}{spec_name}'
 
-    section_base_container     = get_section_base_container()
-    section_environment        = get_section_environment(run_time_root_name)
-    section_ubuntu_configure   = get_section_ubuntu_configure()
-    section_opics_project_code = get_section_opics_project_code(repo, branch, pull_time_root_name)
-    #section_pem_file           = get_section_pem_file(run_time_root_name)
-    section_python             = get_section_python()
-    section_miniconda          = get_section_miniconda()
-    section_miniconda_path     = get_section_miniconda_path()
-    section_opics_dependencies = get_section_opics_dependencies(pull_time_root_name, lib_config_steps)
-    section_models             = get_section_models(model_config_steps)
-    section_numpy_hack         = get_section_numpy_hack(proj)
-    section_run_script         = section_run_script(pull_time_root_name, optics_spec_fname)
-
-    s = section_base_container
+    
+    s = get_section_base_container(local_image_full_path)
     s += '%environment\n'
-    s += section_environment
+    s += get_section_environment(run_time_root_name)
     s += '%post\n'
-    s += section_ubuntu_configure
-    s += section_opics_project_code
-    #s += section_pem_file
-    s += section_python
-    s += section_miniconda
-    s += section_miniconda_path
-    s += section_opics_dependencies
-    s += section_models
-    s += section_numpy_hack
+    s += get_section_opics_project_code(repo, branch, pull_time_root_name)
+    s += get_section_opics_dependencies(pull_time_root_name, lib_config_steps)
+    s += get_section_models(model_config_steps)
+    s += get_section_numpy_hack(proj)
     s += '%runscript\n'
-    s += section_run_script
+    s += section_run_script(pull_time_root_name, optics_spec_fname)
 
     print(s)
     optics_home = os.path.join(opics_home, 'scripts', 'optics')
     defs_dir = os.path.join(optics_home, 'apptainer', 'defs')
     os.makedirs(defs_dir, exist_ok=True)
-    def_fname = optics_spec_fname.split('.')[0] + '_apptainer.def'
+    def_fname = optics_spec_fname.split('.')[0] + '.def'
     def_path = os.path.join(defs_dir, def_fname)
     f = open(def_path, 'w')
     f.write(s)
