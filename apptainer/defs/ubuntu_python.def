@@ -1,0 +1,28 @@
+Bootstrap: docker
+From : ubuntu:20.04
+
+%post
+    ############################################################################
+    # install basic linux dependencies
+    ############################################################################
+    apt-get update -y
+    apt-get install -y git
+    apt-get install -y wget
+    apt-get install -y unzip
+    apt-get install -y curl
+
+    ############################################################################
+    # Install python and other tools
+    # Non-interactive is used to ensure prompts are omitted.
+    ############################################################################
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    build-essential \
+    python3-dev \
+    python3-tk \
+    python3-pip \
+    python3-setuptools \
+    systemd \
+    imagemagick \
+    openslide-tools \
+    libopencv-dev
+
