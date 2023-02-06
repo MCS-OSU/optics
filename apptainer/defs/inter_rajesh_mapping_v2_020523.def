@@ -1,0 +1,63 @@
+Bootstrap: localimage
+From : /home/jedirv/v6i/scripts/optics/apptainer/ubuntu_python.sif
+
+
+%environment
+    export OPICS_HOME=$HOME/test__inter_rajesh_mapping_v2_020523
+    export PYTHONPATH=$OPICS_HOME:$OPICS_HOME/scripts/optics
+
+
+%post
+    ############################################################################
+    # clone the repo early in case of permissions challenge
+    ############################################################################
+    cd /
+    git clone --recurse-submodules https://github.com/MCS-OSU/opics.git image__inter_rajesh_mapping_v2_020523
+    ############################################################################
+    # put the correct branches into play
+    ############################################################################
+    cd image__inter_rajesh_mapping_v2_020523
+    git checkout int.rajesh.mapping_v2
+    cd /image__inter_rajesh_mapping_v2_020523/scripts/optics
+    git checkout main
+
+
+    ############################################################################
+    # install python dependencies
+    ############################################################################
+    export OPICS_HOME=/image__inter_rajesh_mapping_v2_020523
+    echo "==============  python dependencies  ==================="
+    cd $OPICS_HOME/scripts/inter
+    ./setup_python_dependencies.sh
+
+
+    ############################################################################
+    # position models
+    ############################################################################
+    echo "==============  loading models ==================="
+    ./load_models.sh
+
+
+    ############################################################################
+    #                   --- numpy version hack ---
+    # Reduce numpy version to solve error when 1.24.1 is in place:
+    # AttributeError: module 'numpy' has no attribute 'float'
+    ############################################################################
+    python3 -m pip uninstall -y numpy
+    python3 -m pip install numpy==1.23.5
+
+
+%runscript
+    echo "...copying image /image__inter_rajesh_mapping_v2_020523 to runnable directory $OPICS_HOME"
+    cp -r /image__inter_rajesh_mapping_v2_020523 $OPICS_HOME
+    echo "...positioning key file for ec2b ssh commands"
+    cd $OPICS_HOME/scripts/ec2
+    wget --no-check-certificate "https://docs.google.com/uc?export=download&id=1BGff0DlqdUGEHtkCSK2FPjVcw7m5XpnY" -O shared-with-opics.pem
+    chmod 600 shared-with-opics.pem
+    echo "...running optics test_runner for inter_rajesh_mapping_v2_020523.cfg:"
+    cat $OPICS_HOME/scripts/optics/specs/inter_rajesh_mapping_v2_020523.cfg
+    cd $OPICS_HOME/scripts/optics
+    echo ""
+    echo ""
+    echo ""
+    python3 optics.py container_run specs/inter_rajesh_mapping_v2_020523.cfg

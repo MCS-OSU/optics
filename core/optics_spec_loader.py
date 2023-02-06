@@ -27,6 +27,10 @@ class OpticsSpec():
         f = open(config_path, 'r')
         lines = f.readlines()
         f.close()
+        self.load_scene_running_details(lines)
+        self.load_container_construction_details(lines)
+
+    def load_scene_running_details(self, lines):
         self.log_level        = self.load_logging_level(lines)
         self.test_sets        = self.load_test_sets(lines)
         self.controller       = self.load_controller(lines)
@@ -39,6 +43,13 @@ class OpticsSpec():
         optics_info(f'optics_spec: version {self.version}')
         optics_info(f'optics_spec: test_sets {len(self.test_sets)}')
         optics_info(f'optics_spec: controller {self.controller}')
+
+    def load_container_construction_details(self, lines):
+        self.apptainer_repo_to_clone   = self.load_apptainer_repo_to_clone(lines)
+        if self.apptainer_repo_to_clone != None:
+            self.apptainer_branch_to_pull     = self.load_apptainer_branch_to_pull(lines)
+            self.apptainer_lib_config_steps   = self.load_apptainer_config_steps(lines,'apptainer.config_step.libs')
+            self.apptainer_model_config_steps = self.load_apptainer_config_steps(lines,'apptainer.config_step.models')
 
     def load_logging_level(self, lines):
         for line in lines:
@@ -92,6 +103,27 @@ class OpticsSpec():
                 types_to_skip.append(scene_type)
         return types_to_skip
                 
+
+    def load_apptainer_repo_to_clone(self, lines):
+        for line in lines:
+            if line.startswith('apptainer.repo_to_clone'):
+                return line.split(':')[1].strip()
+        return 'None'
+
+    
+    def load_apptainer_branch_to_pull(self, lines):
+        for line in lines:
+            if line.startswith('apptainer.branch_to_pull'):
+                return line.split(':')[1].strip()
+        return 'None'
+
+    def load_apptainer_config_steps(self, lines, key):
+        steps = []
+        for line in lines:
+            if line.startswith(key):
+                steps.append(line.split(':')[1].strip())
+        return steps
+
 
     def load_controller(self, lines):
         controller = MCS_CONTROLLER
