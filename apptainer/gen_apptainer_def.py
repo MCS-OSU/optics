@@ -80,7 +80,14 @@ def get_section_numpy_hack(proj):
 
 
 def section_run_script(pull_time_root_name, optics_spec_fname):
-    s =  f'    echo "...copying image /{pull_time_root_name} to runnable directory $OPICS_HOME"\n'
+
+    s =  f'    echo "...checking if {pull_time_root_name} needs to be wiped..."\n'
+    s += f'    if [ -d "$OPICS_HOME" ]; then\n'
+    s += f'        echo "...deleting prior copy..."\n'
+    s += f'        rm -rf $OPICS_HOME\n'
+    s += f'        echo "...done with delete..."\n'
+    s += f'    fi\n'
+    s += f'    echo "...copying image /{pull_time_root_name} to runnable directory $OPICS_HOME"\n'
     s += f'    cp -r /{pull_time_root_name} $OPICS_HOME\n'
     s += f'    echo "...positioning key file for ec2b ssh commands"\n'
     s += f'    cd $OPICS_HOME/scripts/ec2\n'
