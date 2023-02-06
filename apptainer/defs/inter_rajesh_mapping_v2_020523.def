@@ -50,7 +50,9 @@ From : /home/jedirv/v6i/scripts/optics/apptainer/ubuntu_python.sif
 %runscript
     echo "...checking if image__inter_rajesh_mapping_v2_020523 needs to be wiped..."
     if [ -d "$OPICS_HOME" ]; then
+        echo "...deleting prior copy..."
         rm -rf $OPICS_HOME
+        echo "...done with delete..."
     fi
     echo "...copying image /image__inter_rajesh_mapping_v2_020523 to runnable directory $OPICS_HOME"
     cp -r /image__inter_rajesh_mapping_v2_020523 $OPICS_HOME
