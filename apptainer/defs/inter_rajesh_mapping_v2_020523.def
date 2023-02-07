@@ -1,5 +1,5 @@
 Bootstrap: localimage
-From : /home/jedirv/v6i/scripts/optics/apptainer/ubuntu_python.sif
+From : /home/jedirv/v6i/scripts/optics/apptainer/sifs/ubuntu_python.sif
 
 
 %environment

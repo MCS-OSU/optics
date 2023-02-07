@@ -1,0 +1,8 @@
+2023-02-06 16:32:50  Fixing stable_baselines version, plus video saving bug, but recreating everything to give a start to the new build_histories feature.
+2023-02-06 16:32:50  sifs/ubuntu_python.sif - build begin
+2023-02-06 16:35:04  sifs/ubuntu_python.sif - build complete
+2023-02-06 16:56:26  Bug in build_guide.py tripped up prior full redo, so picking up after ubuntu_python container build
+2023-02-06 16:56:26  inter_rajesh_mapping_v2_020523.def - regenerated
+2023-02-06 16:56:26  sifs/inter_rajesh_mapping_v2_020523.sif - deleting prior
+2023-02-06 16:56:27  sifs/inter_rajesh_mapping_v2_020523.sif - build begin
+2023-02-06 17:05:19  sifs/inter_rajesh_mapping_v2_020523.sif - build complete
