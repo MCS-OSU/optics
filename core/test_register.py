@@ -425,7 +425,7 @@ class TestRegisterRemote():
 
     def store_videos(self, videos_dir_path):
         # videos_dir == scene_name
-        optics_info(f'storing videos {log_path}')
+        optics_info(f'storing videos {videos_dir_path}')
         videos_dir = os.path.basename(videos_dir_path)
         scene_type = log_constants.get_abbrev_scene_type_from_filename(videos_dir)
         (src, dest) = utils.get_pathnames_for_video(videos_dir_path, scene_type, self.systest_dirs.videos_dir, 'depth')

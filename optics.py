@@ -15,6 +15,7 @@ from results.error_details             import ErrorDetails
 from env.env_snapshot                  import EnvSnapshot
 from opics.common.constants            import EC2B_UNAME_OUTPUT
 from core.utils                        import optics_fatal, optics_info
+from results.optics_scores             import OpticsScores
 
 def resolve_given_optics_spec_path(given_path):
     if given_path.startswith('/'):
@@ -66,7 +67,7 @@ def configure_logging(level):
     stderr_handler = logging.StreamHandler(sys.stderr)
     logger.addHandler(stderr_handler)
     
-    print("python optics.py manager|run_scenes|stop|scores|erase_results|status|errors|container_run <optics_config>")
+    print("python optics.py manager|run_scenes|stop|scores|erase_results|status|errors|scores|container_run <optics_config>")
     print('        manager - will only work when invoked on ec2b')
     print('        run_scene - will run a scene form any machine if the env is deemed to match the one specified in the config')
 
@@ -80,7 +81,7 @@ if __name__ == '__main__':
         usage()
         sys.exit()
 
-    if sys.argv[1] not in ['manager', 'run_scenes','stop','scores','erase_results','status','errors', 'container_run']:
+    if sys.argv[1] not in ['manager', 'run_scenes','stop','scores','erase_results','status','errors', 'container_run','scores']:
         usage()
         sys.exit()
 
@@ -96,7 +97,7 @@ if __name__ == '__main__':
     controller_type = optics_spec.controller
     spec_name       = optics_spec.name
     
-    if not cmd == 'manager':
+    if cmd == 'run_scenes' or cmd == 'container_run':
         print(f'given_optics_spec_path: {given_optics_spec_path}')
         manager_proximity = get_manager_proximity(given_optics_spec_path)
         print(f'manager_proximity: {manager_proximity}')
@@ -172,6 +173,11 @@ if __name__ == '__main__':
             error_details = ErrorDetails(optics_spec)
             error_details.show_errors_by_scene_type_inter()
             error_details.show_error_type_counts_inter()
+
+    elif cmd =='scores':
+        optics_scores = OpticsScores(proj,optics_spec)
+        optics_scores.show_scores()
+        sys.exit()
 
 
     else:
