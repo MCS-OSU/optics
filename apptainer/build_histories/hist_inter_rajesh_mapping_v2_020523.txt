@@ -6,3 +6,46 @@
 2023-02-06 16:56:26  sifs/inter_rajesh_mapping_v2_020523.sif - deleting prior
 2023-02-06 16:56:27  sifs/inter_rajesh_mapping_v2_020523.sif - build begin
 2023-02-06 17:05:19  sifs/inter_rajesh_mapping_v2_020523.sif - build complete
+2023-02-06 18:28:02  Had to change stable_baselines3 to 1.6.2
+2023-02-06 18:28:02  sifs/inter_rajesh_mapping_v2_020523.sif - deleting prior
+2023-02-06 18:28:03  sifs/inter_rajesh_mapping_v2_020523.sif - build begin
+2023-02-06 18:55:05  Trying 'python3 -m pip install --upgrade pip setuptools wheel' to see if downstream gym install problem happens
+2023-02-06 18:55:05  sifs/ubuntu_python.sif - deleting prior
+2023-02-06 18:55:05  sifs/ubuntu_python.sif - build begin
+2023-02-06 18:56:35  sifs/ubuntu_python.sif - build complete
+2023-02-06 18:56:35  inter_rajesh_mapping_v2_020523.def - regenerated
+2023-02-06 18:56:35  sifs/inter_rajesh_mapping_v2_020523.sif - deleting prior
+2023-02-06 18:56:35  sifs/inter_rajesh_mapping_v2_020523.sif - build begin
+2023-02-06 19:26:29  Trying miniconda instead of python3 install fo see if can succeed with upgrade of pip
+2023-02-06 19:26:29  sifs/ubuntu_python.sif - deleting prior
+2023-02-06 19:26:29  sifs/ubuntu_python.sif - build begin
+2023-02-06 19:27:08  inter_rajesh_mapping_v2_020523.def - regenerated
+2023-02-06 19:27:08  sifs/inter_rajesh_mapping_v2_020523.sif - deleting prior
+2023-02-06 19:27:08  sifs/inter_rajesh_mapping_v2_020523.sif - build begin
+2023-02-06 19:33:12  another try
+2023-02-06 19:33:12  sifs/ubuntu_python.sif - deleting prior
+2023-02-06 19:33:12  sifs/ubuntu_python.sif - build begin
+2023-02-06 19:33:53  sifs/ubuntu_python.sif - build complete
+2023-02-06 19:33:53  inter_rajesh_mapping_v2_020523.def - regenerated
+2023-02-06 19:33:53  sifs/inter_rajesh_mapping_v2_020523.sif - deleting prior
+2023-02-06 19:33:53  sifs/inter_rajesh_mapping_v2_020523.sif - build begin
+2023-02-06 19:45:54  downgrading setuptools to 66.1.1 to see if post is right about it working with gym 0.21 ; but wanted to remove something from the base container as well
+2023-02-06 19:45:54  sifs/ubuntu_python.sif - deleting prior
+2023-02-06 19:45:54  sifs/ubuntu_python.sif - build begin
+2023-02-06 19:46:32  sifs/ubuntu_python.sif - build complete
+2023-02-06 19:46:32  inter_rajesh_mapping_v2_020523.def - regenerated
+2023-02-06 19:46:32  sifs/inter_rajesh_mapping_v2_020523.sif - deleting prior
+2023-02-06 19:46:32  sifs/inter_rajesh_mapping_v2_020523.sif - build begin
+2023-02-06 22:42:14  Specifying lib versions for setuptools, pip, and wheel
+2023-02-06 22:42:14  sifs/inter_rajesh_mapping_v2_020523.sif - deleting prior
+2023-02-06 22:42:14  sifs/inter_rajesh_mapping_v2_020523.sif - build begin
+2023-02-06 22:52:40  sifs/inter_rajesh_mapping_v2_020523.sif - build complete
+2023-02-06 22:59:10  
+mcs couldn't find ibgthread-2.0.so.0 - realized I had commented out some dependencies in the base container I thought may have been unneeded so uncommented them
+2023-02-06 22:59:10  sifs/ubuntu_python.sif - deleting prior
+2023-02-06 22:59:10  sifs/ubuntu_python.sif - build begin
+2023-02-06 23:01:06  sifs/ubuntu_python.sif - build complete
+2023-02-06 23:01:06  inter_rajesh_mapping_v2_020523.def - regenerated
+2023-02-06 23:01:06  sifs/inter_rajesh_mapping_v2_020523.sif - deleting prior
+2023-02-06 23:01:06  sifs/inter_rajesh_mapping_v2_020523.sif - build begin
+2023-02-06 23:12:45  sifs/inter_rajesh_mapping_v2_020523.sif - build complete
