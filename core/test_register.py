@@ -4,6 +4,7 @@ import core.utils as utils
 import opics.common.logging.log_constants as log_constants
 from core.optics_run_state        import NOT_ATTEMPTED, IN_PROGRESS_SCENE_ASSIGNED, OpticsRunState
 from core.constants                 import JOB_REQUEST, JOB_REQUEST_SMOKE, JOB_ASSIGN, NO_MORE_SCENES_TO_RUN, SESSION_KILLED, SMOKE_TEST
+from core.constants                 import TEST_HISTORY_FIRST_LINE_PREFIX
 from core.optics_session            import OpticsSession
 from results.scene_state_history    import SceneStateHistory
 from core.utils                     import optics_info, optics_error, optics_debug, optics_fatal
@@ -134,7 +135,7 @@ class TestRegisterLocal():
             utils.ensure_dir_exists(os.path.dirname(state_file_path))
             if not os.path.exists(state_file_path):
                 optics_debug(f'creating {state_file_path}')
-                utils.add_last_line(state_file_path,'# test history for scene: ' + scene_name)          
+                utils.add_last_line(state_file_path, TEST_HISTORY_FIRST_LINE_PREFIX + scene_name)          
                 init_state = utils.get_session_message(NOT_ATTEMPTED)
                 utils.add_last_line(state_file_path, init_state)
 
@@ -262,7 +263,12 @@ class TestRegisterLocal():
             f.close()
             scene_name = os.path.basename(scene_state_path).split('.')[0]
             scene_state_history = SceneStateHistory(scene_name, lines)
-            scene_state_histories.append(scene_state_history)
+            if scene_state_history.is_well_formatted:
+                scene_state_histories.append(scene_state_history)
+            else:
+                print('')
+                print(f'...WARNING scene state history for {scene_name} is corrupted and is being ignored')
+                print('')
         return scene_state_histories
 
     def show_runs_summary(self):

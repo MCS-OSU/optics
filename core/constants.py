@@ -13,3 +13,5 @@ EC2B_HOME = '/home/ubuntu'
 
 MCS_CONTROLLER           = 'mcs'
 REPLAY_CONTROLLER        = 'replay'
+
+TEST_HISTORY_FIRST_LINE_PREFIX = '# test history for scene: '
