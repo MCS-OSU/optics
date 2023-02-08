@@ -67,6 +67,7 @@ def configure_logging(level):
     stderr_handler = logging.StreamHandler(sys.stderr)
     logger.addHandler(stderr_handler)
     
+def usage():
     print("python optics.py manager|run_scenes|stop|scores|erase_results|status|errors|scores|container_run <optics_config>")
     print('        manager - will only work when invoked on ec2b')
     print('        run_scene - will run a scene form any machine if the env is deemed to match the one specified in the config')
@@ -97,7 +98,7 @@ if __name__ == '__main__':
     controller_type = optics_spec.controller
     spec_name       = optics_spec.name
     
-    if cmd == 'run_scenes' or cmd == 'container_run':
+    if cmd == 'run_scenes' or cmd == 'container_run' or cmd =='status':
         print(f'given_optics_spec_path: {given_optics_spec_path}')
         manager_proximity = get_manager_proximity(given_optics_spec_path)
         print(f'manager_proximity: {manager_proximity}')
