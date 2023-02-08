@@ -50,7 +50,7 @@ def rebuild_outer_container(optics_spec_name):
 def collect_comment_for_log(optics_spec_name):
     print("WHy this rebuild? (comment will be added to log)")
     comment = input('')
-    log_build_info(optics_spec_name, comment)
+    log_build_info(optics_spec_name, '\n' + comment)
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
