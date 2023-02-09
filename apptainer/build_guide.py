@@ -39,8 +39,9 @@ def rebuild_outer_container(optics_spec_name):
     print(f'                REBUILDIUNG FINAL CONTAINER DEF defs/{optics_spec_name}.def')
     print('=======================================================================================')
     sif_path = f'sifs/{optics_spec_name}.sif'
-    log_build_info(optics_spec_name, f'{sif_path} - deleting prior')
-    os.system(f'rm {sif_path}')
+    if os.path.exists(sif_path):
+        log_build_info(optics_spec_name, f'{sif_path} - deleting prior')
+        os.system(f'rm {sif_path}')
     log_build_info(optics_spec_name, f'{sif_path} - build begin')
     os.system(f'apptainer build {sif_path} defs/{optics_spec_name}.def 2>&1 | tee build_log_container_{optics_spec_name}.txt')
     if os.path.exists(sif_path):
