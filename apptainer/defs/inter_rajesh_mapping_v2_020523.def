@@ -1,11 +1,11 @@
 Bootstrap: localimage
-From : /home/jedirv/v6i/scripts/optics/apptainer/ubuntu_python.sif
+From : /home/jedirv/v6i/scripts/optics/apptainer/sifs/ubuntu_python.sif
 
 
 %environment
     export OPICS_HOME=$HOME/test__inter_rajesh_mapping_v2_020523
     export PYTHONPATH=$OPICS_HOME:$OPICS_HOME/scripts/optics
-
+    export PATH=/miniconda3/bin:$PATH
 
 %post
     ############################################################################
