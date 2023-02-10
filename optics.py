@@ -36,7 +36,7 @@ def is_optics_manager_running_locally(spec_path):
     result = ps.communicate()[0].decode('utf-8')
     for line in result.splitlines():
         #print(f'found line : {line}')
-        if 'optics' in line and 'manager' in line and spec_path in line:
+        if 'optics' in line and ' manager ' in line and spec_path in line:
             print(f'found optics manager running locally for {spec_path}')
             return True
     print(f'no optics manager running locally for {spec_path}')
