@@ -1,6 +1,6 @@
 import sys, os
 import configparser
-from core.constants import REPLAY_CONTROLLER, MCS_CONTROLLER  #, MCS_RECORDING_CONTROLLER
+from core.constants import REPLAY_CONTROLLER, MCS_CONTROLLER
 from opics.common.logging.log_constants import abbrev_types
 from core.utils import optics_info, optics_fatal
 
@@ -131,7 +131,7 @@ class OpticsSpec():
             if line.startswith('controller'):
                 controller = line.split(':')[1].strip()
         
-        if controller not in [MCS_CONTROLLER, REPLAY_CONTROLLER]:  #, MCS_RECORDING_CONTROLLER
+        if controller not in [MCS_CONTROLLER, REPLAY_CONTROLLER]:
             optics_fatal(f'controller must be {MCS_CONTROLLER} or {REPLAY_CONTROLLER} in {self.config_path}')
         return controller
         

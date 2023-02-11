@@ -1,8 +1,8 @@
 from pathlib import Path
 
-from core.constants        import EC2B_HOME
-from core.optics_dirs      import SystestDirectories
-from core.test_register    import TestRegisterLocal, TestRegisterRemote
+from core.constants          import EC2_MACHINE_HOME
+from core.optics_dirs        import SystestDirectories
+from core.test_register      import TestRegisterLocal, TestRegisterRemote
 
 
 class OpticsDashboard():
@@ -12,7 +12,7 @@ class OpticsDashboard():
             systest_dirs = SystestDirectories(home_dir, optics_spec)     
             self.test_register = TestRegisterLocal(systest_dirs)
         else:
-            home_dir = EC2B_HOME
+            home_dir = EC2_MACHINE_HOME
             systest_dirs = SystestDirectories(home_dir, optics_spec)
             self.test_register = TestRegisterRemote(systest_dirs) 
 

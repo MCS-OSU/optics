@@ -1,4 +1,3 @@
-from core.constants import EC2B_HOME
 from core.utils     import optics_info
 
 # scene status
