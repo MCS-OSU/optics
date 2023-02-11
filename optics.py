@@ -38,7 +38,18 @@ def is_optics_manager_running_locally(spec_path):
     print(f'no optics manager running locally for {spec_path}')
     return False
 
-
+def is_already_manager_running_for_spec(spec_name):
+    tmp_path = '/tmp/optics_procs_procs.txt'
+    cmd = f"ps -edalf | grep python | grep -v grep | grep optics | grep ' manager ' | grep {spec_name}  > {tmp_path}"
+    os.system(cmd)
+    f = open(tmp_path, 'r')
+    lines = f.readlines()
+    f.close()
+    os.system(f'rm {tmp_path}')
+    if len(lines) > 1:
+        return True
+    return False
+     
 def configure_logging(level):
     optics_info(f'...setting log level to {level}')
     logger = logging.getLogger()
@@ -91,14 +102,8 @@ if __name__ == '__main__':
         if not is_running_on_ec2():
             print('ERROR - manager command can only be invoked on ec2a or ec2b')
             sys.exit()
-        if is_optics_manager_running_locally(given_optics_spec_path):
-            print("ERROR - manager for this optics spec already running on this machine.  Shut the other one down with 'stop'")
-            sys.exit()
-        # manager_process = os.popen(f'ps -edalf | grep -v edalf | grep optics | grep {optics_spec}').read()
-        # if manager_process:
-        #     print(f'[optics]...ERROR: optics manager is running for {given_optics_spec_path} - stop it and try again')
-        #     print(f'[optics]...manager_process {manager_process}')
-        #     sys.exit()
+        if is_already_manager_running_for_spec(spec_name):
+            optics_fatal("ERROR - manager for this optics spec already running on this machine.  Shut the other one down with 'stop'")
         else:
             print('...running manager...')
             ots = OpticsTestSequencer(optics_spec)
