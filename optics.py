@@ -3,7 +3,7 @@ import sys, os
 import subprocess
 import logging
 import time
-from core.constants                    import TEST_SET_ORDER, SMOKE_TEST
+from core.constants                    import TEST_SET_ORDER
 from scenes.optics_test_sequencer      import OpticsTestSequencer
 from core.optics_test_runner           import OpticsTestRunner
 from self_test.optics_self_test_runner import OpticsSelfTestRunner
@@ -13,7 +13,7 @@ from admin.optics_results_eraser       import OpticsResultsEraser
 from results.optics_dashboard          import OpticsDashboard
 from results.error_details             import ErrorDetails
 from env.env_snapshot                  import EnvSnapshot
-from opics.common.constants            import EC2B_UNAME_OUTPUT
+from core.constants                    import EC2B_UNAME_OUTPUT
 from core.utils                        import optics_fatal, optics_info
 from results.optics_scores             import OpticsScores
 

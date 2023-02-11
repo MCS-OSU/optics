@@ -5,8 +5,9 @@ from core.utils                import get_scene_name_from_path
 from core.utils                import ensure_dirs_exist, remote_ensure_dirs_exist, ensure_dir_exists
 from core.utils                import get_scene_type_from_scene_name
 from core.utils                import optics_info, optics_debug, optics_error, optics_fatal
-from core.constants            import NO_MORE_SCENES_TO_RUN, EC2B_HOME
+from core.constants            import NO_MORE_SCENES_TO_RUN
 from core.optics_spec_loader   import OpticsSpec
+from core.constants            import EC2_MACHINE_HOME
 
 import subprocess
 
@@ -75,7 +76,7 @@ class OpticsTestRunner():
             ensure_dirs_exist(self.systest_dirs.get_top_level_dirs())
             optics_info('local directories ensured')
         else:
-            systest_dir_home_dir = EC2B_HOME
+            systest_dir_home_dir = EC2_MACHINE_HOME
             self.systest_dirs = SystestDirectories(systest_dir_home_dir, self.optics_spec)
             optics_info('ensuring remote directories exist')
             remote_ensure_dirs_exist(self.systest_dirs.get_top_level_dirs())

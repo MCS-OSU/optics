@@ -1,11 +1,11 @@
 from pathlib import Path
 import time
+from core.constants            import EC2_MACHINE_HOME
 from core.optics_run_state     import OpticsRunState
 from core.test_register        import TestRegisterLocal, TestRegisterRemote
 from core.optics_dirs          import SystestDirectories
 from core.utils                import ensure_dirs_exist, remote_ensure_dirs_exist, ensure_dir_exists
 from core.constants            import NO_MORE_SCENES_TO_RUN
-from core.constants            import EC2B_HOME
 import self_test.optics_self_test_util as util
 from scripts.opics_run_state   import FAILED_GPU_MEM_RETRY, FAILED_TIMEOUT
 
@@ -21,7 +21,7 @@ class OpticsSelfTestRunner():
             print('...local directories ensured')
 
         else:
-            home_dir = EC2B_HOME
+            home_dir = EC2_MACHINE_HOME
             self.systest_dirs = SystestDirectories(home_dir, optics_spec)
             print('...ensuring remote directories exist')
             remote_ensure_dirs_exist(self.systest_dirs.get_top_level_dirs())
