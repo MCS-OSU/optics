@@ -13,8 +13,7 @@ from admin.optics_results_eraser       import OpticsResultsEraser
 from results.optics_dashboard          import OpticsDashboard
 from results.error_details             import ErrorDetails
 from env.env_snapshot                  import EnvSnapshot
-from core.constants                    import EC2B_UNAME_OUTPUT
-from core.utils                        import optics_fatal, optics_info
+from core.utils                        import optics_fatal, optics_info, get_optics_datastore_proximity, is_running_on_ec2
 from results.optics_scores             import OpticsScores
 
 def resolve_given_optics_spec_path(given_path):
@@ -26,9 +25,6 @@ def verify_conda_env_for_project_is_activated(proj):
     if not proj in os.environ['CONDA_DEFAULT_ENV'] :
         optics_fatal(f'ERROR: {proj} not in CONDA_DEFAULT_ENV - be sure to activate the env first')
 
-def is_running_on_ec2b():
-    return os.uname()[1] == EC2B_UNAME_OUTPUT
-
 def is_optics_manager_running_locally(spec_path):
     print(f'checking if optics manager running locally for {spec_path}')
     #result = sh.grep(sh.grep(sh.grep(sh.ps('edalf'),'optics'),'manager'), spec_name)
@@ -36,19 +32,11 @@ def is_optics_manager_running_locally(spec_path):
     result = ps.communicate()[0].decode('utf-8')
     for line in result.splitlines():
         #print(f'found line : {line}')
-        if 'optics' in line and 'manager' in line and spec_path in line:
+        if 'optics' in line and ' manager ' in line and spec_path in line:
             print(f'found optics manager running locally for {spec_path}')
             return True
     print(f'no optics manager running locally for {spec_path}')
     return False
-
-def get_manager_proximity(spec_path):
-    if is_optics_manager_running_locally(spec_path):
-        return 'local'
-    else:
-        if is_running_on_ec2b():
-            return 'local'
-        return 'remote'
 
 
 def configure_logging(level):
@@ -74,6 +62,7 @@ def usage():
 
 
 if __name__ == '__main__':
+    datastore_proximity = get_optics_datastore_proximity()
     
     if not 'OPICS_HOME' in os.environ:
         optics_fatal('OPICS_HOME not defined.  Please "export OPICS_HOME=<parent_of_opics_dir>"')
@@ -98,22 +87,18 @@ if __name__ == '__main__':
     controller_type = optics_spec.controller
     spec_name       = optics_spec.name
     
-    if cmd == 'run_scenes' or cmd == 'container_run' or cmd =='status':
-        print(f'given_optics_spec_path: {given_optics_spec_path}')
-        manager_proximity = get_manager_proximity(given_optics_spec_path)
-        print(f'manager_proximity: {manager_proximity}')
-
-
     if cmd == 'manager':
-        if version != 'self_test':
-            if not is_running_on_ec2b():
-                print('ERROR - manager command can only be invoked on ec2b')
-                sys.exit()
-        manager_process = os.popen(f'ps -edalf | grep -v edalf | grep optics | grep {optics_spec}').read()
-        if manager_process:
-            print(f'[optics]...ERROR: optics manager is running for {given_optics_spec_path} - stop it and try again')
-            print(f'[optics]...manager_process {manager_process}')
+        if not is_running_on_ec2():
+            print('ERROR - manager command can only be invoked on ec2a or ec2b')
             sys.exit()
+        if is_optics_manager_running_locally(given_optics_spec_path):
+            print("ERROR - manager for this optics spec already running on this machine.  Shut the other one down with 'stop'")
+            sys.exit()
+        # manager_process = os.popen(f'ps -edalf | grep -v edalf | grep optics | grep {optics_spec}').read()
+        # if manager_process:
+        #     print(f'[optics]...ERROR: optics manager is running for {given_optics_spec_path} - stop it and try again')
+        #     print(f'[optics]...manager_process {manager_process}')
+        #     sys.exit()
         else:
             print('...running manager...')
             ots = OpticsTestSequencer(optics_spec)
@@ -121,7 +106,7 @@ if __name__ == '__main__':
 
     elif cmd == 'container_run':
         print('...running scenes...')
-        otr = OpticsTestRunner(optics_spec_path, manager_proximity, TEST_SET_ORDER)
+        otr = OpticsTestRunner(optics_spec_path, datastore_proximity, TEST_SET_ORDER)
         otr.run()
             
     elif cmd == 'run_scenes':
@@ -135,12 +120,12 @@ if __name__ == '__main__':
                     print('exiting')
                     sys.exit()
             print('...running self_test')
-            otsr = OpticsSelfTestRunner(optics_spec, manager_proximity, TEST_SET_ORDER)
+            otsr = OpticsSelfTestRunner(optics_spec, datastore_proximity, TEST_SET_ORDER)
             otsr.normal_healthy_state_progression()
             otsr.test_gpu_mem_failure()
             otsr.test_timeout_failure()
         else:
-            otr = OpticsTestRunner(optics_spec_path, manager_proximity, TEST_SET_ORDER)
+            otr = OpticsTestRunner(optics_spec_path, datastore_proximity, TEST_SET_ORDER)
             otr.run()
 
     elif cmd == 'stop':
@@ -149,8 +134,8 @@ if __name__ == '__main__':
         sys.exit()
 
     elif cmd == 'erase_results':
-        if not is_running_on_ec2b():
-            print('ERROR - erase_results command can only be invoked on ec2b')
+        if not is_running_on_ec2():
+            print('ERROR - erase_results is only relevant on ec2a or ec2b')
             sys.exit()
         manager_process = os.popen(f'ps -edalf | grep -v edalf | grep optics | grep {optics_spec}').read()
         if manager_process:
@@ -163,12 +148,12 @@ if __name__ == '__main__':
             sys.exit()
 
     elif cmd == 'status':
-        dashboard = OpticsDashboard(manager_proximity, optics_spec)
+        dashboard = OpticsDashboard(datastore_proximity, optics_spec)
         dashboard.show_all()
 
     elif cmd == 'errors':
-        if not is_running_on_ec2b():
-            print('ERROR - errors command can only be invoked on ec2b')
+        if not is_running_on_ec2():
+            print('ERROR - errors command only relevant on ec2a or ec2b')
             sys.exit()
         if proj == 'inter':
             error_details = ErrorDetails(optics_spec)
