@@ -4,9 +4,18 @@ import configparser
 import logging
 import sys
 import inspect
+from core.constants  import EC2A_URL, EC2B_URL
 
-ec2b_url = 'ubuntu@3.221.218.227'
-remote_url = ec2b_url
+
+def get_remote_url():
+    if not 'OPTICS_DATASTORE' in os.environ:
+        optics_fatal("env variable OPTICS_DATASTORE not defined - please set it either 'EC2A' or 'EC2B'")
+    if os.environ['OPTICS_DATASTORE'] not in ['EC2A', 'EC2B','ec2a', 'ec2b']:
+        optics_fatal("env variable OPTICS_DATASTORE must be set to either 'EC2A' or 'EC2B'")
+    if os.environ['OPTICS_DATASTORE'] in ['EC2A', 'ec2a']:
+        return EC2A_URL
+    else:
+        return EC2B_URL
 
 def get_public_key_path():
     if not 'OPICS_HOME' in os.environ:
@@ -15,6 +24,7 @@ def get_public_key_path():
     return opics_home + '/scripts/ec2/shared-with-opics.pem'
 
 def remote_copy_file(src, dest):
+    remote_url = get_remote_url()
     remote_dir = os.path.dirname(dest)
     remote_ensure_dir_exists(remote_dir)
     public_key = get_public_key_path()
@@ -23,6 +33,7 @@ def remote_copy_file(src, dest):
     os.system(cmd)
 
 def remote_get_file(remote_src, local_dest):
+    remote_url = get_remote_url()
     optics_info(f'...fetching remote file {remote_src}')
     public_key = get_public_key_path()
     cmd = f'scp -i {public_key} {remote_url}:{remote_src} {local_dest}'
@@ -30,6 +41,7 @@ def remote_get_file(remote_src, local_dest):
     os.system(cmd)
 
 def remote_run_os_command_and_return_results(run_dir, cmd, output_path):
+    remote_url = get_remote_url()
     optics_info(f'...running remote command: {cmd}...')
     optics_info(f'...in this run_dir {run_dir}...')
     public_key = get_public_key_path()
@@ -53,6 +65,7 @@ def ensure_dirs_exist(dirs):
         os.makedirs(d, exist_ok=True)
         
 def remote_ensure_dir_exists(dir):
+    remote_url = get_remote_url()
     public_key = get_public_key_path()
     cmd = f'ssh -i {public_key} {remote_url} "mkdir -p {dir}"'
     optics_debug(f'funning command: {cmd}')
@@ -93,6 +106,7 @@ def read_file(path):
     return lines
 
 def remote_get_last_line(path):
+    remote_url = get_remote_url()
     # fetch the file from the remote machine
     fname = os.path.basename(path)
     public_key = get_public_key_path()
@@ -109,6 +123,7 @@ def remote_get_last_line(path):
     return result
 
 def remote_add_last_line(path, s):
+    remote_url = get_remote_url()
     optics_debug(f'adding last line {s} to remote {path}')
     fname = os.path.basename(path)
     #...pulling remote file ...
