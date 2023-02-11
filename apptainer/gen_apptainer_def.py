@@ -17,6 +17,7 @@ def get_section_environment(run_time_root_name):
     s =  f'    export OPICS_HOME=$HOME/{run_time_root_name}\n'
     s += f'    export PYTHONPATH=$OPICS_HOME:$OPICS_HOME/scripts/optics\n'
     s += f'    export PATH=/miniconda3/bin:$PATH'
+    s += f'    export OPTICS_DATASTORE=ec2b'
     s += '\n'
     s += '\n'
     return s
