@@ -2,11 +2,12 @@ import sys, os, argparse
 import machine_common_sense as mcs
 import json
 from opics.common.launch.eval6_agent import Evaluation6_Agent
+from core.constants                  import EC2_MACHINE_HOME
 from core.optics_run_state           import OpticsRunState
 from core.utils                      import get_level_from_config_ini
 from core.optics_dirs                import SystestDirectories
 from core.test_register              import TestRegisterLocal, TestRegisterRemote
-from core.constants                  import EC2B_HOME, MCS_CONTROLLER, REPLAY_CONTROLLER
+from core.constants                  import MCS_CONTROLLER, REPLAY_CONTROLLER
 from core.optics_spec_loader         import OpticsSpec
 from rich                            import traceback, pretty
 from pathlib                         import Path
@@ -22,7 +23,7 @@ def create_systest_test_register(optics_spec, manager_proximity):
         home_dir = str(Path.home())
         systest_dirs = SystestDirectories(home_dir, optics_spec)      
     else:
-        home_dir = EC2B_HOME
+        home_dir = EC2_MACHINE_HOME
         systest_dirs = SystestDirectories(home_dir, optics_spec)
 
     if manager_proximity == 'local':
@@ -93,7 +94,7 @@ if __name__ == "__main__":
     manager_proximity  = args.manager_proximity
     session_path       = args.session_path
     log_dir            = args.log_dir
-    validate_enum_arg('controller_type', controller_type, [MCS_CONTROLLER, REPLAY_CONTROLLER])#, MCS_RECORDING_CONTROLLER
+    validate_enum_arg('controller_type', controller_type, [MCS_CONTROLLER, REPLAY_CONTROLLER])
     validate_enum_arg('project',         project,         ['pvoe', 'inter', 'avoe'])
     validate_enum_arg('manager_proximity',  manager_proximity,  ['local', 'remote'])
 
