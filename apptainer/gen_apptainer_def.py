@@ -16,8 +16,8 @@ def get_section_base_container(local_image_full_path):
 def get_section_environment(run_time_root_name):
     s =  f'    export OPICS_HOME=$HOME/{run_time_root_name}\n'
     s += f'    export PYTHONPATH=$OPICS_HOME:$OPICS_HOME/scripts/optics\n'
-    s += f'    export PATH=/miniconda3/bin:$PATH'
-    s += f'    export OPTICS_DATASTORE=ec2b'
+    s += f'    export PATH=/miniconda3/bin:$PATH\n'
+    s += f'    export OPTICS_DATASTORE=ec2b\n'
     s += '\n'
     s += '\n'
     return s
