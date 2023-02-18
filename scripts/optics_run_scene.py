@@ -81,10 +81,6 @@ if __name__ == "__main__":
     optics_spec = OpticsSpec(optics_spec_path)
 
     project            = optics_spec.proj
-    if project == 'pvoe':
-        # the tensorflow and torch imports below must be in there and in this order to prevent core dump in pvoe runs
-        import tensorflow as tf 
-        import torch
     version            = optics_spec.version
     controller_type    = optics_spec.controller
     spec_name          = optics_spec.name
