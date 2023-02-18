@@ -1,7 +1,7 @@
 import sys, os
 import configparser
-from core.constants import REPLAY_CONTROLLER, MCS_CONTROLLER
-from opics.common.logging.log_constants import abbrev_types
+from opics_common.launch.constants import REPLAY_CONTROLLER, MCS_CONTROLLER
+from opics_common.scene_type.type_constants import abbrev_types
 from core.utils import optics_info, optics_fatal
 
 class OpticsSpec():

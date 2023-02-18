@@ -1,13 +1,12 @@
 import sys
 import os
 from pathlib import Path
-#from opics.common.logging.log_stats import LogStats
-from opics.common.logging.stats_output import stats_title
-from opics.common.logging.log_constants import formal_type
-from opics.common.logging.opics_logs import OpicsLogs
-from opics.common.logging.stats_pvoe import StatsPvoe
-from opics.common.logging.stats_avoe import StatsAvoe
-from opics.common.logging.stats_inter import StatsInter
+from opics_common.results.stats_output import stats_title
+from opics_common.scene_type.type_constants import formal_type
+from opics_common.opics_logging.opics_logs import OpicsLogs
+from opics_common.stats.stats_pvoe import StatsPvoe
+from opics_common.stats.stats_avoe import StatsAvoe
+from opics_common.stats.stats_inter import StatsInter
 from core.optics_dirs import SystestDirectories
 
 class OpticsScores:

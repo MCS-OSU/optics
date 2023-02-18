@@ -1,13 +1,13 @@
 import sys, os, argparse
 import machine_common_sense as mcs
 import json
-from opics.common.launch.eval6_agent import Evaluation6_Agent
+from opics_common.launch.eval6_agent import Evaluation6_Agent
 from core.constants                  import EC2_MACHINE_HOME
-from core.optics_run_state           import OpticsRunState
+from opics_common.launch.opics_run_state           import OpicsRunState
 from core.utils                      import get_level_from_config_ini
 from core.optics_dirs                import SystestDirectories
 from core.test_register              import TestRegisterLocal, TestRegisterRemote
-from core.constants                  import MCS_CONTROLLER, REPLAY_CONTROLLER
+from opics_common.launch.constants   import MCS_CONTROLLER, REPLAY_CONTROLLER
 from core.optics_spec_loader         import OpticsSpec
 from rich                            import traceback, pretty
 from pathlib                         import Path
@@ -135,7 +135,7 @@ if __name__ == "__main__":
     scene_type = get_scene_type_from_scene_file(scene_path)
     start_time = datetime.datetime.now()
 
-    run_state = OpticsRunState(scene_path)
+    run_state = OpicsRunState(scene_path)
     tr = create_systest_test_register(optics_spec, manager_proximity)
     # share the session path passed in from trun.py
     tr.set_session_path(session_path)
