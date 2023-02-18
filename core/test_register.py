@@ -64,7 +64,7 @@ class TestRegisterLocal():
                 designated_machine, _, scene_path = utils.parse_job_assign(last_line)
                 if designated_machine == requesting_machine:
                     return scene_path
-        optics_errpr(f'no response from tman on JOB_REQUEST')
+        optics_error(f'no response from tman on JOB_REQUEST')
         optics_error('Check to make sure tman.py is running.')
         sys.exit(1)
 

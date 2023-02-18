@@ -145,7 +145,7 @@ if __name__ == "__main__":
     run_state.set_test_register(tr)
     while run_state.needs_run_attempt():
         run_state.starting_scene()
-        agent = Evaluation6_Agent(config_ini_path, level, scene_type, controller_type, run_state)
+        agent = Evaluation6_Agent(config_ini_path, level, controller_type, scene_type, run_state)
         if run_state.is_session_pointless():
             print(f'Session is pointless because run_state is {run_state.state}')
             print('Ending session.')
