@@ -10,11 +10,11 @@ from self_test.optics_self_test_runner import OpticsSelfTestRunner
 from core.optics_spec_loader           import OpticsSpec
 from admin.optics_stopper              import OpticsStopper
 from admin.optics_results_eraser       import OpticsResultsEraser
-from results.optics_dashboard          import OpticsDashboard
-from results.error_details             import ErrorDetails
+from optics_results.optics_dashboard   import OpticsDashboard
+from optics_results.error_details      import ErrorDetails
 from env.env_snapshot                  import EnvSnapshot
 from core.utils                        import optics_fatal, optics_info, get_optics_datastore_proximity, is_running_on_ec2
-from results.optics_scores             import OpticsScores
+from optics_results.optics_scores      import OpticsScores
 
 def resolve_given_optics_spec_path(given_path):
     if given_path.startswith('/'):
