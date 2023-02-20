@@ -1,0 +1,46 @@
+# log level
+log_level=INFO
+
+# - each unified logger logging call has a component and task parameter
+# - these are distinct from the module names and are meant to allow the caller to 
+# - conceptually capture the particular component they are working on (granularity up to them)
+# - and the what task that component is accomplishing at this point in the code
+# 
+# - to help avoid component name collision confusion, component and task names need to be registered
+# - here to help ensure that when adding a new component or task into the logging system:
+#     1. names aren't re-used by accident
+#     2. names are reused when approriate
+#
+
+
+# declared components:
+#     AVOE
+component = avoe_agent
+task = starting
+
+#   INTERACTIVE
+component = sequence_generator
+component = navigation
+component = seg
+component = tracker
+component = transformer
+component = soccerball_detector
+component = lava_detector
+component = situation_detector
+component = agent_detector
+
+# declared tasks: 
+task = mapping
+task = pursuing_agent
+task = interacting_with_agent
+task = filter_tracklets
+
+# when one or more focus_component is declared, all other declared components will be ignored by the logger
+#focus_component=agent_detector
+
+# when one or more focus_task is declared, all other declared tasks will be ignored by the logger
+#focus_task = mapping
+
+
+# when one or more focus_componet_task is declared, only statements involving these combinations will be logged
+#focus_component_task = agent_detector+interacting_with_agent
