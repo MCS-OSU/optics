@@ -31,6 +31,7 @@ class OpticsScores:
                 print(type_dir)
                 for file in files:
                     filepath = os.path.join(type_dir, file)
+                    print(f'log file {filepath}')
                     if os.path.isfile(filepath):
                         # print(f'file:  {filepath}')
                         self.opics_logs.load_file(filepath, proj, scene_type)
