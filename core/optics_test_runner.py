@@ -56,6 +56,10 @@ class OpticsTestRunner():
         opics_home               = os.environ["OPICS_HOME"]
         self.optics_scripts_dir = opics_home + '/scripts/optics/scripts' # this is where this script lives
         self.tmp_mcs_log_dir     = self.optics_scripts_dir + '/tmp_mcs_logs'
+        
+        # tell opics_pvoe and opics_inter where to put the log
+        os.environ["LOGGER_PATH"] = self.tmp_mcs_log_dir
+
         self.tmp_stdout_log_dir  = self.optics_scripts_dir + '/tmp_stdout_logs'
         ensure_dir_exists(self.tmp_mcs_log_dir) 
         ensure_dir_exists(self.tmp_stdout_log_dir) 
