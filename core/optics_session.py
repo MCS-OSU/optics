@@ -43,5 +43,8 @@ class OpticsSession():
             if SESSION_KILLED in lines[-1]:
                 self.session_killed_message = SESSION_KILLED
     
+    def __lt__(self, other):
+        return self.idle_time < other.idle_time
+        
     def summary(self):
         print(f'    {self.machine}  {self.job_count} scenes   {self.duration} mins  {self.idle_time} mins idle    {self.session_killed_message}')
