@@ -83,12 +83,12 @@ if __name__ == "__main__":
     print("==========================================================================")
     print(f"       running scene {scene_path}")
     print("==========================================================================")
-    scene_type = get_scene_type_from_scene_file(scene_path)
+    json_scene_type = get_scene_type_from_scene_file(scene_path)
 
     start_time = datetime.datetime.now()
     run_state = OpicsRunState(scene_path)
     run_state.starting_scene()
-    agent = Evaluation6_Agent(config_ini_path, level, controller_type, scene_type,run_state)
+    agent = Evaluation6_Agent(config_ini_path, level, controller_type, json_scene_type,run_state)
     agent.run_scene(scene_path, scene_json, log_dir)
     end_time = datetime.datetime.now()
     total_time = end_time - start_time
