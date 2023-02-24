@@ -44,6 +44,9 @@ def get_section_opics_project_code(repo, branch, run_time_root_name):
 def get_section_opics_dependencies(pull_time_root_name, lib_config_steps):
     s =  '    ############################################################################\n'
     s += '    # install python dependencies\n'
+    s += '    #  NOTE - OPICS_HOME below is different than the one defined in the environment section\n'
+    s += '    #  NOTE - OPICS_HOME here is applied during build time\n'
+    s += '    #  NOTE - OPICS_HOME in the environment section is applied at container boot time\n'
     s += '    ############################################################################\n'
     s += f'    export OPICS_HOME=/{pull_time_root_name}\n'
     s += '    echo "==============  python dependencies  ==================="\n'
