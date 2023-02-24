@@ -1,0 +1,2 @@
+This file is to ensure it's parent ec2 dir will live in the repo ao that 
+during container creation, the shared-with-opics.pem file is copied into $OPICS_HOME/scripts/ec2 , just like it always has been with the opics dir
