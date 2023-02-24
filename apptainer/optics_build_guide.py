@@ -95,7 +95,7 @@ if __name__ == '__main__':
 
     elif answer == '2' or answer == '3':
         print('here is the plan:')
-        print('    - run gen_apptainer_def.py using optics_spec values (instantaneous)')
+        print('    - run gen_optics_apptainer_def.py using optics_spec values (instantaneous)')
         print(f'    - rebuild sifs/{optics_spec_name}.sif  (takes a while)')
         print('')
         ans = input('is this correct? y/n\n')

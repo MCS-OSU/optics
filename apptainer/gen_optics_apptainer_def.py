@@ -35,6 +35,7 @@ def get_section_opics_project_code(optics_branch, proj, project_branch,  pull_ti
     s += '    ############################################################################\n'
     s += f'    cd {pull_time_root_name}\n'
     s += f'    git checkout {optics_branch}\n'
+    s += f'    git submodule update --init --recursive\n'
     dirname_for_proj = f'opics_{proj}'
     proj_pull_dir = os.path.join(pull_time_root_name, dirname_for_proj)
     s += f'    cd /{proj_pull_dir}\n'
@@ -101,13 +102,15 @@ def section_run_script(proj, pull_time_root_name, optics_spec_fname):
     if proj == 'avoe':
         s += f'    echo "...adding avoe pull to path since its not installed by poetry for eval6"\n'
         s += f'    export PYTHONPATH=$PYTHONPATH:$OPICS_HOME/opics_avoe\n'
+    else:
+        s += f'    conda activate env_opics_{proj}'
 
     s += f'    echo "...positioning key file for ec2b ssh commands"\n'
     s += f'    cd $OPICS_HOME/scripts/ec2\n'
     s += f'    wget --no-check-certificate "https://docs.google.com/uc?export=download&id=1BGff0DlqdUGEHtkCSK2FPjVcw7m5XpnY" -O shared-with-opics.pem\n'
     s += f'    chmod 600 shared-with-opics.pem\n'
     s += f'    echo "...running optics test_runner for {optics_spec_fname}:"\n'
-    s += f'    cat $OPICS_HOME/scripts/optics/specs/{optics_spec_fname}\n'
+    s += f'    cat $OPICS_HOME/specs/{optics_spec_fname}\n'
     s += f'    cd $OPICS_HOME\n'
     s += f'    echo ""\n'
     s += f'    echo ""\n'
@@ -186,7 +189,7 @@ if __name__ == '__main__':
     s += section_run_script(proj, pull_time_root_name, optics_spec_fname)
 
     print(s)
-    optics_home = os.path.join(opics_home, 'scripts', 'optics')
+    optics_home = opics_home
     defs_dir = os.path.join(optics_home, 'apptainer', 'defs')
     os.makedirs(defs_dir, exist_ok=True)
     def_fname = optics_spec_fname.split('.')[0] + '.def'
