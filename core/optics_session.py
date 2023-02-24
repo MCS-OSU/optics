@@ -48,3 +48,24 @@ class OpticsSession():
         
     def summary(self):
         print(f'    {self.machine}  {self.job_count} scenes   {self.duration} mins  {self.idle_time} mins idle    {self.session_killed_message}')
+
+    def convert_to_time_format(self, time_in_seconds):
+        days = time_in_seconds // (24 * 3600)
+        hours = (time_in_seconds // 3600) % 24
+        minutes = (time_in_seconds // 60) % 60
+        seconds = time_in_seconds % 60
+        
+        time_format = ''
+        if days > 0:
+            time_format += f'{days}d '
+
+        # Add leading zero to hours 
+        time_format += f'{hours:02d}h '
+
+        # Add leading zero to minutes 
+        time_format += f'{minutes:02d}m '
+
+        if seconds > 0:
+            time_format += f'{seconds}s '
+
+        return time_format

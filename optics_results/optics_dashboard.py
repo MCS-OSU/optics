@@ -29,22 +29,26 @@ class OpticsDashboard():
 
 
     def show_all(self):
-        self.test_register.show_session_status()
+        # self.test_register.show_session_status()
         self.test_register.show_runs_summary()
         self.test_register.show_gpu_mem_fail_retry_count()
-        self.test_register.show_scene_timings()
+        self.test_register.show_scene_timings()        
+        self.sessions.sort_by_idle_time()
+        self.sessions.display_info_header()
+        self.sessions.print_machine_names()
     
 
 
-if __name__ == '__main__':
-    prox = sys.argv[1]
-    spec = sys.argv[2]
-    optics_spec_path = resolve_given_optics_spec_path(spec)
-    print(f'optics_spec_path: {optics_spec_path}')
-    optics_spec = OpticsSpec(optics_spec_path)
+# if __name__ == '__main__':
+#     prox = sys.argv[1]
+#     spec = sys.argv[2]
+#     optics_spec_path = resolve_given_optics_spec_path(spec)
+#     print(f'optics_spec_path: {optics_spec_path}')
+#     optics_spec = OpticsSpec(optics_spec_path)
     
-    od = OpticsDashboard(prox, optics_spec)
-    od.sessions.print_machine_names()
-    print('sorting')
-    od.sessions.sort_by_idle_time()
-    od.sessions.print_machine_names()
+#     od = OpticsDashboard(prox, optics_spec)
+#     # od.sessions.print_machine_names()
+    
+#     od.sessions.sort_by_idle_time()
+#     od.sessions.display_info_header()
+#     od.sessions.print_machine_names()

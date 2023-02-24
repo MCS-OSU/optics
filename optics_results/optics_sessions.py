@@ -29,7 +29,15 @@ class OpticsSessions():
     def sort_by_idle_time(self):
         self.sessions.sort()
 
+    def display_info_header(self):
+        print("\n") #Added a blank line to separate the output 
+        print("------------------------------------------------------------------------------------------------------")
+        print("idle_time".ljust(15) + "machine_id".ljust(50) + "scene_count".ljust(15) + "duration")
+        print("------------------------------------------------------------------------------------------------------")
+
     def print_machine_names(self):
         for session in self.sessions:
-            print(f'machine {session.machine}  idle time {session.idle_time}')
-        
+            numeric_duration = ''.join(filter(str.isdigit, session.duration))
+            session.idle_time = session.convert_to_time_format(session.idle_time*60)
+            session.duration = session.convert_to_time_format(int(float(numeric_duration)*60))
+            print(f'{str(session.idle_time).ljust(15)}{str(session.machine).ljust(50)}{str(session.job_count).ljust(15)}{str(session.duration).ljust(15)}')
