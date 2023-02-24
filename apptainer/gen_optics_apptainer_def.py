@@ -36,10 +36,17 @@ def get_section_opics_project_code(optics_branch, proj, project_branch,  pull_ti
     s += f'    cd {pull_time_root_name}\n'
     s += f'    git checkout {optics_branch}\n'
     s += f'    git submodule update --init --recursive\n'
+    # git the correct branch for the project
     dirname_for_proj = f'opics_{proj}'
     proj_pull_dir = os.path.join(pull_time_root_name, dirname_for_proj)
     s += f'    cd /{proj_pull_dir}\n'
     s += f'    git checkout {project_branch}\n'
+
+    # checkout opics_common  main
+    opics_common_pull_dir = os.path.join(pull_time_root_name, 'opics_common')
+    s += f'    cd /{opics_common_pull_dir}\n'
+    s += f'    git checkout main\n'
+
     s += '\n'
     s += '\n'
     return s
@@ -103,7 +110,12 @@ def section_run_script(proj, pull_time_root_name, optics_spec_fname):
         s += f'    echo "...adding avoe pull to path since its not installed by poetry for eval6"\n'
         s += f'    export PYTHONPATH=$PYTHONPATH:$OPICS_HOME/opics_avoe\n'
     else:
+        s += f'    echo "...running  . /miniconda3/etc/profile.d/conda.sh"\n'
+        s += f'    . /miniconda3/etc/profile.d/conda.sh\n'
+        s += f'    echo "...conda activate env_opics_{proj}"\n'
         s += f'    conda activate env_opics_{proj}\n'
+        s += f'    echo "...conda activate complete"\n'
+        s += f'    pip list\n'
 
     s += f'    echo "...positioning key file for ec2b ssh commands"\n'
     s += f'    cd $OPICS_HOME/scripts/ec2\n'
