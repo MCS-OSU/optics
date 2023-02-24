@@ -103,7 +103,7 @@ def section_run_script(proj, pull_time_root_name, optics_spec_fname):
         s += f'    echo "...adding avoe pull to path since its not installed by poetry for eval6"\n'
         s += f'    export PYTHONPATH=$PYTHONPATH:$OPICS_HOME/opics_avoe\n'
     else:
-        s += f'    conda activate env_opics_{proj}'
+        s += f'    conda activate env_opics_{proj}\n'
 
     s += f'    echo "...positioning key file for ec2b ssh commands"\n'
     s += f'    cd $OPICS_HOME/scripts/ec2\n'
