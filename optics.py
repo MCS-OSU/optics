@@ -14,6 +14,7 @@ from optics_results.optics_dashboard   import OpticsDashboard
 from optics_results.error_details      import ErrorDetails
 from env.env_snapshot                  import EnvSnapshot
 from core.utils                        import optics_fatal, optics_info, get_optics_datastore_proximity, is_running_on_ec2
+from core.utils                        import verify_key_file_present_if_needed
 from optics_results.optics_scores      import OpticsScores
 
 def resolve_given_optics_spec_path(given_path):
@@ -49,6 +50,8 @@ def is_already_manager_running_for_spec(spec_name):
     if len(lines) > 1:
         return True
     return False
+
+
      
 def configure_logging(level):
     optics_info(f'...setting log level to {level}')
@@ -74,7 +77,7 @@ def usage():
 
 if __name__ == '__main__':
     datastore_proximity = get_optics_datastore_proximity()
-    
+    verify_key_file_present_if_needed()
     if not 'OPICS_HOME' in os.environ:
         optics_fatal('OPICS_HOME not defined.  Please "export OPICS_HOME=<parent_of_opics_dir>"')
         

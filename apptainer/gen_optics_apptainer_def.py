@@ -6,6 +6,7 @@ from core.optics_spec_loader import OpticsSpec
 CONTAINER_PULL_ROOT_PREFIX='image__'
 RUN_SYSTEM_PREFIX='test__'
 
+
 def get_section_base_container(local_image_full_path):
     s =  'Bootstrap: localimage\n'
     s += f'From : {local_image_full_path}\n'
@@ -15,7 +16,7 @@ def get_section_base_container(local_image_full_path):
 
 def get_section_environment(run_time_root_name):
     s =  f'    export OPICS_HOME=$HOME/{run_time_root_name}\n'
-    s += f'    export PYTHONPATH=$OPICS_HOME:$OPICS_HOME/scripts/optics\n'
+    s += f'    export PYTHONPATH=$OPICS_HOME:$OPICS_HOME/opics_common\n'
     s += f'    export PATH=/miniconda3/bin:$PATH\n'
     s += f'    export OPTICS_DATASTORE=ec2b\n'
     s += '\n'
@@ -23,30 +24,35 @@ def get_section_environment(run_time_root_name):
     return s
 
 
-def get_section_opics_project_code(repo, branch, run_time_root_name):
+def get_section_opics_project_code(optics_branch, proj, project_branch,  pull_time_root_name):
     s =  '    ############################################################################\n'
-    s += '    # clone the repo early in case of permissions challenge\n'
+    s += '    # clone the optics repo early in case of permissions challenge\n'
     s += '    ############################################################################\n'
     s += '    cd /\n'
-    s += f'    git clone --recurse-submodules {repo} {run_time_root_name}\n'
+    s += f'    git clone --recurse-submodules https://github.com/MCS-OSU/optics.git {pull_time_root_name}\n'
     s += '    ############################################################################\n'
     s += '    # put the correct branches into play\n'
     s += '    ############################################################################\n'
-    s += f'    cd {run_time_root_name}\n'
-    s += f'    git checkout {branch}\n'
-    s += f'    cd /{run_time_root_name}/scripts/optics\n'
-    s += '    git checkout main\n'
+    s += f'    cd {pull_time_root_name}\n'
+    s += f'    git checkout {optics_branch}\n'
+    dirname_for_proj = f'opics_{proj}'
+    proj_pull_dir = os.path.join(pull_time_root_name, dirname_for_proj)
+    s += f'    cd /{proj_pull_dir}\n'
+    s += f'    git checkout {project_branch}\n'
     s += '\n'
     s += '\n'
     return s
 
 
-def get_section_opics_dependencies(pull_time_root_name, lib_config_steps):
+def get_section_opics_dependencies(proj, pull_time_root_name, lib_config_steps):
     s =  '    ############################################################################\n'
     s += '    # install python dependencies\n'
     s += '    ############################################################################\n'
     s += f'    export OPICS_HOME=/{pull_time_root_name}\n'
     s += '    echo "==============  python dependencies  ==================="\n'
+    dirname_for_proj = f'opics_{proj}'
+    proj_pull_dir = os.path.join(pull_time_root_name, dirname_for_proj)
+    s += f'    cd /{proj_pull_dir}\n'
     for step in lib_config_steps:
         s += f'    {step}\n'
     s += '\n'
@@ -81,7 +87,7 @@ def get_section_numpy_hack(proj):
     return s
 
 
-def section_run_script(pull_time_root_name, optics_spec_fname):
+def section_run_script(proj, pull_time_root_name, optics_spec_fname):
 
     s =  f'    echo "...checking if {pull_time_root_name} needs to be wiped..."\n'
     s += f'    if [ -d "$OPICS_HOME" ]; then\n'
@@ -91,13 +97,18 @@ def section_run_script(pull_time_root_name, optics_spec_fname):
     s += f'    fi\n'
     s += f'    echo "...copying image /{pull_time_root_name} to runnable directory $OPICS_HOME"\n'
     s += f'    cp -r /{pull_time_root_name} $OPICS_HOME\n'
+
+    if proj == 'avoe':
+        s += f'    echo "...adding avoe pull to path since its not installed by poetry for eval6"\n'
+        s += f'    export PYTHONPATH=$PYTHONPATH:$OPICS_HOME/opics_avoe\n'
+
     s += f'    echo "...positioning key file for ec2b ssh commands"\n'
     s += f'    cd $OPICS_HOME/scripts/ec2\n'
     s += f'    wget --no-check-certificate "https://docs.google.com/uc?export=download&id=1BGff0DlqdUGEHtkCSK2FPjVcw7m5XpnY" -O shared-with-opics.pem\n'
     s += f'    chmod 600 shared-with-opics.pem\n'
     s += f'    echo "...running optics test_runner for {optics_spec_fname}:"\n'
     s += f'    cat $OPICS_HOME/scripts/optics/specs/{optics_spec_fname}\n'
-    s += f'    cd $OPICS_HOME/scripts/optics\n'
+    s += f'    cd $OPICS_HOME\n'
     s += f'    echo ""\n'
     s += f'    echo ""\n'
     s += f'    echo ""\n'
@@ -106,11 +117,9 @@ def section_run_script(pull_time_root_name, optics_spec_fname):
 
 
 def usage():
-    print(f'usage:   python gen_apptainer_def.py <optics_spec_path> <local_image_full_path>')
+    print(f'usage:   python gen_optics_apptainer_def.py <optics_spec_path> <local_image_full_path>')
     print('')
     print(f'(where optics_spec_path refers to an optics cfg file configured with the following keys:')
-    print('')
-    print(f'    apptainer.repo_to_clone:<some_repo>    (where some_repo == opics|opics-pvoe|opics-inter)')
     print('')
     print(f'    apptainer.branch_to_pull:some_branch_name>')
     print('')
@@ -149,26 +158,32 @@ if __name__ == '__main__':
     optics_spec_fname  = os.path.basename(optics_spec_path)
     optics_spec = OpticsSpec(optics_spec_path)
     proj                = optics_spec.proj
-    repo_name           = optics_spec.apptainer_repo_to_clone
-    repo                = 'https://github.com/MCS-OSU/' + repo_name + '.git'
-    branch              = optics_spec.apptainer_branch_to_pull
+    project_branch      = optics_spec.apptainer_branch_to_pull
     lib_config_steps    = optics_spec.apptainer_lib_config_steps
     model_config_steps  = optics_spec.apptainer_model_config_steps
     spec_name           = optics_spec.config_name
     pull_time_root_name = f'{CONTAINER_PULL_ROOT_PREFIX}{spec_name}'
     run_time_root_name   = f'{RUN_SYSTEM_PREFIX}{spec_name}'
 
+
+
     
+    #optics_branch = 'main'
+    optics_branch = 'refactor_opics_common'
+
+
+
+
     s = get_section_base_container(local_image_full_path)
     s += '%environment\n'
     s += get_section_environment(run_time_root_name)
     s += '%post\n'
-    s += get_section_opics_project_code(repo, branch, pull_time_root_name)
-    s += get_section_opics_dependencies(pull_time_root_name, lib_config_steps)
+    s += get_section_opics_project_code(optics_branch, proj, project_branch, pull_time_root_name)
+    s += get_section_opics_dependencies(proj, pull_time_root_name, lib_config_steps)
     s += get_section_models(model_config_steps)
     s += get_section_numpy_hack(proj)
     s += '%runscript\n'
-    s += section_run_script(pull_time_root_name, optics_spec_fname)
+    s += section_run_script(proj, pull_time_root_name, optics_spec_fname)
 
     print(s)
     optics_home = os.path.join(opics_home, 'scripts', 'optics')
