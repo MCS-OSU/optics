@@ -31,7 +31,7 @@ def regen_final_container_def_file(optics_spec_path, base_container_path):
     print('=======================================================================================')
     print(f'                REGENRATING FINAL CONTAINER DEF defs/{optics_spec_name}.def')
     print('=======================================================================================')
-    os.system(f'python gen_opics_apptainer_def.py {optics_spec_path} {base_container_path} ')
+    os.system(f'python gen_optics_apptainer_def.py {optics_spec_path} {base_container_path} ')
     log_build_info(optics_spec_name, f'{optics_spec_name}.def - regenerated')
 
 def rebuild_outer_container(optics_spec_name):
@@ -73,7 +73,7 @@ if __name__ == '__main__':
     branch      = optics_spec.apptainer_branch_to_pull
     s = 'What is the lowest-number piece that has been changed to motivate this build?:\n'
     s += f'1. {base_name}.def    (the base container def file)\n'
-    s += '2. gen_opics_apptainer_def.py (the script the builds the def for the full container as per the optics spec)\n'
+    s += '2. gen_optics_apptainer_def.py (the script the builds the def for the full container as per the optics spec)\n'
     s += f'3. {optics_spec_fname}\n'
     s += '4. an optics code change\n'
     s += f'5. a code change for repo {repo_name} branch {branch}\n'
@@ -82,7 +82,7 @@ if __name__ == '__main__':
     if answer == '1':
         print('here is the plan:')
         print(f'    - rebuild sifs/{base_name}.sif  (takes a while)')
-        print('    - run gen_opics_apptainer_def.py using optics_spec values (instantaneous)')
+        print('    - run gen_optics_apptainer_def.py using optics_spec values (instantaneous)')
         print(f'    - rebuild sifs/{optics_spec_name}.sif (takes a while)')
         print('')
         ans = input('is this correct? y/n\n')
