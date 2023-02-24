@@ -36,8 +36,8 @@ class OpticsSessions():
         print("------------------------------------------------------------------------------------------------------")
 
     def print_machine_names(self):
+        isinstance
         for session in self.sessions:
-            numeric_duration = ''.join(filter(str.isdigit, session.duration))
-            session.idle_time = session.convert_to_time_format(session.idle_time*60)
-            session.duration = session.convert_to_time_format(int(float(numeric_duration)*60))
-            print(f'{str(session.idle_time).ljust(15)}{str(session.machine).ljust(50)}{str(session.job_count).ljust(15)}{str(session.duration).ljust(15)}')
+            session.idle_time = session.convert_to_time_format(session.idle_time)
+            session.duration = session.convert_to_time_format(session.duration)
+            print(f'{str((session.idle_time)).ljust(15)}{str(session.machine).ljust(50)}{str(session.job_count).ljust(15)}{str(session.duration).ljust(15)}')
