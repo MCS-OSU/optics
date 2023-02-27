@@ -1,6 +1,3 @@
-[submodule "opics-common"]
-	path = opics-common
-	url = https://github.com/MCS-OSU/opics-common.git
 [submodule "opics_common"]
 	path = opics_common
 	url = https://github.com/MCS-OSU/opics-common.git
