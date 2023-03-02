@@ -1,12 +1,12 @@
 from importlib.util import set_loader
 import os, time, sys
 import core.utils as utils
-import opics.common.logging.log_constants as log_constants
-from core.optics_run_state        import NOT_ATTEMPTED, IN_PROGRESS_SCENE_ASSIGNED, OpticsRunState
+from opics_common.scene_type.type_constants import get_abbrev_scene_type_from_filename
+from opics_common.launch.opics_run_state        import NOT_ATTEMPTED, IN_PROGRESS_SCENE_ASSIGNED, OpicsRunState
 from core.constants                 import JOB_REQUEST, JOB_REQUEST_SMOKE, JOB_ASSIGN, NO_MORE_SCENES_TO_RUN, SESSION_KILLED, SMOKE_TEST
 from core.constants                 import TEST_HISTORY_FIRST_LINE_PREFIX
 from core.optics_session            import OpticsSession
-from results.scene_state_history    import SceneStateHistory
+from optics_results.scene_state_history    import SceneStateHistory
 from core.utils                     import optics_info, optics_error, optics_debug, optics_fatal
 
 
@@ -16,7 +16,7 @@ class TestRegisterLocal():
         self.systest_dirs = systest_dirs
 
     ##########################################################################
-    # api used by OpticsTestRunner and OpticsRunState
+    # api used by OpticsTestRunner and OpicsRunState
     ##########################################################################
     def register_session(self, proj):
         t = int(time.time())
@@ -64,7 +64,7 @@ class TestRegisterLocal():
                 designated_machine, _, scene_path = utils.parse_job_assign(last_line)
                 if designated_machine == requesting_machine:
                     return scene_path
-        optics_errpr(f'no response from tman on JOB_REQUEST')
+        optics_error(f'no response from tman on JOB_REQUEST')
         optics_error('Check to make sure tman.py is running.')
         sys.exit(1)
 
@@ -87,7 +87,7 @@ class TestRegisterLocal():
     def store_scene_log(self, log_path):
         log_file = os.path.basename(log_path)
         log_name = log_file.split('.')[0]
-        scene_type = log_constants.get_abbrev_scene_type_from_filename(log_name)
+        scene_type = get_abbrev_scene_type_from_filename(log_name)
         dest_path = os.path.join(self.systest_dirs.result_logs_dir, scene_type, log_file)
         optics_info(f'storing mcs log')
         utils.ensure_dir_exists(os.path.dirname(dest_path))
@@ -97,7 +97,7 @@ class TestRegisterLocal():
     def store_stdout_log(self, log_path):
         log_file = os.path.basename(log_path)
         log_name = log_file.split('.')[0]
-        scene_type = log_constants.get_abbrev_scene_type_from_filename(log_name)
+        scene_type = get_abbrev_scene_type_from_filename(log_name)
         dest_path = os.path.join(self.systest_dirs.stdout_logs_dir, scene_type, log_file)
         optics_info(f'storing stdout log')
         utils.ensure_dir_exists(os.path.dirname(dest_path))
@@ -107,8 +107,7 @@ class TestRegisterLocal():
 
     def store_videos(self, videos_dir):
         # videos_dir == scene_name
-        scene_type = log_constants.get_abbrev_scene_type_from_filename(videos_dir)
-        
+        scene_type = get_abbrev_scene_type_from_filename(videos_dir)
         (src, dest) = utils.get_pathnames_for_video(videos_dir, scene_type, self.systest_dirs.videos_dir, 'topdown')
         utils.ensure_dir_exists(os.path.dirname(dest))
         os.system(f' cp {src} {dest}')
@@ -219,7 +218,7 @@ class TestRegisterLocal():
         line = utils.get_last_line(state_path)
         run_state = utils.parse_run_state(line)
         optics_debug(f'encountered run_state {run_state}')
-        opics_run_state = OpticsRunState('pretend/scene/path')
+        opics_run_state = OpicsRunState('pretend/scene/path')
         return opics_run_state.should_tman_assign_scene_in_state(run_state)
 
     ##########################################################################
@@ -275,17 +274,17 @@ class TestRegisterLocal():
 
     def show_runs_summary(self):
         scene_state_histories = self.load_scene_state_histories()
-        opics_run_state = OpticsRunState('')
+        opics_run_state = OpicsRunState('')
         opics_run_state.show_runs_summary(scene_state_histories)
 
     def show_gpu_mem_fail_retry_count(self):
         scene_state_histories = self.load_scene_state_histories()
-        opics_run_state = OpticsRunState('')
+        opics_run_state = OpicsRunState('')
         opics_run_state.show_gpu_mem_fail_retry_count(scene_state_histories)
 
     def show_scene_timings(self):
         scene_state_histories = self.load_scene_state_histories()
-        opics_run_state = OpticsRunState('')
+        opics_run_state = OpicsRunState('')
         opics_run_state.show_scene_timings(scene_state_histories)
 
     ##########################################################################
@@ -407,7 +406,7 @@ class TestRegisterRemote():
         optics_info(f'storing scene log {log_path}')
         log_file = os.path.basename(log_path)
         log_name = log_file.split('.')[0]
-        scene_type = log_constants.get_abbrev_scene_type_from_filename(log_name)
+        scene_type = get_abbrev_scene_type_from_filename(log_name)
         dest_log_path = os.path.join(self.systest_dirs.result_logs_dir, scene_type, log_file)
         optics_debug(f'remote path will be {dest_log_path}')
         utils.remote_ensure_dir_exists(os.path.dirname(dest_log_path))
@@ -418,7 +417,7 @@ class TestRegisterRemote():
         optics_info(f'storing stdout log {log_path}')
         log_file = os.path.basename(log_path)
         log_name = log_file.split('.')[0]
-        scene_type = log_constants.get_abbrev_scene_type_from_filename(log_name)
+        scene_type = get_abbrev_scene_type_from_filename(log_name)
         dest_log_path = os.path.join(self.systest_dirs.stdout_logs_dir, scene_type, log_file)
         optics_debug(f'remote path will be {dest_log_path}')
         utils.remote_ensure_dir_exists(os.path.dirname(dest_log_path))
@@ -429,9 +428,7 @@ class TestRegisterRemote():
         # videos_dir == scene_name
         optics_info(f'storing videos {videos_dir_path}')
         videos_dir = os.path.basename(videos_dir_path)
-        scene_type = log_constants.get_abbrev_scene_type_from_filename(videos_dir)
-        
-
+        scene_type = get_abbrev_scene_type_from_filename(videos_dir)
         (src, dest) = utils.get_pathnames_for_video(videos_dir_path, scene_type, self.systest_dirs.videos_dir, 'topdown')
         optics_debug(f'src:  {src}')
         optics_debug(f'dest: {dest}')

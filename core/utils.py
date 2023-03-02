@@ -34,11 +34,34 @@ def get_optics_datastore_proximity():
     if datastore_url == EC2B_URL and uname_output != EC2B_UNAME_OUTPUT:
         return 'remote'
 
+def is_running_on_ec2a():
+    uname_output = os.uname()[1]
+    return uname_output == EC2A_UNAME_OUTPUT
+
+
+def is_running_on_ec2b():
+    uname_output = os.uname()[1]
+    return uname_output == EC2B_UNAME_OUTPUT
 
 def is_running_on_ec2():
-    uname_output = os.uname()[1]
-    return uname_output == EC2B_UNAME_OUTPUT or uname_output == EC2A_UNAME_OUTPUT
+    return is_running_on_ec2a() or is_running_on_ec2b()
 
+def is_datastore_remote():
+    datastore = os.environ['OPTICS_DATASTORE']
+    if datastore == 'ec2b' and not is_running_on_ec2b():
+        return True
+    if datastore == 'ec2a' and not is_running_on_ec2a():
+        return True
+    return False
+
+
+def verify_key_file_present_if_needed():
+    if not is_datastore_remote():
+        return 
+    key_path = get_public_key_path()
+    if os.path.exists(key_path):
+        return 
+    raise Exception(f'key file for accessing ec2 machine is missing from {key_path}')
 
 def get_public_key_path():
     if not 'OPICS_HOME' in os.environ:

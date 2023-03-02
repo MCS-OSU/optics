@@ -1,4 +1,4 @@
-from opics.common.logging.log_constants import abbrev_types
+from opics_common.scene_types.type_constants import abbrev_types
 import os
 import json
 

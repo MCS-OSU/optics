@@ -1,5 +1,5 @@
 import os
-import opics.common.logging.log_constants as log_constants
+import opics_common.opics_logging.log_constants as log_constants
 from datetime import datetime
 
 pvoe_plausible_string    = 'plausible'

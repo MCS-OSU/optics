@@ -1,7 +1,7 @@
 
 from core.optics_dirs import SystestDirectories
-from opics.common.logging.log_constants import formal_type
-from opics.common.logging.opics_logs    import OpicsLogs
+from opics_common.scene_type.type_constants import formal_type
+from opics_common.opics_logging.opics_logs    import OpicsLogs
 from core.optics_spec_loader            import OpticsSpec
 from pathlib import Path
 import os
