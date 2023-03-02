@@ -88,7 +88,8 @@ if __name__ == "__main__":
     start_time = datetime.datetime.now()
     run_state = OpicsRunState(scene_path)
     run_state.starting_scene()
-    agent = Evaluation6_Agent(config_ini_path, level, controller_type, json_scene_type,run_state)
+    additional_logs = False
+    agent = Evaluation6_Agent(config_ini_path, level, controller_type, json_scene_type,run_state, additional_logs)
     agent.run_scene(scene_path, scene_json, log_dir)
     end_time = datetime.datetime.now()
     total_time = end_time - start_time
