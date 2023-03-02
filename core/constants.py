@@ -10,11 +10,7 @@ JOB_ASSIGN        = 'TMAN_JOB_ASSIGN'
 TEST_SET_ORDER = 'test_set_order'
 SMOKE_TEST  = 'smoke_test'
 
-MCS_CONTROLLER           = 'mcs'       # NOTE - must be in sync with opics.common.launch.Eval6Agent
-REPLAY_CONTROLLER        = 'replay'    # NOTE - must be in sync with opics.common.launch.Eval6Agent
-
 TEST_HISTORY_FIRST_LINE_PREFIX = '# test history for scene: '
-
 
 EC2_MACHINE_HOME = '/home/ubuntu'
 #EC2B_UNAME_OUTPUT = 'ip-172-31-72-254'

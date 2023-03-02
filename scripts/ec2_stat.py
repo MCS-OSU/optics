@@ -1,6 +1,6 @@
-from scripts.ec2.machines import EC2A, EC2B
+from scripts.machines import EC2A, EC2B
 
-from scripts.optics.core.utils import notify_mcs_optics_status
+from core.utils import notify_mcs_optics_status
 
 if __name__=='__main__':
 

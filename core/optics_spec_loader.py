@@ -1,7 +1,7 @@
 import sys, os
 import configparser
-from core.constants import REPLAY_CONTROLLER, MCS_CONTROLLER
-from opics.common.logging.log_constants import abbrev_types
+from opics_common.launch.constants import REPLAY_CONTROLLER, MCS_CONTROLLER
+from opics_common.scene_type.type_constants import abbrev_types
 from core.utils import optics_info, optics_fatal
 
 class OpticsSpec():
@@ -38,11 +38,22 @@ class OpticsSpec():
         self.mcs_config_path  = self.load_mcs_config_path(self.save_videos)
         self.types_to_run     = self.load_types_to_run(lines)
         self.types_to_skip    = self.deduce_types_to_skip()
+        self.additional_logs  = self.load_additional_logs_setting(lines)
         self.print_scene_execution_summary()
         optics_info(f'optics_spec: proj {self.proj}')
         optics_info(f'optics_spec: version {self.version}')
         optics_info(f'optics_spec: test_sets {len(self.test_sets)}')
         optics_info(f'optics_spec: controller {self.controller}')
+
+    def load_additional_logs_setting(self, lines):
+        for line in lines:
+            if line.strip().startswith('additional_logs'):
+                setting = line.split(':')[1].strip().lower()
+                if setting == 'true':
+                    return True
+                else:
+                    return False
+        return False
 
     def load_container_construction_details(self, lines):
         self.apptainer_repo_to_clone   = self.load_apptainer_repo_to_clone(lines)
