@@ -108,18 +108,19 @@ class TestRegisterLocal():
     def store_videos(self, videos_dir):
         # videos_dir == scene_name
         scene_type = get_abbrev_scene_type_from_filename(videos_dir)
-        (src, dest) = utils.get_pathnames_for_video(videos_dir, scene_type, self.systest_dirs.videos_dir, 'depth')
-        utils.ensure_dir_exists(os.path.dirname(dest))
-        os.system(f' cp {src} {dest}')
-
-        (src, dest) = utils.get_pathnames_for_video(videos_dir, scene_type, self.systest_dirs.videos_dir, 'segmentation')
-        os.system(f' cp {src} {dest}')
-
         (src, dest) = utils.get_pathnames_for_video(videos_dir, scene_type, self.systest_dirs.videos_dir, 'topdown')
+        utils.ensure_dir_exists(os.path.dirname(dest))
         os.system(f' cp {src} {dest}')
 
         (src, dest) = utils.get_pathnames_for_video(videos_dir, scene_type, self.systest_dirs.videos_dir, 'visual')
         os.system(f' cp {src} {dest}')
+
+        # abstaining from storing depth and segmentation videos as per Rajesh request
+        # (src, dest) = utils.get_pathnames_for_video(videos_dir, scene_type, self.systest_dirs.videos_dir, 'depth')
+        # os.system(f' cp {src} {dest}')
+
+        # (src, dest) = utils.get_pathnames_for_video(videos_dir, scene_type, self.systest_dirs.videos_dir, 'segmentation')
+        # os.system(f' cp {src} {dest}')
 
 
     ##########################################################################
@@ -428,20 +429,21 @@ class TestRegisterRemote():
         optics_info(f'storing videos {videos_dir_path}')
         videos_dir = os.path.basename(videos_dir_path)
         scene_type = get_abbrev_scene_type_from_filename(videos_dir)
-        (src, dest) = utils.get_pathnames_for_video(videos_dir_path, scene_type, self.systest_dirs.videos_dir, 'depth')
+        (src, dest) = utils.get_pathnames_for_video(videos_dir_path, scene_type, self.systest_dirs.videos_dir, 'topdown')
         optics_debug(f'src:  {src}')
         optics_debug(f'dest: {dest}')
         utils.remote_ensure_dir_exists(os.path.dirname(dest))
         utils.remote_copy_file(src, dest)
 
-        (src, dest) = utils.get_pathnames_for_video(videos_dir_path, scene_type, self.systest_dirs.videos_dir, 'segmentation')
-        utils.remote_copy_file(src, dest)
-
-        (src, dest) = utils.get_pathnames_for_video(videos_dir_path, scene_type, self.systest_dirs.videos_dir, 'topdown')
-        utils.remote_copy_file(src, dest)
-
         (src, dest) = utils.get_pathnames_for_video(videos_dir_path, scene_type, self.systest_dirs.videos_dir, 'visual')
         utils.remote_copy_file(src, dest)
+
+        # abstain from copying depth and segmentation videos as per Rajesh request
+        # (src, dest) = utils.get_pathnames_for_video(videos_dir_path, scene_type, self.systest_dirs.videos_dir, 'depth')
+        # utils.remote_copy_file(src, dest)
+
+        # (src, dest) = utils.get_pathnames_for_video(videos_dir_path, scene_type, self.systest_dirs.videos_dir, 'segmentation')
+        # utils.remote_copy_file(src, dest)
 
 
     def fetch_remote_file(self, remote_path, local_path):

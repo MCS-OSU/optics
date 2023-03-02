@@ -44,8 +44,11 @@ def usage():
     print('                          gen_videos <src_dir> all|1|2|...')
     print('                          collect_oracle_data <src_dir> <dest_dir>')
     print('                          get_file <remote_path> <local_dest_dir>')
+    print('                          put_file <local_path> <remote_dest_dir>')
   
 if __name__ == '__main__':
+    
+
     if len(sys.argv) < 3:
         usage()
         sys.exit()
@@ -107,6 +110,14 @@ if __name__ == '__main__':
         local_dest_dir = sys.argv[4]
         verify_arg_is_dir(local_dest_dir)
         ec2.get_file(remote_path, local_dest_dir)
+
+
+    elif cmd == 'put_file':
+        verify_2_args(sys.argv, 'put_file', 'local_path', 'remote_dest_dir')
+        local_path = sys.argv[3]
+        remote_dest_dir = sys.argv[4]
+        verify_arg_is_file(local_path)
+        ec2.put_file(local_path, remote_dest_dir)
 
 
     
