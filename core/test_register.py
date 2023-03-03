@@ -259,17 +259,21 @@ class TestRegisterLocal():
         scene_state_histories = []
         print(utils.header(f' runs: {len(scene_state_paths)}'))
         for scene_state_path in scene_state_paths:
-            f = open(scene_state_path, 'r')
-            lines = f.readlines()
-            f.close()
-            scene_name = os.path.basename(scene_state_path).split('.')[0]
-            scene_state_history = SceneStateHistory(scene_name, lines)
-            if scene_state_history.is_well_formatted:
-                scene_state_histories.append(scene_state_history)
-            else:
-                print('')
-                print(f'...WARNING scene state history for {scene_name} is corrupted and is being ignored')
-                print('')
+            try:
+                f = open(scene_state_path, 'r')
+                lines = f.readlines()
+                f.close()
+                scene_name = os.path.basename(scene_state_path).split('.')[0]
+                scene_state_history = SceneStateHistory(scene_name, lines)
+                if scene_state_history.is_well_formatted:
+                    scene_state_histories.append(scene_state_history)
+                else:
+                    print('')
+                    print(f'...WARNING scene state history for {scene_name} is corrupted and is being ignored')
+                    print('')
+            except Exception as e:
+                print(f'...Problem loading scene state history for {scene_name}')
+                raise e
         return scene_state_histories
 
     def show_runs_summary(self):
