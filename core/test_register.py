@@ -230,16 +230,20 @@ class TestRegisterLocal():
         
         print(utils.header(f' sessions: {len(session_files)}'))
         for session_file in session_files:
-            session_path = os.path.join(self.systest_dirs.sessions_dir, session_file)
-            f = open(session_path, 'r')
-            lines = f.readlines()
-            f.close()
-            #print(f'session path {session_path}')
-            trun_session = OpticsSession(lines)
-            if trun_session.healthy:
-                trun_session.summary()
-            else:
-                print(f'session not healthy: {session_path} {trun_session.state}')
+            try:
+                session_path = os.path.join(self.systest_dirs.sessions_dir, session_file)
+                f = open(session_path, 'r')
+                lines = f.readlines()
+                f.close()
+                #print(f'session path {session_path}')
+                trun_session = OpticsSession(lines)
+                if trun_session.healthy:
+                    trun_session.summary()
+                else:
+                    print(f'session not healthy: {session_path} {trun_session.state}')
+            except Exception as e:
+                print('ERROR -- problem with session file: ', session_file)
+
 
     def gather_scene_state_paths(self):
         result = []
@@ -272,8 +276,7 @@ class TestRegisterLocal():
                     print(f'...WARNING scene state history for {scene_name} is corrupted and is being ignored')
                     print('')
             except Exception as e:
-                print(f'...Problem loading scene state history for {scene_name}')
-                raise e
+                print(f'...ERROR -- Problem loading scene state history for {scene_name}')
         return scene_state_histories
 
     def show_runs_summary(self):
