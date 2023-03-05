@@ -96,7 +96,6 @@ def get_section_numpy_hack(proj):
 
 
 def section_run_script(proj, pull_time_root_name, optics_spec_fname):
-
     s =  f'    echo "...checking if {pull_time_root_name} needs to be wiped..."\n'
     s += f'    if [ -d "$OPICS_HOME" ]; then\n'
     s += f'        echo "...deleting prior copy..."\n'
@@ -121,13 +120,31 @@ def section_run_script(proj, pull_time_root_name, optics_spec_fname):
     s += f'    cd $OPICS_HOME/scripts/ec2\n'
     s += f'    wget --no-check-certificate "https://docs.google.com/uc?export=download&id=1BGff0DlqdUGEHtkCSK2FPjVcw7m5XpnY" -O shared-with-opics.pem\n'
     s += f'    chmod 600 shared-with-opics.pem\n'
-    s += f'    echo "...running optics test_runner for {optics_spec_fname}:"\n'
-    s += f'    cat $OPICS_HOME/specs/{optics_spec_fname}\n'
-    s += f'    cd $OPICS_HOME\n'
-    s += f'    echo ""\n'
-    s += f'    echo ""\n'
-    s += f'    echo ""\n'
-    s += f'    python3 optics.py container_run specs/{optics_spec_fname}\n'
+
+    s += f'    echo "arg decides on optics run vs run_opics_scene"\n'
+    s += f'    if [[ $1 == optics ]]; then\n'
+    s += f'        echo "...running optics test_runner for {optics_spec_fname}:"\n'
+    s += f'        cat $OPICS_HOME/specs/{optics_spec_fname}\n'
+    s += f'        cd $OPICS_HOME\n'
+    s += f'        echo ""\n'
+    s += f'        echo ""\n'
+    s += f'        echo "running - python3 optics.py container_run specs/{optics_spec_fname}"\n'
+    s += f'        python3 optics.py container_run specs/{optics_spec_fname}\n'
+    s += f'    elif [[ $1 == run_opics_scene ]]; then\n'
+    s += f'        if [ -z "$2" ]; then\n'
+    s += f'            echo "run_opics_scene arg requires the scene path to be the additional arg"\n'
+    s += f'        else\n'
+    s += f'            echo "...running single optics scene $2:"\n'
+    s += f'            cd $OPICS_HOME/scripts\n'
+    s += f'            echo ""\n'
+    s += f'            echo ""\n'
+    s += f'            echo "running - python3 run_opics_scene.py --scene $2 --controller mcs --log_dir logs"\n'
+    s += f'            python3 run_opics_scene.py --scene $2 --controller mcs --log_dir logs\n'
+    s += f'        fi\n'
+    s += f'    else\n'
+    s += f'        echo "command $1 not recognized"\n'
+    s += f'    fi\n'
+
     return s
 
 
