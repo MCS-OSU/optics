@@ -16,9 +16,9 @@ class OpticsScores:
         self.systest_dirs = SystestDirectories(str(Path.home()), self.optics_spec)
         self.proj_log_dir = self.systest_dirs.result_logs_dir
 
-        if 'OPICS_HOME' not in os.environ:            
+        if 'OPTICS_HOME' not in os.environ:            
             print('')
-            print("      ERROR - OPICS_HOME not defined.  Please 'export OPICS_HOME=<parent_of_opics_dir>'")
+            print("      ERROR - OPTICS_HOME not defined.  Please 'export OPTICS_HOME=<parent_of_opics_dir>'")
             print('')
             sys.exit()
 

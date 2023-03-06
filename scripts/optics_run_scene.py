@@ -68,9 +68,9 @@ def usage():
 
 if __name__ == "__main__":
 
-    if not 'OPICS_HOME' in os.environ:
+    if not 'OPTICS_HOME' in os.environ:
         print('')
-        print("      ERROR - OPICS_HOME not defined.  Please 'export OPICS_HOME=<parent_of_opics_dir>'")
+        print("      ERROR - OPTICS_HOME not defined.  Please 'export OPTICS_HOME=<parent_of_optics_dir>'")
         print('')
         sys.exit()
     

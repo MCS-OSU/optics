@@ -15,8 +15,8 @@ def get_section_base_container(local_image_full_path):
     return s
 
 def get_section_environment(run_time_root_name):
-    s =  f'    export OPICS_HOME=$HOME/{run_time_root_name}\n'
-    s += f'    export PYTHONPATH=$OPICS_HOME:$OPICS_HOME/opics_common\n'
+    s =  f'    export OPTICS_HOME=$HOME/{run_time_root_name}\n'
+    s += f'    export PYTHONPATH=$OPTICS_HOME:$OPTICS_HOME/opics_common\n'
     s += f'    export PATH=/miniconda3/bin:$PATH\n'
     s += f'    export OPTICS_DATASTORE=ec2b\n'
     s += '\n'
@@ -61,7 +61,7 @@ def get_section_opics_dependencies(proj, pull_time_root_name, lib_config_steps):
     s =  '    ############################################################################\n'
     s += '    # install python dependencies\n'
     s += '    ############################################################################\n'
-    s += f'    export OPICS_HOME=/{pull_time_root_name}\n'
+    s += f'    export OPTICS_HOME=/{pull_time_root_name}\n'
     s += '    echo "==============  python dependencies  ==================="\n'
     dirname_for_proj = f'opics_{proj}'
     proj_pull_dir = os.path.join(pull_time_root_name, dirname_for_proj)
@@ -106,17 +106,17 @@ def get_section_run_script(spec_name):
 def generate_run_script(proj, pull_time_root_name, optics_spec_fname, spec_name):
     s =  f'#!/bin/bash\n'
     s += f'echo "...checking if {pull_time_root_name} needs to be wiped..."\n'
-    s += f'if [ -d "$OPICS_HOME" ]; then\n'
+    s += f'if [ -d "$OPTICS_HOME" ]; then\n'
     s += f'    echo "...deleting prior copy..."\n'
-    s += f'    rm -rf $OPICS_HOME\n'
+    s += f'    rm -rf $OPTICS_HOME\n'
     s += f'    echo "...done with delete..."\n'
     s += f'fi\n'
-    s += f'echo "...copying image /{pull_time_root_name} to runnable directory $OPICS_HOME"\n'
-    s += f'cp -r /{pull_time_root_name} $OPICS_HOME\n'
+    s += f'echo "...copying image /{pull_time_root_name} to runnable directory $OPTICS_HOME"\n'
+    s += f'cp -r /{pull_time_root_name} $OPTICS_HOME\n'
 
     if proj == 'avoe':
         s += f'echo "...adding avoe pull to path since its not installed by poetry for eval6"\n'
-        s += f'export PYTHONPATH=$PYTHONPATH:$OPICS_HOME/opics_avoe\n'
+        s += f'export PYTHONPATH=$PYTHONPATH:$OPTICS_HOME/opics_avoe\n'
     else:
         s += f'echo "...running  . /miniconda3/etc/profile.d/conda.sh"\n'
         s += f'. /miniconda3/etc/profile.d/conda.sh\n'
@@ -126,14 +126,14 @@ def generate_run_script(proj, pull_time_root_name, optics_spec_fname, spec_name)
         s += f'pip list\n'
 
     s += f'echo "...positioning key file for ec2b ssh commands"\n'
-    s += f'cd $OPICS_HOME/scripts/ec2\n'
+    s += f'cd $OPTICS_HOME/scripts/ec2\n'
     s += f'wget --no-check-certificate "https://docs.google.com/uc?export=download&id=1BGff0DlqdUGEHtkCSK2FPjVcw7m5XpnY" -O shared-with-opics.pem\n'
     s += f'chmod 600 shared-with-opics.pem\n'
     s += f'echo "arg decides on optics run vs run_opics_scene"\n'
     s += f'if [[ $1 == optics ]]; then\n'
     s += f'    echo "...running optics test_runner for {optics_spec_fname}:"\n'
-    s += f'    cat $OPICS_HOME/specs/{optics_spec_fname}\n'
-    s += f'    cd $OPICS_HOME\n'
+    s += f'    cat $OPTICS_HOME/specs/{optics_spec_fname}\n'
+    s += f'    cd $OPTICS_HOME\n'
     s += f'    echo ""\n'
     s += f'    echo ""\n'
     s += f'    echo "running - python3 optics.py container_run specs/{optics_spec_fname}"\n'
@@ -143,7 +143,7 @@ def generate_run_script(proj, pull_time_root_name, optics_spec_fname, spec_name)
     s += f'        echo "run_opics_scene arg requires the scene path to be the additional arg"\n'
     s += f'    else\n'
     s += f'        echo "...running single optics scene $2:"\n'
-    s += f'        cd $OPICS_HOME/scripts\n'
+    s += f'        cd $OPTICS_HOME/scripts\n'
     s += f'        echo ""\n'
     s += f'        echo ""\n'
     s += f'        echo "running - python3 run_opics_scene.py --scene $2 --controller mcs --log_dir logs"\n'
@@ -186,11 +186,11 @@ if __name__ == '__main__':
         usage()
         sys.exit()
 
-    if not 'OPICS_HOME' in os.environ:
-        print('...Please define OPICS_HOME...')
+    if not 'OPTICS_HOME' in os.environ:
+        print('...Please define OPTICS_HOME...')
         sys.exit()
 
-    opics_home = os.environ['OPICS_HOME']
+    optics_home = os.environ['OPTICS_HOME']
     optics_spec_path   = sys.argv[1]
     if not os.path.exists(optics_spec_path):
         print(f'given spec path does not exist {optics_spec_path}')
@@ -234,7 +234,6 @@ if __name__ == '__main__':
     s += get_section_run_script(spec_name)
 
     print(s)
-    optics_home = opics_home
     defs_dir = os.path.join(optics_home, 'apptainer', 'defs')
     os.makedirs(defs_dir, exist_ok=True)
     def_fname = optics_spec_fname.split('.')[0] + '.def'

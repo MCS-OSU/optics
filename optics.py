@@ -78,8 +78,8 @@ def usage():
 if __name__ == '__main__':
     datastore_proximity = get_optics_datastore_proximity()
     verify_key_file_present_if_needed()
-    if not 'OPICS_HOME' in os.environ:
-        optics_fatal('OPICS_HOME not defined.  Please "export OPICS_HOME=<parent_of_opics_dir>"')
+    if not 'OPTICS_HOME' in os.environ:
+        optics_fatal('OPTICS_HOME not defined.  Please "export OPTICS_HOME=<parent_of_optics_dir>"')
         
     if len(sys.argv) < 3:
         usage()
