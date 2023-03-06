@@ -23,6 +23,11 @@ def get_section_environment(run_time_root_name):
     s += '\n'
     return s
 
+def get_section_position_run_script(spec_name):
+    s =  f'    cp /tmp/run_{spec_name}.sh /\n'
+    s += f'    chmod 770 /run_{spec_name}.sh\n\n'
+    return s
+
 
 def get_section_opics_project_code(optics_branch, proj, project_branch,  pull_time_root_name):
     s =  '    ############################################################################\n'
@@ -94,58 +99,67 @@ def get_section_numpy_hack(proj):
     s += '\n'
     return s
 
+def get_section_run_script(spec_name):
+    s = f'/run_{spec_name}.sh $1 $2\n'
+    return s
 
-def section_run_script(proj, pull_time_root_name, optics_spec_fname):
-    s =  f'    echo "...checking if {pull_time_root_name} needs to be wiped..."\n'
-    s += f'    if [ -d "$OPICS_HOME" ]; then\n'
-    s += f'        echo "...deleting prior copy..."\n'
-    s += f'        rm -rf $OPICS_HOME\n'
-    s += f'        echo "...done with delete..."\n'
-    s += f'    fi\n'
-    s += f'    echo "...copying image /{pull_time_root_name} to runnable directory $OPICS_HOME"\n'
-    s += f'    cp -r /{pull_time_root_name} $OPICS_HOME\n'
+def generate_run_script(proj, pull_time_root_name, optics_spec_fname, spec_name):
+    s =  f'#!/bin/bash\n'
+    s += f'echo "...checking if {pull_time_root_name} needs to be wiped..."\n'
+    s += f'if [ -d "$OPICS_HOME" ]; then\n'
+    s += f'    echo "...deleting prior copy..."\n'
+    s += f'    rm -rf $OPICS_HOME\n'
+    s += f'    echo "...done with delete..."\n'
+    s += f'fi\n'
+    s += f'echo "...copying image /{pull_time_root_name} to runnable directory $OPICS_HOME"\n'
+    s += f'cp -r /{pull_time_root_name} $OPICS_HOME\n'
 
     if proj == 'avoe':
-        s += f'    echo "...adding avoe pull to path since its not installed by poetry for eval6"\n'
-        s += f'    export PYTHONPATH=$PYTHONPATH:$OPICS_HOME/opics_avoe\n'
+        s += f'echo "...adding avoe pull to path since its not installed by poetry for eval6"\n'
+        s += f'export PYTHONPATH=$PYTHONPATH:$OPICS_HOME/opics_avoe\n'
     else:
-        s += f'    echo "...running  . /miniconda3/etc/profile.d/conda.sh"\n'
-        s += f'    . /miniconda3/etc/profile.d/conda.sh\n'
-        s += f'    echo "...conda activate env_opics_{proj}"\n'
-        s += f'    conda activate env_opics_{proj}\n'
-        s += f'    echo "...conda activate complete"\n'
-        s += f'    pip list\n'
+        s += f'echo "...running  . /miniconda3/etc/profile.d/conda.sh"\n'
+        s += f'. /miniconda3/etc/profile.d/conda.sh\n'
+        s += f'echo "...conda activate env_opics_{proj}"\n'
+        s += f'conda activate env_opics_{proj}\n'
+        s += f'echo "...conda activate complete"\n'
+        s += f'pip list\n'
 
-    s += f'    echo "...positioning key file for ec2b ssh commands"\n'
-    s += f'    cd $OPICS_HOME/scripts/ec2\n'
-    s += f'    wget --no-check-certificate "https://docs.google.com/uc?export=download&id=1BGff0DlqdUGEHtkCSK2FPjVcw7m5XpnY" -O shared-with-opics.pem\n'
-    s += f'    chmod 600 shared-with-opics.pem\n'
-
-    s += f'    echo "arg decides on optics run vs run_opics_scene"\n'
-    s += f'    if [[ $1 == optics ]]; then\n'
-    s += f'        echo "...running optics test_runner for {optics_spec_fname}:"\n'
-    s += f'        cat $OPICS_HOME/specs/{optics_spec_fname}\n'
-    s += f'        cd $OPICS_HOME\n'
-    s += f'        echo ""\n'
-    s += f'        echo ""\n'
-    s += f'        echo "running - python3 optics.py container_run specs/{optics_spec_fname}"\n'
-    s += f'        python3 optics.py container_run specs/{optics_spec_fname}\n'
-    s += f'    elif [[ $1 == run_opics_scene ]]; then\n'
-    s += f'        if [ -z "$2" ]; then\n'
-    s += f'            echo "run_opics_scene arg requires the scene path to be the additional arg"\n'
-    s += f'        else\n'
-    s += f'            echo "...running single optics scene $2:"\n'
-    s += f'            cd $OPICS_HOME/scripts\n'
-    s += f'            echo ""\n'
-    s += f'            echo ""\n'
-    s += f'            echo "running - python3 run_opics_scene.py --scene $2 --controller mcs --log_dir logs"\n'
-    s += f'            python3 run_opics_scene.py --scene $2 --controller mcs --log_dir logs\n'
-    s += f'        fi\n'
+    s += f'echo "...positioning key file for ec2b ssh commands"\n'
+    s += f'cd $OPICS_HOME/scripts/ec2\n'
+    s += f'wget --no-check-certificate "https://docs.google.com/uc?export=download&id=1BGff0DlqdUGEHtkCSK2FPjVcw7m5XpnY" -O shared-with-opics.pem\n'
+    s += f'chmod 600 shared-with-opics.pem\n'
+    s += f'echo "arg decides on optics run vs run_opics_scene"\n'
+    s += f'if [[ $1 == optics ]]; then\n'
+    s += f'    echo "...running optics test_runner for {optics_spec_fname}:"\n'
+    s += f'    cat $OPICS_HOME/specs/{optics_spec_fname}\n'
+    s += f'    cd $OPICS_HOME\n'
+    s += f'    echo ""\n'
+    s += f'    echo ""\n'
+    s += f'    echo "running - python3 optics.py container_run specs/{optics_spec_fname}"\n'
+    s += f'    python3 optics.py container_run specs/{optics_spec_fname}\n'
+    s += f'elif [[ $1 == run_opics_scene ]]; then\n'
+    s += f'    if [ -z "$2" ]; then\n'
+    s += f'        echo "run_opics_scene arg requires the scene path to be the additional arg"\n'
     s += f'    else\n'
-    s += f'        echo "command $1 not recognized"\n'
+    s += f'        echo "...running single optics scene $2:"\n'
+    s += f'        cd $OPICS_HOME/scripts\n'
+    s += f'        echo ""\n'
+    s += f'        echo ""\n'
+    s += f'        echo "running - python3 run_opics_scene.py --scene $2 --controller mcs --log_dir logs"\n'
+    s += f'        python3 run_opics_scene.py --scene $2 --controller mcs --log_dir logs\n'
     s += f'    fi\n'
+    s += f'else\n'
+    s += f'    echo "command $1 not recognized"\n'
+    s += f'fi\n'
 
-    return s
+    os.makedirs('run_scripts', exist_ok = True)
+    run_script_path = os.path.join('run_scripts', 'run_' + spec_name + '.sh')
+    f = open(run_script_path, 'w')
+    f.write(s)
+    f.close()
+    command = f'cp {run_script_path} /tmp/run_{spec_name}.sh'
+    os.system(command)
 
 
 def usage():
@@ -203,6 +217,7 @@ if __name__ == '__main__':
     optics_branch = 'main'
     #optics_branch = 'refactor_opics_common'
 
+    generate_run_script(proj, pull_time_root_name, optics_spec_fname, spec_name)
 
 
 
@@ -210,12 +225,13 @@ if __name__ == '__main__':
     s += '%environment\n'
     s += get_section_environment(run_time_root_name)
     s += '%post\n'
+    s += get_section_position_run_script(spec_name)
     s += get_section_opics_project_code(optics_branch, proj, project_branch, pull_time_root_name)
     s += get_section_opics_dependencies(proj, pull_time_root_name, lib_config_steps)
     s += get_section_models(model_config_steps)
     s += get_section_numpy_hack(proj)
     s += '%runscript\n'
-    s += section_run_script(proj, pull_time_root_name, optics_spec_fname)
+    s += get_section_run_script(spec_name)
 
     print(s)
     optics_home = opics_home
