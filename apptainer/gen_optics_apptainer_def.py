@@ -14,8 +14,9 @@ def get_section_base_container(local_image_full_path):
     s += '\n'
     return s
 
-def get_section_environment(run_time_root_name):
+def get_section_environment(proj, run_time_root_name):
     s =  f'    export OPTICS_HOME=$HOME/{run_time_root_name}\n'
+    s += f'    export OPICS_HOME=$OPTICS_HOME/opics_{proj}\n'
     s += f'    export PYTHONPATH=$OPTICS_HOME:$OPTICS_HOME/opics_common\n'
     s += f'    export PATH=/miniconda3/bin:$PATH\n'
     s += f'    export OPTICS_DATASTORE=ec2b\n'
@@ -211,11 +212,7 @@ if __name__ == '__main__':
     pull_time_root_name = f'{CONTAINER_PULL_ROOT_PREFIX}{spec_name}'
     run_time_root_name   = f'{RUN_SYSTEM_PREFIX}{spec_name}'
 
-
-
-    
     optics_branch = 'main'
-    #optics_branch = 'refactor_opics_common'
 
     generate_run_script(proj, pull_time_root_name, optics_spec_fname, spec_name)
 
@@ -223,7 +220,7 @@ if __name__ == '__main__':
 
     s = get_section_base_container(local_image_full_path)
     s += '%environment\n'
-    s += get_section_environment(run_time_root_name)
+    s += get_section_environment(proj, run_time_root_name)
     s += '%post\n'
     s += get_section_position_run_script(spec_name)
     s += get_section_opics_project_code(optics_branch, proj, project_branch, pull_time_root_name)
