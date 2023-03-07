@@ -8,10 +8,14 @@ def get_name_row(name, specs):
 
     row = [sg.Text(name, size=(10,2), font=('Helvetica', 14)), sg.Listbox(values=specs, size=(30,1), font=('Helvetica', 14), key='spec_names')]
     row.append(sg.Button('Load',  size=(5,2), font=('Helvetica', 14), key = f'messenger_load_{name}'))
+    row.append(sg.Text('', size=(10,2), font=('Helvetica', 14), key = f'load_status_{name}', justification='left'))
     row.append(sg.Button('Run',   size=(4,2), font=('Helvetica', 14), key = f'messenger_run_{name}'))
+    row.append(sg.Text('', size=(10,2), font=('Helvetica', 14), key = f'run_status_{name}', justification='left'))
     row.append(sg.Button('Stop',  size=(5,2), font=('Helvetica', 14), key = f'messenger_stop_{name}'))
+    row.append(sg.Text('', size=(10,2), font=('Helvetica', 14), key = f'stop_status_{name}', justification='left'))
     row.append(sg.Button('Clean', size=(6,2), font=('Helvetica', 14), key = f'messenger_clean_{name}'))
-    row.append(sg.Text('', size=(30,2), font=('Helvetica', 14), key = f'status_{name}', justification='left'))
+    row.append(sg.Text('', size=(10,2), font=('Helvetica', 14), key = f'clean_status_{name}', justification='left'))
+    #row.append(sg.Text('', size=(30,2), font=('Helvetica', 14), key = f'status_{name}', justification='left'))
     # for spec in specs:
     #     spec_name_width = 15
     #     key = f'control_{name}_{spec}'
@@ -58,8 +62,8 @@ def ui_loop():
             threading.Thread(target=control_message, args=(remote_messenger, cmd, window), daemon=True).start()
         
 if __name__ == '__main__':
-    if os.environ.get('OPICS_HOME') is None:
-        print('OPICS_HOME is not set')
+    if os.environ.get('OPTICS_HOME') is None:
+        print('OPTICS_HOME is not set')
         sys.exit(1)
     if os.environ.get('OPTICS_DATASTORE') is None:
         print('OPTICS_DATASTORE is not set - set to either ec2a or ec2b')
