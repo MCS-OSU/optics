@@ -78,6 +78,7 @@ class OpticsScores:
         else:
             # inter
             self.inter_stats.results_summary()
+            self.inter_stats.results_scene_classifier()
             self.inter_stats.results_by_scene_type()
             self.inter_stats.results_by_scene_type_and_cube_id()
             print('')
