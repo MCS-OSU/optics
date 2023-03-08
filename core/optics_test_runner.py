@@ -99,7 +99,6 @@ class OpticsTestRunner():
             # trun will transact files with ec2b via scp
             self.test_register = TestRegisterRemote(self.systest_dirs)
         self.test_register.register_session(self.optics_spec.version)
-        #self.run_dir = os.path.join(opics_home,'scripts','optics','scripts')
         # NOTE(Mazen): ec2a testing
         self.run_dir = os.path.join(self.optics_home,'scripts')
         
@@ -135,9 +134,7 @@ class OpticsTestRunner():
 
     def get_video_dir(self, scene_name):
         # mcs controller puts video dir under the current directory
-        #FIXME
-        optics_dir = os.path.join(self.optics_home, 'scripts', 'optics')
-        video_dir  = os.path.join(optics_dir, 'scripts', scene_name)
+        video_dir  = os.path.join(self.optics_home, 'scripts', scene_name)
         optics_info(f'video dir determined as {video_dir}')
         return video_dir
 
