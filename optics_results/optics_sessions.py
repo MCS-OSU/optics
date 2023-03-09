@@ -14,16 +14,19 @@ class OpticsSessions():
         
         print(utils.header(f' sessions: {len(session_files)}'))
         for session_file in session_files:
-            session_path = os.path.join(self.systest_dirs.sessions_dir, session_file)
-            f = open(session_path, 'r')
-            lines = f.readlines()
-            f.close()
-            #print(f'session path {session_path}')
-            session = OpticsSession(lines)
-            if session.healthy:
-                sessions.append(session)
-            else:
-                print(f'session not healthy: {session_path} {session.state}')
+            try:
+                session_path = os.path.join(self.systest_dirs.sessions_dir, session_file)
+                f = open(session_path, 'r')
+                lines = f.readlines()
+                f.close()
+                #print(f'session path {session_path}')
+                session = OpticsSession(lines)
+                if session.healthy:
+                    sessions.append(session)
+                else:
+                    print(f'session not healthy: {session_path} {session.state}')
+            except Exception as err:
+                print(f'Error loading session {session_path} {err}')
         return sessions
 
     def sort_by_idle_time(self):
