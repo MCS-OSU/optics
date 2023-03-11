@@ -16,7 +16,10 @@ def get_section_base_container(local_image_full_path):
 
 def get_section_environment(proj, run_time_root_name):
     s =  f'    export OPTICS_HOME=$HOME/{run_time_root_name}\n'
-    s += f'    export OPICS_HOME=$OPTICS_HOME/opics_{proj}\n'
+    if proj == 'avoe':
+        s += f'    export OPICS_HOME=$OPTICS_HOME/opics\n'
+    else:
+        s += f'    export OPICS_HOME=$OPTICS_HOME/opics_{proj}\n'
     s += f'    export PYTHONPATH=$OPTICS_HOME:$OPTICS_HOME/opics_common\n'
     s += f'    export PATH=/miniconda3/bin:$PATH\n'
     s += f'    export OPTICS_DATASTORE=ec2b\n'
@@ -100,6 +103,19 @@ def get_section_numpy_hack(proj):
     s += '\n'
     return s
 
+def get_section_controller_timeout_patch():
+    s = '    ############################################################################\n'
+    s += '    #                   --- mcs controller timeout patch ---\n'
+    s += '    # changing from 3 mins to 1 hour:\n'
+    s += '    ############################################################################\n'
+    s += '    cd $OPTICS_HOME/apptainer\n'
+    s += '    python3 patch_mcs_controller_timeout_container.py\n'
+    s += '\n'
+    s += '\n'
+    return s
+
+
+
 def get_section_run_script(spec_name):
     s = f'/run_{spec_name}.sh $1 $2\n'
     return s
@@ -117,7 +133,7 @@ def generate_run_script(proj, pull_time_root_name, optics_spec_fname, spec_name)
 
     if proj == 'avoe':
         s += f'echo "...adding avoe pull to path since its not installed by poetry for eval6"\n'
-        s += f'export PYTHONPATH=$PYTHONPATH:$OPTICS_HOME/opics_avoe\n'
+        s += f'export PYTHONPATH=$PYTHONPATH:$OPTICS_HOME/opics\n'
     else:
         s += f'echo "...running  . /miniconda3/etc/profile.d/conda.sh"\n'
         s += f'. /miniconda3/etc/profile.d/conda.sh\n'
@@ -227,6 +243,7 @@ if __name__ == '__main__':
     s += get_section_opics_dependencies(proj, pull_time_root_name, lib_config_steps)
     s += get_section_models(model_config_steps)
     s += get_section_numpy_hack(proj)
+    s += get_section_controller_timeout_patch()
     s += '%runscript\n'
     s += get_section_run_script(spec_name)
 
