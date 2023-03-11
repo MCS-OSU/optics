@@ -108,8 +108,8 @@ def get_section_controller_timeout_patch():
     s += '    #                   --- mcs controller timeout patch ---\n'
     s += '    # changing from 3 mins to 1 hour:\n'
     s += '    ############################################################################\n'
-    s += '    cd $OPTICS_HOME/scripts'
-    s += '    python3 patch_mcs_controller_timeout.pyn'
+    s += '    cd $OPTICS_HOME/scripts\n'
+    s += '    python3 patch_mcs_controller_timeout.py\n'
     s += '\n'
     s += '\n'
     return s
