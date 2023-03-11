@@ -3,8 +3,7 @@ import os
 
 
 if __name__ == '__main__':
-    #/home/ubuntu/anaconda3/envs/env_opics_pvoe/lib/python3.7/site-packages/machine_common_sense/__init__.py
-
+    # where the file is on the ec2 machines
     mcs_init_path = '/anaconda3/envs/env_opics_pvoe/lib/python3.7/site-packages/machine_common_sense/__init__.py'
     f = open(mcs_init_path,'r')
     lines = f.readlines()

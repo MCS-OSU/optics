@@ -3,13 +3,12 @@ import os
 
 
 if __name__ == '__main__':
-    #/home/ubuntu/anaconda3/envs/env_opics_pvoe/lib/python3.7/site-packages/machine_common_sense/__init__.py
-
-    mcs_init_path = '/anaconda3/envs/env_opics_pvoe/lib/python3.7/site-packages/machine_common_sense/__init__.py'
+    # where the file is inthe container
+    mcs_init_path = '/miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages/machine_common_sense/__init__.py'
     f = open(mcs_init_path,'r')
     lines = f.readlines()
     f.close()
-    mcs_init_tmp_path = '/anaconda3/envs/env_opics_pvoe/lib/python3.7/site-packages/machine_common_sense/tmp__init__.py'
+    mcs_init_tmp_path = '/miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages/machine_common_sense/tmp__init__.py'
     f = open(mcs_init_tmp_path,'w')
     for line in lines:
         if line.startswith('TIME_LIMIT_SECONDS'):
