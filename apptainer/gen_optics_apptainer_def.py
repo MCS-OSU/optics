@@ -72,6 +72,8 @@ def get_section_opics_dependencies(proj, pull_time_root_name, lib_config_steps):
     s += '    # install python dependencies\n'
     s += '    ############################################################################\n'
     s += f'    export OPTICS_HOME=/{pull_time_root_name}\n'
+    if proj == 'avoe':
+        s += f'    export OPICS_HOME=/{pull_time_root_name}/opics\n'
     s += '    echo "==============  python dependencies  ==================="\n'
     dirname_for_proj = get_dirname_for_project(proj)
     print(f'....dirname for project will be {dirname_for_proj}')
