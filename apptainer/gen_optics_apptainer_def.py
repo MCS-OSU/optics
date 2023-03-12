@@ -32,6 +32,11 @@ def get_section_position_run_script(spec_name):
     s += f'    chmod 770 /run_{spec_name}.sh\n\n'
     return s
 
+def get_dirname_for_project(proj):
+    if proj == 'avoe':
+        return 'opics'
+    else:
+        return f'opics_{proj}'
 
 def get_section_opics_project_code(optics_branch, proj, project_branch,  pull_time_root_name):
     s =  '    ############################################################################\n'
@@ -39,6 +44,7 @@ def get_section_opics_project_code(optics_branch, proj, project_branch,  pull_ti
     s += '    ############################################################################\n'
     s += '    cd /\n'
     s += f'    git clone --recurse-submodules https://github.com/MCS-OSU/optics.git {pull_time_root_name}\n'
+    s += f'    git config --global credential.helper store'
     s += '    ############################################################################\n'
     s += '    # put the correct branches into play\n'
     s += '    ############################################################################\n'
@@ -46,7 +52,7 @@ def get_section_opics_project_code(optics_branch, proj, project_branch,  pull_ti
     s += f'    git checkout {optics_branch}\n'
     s += f'    git submodule update --init --recursive\n'
     # git the correct branch for the project
-    dirname_for_proj = f'opics_{proj}'
+    dirname_for_proj = get_dirname_for_project(proj)
     proj_pull_dir = os.path.join(pull_time_root_name, dirname_for_proj)
     s += f'    cd /{proj_pull_dir}\n'
     s += f'    git checkout {project_branch}\n'
@@ -67,10 +73,8 @@ def get_section_opics_dependencies(proj, pull_time_root_name, lib_config_steps):
     s += '    ############################################################################\n'
     s += f'    export OPTICS_HOME=/{pull_time_root_name}\n'
     s += '    echo "==============  python dependencies  ==================="\n'
-    if proj == 'avoe':
-        dirname_for_proj = 'opics'
-    else:
-        dirname_for_proj = f'opics_{proj}'
+    dirname_for_proj = get_dirname_for_project(proj)
+    print(f'....dirname for project will be {dirname_for_proj}')
     proj_pull_dir = os.path.join(pull_time_root_name, dirname_for_proj)
     s += f'    cd /{proj_pull_dir}\n'
     for step in lib_config_steps:
