@@ -65,7 +65,10 @@ if __name__ == '__main__':
 
     base_name = 'ubuntu_python'
     cur_dir = os.getcwd()
-    base_container_path = f'{cur_dir}/sifs/{base_name}.sif'
+    sifs_dir = f'{cur_dir}/sifs'
+    os.makedirs(sifs_dir,exist_ok = True)
+    
+    base_container_path = f'{sifs_dir}/{base_name}.sif'
     optics_spec_fname = os.path.basename(optics_spec_path)
     optics_spec_name = optics_spec_fname.split('.')[0]
     optics_spec = OpticsSpec(optics_spec_path)
