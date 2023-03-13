@@ -18,9 +18,10 @@ def get_section_environment(proj, run_time_root_name):
     s =  f'    export OPTICS_HOME=$HOME/{run_time_root_name}\n'
     if proj == 'avoe':
         s += f'    export OPICS_HOME=$OPTICS_HOME/opics\n'
+        s += f'    export PYTHONPATH=$OPTICS_HOME:$OPTICS_HOME/opics_common:$OPTICS_HOME/opics\n'
     else:
         s += f'    export OPICS_HOME=$OPTICS_HOME/opics_{proj}\n'
-    s += f'    export PYTHONPATH=$OPTICS_HOME:$OPTICS_HOME/opics_common\n'
+        s += f'    export PYTHONPATH=$OPTICS_HOME:$OPTICS_HOME/opics_common\n'
     s += f'    export PATH=/miniconda3/bin:$PATH\n'
     s += f'    export OPTICS_DATASTORE=ec2b\n'
     s += '\n'
@@ -44,12 +45,13 @@ def get_section_opics_project_code(optics_branch, proj, project_branch,  pull_ti
     s += '    ############################################################################\n'
     s += '    cd /\n'
     s += f'    git clone --recurse-submodules https://github.com/MCS-OSU/optics.git {pull_time_root_name}\n'
-    s += f'    git config --global credential.helper store'
     s += '    ############################################################################\n'
     s += '    # put the correct branches into play\n'
     s += '    ############################################################################\n'
     s += f'    cd {pull_time_root_name}\n'
     s += f'    git checkout {optics_branch}\n'
+    s += f'    git config --global user.name jedirv\n'
+    s += f'    git config --global credential.helper store\n'
     s += f'    git submodule update --init --recursive\n'
     # git the correct branch for the project
     dirname_for_proj = get_dirname_for_project(proj)
@@ -112,7 +114,7 @@ def get_section_numpy_hack(proj):
     s += '\n'
     return s
 
-def get_section_controller_timeout_patch():
+def get_section_controller_timeout_patch(proj):
     s = '    ############################################################################\n'
     s += '    #                   --- mcs controller timeout patch ---\n'
     s += '    # changing from 3 mins to 1 hour:\n'
@@ -139,17 +141,16 @@ def generate_run_script(proj, pull_time_root_name, optics_spec_fname, spec_name)
     s += f'fi\n'
     s += f'echo "...copying image /{pull_time_root_name} to runnable directory $OPTICS_HOME"\n'
     s += f'cp -r /{pull_time_root_name} $OPTICS_HOME\n'
-
+    s += f'echo "...running  . /miniconda3/etc/profile.d/conda.sh"\n'
+    s += f'. /miniconda3/etc/profile.d/conda.sh\n'
     if proj == 'avoe':
-        s += f'echo "...adding avoe pull to path since its not installed by poetry for eval6"\n'
-        s += f'export PYTHONPATH=$PYTHONPATH:$OPTICS_HOME/opics\n'
+        s += f'echo "...conda activate env_{proj}"\n'
+        s += f'conda activate env_{proj}\n'
     else:
-        s += f'echo "...running  . /miniconda3/etc/profile.d/conda.sh"\n'
-        s += f'. /miniconda3/etc/profile.d/conda.sh\n'
         s += f'echo "...conda activate env_opics_{proj}"\n'
         s += f'conda activate env_opics_{proj}\n'
-        s += f'echo "...conda activate complete"\n'
-        s += f'pip list\n'
+    s += f'echo "...conda activate complete"\n'
+    s += f'pip list\n'
 
     s += f'echo "...positioning key file for ec2b ssh commands"\n'
     s += f'cd $OPTICS_HOME/scripts/ec2\n'
@@ -252,7 +253,7 @@ if __name__ == '__main__':
     s += get_section_opics_dependencies(proj, pull_time_root_name, lib_config_steps)
     s += get_section_models(model_config_steps)
     s += get_section_numpy_hack(proj)
-    s += get_section_controller_timeout_patch()
+    #s += get_section_controller_timeout_patch(proj)
     s += '%runscript\n'
     s += get_section_run_script(spec_name)
 
