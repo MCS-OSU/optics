@@ -6,8 +6,8 @@ import traceback
 import json
 
 container_for_project = {}
-container_for_project['avoe' ] = 'avoe_031123_eval5.sif'
-container_for_project['inter'] = 'inter_030723_5w_6new.sif'
+container_for_project['avoe' ] = 'avoe_031223_eval5.sif'
+container_for_project['inter'] = 'inter_031323_val6.sif'
 container_for_project['pvoe' ] = 'pvoe_030723_eval5.sif'
 
     
@@ -46,8 +46,13 @@ if __name__ == '__main__':
     scene_path = args.scene
     if not os.path.isfile(scene_path):
         print(f'ERROR given scene path {scene_path} does not exist')
+        usage()
+        sys.exit()
+        
     if not scene_path.endswith('.json'):
         print(f'ERROR given scene path {scene_path} is not a json file')
+        usage()
+        sys.exit()
     
     print(f'scene path given : {scene_path}')
     #log_dir = args.log_dir
