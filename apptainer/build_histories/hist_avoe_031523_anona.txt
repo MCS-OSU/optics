@@ -1,0 +1,5 @@
+2023-03-15 21:12:48  
+first time through
+2023-03-15 21:12:48  avoe_031523_anona.def - regenerated
+2023-03-15 21:12:48  sifs/avoe_031523_anona.sif - build begin
+2023-03-15 21:20:58  sifs/avoe_031523_anona.sif - build complete

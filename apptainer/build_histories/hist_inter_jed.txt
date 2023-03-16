@@ -1,0 +1,31 @@
+2023-02-23 16:55:28  
+testing
+2023-02-23 16:55:29  inter_jed.def - regenerated
+2023-02-23 16:55:29  sifs/inter_jed.sif - build begin
+2023-02-23 17:01:47  
+testing
+2023-02-23 17:01:47  inter_jed.def - regenerated
+2023-02-23 17:01:47  sifs/inter_jed.sif - build begin
+2023-02-23 17:08:24  
+testing
+2023-02-23 17:08:24  inter_jed.def - regenerated
+2023-02-23 17:08:24  sifs/inter_jed.sif - build begin
+2023-02-23 17:13:27  
+testing
+2023-02-23 17:13:27  inter_jed.def - regenerated
+2023-02-23 17:13:27  sifs/inter_jed.sif - build begin
+2023-02-23 17:23:15  
+testing
+2023-02-23 17:23:15  inter_jed.def - regenerated
+2023-02-23 17:23:15  sifs/inter_jed.sif - build begin
+2023-02-23 17:34:51  sifs/inter_jed.sif - build complete
+2023-02-23 17:48:20  
+testing
+2023-02-23 17:48:20  inter_jed.def - regenerated
+2023-02-23 17:48:20  sifs/inter_jed.sif - deleting prior
+2023-02-23 17:48:20  sifs/inter_jed.sif - build begin
+2023-02-23 17:49:13  
+test
+2023-02-23 17:49:13  inter_jed.def - regenerated
+2023-02-23 17:49:13  sifs/inter_jed.sif - build begin
+2023-02-23 18:01:09  sifs/inter_jed.sif - build complete

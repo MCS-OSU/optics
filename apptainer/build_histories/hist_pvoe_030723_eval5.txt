@@ -1,0 +1,29 @@
+2023-03-11 10:23:20  
+initial build
+2023-03-11 10:23:20  pvoe_030723_eval5.def - regenerated
+2023-03-11 10:23:20  sifs/pvoe_030723_eval5.sif - build begin
+2023-03-11 10:39:55  
+try adding 'git rm --cached MCS' to fix submodule glitch
+2023-03-11 10:39:55  pvoe_030723_eval5.def - regenerated
+2023-03-11 10:39:55  sifs/pvoe_030723_eval5.sif - build begin
+2023-03-11 13:22:19  
+removed MCS submodule
+2023-03-11 13:22:19  pvoe_030723_eval5.def - regenerated
+2023-03-11 13:22:19  sifs/pvoe_030723_eval5.sif - build begin
+2023-03-11 13:41:03  
+opics submodule now tracks main, where MCS has been deleted"
+2023-03-11 13:41:03  pvoe_030723_eval5.def - regenerated
+2023-03-11 13:41:03  sifs/pvoe_030723_eval5.sif - build begin
+2023-03-11 13:50:13  
+fix spec to use OPTICS_HOME
+2023-03-11 13:50:13  pvoe_030723_eval5.def - regenerated
+2023-03-11 13:50:13  sifs/pvoe_030723_eval5.sif - build begin
+2023-03-11 15:00:43  
+corrected path to controller file to patch
+2023-03-11 15:00:43  pvoe_030723_eval5.def - regenerated
+2023-03-11 15:00:43  sifs/pvoe_030723_eval5.sif - build begin
+2023-03-11 15:18:58  
+get path right in container for mcs TIME limit file
+2023-03-11 15:18:58  pvoe_030723_eval5.def - regenerated
+2023-03-11 15:18:58  sifs/pvoe_030723_eval5.sif - build begin
+2023-03-11 15:29:09  sifs/pvoe_030723_eval5.sif - build complete

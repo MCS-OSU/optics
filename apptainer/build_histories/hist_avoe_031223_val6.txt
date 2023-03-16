@@ -1,0 +1,5 @@
+2023-03-13 14:34:14  
+this is the first build of the true final eval script for this date
+2023-03-13 14:34:14  avoe_031223_val6.def - regenerated
+2023-03-13 14:34:14  sifs/avoe_031223_val6.sif - build begin
+2023-03-13 14:44:13  sifs/avoe_031223_val6.sif - build complete
