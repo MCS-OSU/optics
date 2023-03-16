@@ -1,0 +1,25 @@
+INFO:    Starting build...
+INFO:    Verifying bootstrap image /home/jedirv/outer_optics_v6i/apptainer/sifs/ubuntu_python.sif
+WARNING: integrity: signature not found for object group 1
+WARNING: Bootstrap image could not be verified, but build will continue.
+INFO:    Running post scriptlet
++ cp /tmp/run_avoe_031023_eval5.sh /
++ chmod 770 /run_avoe_031023_eval5.sh
++ cd /
++ git clone --recurse-submodules https://github.com/MCS-OSU/optics.git image__avoe_031023_eval5
+Cloning into 'image__avoe_031023_eval5'...
+Submodule 'opics_avoe' (https://github.com/MCS-OSU/opics.git) registered for path 'opics'
+Submodule 'opics_common' (https://github.com/MCS-OSU/opics-common.git) registered for path 'opics_common'
+Submodule 'opics_inter' (https://github.com/MCS-OSU/opics-inter.git) registered for path 'opics_inter'
+Submodule 'opics_pvoe' (https://github.com/MCS-OSU/opics-pvoe.git) registered for path 'opics_pvoe'
+Cloning into '/image__avoe_031023_eval5/opics'...
+Cloning into '/image__avoe_031023_eval5/opics_common'...
+Cloning into '/image__avoe_031023_eval5/opics_inter'...
+Cloning into '/image__avoe_031023_eval5/opics_pvoe'...
+Submodule path 'opics': checked out '6fc3e533527f48662e08ae446488682757cc29d3'
+fatal: No url found for submodule path 'opics/MCS' in .gitmodules
+Submodule path 'opics_common': checked out 'd69b366a5c315b900c79875b95ffa040de6984e0'
+Submodule path 'opics_inter': checked out '0c2d91e4e4104be6ea4edadcfeb65ae04e967b35'
+Submodule path 'opics_pvoe': checked out '3a3a10ec97a97e9b428848c8ca99b2d214fb05eb'
+Failed to recurse into submodule path 'opics'
+FATAL:   While performing build: while running engine: exit status 1
