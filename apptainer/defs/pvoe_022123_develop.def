@@ -1,0 +1,64 @@
+Bootstrap: localimage
+From : /home/jedirv/outer_optics_v6i/apptainer/sifs/ubuntu_python.sif
+
+
+%environment
+    export OPICS_HOME=$HOME/test__pvoe_022123_develop
+    export PYTHONPATH=$OPICS_HOME:$OPICS_HOME/opics_common
+    export PATH=/miniconda3/bin:$PATH
+    export OPTICS_DATASTORE=ec2b
+
+
+%post
+    ############################################################################
+    # clone the optics repo early in case of permissions challenge
+    ############################################################################
+    cd /
+    git clone --recurse-submodules https://github.com/MCS-OSU/optics.git image__pvoe_022123_develop
+    ############################################################################
+    # put the correct branches into play
+    ############################################################################
+    cd image__pvoe_022123_develop
+    git checkout refactor_opics_common
+    git submodule update --init --recursive
+    cd /image__pvoe_022123_develop/opics_pvoe
+    git checkout develop
+
+
+    ############################################################################
+    # install python dependencies
+    ############################################################################
+    export OPICS_HOME=/image__pvoe_022123_develop
+    echo "==============  python dependencies  ==================="
+    cd /image__pvoe_022123_develop/opics_pvoe
+    cd $OPICS_HOME/opics_pvoe
+    ./install.sh
+
+
+    ############################################################################
+    # position models
+    ############################################################################
+    echo "==============  loading models ==================="
+    ./download_weights.sh
+
+
+%runscript
+    echo "...checking if image__pvoe_022123_develop needs to be wiped..."
+    if [ -d "$OPICS_HOME" ]; then
+        echo "...deleting prior copy..."
+        rm -rf $OPICS_HOME
+        echo "...done with delete..."
+    fi
+    echo "...copying image /image__pvoe_022123_develop to runnable directory $OPICS_HOME"
+    cp -r /image__pvoe_022123_develop $OPICS_HOME
+    echo "...positioning key file for ec2b ssh commands"
+    cd $OPICS_HOME/scripts/ec2
+    wget --no-check-certificate "https://docs.google.com/uc?export=download&id=1BGff0DlqdUGEHtkCSK2FPjVcw7m5XpnY" -O shared-with-opics.pem
+    chmod 600 shared-with-opics.pem
+    echo "...running optics test_runner for pvoe_022123_develop.cfg:"
+    cat $OPICS_HOME/specs/pvoe_022123_develop.cfg
+    cd $OPICS_HOME
+    echo ""
+    echo ""
+    echo ""
+    python3 optics.py container_run specs/pvoe_022123_develop.cfg
