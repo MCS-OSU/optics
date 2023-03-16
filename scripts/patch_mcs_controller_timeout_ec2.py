@@ -1,23 +1,41 @@
 
-import os
+import os, sys
 
+from env.mcs_controller_init import McsControllerInitPvoe
+from env.mcs_controller_init import McsControllerInitAvoe
+from env.mcs_controller_init import McsControllerInitInter
 
+def usage():
+    print('usage:  python patch_controller_timeout.py pvoe|avoe|inter num_seconds')
 if __name__ == '__main__':
-    # where the file is on the ec2 machines
-    mcs_init_path = '/anaconda3/envs/env_opics_pvoe/lib/python3.7/site-packages/machine_common_sense/__init__.py'
-    f = open(mcs_init_path,'r')
-    lines = f.readlines()
-    f.close()
-    mcs_init_tmp_path = '/anaconda3/envs/env_opics_pvoe/lib/python3.7/site-packages/machine_common_sense/tmp__init__.py'
-    f = open(mcs_init_tmp_path,'w')
-    for line in lines:
-        if line.startswith('TIME_LIMIT_SECONDS'):
-            f.write('TIME_LIMIT_SECONDS = 3600\n')
-        else:
-            f.write(line)
-    f.close()
+   
+    if len(sys.argv) < 3:
+        usage()
+        sys.exit()
+        
+    proj = sys.argv[1]
+    if not proj in ['avoe','pvoe','inter']:
+        print('project must be inter, pvoe, or avoe')
+        usage()
+        sys.exit()
+        
+    num_seconds = sys.argv[2]
+    try:
+        int_seconds = int(num_seconds)
+    except Exception as err:
+        print(err)
+        print(f'...given num_seconds arg is not an int: {num_seconds}')
+    
+    if proj == 'avoe':
+        mcs_init = McsControllerInitAvoe()
+        mcs_init.patch_timeout(num_seconds)
+    elif proj == 'inter':
+        mcs_init = McsControllerInitInter()
+        mcs_init.patch_timeout(num_seconds)
+    elif proj == 'pvoe':
+        mcs_init = McsControllerInitPvoe()
+        mcs_init.patch_timeout(num_seconds)
+        
 
-    os.system(f'rm {mcs_init_path}')
-    os.system(f'mv {mcs_init_tmp_path} {mcs_init_path}')
-    print('timeout setting now is: ')
-    os.system(f'cat {mcs_init_path} | grep TIME_LIMIT_SECONDS')
+        
+    
