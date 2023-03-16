@@ -56,15 +56,16 @@ if __name__ == '__main__':
     
     print(f'scene path given : {scene_path}')
     #log_dir = args.log_dir
-    
+    scene_name = os.path.basename(scene_path).split('.')[0]
     json_scene_category = get_scene_type_from_scene_file(scene_path)
     proj = get_proj_for_json_scene_category(json_scene_category)
+    os.makedirs('logs', exist_ok=True)
 
     containers_dir = '/home/ubuntu/containers'
     container_fname = container_for_project[proj]
     container_path = os.path.join(containers_dir, container_fname)
     print(f'container_path is {container_path}')
-    cmd = f'apptainer run --nv {container_path} run_opics_scene {scene_path}'
+    cmd = f'apptainer run --nv {container_path} run_opics_scene {scene_path} 2>&1 | tee logs/{scene_name}_stdout.log'
     try:
         os.system(cmd)
     except Exception as err:
