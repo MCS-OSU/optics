@@ -1,0 +1,80 @@
+Bootstrap: localimage
+From : /home/jedirv/outer_optics_v6i/apptainer/sifs/ubuntu_python.sif
+
+
+%environment
+    export OPICS_HOME=$HOME/test__inter_new_types_test
+    export PYTHONPATH=$OPICS_HOME:$OPICS_HOME/opics_common
+    export PATH=/miniconda3/bin:$PATH
+    export OPTICS_DATASTORE=ec2b
+
+
+%post
+    ############################################################################
+    # clone the optics repo early in case of permissions challenge
+    ############################################################################
+    cd /
+    git clone --recurse-submodules https://github.com/MCS-OSU/optics.git image__inter_new_types_test
+    ############################################################################
+    # put the correct branches into play
+    ############################################################################
+    cd image__inter_new_types_test
+    git checkout main
+    git submodule update --init --recursive
+    cd /image__inter_new_types_test/opics_inter
+    git checkout develop
+    cd /image__inter_new_types_test/opics_common
+    git checkout main
+
+
+    ############################################################################
+    # install python dependencies
+    ############################################################################
+    export OPICS_HOME=/image__inter_new_types_test
+    echo "==============  python dependencies  ==================="
+    cd /image__inter_new_types_test/opics_inter
+    cd $OPICS_HOME/opics_inter
+    ./all.sh
+
+
+    ############################################################################
+    # position models
+    ############################################################################
+    echo "==============  loading models ==================="
+
+
+    ############################################################################
+    #                   --- numpy version hack ---
+    # Reduce numpy version to solve error when 1.24.1 is in place:
+    # AttributeError: module 'numpy' has no attribute 'float'
+    ############################################################################
+    python3 -m pip uninstall -y numpy
+    python3 -m pip install numpy==1.23.5
+
+
+%runscript
+    echo "...checking if image__inter_new_types_test needs to be wiped..."
+    if [ -d "$OPICS_HOME" ]; then
+        echo "...deleting prior copy..."
+        rm -rf $OPICS_HOME
+        echo "...done with delete..."
+    fi
+    echo "...copying image /image__inter_new_types_test to runnable directory $OPICS_HOME"
+    cp -r /image__inter_new_types_test $OPICS_HOME
+    echo "...running  . /miniconda3/etc/profile.d/conda.sh"
+    . /miniconda3/etc/profile.d/conda.sh
+    echo "...conda activate env_opics_inter"
+    conda activate env_opics_inter
+    echo "...conda activate complete"
+    pip list
+    echo "...positioning key file for ec2b ssh commands"
+    cd $OPICS_HOME/scripts/ec2
+    wget --no-check-certificate "https://docs.google.com/uc?export=download&id=1BGff0DlqdUGEHtkCSK2FPjVcw7m5XpnY" -O shared-with-opics.pem
+    chmod 600 shared-with-opics.pem
+    echo "...running optics test_runner for inter_new_types_test.cfg:"
+    cat $OPICS_HOME/specs/inter_new_types_test.cfg
+    cd $OPICS_HOME
+    echo ""
+    echo ""
+    echo ""
+    python3 optics.py container_run specs/inter_new_types_test.cfg
