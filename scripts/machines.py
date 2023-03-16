@@ -1,6 +1,6 @@
 import os, sys
 import time
-from core.constants import EC2A_URL, EC2B_URL
+from core.constants import EC2A_URL, EC2B_URL, EC2C_URL
 
 class EC2():
     def __init__(self, name, url, root_dir):
@@ -158,6 +158,11 @@ class EC2():
         print('')
         print(f'{self.name} disk space:')
         os.system(f'ssh -i {self.pem_path} -l ubuntu {self.url} "df -h | grep xvda1"')
+
+
+class EC2C(EC2):
+    def __init__(self):
+        EC2.__init__(self, 'ec2c', EC2C_URL,  '/home/ubuntu/eval6')
 
 class EC2B(EC2):
     def __init__(self):
