@@ -3,16 +3,16 @@ from core.optics_session import OpticsSession
 import core.utils as utils
 
 class OpticsSessions():
-    def __init__(self, systest_dirs):
+    def __init__(self, systest_dirs, scene_state_histories):
         self.systest_dirs = systest_dirs
         self.sessions_dir = systest_dirs.sessions_dir
-        self.sessions = self.load_sessions()
-
-    def load_sessions(self):
+        self.scene_state_histories = scene_state_histories
+        self.sessions = self.load_sessions(self.scene_state_histories)
+        
+    def load_sessions(self, scene_state_histories):
         sessions = []
         session_files = os.listdir(self.systest_dirs.sessions_dir)
         
-        print(utils.header(f' sessions: {len(session_files)}'))
         for session_file in session_files:
             try:
                 session_path = os.path.join(self.systest_dirs.sessions_dir, session_file)
@@ -20,7 +20,7 @@ class OpticsSessions():
                 lines = f.readlines()
                 f.close()
                 #print(f'session path {session_path}')
-                session = OpticsSession(lines)
+                session = OpticsSession(lines,self.scene_state_histories)
                 if session.healthy:
                     sessions.append(session)
                 else:
@@ -38,8 +38,8 @@ class OpticsSessions():
         print("idle_time".ljust(15) + "machine_id".ljust(50) + "scene_count".ljust(15) + "duration")
         print("------------------------------------------------------------------------------------------------------")
 
-    def print_machine_names(self):
-        isinstance
+    def print_session_info(self):
+        
         for session in self.sessions:
             session.idle_time = session.convert_to_time_format(session.idle_time)
             session.duration = session.convert_to_time_format(session.duration)
