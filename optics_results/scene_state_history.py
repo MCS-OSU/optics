@@ -6,23 +6,25 @@
 # 1667607587;ip-172-31-72-254;IN_PROGRESS__CONTROLLER_LAUNCHED
 # 1667607607;ip-172-31-72-254;IN_PROGRESS__CONTROLLER_UP
 # 1667607661;ip-172-31-72-254;IN_PROGRESS__SCENE_RUNNING
-from opics_common.launch.opics_run_state import FAILED_GPU_MEM, COMPLETED, IN_PROGRESS_SCENE_STARTED, NOT_ATTEMPTED
+from opics_common.launch.opics_run_state import FAILED_GPU_MEM, COMPLETED, IN_PROGRESS_SCENE_STARTED, NOT_ATTEMPTED, IN_PROGRESS
 from core.constants import TEST_HISTORY_FIRST_LINE_PREFIX
 import logging
 
 class SceneStateHistory():
     def __init__(self, scene_name, lines):
+        self.scene_name = scene_name
         self.is_well_formatted = self.is_well_formatted(lines)
         if not self.is_well_formatted:
-            return
+            # print(f'Badly formatted history for scene: {scene_name}')
+            return False
+        
         logger = logging.getLogger()
         logger.debug(f'SceneStateHistory {scene_name}')
         end_line = lines[-1]
         self.end_state = end_line.split(';')[2].strip()
-        self.scene_name = scene_name
+        
         self.scene_type = scene_name.split('_')[0]
         
-        #print(f'scene_type: {self.scene_type}')
         self.lines = lines
         header = lines[0]
         self.end_time = end_line.split(';')[0].strip()
@@ -45,24 +47,32 @@ class SceneStateHistory():
                 print(line)
 
     def is_well_formatted(self, lines):
-        # should have at least the header comment and the 'ready' line
         if len(lines) < 2:
             return False
         # first line should be header
-        if not TEST_HISTORY_FIRST_LINE_PREFIX in lines[0]:
-            return False
+        # if not TEST_HISTORY_FIRST_LINE_PREFIX in lines[0]:
+        #     print("Prefix Missing")
+        #     return False
         #second line should be 'ready' state
-        if not NOT_ATTEMPTED in lines[1]:
-            return False
+        # if not NOT_ATTEMPTED in lines[1]:
+        #     print("Ready line Missing")
+        #     return False
+        # print("is_well_formatted passed")
         return True
         
     def get_most_recent_scene_started_time(self):
+        timestamp = None
         for line in reversed(self.lines):
-            if IN_PROGRESS_SCENE_STARTED in line:
+            if IN_PROGRESS in line:
+                timestamp = line.split(';')[0].strip()
+            elif IN_PROGRESS_SCENE_STARTED in line:
                 return line.split(';')[0].strip()
-        return None
+                
+        return timestamp
 
     def is_completed(self):
+        if not self.is_well_formatted:
+            return False 
         return self.end_state == 'COMPLETED'
 
     def get_duration_since_last_retry(self):

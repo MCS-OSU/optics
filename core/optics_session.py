@@ -1,5 +1,6 @@
 from core.constants import JOB_REQUEST, JOB_ASSIGN, SESSION_KILLED
 import time
+
 ## trun_session;v5_final2;ip-172-31-72-254;1667607584
 #1667607584;ip-172-31-72-254;TRUN_JOB_REQUEST;v5_final2
 #1667607586;ip-172-31-72-254;TMAN_JOB_ASSIGN;/home/ubuntu/eval6_systest/scenes_source_all/full/pvoe/coll/coll_alpha_0001_01_A2_plaus.json
@@ -9,8 +10,9 @@ SESSION_STATE_LACKS_REQUEST = 'lacks_request'
 SESSION_STATE_REQUEST_UNANSWERED = 'lacks_assigment'
 
 class OpticsSession():
-    def __init__(self, lines):
+    def __init__(self, lines,scene_state_histories):
         self.lines = lines
+        self.scene_state_histories = scene_state_histories
         if len(lines) == 0:
             self.healthy = False
             self.state = SESSION_STATE_EMPTY_FILE
@@ -31,7 +33,8 @@ class OpticsSession():
                 line = lines[i]
                 if JOB_ASSIGN in line:
                     self.jobs.append(line.split(';')[3].split('/')[-1].split('.')[0])
-            self.job_count = len(self.jobs)
+                    # print(f'JOB: {self.jobs[-1]}')
+            self.job_count = self.scene_state_histories.get_completed_job_count(self.jobs)
             
             if len(lines) == 2:
                 self.end_time = self.start_time
@@ -48,11 +51,8 @@ class OpticsSession():
                 self.session_killed_message = SESSION_KILLED
     
     def __lt__(self, other):
-        return self.idle_time < other.idle_time
-        
-    def summary(self):
-        print(f'    {self.machine}  {self.job_count} scenes   {self.duration} mins  {self.idle_time} mins idle    {self.session_killed_message}')
-
+        return self.idle_time < other.idle_time   
+    
     def convert_to_time_format(self, time_in_minutes):
         
         n  = int(time_in_minutes)

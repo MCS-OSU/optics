@@ -5,7 +5,7 @@ from core.optics_dirs        import SystestDirectories
 from core.optics_spec_loader import OpticsSpec
 from core.test_register      import TestRegisterLocal, TestRegisterRemote
 from optics_results.optics_sessions import OpticsSessions
-
+from optics_results.scene_state_histories import SceneStateHistories
 
 
 def resolve_given_optics_spec_path(given_path):
@@ -25,17 +25,16 @@ class OpticsDashboard():
             systest_dirs = SystestDirectories(home_dir, optics_spec)
             self.test_register = TestRegisterRemote(systest_dirs) 
 
-        self.sessions = OpticsSessions(systest_dirs)
-
+        scene_state_histories = SceneStateHistories(systest_dirs)
+        self.sessions = OpticsSessions(systest_dirs, scene_state_histories)
+        
 
     def show_all(self):
-        # self.test_register.show_session_status()
-        self.test_register.show_runs_summary()
         self.test_register.show_gpu_mem_fail_retry_count()
         self.test_register.show_scene_timings()        
         self.sessions.sort_by_idle_time()
         self.sessions.display_info_header()
-        self.sessions.print_machine_names()
+        self.sessions.print_session_info()
     
 
 
