@@ -46,7 +46,7 @@ class OpticsTestRunner():
         self.manager_proximity  = manager_proximity
         self.controller_type    = self.optics_spec.controller
         self.run_mode           = run_mode
-        opics_home              = os.environ["OPICS_HOME"]
+        self.optics_home         = os.environ["OPTICS_HOME"]
 
         self.configure_tmp_log_dirs()
         self.configure_tmp_scene_file_dir()
@@ -60,11 +60,10 @@ class OpticsTestRunner():
        
 
     def configure_tmp_log_dirs(self):
-        opics_home               = os.environ["OPICS_HOME"]
-        if 'pvoe' == self.optics_spec.proj:
-            self.optics_scripts_dir = opics_home + '/scripts'
-        else:
-            self.optics_scripts_dir = opics_home + '/scripts/optics/scripts' # this is where this script lives
+        #if 'pvoe' == self.optics_spec.proj:
+        self.optics_scripts_dir = self.optics_home + '/scripts'
+        #else:
+        #    self.optics_scripts_dir = opics_home + '/scripts/optics/scripts' # this is where this script lives
         self.tmp_mcs_log_dir     = self.optics_scripts_dir + '/tmp_mcs_logs'
         self.tmp_stdout_log_dir  = self.optics_scripts_dir + '/tmp_stdout_logs'
         ensure_dir_exists(self.tmp_mcs_log_dir) 
@@ -100,10 +99,8 @@ class OpticsTestRunner():
             # trun will transact files with ec2b via scp
             self.test_register = TestRegisterRemote(self.systest_dirs)
         self.test_register.register_session(self.optics_spec.version)
-        opics_home = os.environ["OPICS_HOME"]
-        #self.run_dir = os.path.join(opics_home,'scripts','optics','scripts')
         # NOTE(Mazen): ec2a testing
-        self.run_dir = os.path.join(opics_home,'scripts')
+        self.run_dir = os.path.join(self.optics_home,'scripts')
         
     def acquire_scene_from_manager(self, run_mode):
         if self.test_register.is_session_killed():
@@ -137,10 +134,7 @@ class OpticsTestRunner():
 
     def get_video_dir(self, scene_name):
         # mcs controller puts video dir under the current directory
-        opics_home = os.environ['OPICS_HOME']
-        #FIXME
-        optics_dir = os.path.join(opics_home, 'scripts', 'optics')
-        video_dir  = os.path.join(optics_dir, 'scripts', scene_name)
+        video_dir  = os.path.join(self.optics_home, 'scripts', scene_name)
         optics_info(f'video dir determined as {video_dir}')
         return video_dir
 

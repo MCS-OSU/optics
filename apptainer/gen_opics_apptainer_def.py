@@ -134,11 +134,11 @@ if __name__ == '__main__':
         usage()
         sys.exit()
 
-    if not 'OPICS_HOME' in os.environ:
-        print('...Please define OPICS_HOME...')
+    if not 'OPTICS_HOME' in os.environ:
+        print('...Please define OPTICS_HOME...')
         sys.exit()
 
-    opics_home = os.environ['OPICS_HOME']
+    opics_home = os.environ['OPTICS_HOME']
     optics_spec_path   = sys.argv[1]
     if not os.path.exists(optics_spec_path):
         print(f'given spec path does not exist {optics_spec_path}')

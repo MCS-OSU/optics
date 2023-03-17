@@ -1,7 +1,7 @@
 
 import os
 import sys
-from scripts.machines import EC2A, EC2B
+from scripts.machines import EC2A, EC2B, EC2C
 
 def verify_2_args(args, cmd, arg1, arg2):
     if not len(args) == 5:
@@ -53,14 +53,17 @@ if __name__ == '__main__':
         usage()
         sys.exit()
 
-    if sys.argv[1] != 'a' and sys.argv[1] != 'b':
-        print('first arg must be a or b to represent ec2a or ec2b')
+    if sys.argv[1] != 'a' and sys.argv[1] != 'b' and sys.argv[1] != 'c':
+        print('first arg must be a, b, or c to represent ec2a, ec2b, ec2c')
         usage()
         sys.exit()
 
     ec2 = EC2B()
     if sys.argv[1] == 'a':
         ec2 = EC2A()
+    if sys.argv[1] == 'c':
+        ec2 = EC2C()
+    
 
     cmd = sys.argv[2]
     if cmd == 'put_scene':

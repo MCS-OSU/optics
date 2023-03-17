@@ -9,6 +9,16 @@ SESSION_STATE_EMPTY_FILE    = 'empty_file'
 SESSION_STATE_LACKS_REQUEST = 'lacks_request'
 SESSION_STATE_REQUEST_UNANSWERED = 'lacks_assigment'
 
+def get_alias_for_machine(machine):
+        if machine == 'ip-172-31-32-89':
+            return 'ec2a'
+        elif machine == 'ip-172-31-12-56':
+            return 'ec2b'
+        elif machine == 'ip-172-31-72-254':
+            return 'ec2c'
+        else:
+            return machine
+
 class OpticsSession():
     def __init__(self, lines,scene_state_histories):
         self.lines = lines
@@ -26,7 +36,7 @@ class OpticsSession():
             self.healthy = True
             header = lines[0]
             [_,_,machine, start_time] = header.split(';')
-            self.machine = machine
+            self.machine = get_alias_for_machine(machine)
             self.start_time = start_time
             self.jobs = []
             for i in range(1, len(lines)):
@@ -51,8 +61,13 @@ class OpticsSession():
                 self.session_killed_message = SESSION_KILLED
     
     def __lt__(self, other):
-        return self.idle_time < other.idle_time   
+        return self.idle_time < other.idle_time
+        
     
+
+    def summary(self):
+        print(f'    {self.machine}  {self.job_count} scenes   {self.duration} mins  {self.idle_time} mins idle    {self.session_killed_message}')
+
     def convert_to_time_format(self, time_in_minutes):
         
         n  = int(time_in_minutes)

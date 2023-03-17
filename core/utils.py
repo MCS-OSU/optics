@@ -64,9 +64,9 @@ def verify_key_file_present_if_needed():
     raise Exception(f'key file for accessing ec2 machine is missing from {key_path}')
 
 def get_public_key_path():
-    if not 'OPICS_HOME' in os.environ:
-        optics_fatal('OPICS_HOME not defined - please set it to the root of the opics repo pull')
-    opics_home = os.environ['OPICS_HOME']
+    if not 'OPTICS_HOME' in os.environ:
+        optics_fatal('OPTICS_HOME not defined - please set it to the root of the optics repo pull')
+    opics_home = os.environ['OPTICS_HOME']
     return opics_home + '/scripts/ec2/shared-with-opics.pem'
 
 def remote_copy_file(src, dest):

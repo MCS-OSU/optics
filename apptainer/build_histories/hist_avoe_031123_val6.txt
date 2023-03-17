@@ -1,0 +1,33 @@
+2023-03-11 16:04:50  
+init val6 build 
+2023-03-11 16:04:50  avoe_031123_val6.def - regenerated
+2023-03-11 16:04:50  sifs/avoe_031123_val6.sif - build begin
+2023-03-11 16:16:40  
+added credital helper
+2023-03-11 16:16:40  avoe_031123_val6.def - regenerated
+2023-03-11 16:16:40  sifs/avoe_031123_val6.sif - build begin
+2023-03-11 16:23:12  
+dirname correct for both cases
+2023-03-11 16:23:12  avoe_031123_val6.def - regenerated
+2023-03-11 16:23:12  sifs/avoe_031123_val6.sif - build begin
+2023-03-11 16:29:54  
+had to set OPICS_HOME for container build time
+2023-03-11 16:29:54  avoe_031123_val6.def - regenerated
+2023-03-11 16:29:54  sifs/avoe_031123_val6.sif - build begin
+2023-03-11 17:04:05  
+troubleshooting permissions problem 
+2023-03-11 17:04:05  avoe_031123_val6.def - regenerated
+2023-03-11 17:04:05  sifs/avoe_031123_val6.sif - build begin
+2023-03-11 17:06:57  
+force permissions in spec
+2023-03-11 17:06:57  avoe_031123_val6.def - regenerated
+2023-03-11 17:06:57  sifs/avoe_031123_val6.sif - build begin
+2023-03-11 17:07:22  
+sdf
+2023-03-11 17:07:22  avoe_031123_val6.def - regenerated
+2023-03-11 17:07:22  sifs/avoe_031123_val6.sif - build begin
+2023-03-12 11:46:37  
+first build
+2023-03-12 11:46:37  avoe_031123_val6.def - regenerated
+2023-03-12 11:46:37  sifs/avoe_031123_val6.sif - build begin
+2023-03-12 11:55:54  sifs/avoe_031123_val6.sif - build complete

@@ -11,17 +11,22 @@ class RunnerSessions():
         result = []
         files = os.listdir(self.sessions_dir)
         for file in files:
-            path = os.path.join(self.sessions_dir, file)
-            optics_debug(f'checking session...{path}')
-            #print(f'opening session {path}')
-            f = open(path, 'r')
-            lines = f.readlines()
-            f.close()
-            last_line = lines[-1]
-            optics_debug(f'last line : {last_line}')
-            if JOB_REQUEST in last_line:
-                optics_debug('job request found - add this session to list')
-                result.append(path)
-            else:
-                optics_debug('no job_request in last line - skip')
+            try:
+                path = os.path.join(self.sessions_dir, file)
+                optics_debug(f'checking session...{path}')
+                #print(f'opening session {path}')
+                f = open(path, 'r')
+                lines = f.readlines()
+                f.close()
+                last_line = lines[-1]
+                optics_debug(f'last line : {last_line}')
+                if JOB_REQUEST in last_line:
+                    optics_debug('job request found - add this session to list')
+                    result.append(path)
+                else:
+                    optics_debug('no job_request in last line - skip')
+            except Exception as e:
+                optics_info(f'WARNING !! Session file {file} malformed exception {e}')
+                optics_info(f'... (so it cannot run scenes)')
+                pass
         return result

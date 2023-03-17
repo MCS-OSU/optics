@@ -7,3 +7,6 @@
 [submodule "opics_inter"]
 	path = opics_inter
 	url = https://github.com/MCS-OSU/opics-inter.git
+[submodule "opics_avoe"]
+	path = opics
+	url = https://github.com/MCS-OSU/opics.git

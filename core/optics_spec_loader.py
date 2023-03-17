@@ -150,9 +150,9 @@ class OpticsSpec():
     def load_mcs_config_path(self, save_videos):
         if save_videos:
             optics_info('optics run configured to save videos')
-            return os.path.join(os.environ['OPICS_HOME'],'cfg','mcs_config_video.ini')
+            return os.path.join(os.environ['OPTICS_HOME'],'cfg','mcs_config_video.ini')
         optics_info('optics run configured to NOT save videos')
-        return os.path.join(os.environ['OPICS_HOME'],'cfg','mcs_config.ini')
+        return os.path.join(os.environ['OPTICS_HOME'],'cfg','mcs_config.ini')
 
 
     def load_save_videos_setting(self, lines):

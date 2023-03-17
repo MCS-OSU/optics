@@ -16,9 +16,9 @@ class OpticsScores:
         self.systest_dirs = SystestDirectories(str(Path.home()), self.optics_spec)
         self.proj_log_dir = self.systest_dirs.result_logs_dir
 
-        if 'OPICS_HOME' not in os.environ:            
+        if 'OPTICS_HOME' not in os.environ:            
             print('')
-            print("      ERROR - OPICS_HOME not defined.  Please 'export OPICS_HOME=<parent_of_opics_dir>'")
+            print("      ERROR - OPTICS_HOME not defined.  Please 'export OPTICS_HOME=<parent_of_opics_dir>'")
             print('')
             sys.exit()
 
@@ -28,10 +28,10 @@ class OpticsScores:
             type_dir = os.path.join(self.proj_log_dir, scene_type)
             if os.path.exists(type_dir):
                 files = os.listdir(type_dir)
-                print(type_dir)
+                #print(type_dir)
                 for file in files:
                     filepath = os.path.join(type_dir, file)
-                    print(f'log file {filepath}')
+                    #print(f'log file {filepath}')
                     if os.path.isfile(filepath):
                         # print(f'file:  {filepath}')
                         self.opics_logs.load_file(filepath, proj, scene_type)
@@ -78,6 +78,7 @@ class OpticsScores:
         else:
             # inter
             self.inter_stats.results_summary()
+            self.inter_stats.results_scene_classifier()
             self.inter_stats.results_by_scene_type()
             self.inter_stats.results_by_scene_type_and_cube_id()
             print('')
