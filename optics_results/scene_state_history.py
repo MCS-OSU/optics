@@ -16,7 +16,7 @@ class SceneStateHistory():
         self.is_well_formatted = self.is_well_formatted(lines)
         if not self.is_well_formatted:
             # print(f'Badly formatted history for scene: {scene_name}')
-            return False
+            return None
         
         logger = logging.getLogger()
         logger.debug(f'SceneStateHistory {scene_name}')

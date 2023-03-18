@@ -37,7 +37,8 @@ class SceneStateHistories:
                 scene_name = scene_state_filename.split('.')[0].replace('_state','')
                 history = SceneStateHistory(scene_name,lines)
                 # print(scene_name)
-                histories[scene_name] = history
+                if not history == None:
+                    histories[scene_name] = history
         # print(f'HISTORIES: {histories}')   
             # f = open(scene_state_path, 'r')
             # lines = f.readlines()
