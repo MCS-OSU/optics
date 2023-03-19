@@ -41,15 +41,27 @@ def get_dirname_for_project(proj):
 
 def get_section_opics_project_code(optics_branch, proj, project_branch,  pull_time_root_name):
     s =  '    ############################################################################\n'
-    s += '    # clone the optics repo early in case of permissions challenge\n'
+    s += '    # add private key for github auth\n'
     s += '    ############################################################################\n'
+    s += '    eval "$(ssh-agent -s)"\n'
+    s += '    mkdir /root/.ssh\n'
+    s += '    cp /tmp/config /root/.ssh\n'
+    s += '    cp /tmp/id_ed25529_031623  /root/.ssh\n'
+    s += '    ssh-add /root/.ssh/id_ed25529_031623\n'
     s += '    cd /\n'
-    s += f'    git clone --recurse-submodules https://github.com/MCS-OSU/optics.git {pull_time_root_name}\n'
+    s += f'   git clone git@github.com:MCS-OSU/optics.git {pull_time_root_name}\n'
     s += '    ############################################################################\n'
     s += '    # put the correct branches into play\n'
     s += '    ############################################################################\n'
     s += f'    cd {pull_time_root_name}\n'
     s += f'    git checkout {optics_branch}\n'
+    s += '    ############################################################################\n'
+    s += '    # copy the ssh version of .gitmodules into place to bypass authentication\n'
+    s += '    ############################################################################\n'
+    s += f'    cp ssh_urls_for_git_modules.txt .gitmodules\n'
+    s += '    ############################################################################\n'
+    s += '    # credential helper for good measure - may be unnecessary with ssh in play\n'
+    s += '    ############################################################################\n'
     s += f'    git config --global user.name jedirv\n'
     s += f'    git config --global credential.helper store\n'
     s += f'    git submodule update --init --recursive\n'
@@ -119,8 +131,9 @@ def get_section_controller_timeout_patch(proj):
     s += '    #                   --- mcs controller timeout patch ---\n'
     s += '    # changing from 3 mins to 1 hour:\n'
     s += '    ############################################################################\n'
-    s += '    cd $OPTICS_HOME/apptainer\n'
-    s += '    python3 patch_mcs_controller_timeout_container.py\n'
+    s += '    export PYTHONPATH=$OPTICS_HOME\n'
+    s += '    cd $OPTICS_HOME/scripts\n'
+    s += f'    python3 patch_mcs_controller_timeout.py {proj} 60\n'
     s += '\n'
     s += '\n'
     return s
@@ -253,7 +266,7 @@ if __name__ == '__main__':
     s += get_section_opics_dependencies(proj, pull_time_root_name, lib_config_steps)
     s += get_section_models(model_config_steps)
     s += get_section_numpy_hack(proj)
-    #s += get_section_controller_timeout_patch(proj)
+    s += get_section_controller_timeout_patch(proj)
     s += '%runscript\n'
     s += get_section_run_script(spec_name)
 
