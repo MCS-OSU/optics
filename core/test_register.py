@@ -315,18 +315,24 @@ class TestRegisterLocal():
             count += len(os.listdir(os.path.join(self.systest_dirs.result_logs_dir, scene_type)))
         return count
 
-    def clean_systest_data(self):
+    def clean_systest_data(self,scene_type_choice):
+        if scene_type_choice != 'all':
+            scene_type_choice =   "".join(["/",scene_type_choice])
+        else: 
+            scene_type_choice = ''
         print(f'cleaning systest data...')
-        print('    forgetting sessions')
-        os.system(f'rm -rf {self.systest_dirs.sessions_dir}/*')
-        print('    forgetting scene states')
-        os.system(f'rm -rf {self.systest_dirs.scene_state_dir}/*')
-        print('    forgetting mcs logs')
-        os.system(f'rm -rf {self.systest_dirs.result_logs_dir}/*')
-        print('    forgetting stdout logs')
-        os.system(f'rm -rf {self.systest_dirs.stdout_logs_dir}/*')
-        print('    forgetting videos')
-        os.system(f'rm -rf {self.systest_dirs.videos_dir}/*')
+        
+        if scene_type_choice =='all':
+            print('    forgetting sessions')
+            os.system(f'rm -rf {self.systest_dirs.sessions_dir}/*')
+        print(f'    forgetting {scene_type_choice} scene states')
+        os.system(f'rm -rf {self.systest_dirs.scene_state_dir}{scene_type_choice}/*')
+        print(f'    forgetting {scene_type_choice} mcs logs')
+        os.system(f'rm -rf {self.systest_dirs.result_logs_dir}{scene_type_choice}/*')
+        print(f'    forgetting {scene_type_choice} stdout logs')
+        os.system(f'rm -rf {self.systest_dirs.stdout_logs_dir}{scene_type_choice}/*')
+        print(f'    forgetting {scene_type_choice} videos')
+        os.system(f'rm -rf {self.systest_dirs.videos_dir}/{scene_type_choice}/*')
 
 class TestRegisterRemote():
     def __init__(self, systest_dirs):
