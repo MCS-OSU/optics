@@ -65,7 +65,7 @@ if __name__ == '__main__':
     container_fname = container_for_project[proj]
     container_path = os.path.join(containers_dir, container_fname)
     print(f'container_path is {container_path}')
-    cmd = f'apptainer run --nv {container_path} run_opics_scene {scene_path} 2>&1 | tee logs/{scene_name}_stdout.log'
+    cmd = f'apptainer run --nv {container_path} run_opics_scene {scene_path} 2>&1 | tee -a logs/{scene_name}_stdout.log'
     try:
         os.system(cmd)
     except Exception as err:
