@@ -209,6 +209,8 @@ class OpticsTestRunner():
             except Exception as err:
                 optics_error(f'exception in OpticsTestRunner.run() + {err}')
                 optics_error(f'failed at step {next_todo}')
+                if next_todo == 'acquire_scene_from_manager':
+                    sys.exit()
                 traceback.format_exc()
                 
 
