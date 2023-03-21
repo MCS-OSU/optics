@@ -171,6 +171,7 @@ if __name__ == '__main__':
     elif cmd =='scores':
         optics_scores = OpticsScores(proj,optics_spec)
         optics_scores.show_scores()
+        optics_scores.show_exceptions()
         sys.exit()
 
 
