@@ -1,7 +1,7 @@
 import os, sys
 
 def publish_usage():
-    print('usage:  python publish_container a|b|c <optics_spec_path>')
+    print('usage:  python publish_container a|b|c|d <optics_spec_path>')
 
 if __name__ == '__main__':
     if not 'OPTICS_HOME' in os.environ:
@@ -13,8 +13,8 @@ if __name__ == '__main__':
         publish_usage()
         sys.exit()
     machine = sys.argv[1]
-    if not machine in ['a','b','c']:
-        print('machine name should be a for ec2a, b for ec2b , or c for ec2c')
+    if not machine in ['a','b','c','d']:
+        print('machine name should be a for ec2a, b for ec2b,  c for ec2c,  or d for ec2d')
         publish_usage()
         sys.exit()
 

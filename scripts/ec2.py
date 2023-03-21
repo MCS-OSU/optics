@@ -1,7 +1,7 @@
 
 import os
 import sys
-from scripts.machines import EC2A, EC2B, EC2C
+from scripts.machines import EC2A, EC2B, EC2C, EC2D
 
 def verify_2_args(args, cmd, arg1, arg2):
     if not len(args) == 5:
@@ -38,7 +38,7 @@ def get_legal_limit_for_count(limit_string, count):
     return range_limit
 
 def usage():
-    print('usage:  python ec2.py a|b <cmd> <arg1> <arg2>')
+    print('usage:  python ec2.py a|b|c|d <cmd> <arg1> <arg2>')
     print('                          put_scene <src_path> <dest_dir>')
     print('                          put_scenes <src_path> <dest_dir>')
     print('                          gen_videos <src_dir> all|1|2|...')
@@ -53,8 +53,8 @@ if __name__ == '__main__':
         usage()
         sys.exit()
 
-    if sys.argv[1] != 'a' and sys.argv[1] != 'b' and sys.argv[1] != 'c':
-        print('first arg must be a, b, or c to represent ec2a, ec2b, ec2c')
+    if sys.argv[1] != 'a' and sys.argv[1] != 'b' and sys.argv[1] != 'c' and sys.argv[1] != 'd':
+        print('first arg must be a, b, c, or d to represent ec2a, ec2b, ec2c, ec2d (the p3 machine) ')
         usage()
         sys.exit()
 
@@ -63,6 +63,9 @@ if __name__ == '__main__':
         ec2 = EC2A()
     if sys.argv[1] == 'c':
         ec2 = EC2C()
+    if sys.argv[1] == 'd':
+        ec2 = EC2D()
+    
     
 
     cmd = sys.argv[2]

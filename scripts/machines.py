@@ -1,6 +1,6 @@
 import os, sys
 import time
-from core.constants import EC2A_URL, EC2B_URL, EC2C_URL
+from core.constants import EC2A_URL, EC2B_URL, EC2C_URL, EC2D_URL
 
 class EC2():
     def __init__(self, name, url, root_dir):
@@ -60,16 +60,16 @@ class EC2():
         print(f'deleting {dir} on {self.name}')
         os.system(f'ssh -i {self.pem_path} -l ubuntu {self.url} "rm -rf {dir}"')
 
-    def verify_ground_truth_file_present(self, root_dir, scene_name):
+    # def verify_ground_truth_file_present(self, root_dir, scene_name):
         
-        scene_collection_dir_path = os.path.join(root_dir, scene_name)
-        scene_collection_dir_contents = os.listdir(scene_collection_dir_path)
-        if not 'gt.txt' in scene_collection_dir_contents:
-            print(f'ERROR: {scene_collection_dir_path} does not have a gt.txt file')
-            return False
-        else:
-            print(f'{scene_collection_dir_path} gt.txt file verified')
-            return True
+    #     scene_collection_dir_path = os.path.join(root_dir, scene_name)
+    #     scene_collection_dir_contents = os.listdir(scene_collection_dir_path)
+    #     if not 'gt.txt' in scene_collection_dir_contents:
+    #         print(f'ERROR: {scene_collection_dir_path} does not have a gt.txt file')
+    #         return False
+    #     else:
+    #         print(f'{scene_collection_dir_path} gt.txt file verified')
+    #         return True
 
     def collect_oracle_data_for_pvoe_files(self, src_scene_dir_local, dest_dir_local):
         timestr = time.strftime("%m%d-%H%M%S")
@@ -123,6 +123,7 @@ class EC2():
 
 
     def get_video(self,path):
+        print('\n\n\n....WARNING - EC2.get_video will try to use ~/eval6/scripts/ec2/remote;./create_video.sh {json_fname}\n\n\n ')
         src_dirname = os.path.dirname(path)
         scene_name = os.path.basename(path).split('.')[0]
         json_fname = scene_name + '.json'
@@ -160,14 +161,19 @@ class EC2():
         os.system(f'ssh -i {self.pem_path} -l ubuntu {self.url} "df -h | grep xvda1"')
 
 
+
+class EC2D(EC2):
+    def __init__(self):
+        EC2.__init__(self, 'ec2d', EC2D_URL,  '/home/ubuntu/main_optics')
+
 class EC2C(EC2):
     def __init__(self):
-        EC2.__init__(self, 'ec2c', EC2C_URL,  '/home/ubuntu/eval6')
+        EC2.__init__(self, 'ec2c', EC2C_URL,  '/home/ubuntu/main_optics')
 
 class EC2B(EC2):
     def __init__(self):
-        EC2.__init__(self, 'ec2b', EC2B_URL,  '/home/ubuntu/eval6')
+        EC2.__init__(self, 'ec2b', EC2B_URL,  '/home/ubuntu/main_optics')
 
 class EC2A(EC2):
     def __init__(self):
-        EC2.__init__(self, 'ec2a', EC2A_URL,  '/home/ubuntu/eval6')
+        EC2.__init__(self, 'ec2a', EC2A_URL,  '/home/ubuntu/main_optics')
