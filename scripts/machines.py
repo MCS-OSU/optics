@@ -60,6 +60,20 @@ class EC2():
         print(f'deleting {dir} on {self.name}')
         os.system(f'ssh -i {self.pem_path} -l ubuntu {self.url} "rm -rf {dir}"')
 
+    def print_remote_scores(self, spec_name):
+        print(f'printing scores for {spec_name}')
+        python_path = self.get_optics_pythonpath()
+        optics_home = self.get_optics_home()
+        exports_string = f'export OPTICS_HOME={optics_home};export PYTHONPATH={python_path};export OPTICS_DATASTORE=ec2b'
+        invoke_string = f'cd {self.root_dir};python3 optics.py scores specs/{spec_name}'
+        os.system(f'ssh -i {self.pem_path} -l ubuntu {self.url} "{exports_string};{invoke_string}"')
+
+    def get_optics_pythonpath(self):
+        return f'{self.root_dir}:{self.root_dir}/opics_common'
+
+    def get_optics_home(self):
+        return self.root_dir
+
     # def verify_ground_truth_file_present(self, root_dir, scene_name):
         
     #     scene_collection_dir_path = os.path.join(root_dir, scene_name)
