@@ -76,7 +76,7 @@ def remote_copy_file(src, dest):
     remote_dir = os.path.dirname(dest)
     remote_ensure_dir_exists(remote_dir)
     public_key = get_public_key_path()
-    cmd = f'scp -iq {public_key} {src} {remote_url}:{dest}'
+    cmd = f'scp -q -i {public_key} {src} {remote_url}:{dest}'
     optics_debug(f'running command {cmd}')
     os.system(cmd)
 
@@ -85,7 +85,7 @@ def remote_get_file(remote_src, local_dest):
     remote_fname = os.path.basename(remote_src)
     optics_info(f'...fetching {remote_fname}...')
     public_key = get_public_key_path()
-    cmd = f'scp -iq {public_key} {remote_url}:{remote_src} {local_dest}'
+    cmd = f'scp -q -i {public_key} {remote_url}:{remote_src} {local_dest}'
     optics_debug(f'running command: {cmd}')
     os.system(cmd)
 
@@ -97,10 +97,10 @@ def remote_run_os_command_and_return_results(run_dir, cmd, output_path):
     cmd = f'ssh -i {public_key} {remote_url} "export PYTHONPATH=~/eval6;export OPICS_HOME=~/eval6;cd {run_dir};{cmd} > {output_path}"'
     optics_debug(f'running command: {cmd}')
     os.system(cmd)
-    cmd = f'scp -iq {public_key} {remote_url}:{run_dir}/{output_path} .'
+    cmd = f'scp -q -i {public_key} {remote_url}:{run_dir}/{output_path} .'
     optics_debug(f'running command: {cmd}')
     os.system(cmd)
-    cmd = f'ssh -iq {public_key} {remote_url} "rm {run_dir}/{output_path}"'
+    cmd = f'ssh -q -i {public_key} {remote_url} "rm {run_dir}/{output_path}"'
     optics_debug(f'running command: {cmd}')
     os.system(cmd)
     return output_path
@@ -159,7 +159,7 @@ def remote_get_last_line(path):
     # fetch the file from the remote machine
     fname = os.path.basename(path)
     public_key = get_public_key_path()
-    cmd = f'scp -iq {public_key}  {remote_url}:{path} .'
+    cmd = f'scp -q -i {public_key}  {remote_url}:{path} .'
     optics_debug(f'running command: {cmd}')
     print('.', end='', flush=True)
     os.system(cmd)
@@ -180,7 +180,7 @@ def remote_add_last_line(path, s):
     fname = os.path.basename(path)
     #...pulling remote file ...
     public_key = get_public_key_path()
-    cmd = f'scp -iq {public_key}  {remote_url}:{path} .'
+    cmd = f'scp -q -i {public_key}  {remote_url}:{path} .'
     optics_debug(f'running command: {cmd}')
     print('.', end='', flush=True)
     os.system(cmd)
@@ -190,7 +190,7 @@ def remote_add_last_line(path, s):
     f.close()
     #...pushing file back...
     public_key = get_public_key_path()
-    cmd = f'scp -iq {public_key}  {fname} {remote_url}:{path}'
+    cmd = f'scp -q -i {public_key}  {fname} {remote_url}:{path}'
     optics_debug(f'running command: {cmd}')
     print('.', end='', flush=True)
     os.system(cmd)
