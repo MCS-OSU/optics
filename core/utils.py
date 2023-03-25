@@ -70,35 +70,38 @@ def get_public_key_path():
     return opics_home + '/scripts/ec2/shared-with-opics.pem'
 
 def remote_copy_file(src, dest):
+    fname = os.path.basename(src)
+    optics_info(f'...sending {fname}...')
     remote_url = get_optics_datastore_url()
     remote_dir = os.path.dirname(dest)
     remote_ensure_dir_exists(remote_dir)
     public_key = get_public_key_path()
-    cmd = f'scp -i {public_key} {src} {remote_url}:{dest}'
+    cmd = f'scp -iq {public_key} {src} {remote_url}:{dest}'
     optics_debug(f'running command {cmd}')
     os.system(cmd)
 
 def remote_get_file(remote_src, local_dest):
     remote_url = get_optics_datastore_url()
-    optics_info(f'...fetching remote file {remote_src}')
+    remote_fname = os.path.basename(remote_src)
+    optics_info(f'...fetching {remote_fname}...')
     public_key = get_public_key_path()
-    cmd = f'scp -i {public_key} {remote_url}:{remote_src} {local_dest}'
+    cmd = f'scp -iq {public_key} {remote_url}:{remote_src} {local_dest}'
     optics_debug(f'running command: {cmd}')
     os.system(cmd)
 
 def remote_run_os_command_and_return_results(run_dir, cmd, output_path):
     remote_url = get_optics_datastore_url()
-    optics_info(f'...running remote command: {cmd}...')
-    optics_info(f'...in this run_dir {run_dir}...')
+    optics_debug(f'...running remote command: {cmd}...')
+    optics_debug(f'...in this run_dir {run_dir}...')
     public_key = get_public_key_path()
     cmd = f'ssh -i {public_key} {remote_url} "export PYTHONPATH=~/eval6;export OPICS_HOME=~/eval6;cd {run_dir};{cmd} > {output_path}"'
-    optics_debug(f'funning command: {cmd}')
+    optics_debug(f'running command: {cmd}')
     os.system(cmd)
-    cmd = f'scp -i {public_key} {remote_url}:{run_dir}/{output_path} .'
-    optics_debug(f'funning command: {cmd}')
+    cmd = f'scp -iq {public_key} {remote_url}:{run_dir}/{output_path} .'
+    optics_debug(f'running command: {cmd}')
     os.system(cmd)
-    cmd = f'ssh -i {public_key} {remote_url} "rm {run_dir}/{output_path}"'
-    optics_debug(f'funning command: {cmd}')
+    cmd = f'ssh -iq {public_key} {remote_url} "rm {run_dir}/{output_path}"'
+    optics_debug(f'running command: {cmd}')
     os.system(cmd)
     return output_path
 
@@ -156,8 +159,9 @@ def remote_get_last_line(path):
     # fetch the file from the remote machine
     fname = os.path.basename(path)
     public_key = get_public_key_path()
-    cmd = f'scp -i {public_key}  {remote_url}:{path} .'
+    cmd = f'scp -iq {public_key}  {remote_url}:{path} .'
     optics_debug(f'running command: {cmd}')
+    print('.', end='', flush=True)
     os.system(cmd)
     f = open(fname, 'r')
     lines = f.readlines()
@@ -165,7 +169,9 @@ def remote_get_last_line(path):
     result = lines[-1].rstrip()
     optics_debug(f'remote_last_line found as : {result}')
     optics_debug(f'removing file {fname}')
+    print('.', end='', flush=True)
     os.remove(fname)
+    print('.')
     return result
 
 def remote_add_last_line(path, s):
@@ -174,8 +180,9 @@ def remote_add_last_line(path, s):
     fname = os.path.basename(path)
     #...pulling remote file ...
     public_key = get_public_key_path()
-    cmd = f'scp -i {public_key}  {remote_url}:{path} .'
+    cmd = f'scp -iq {public_key}  {remote_url}:{path} .'
     optics_debug(f'running command: {cmd}')
+    print('.', end='', flush=True)
     os.system(cmd)
     #...adding line ...
     f = open(fname, 'a')
@@ -183,10 +190,12 @@ def remote_add_last_line(path, s):
     f.close()
     #...pushing file back...
     public_key = get_public_key_path()
-    cmd = f'scp -i {public_key}  {fname} {remote_url}:{path}'
+    cmd = f'scp -iq {public_key}  {fname} {remote_url}:{path}'
     optics_debug(f'running command: {cmd}')
+    print('.', end='', flush=True)
     os.system(cmd)
     optics_debug(f'removing file {fname}')
+    print('.')
     os.remove(fname)
 
 
@@ -195,14 +204,14 @@ def parse_job_assign(job_assign):
     machine = fields[1]
     command = fields[2]
     scene_path = fields[3]
-    optics_info(f'...parsed job_assign as: {machine}, {command}, {scene_path}')
+    optics_debug(f'...parsed job_assign as: {machine}, {command}, {scene_path}')
     return machine, command, scene_path
 
 def parse_job_request(job_request):
     fields = job_request.split(';')
     machine = fields[1]
     command = fields[2]
-    optics_info(f'...parsed job_request as: {machine}, {command}')
+    optics_debug(f'...parsed job_request as: {machine}, {command}')
     return machine, command
 
 def parse_run_state(s):
@@ -344,7 +353,7 @@ def get_pathnames_for_video(videos_dir, scene_type, target_dir, video_id):
     dest_fname = clean_video_fname(src_fname)
     src_path   = os.path.join(videos_dir, src_fname)
     dest_path  = os.path.join(target_dir, scene_type, dest_fname)
-    optics_info(f'video local path {src_path} ; video target path {dest_path}')
+    optics_debug(f'video local path {src_path} ; video target path {dest_path}')
     return (src_path, dest_path)
 
 
@@ -357,10 +366,11 @@ def get_level_from_config_ini(config_ini_path):
 
 
 def get_config_ini_path(cfg_dir):
-    optics_info(f'cwd: {os.getcwd()}')
-    optics_info("cfg_dir: ", cfg_dir)
+    optics_debug(f'cwd: {os.getcwd()}')
+    optics_debug("cfg_dir: ", cfg_dir)
     ini_path = os.path.join(cfg_dir, "mcs_config.ini")
     optics_info("ini_path: ", ini_path)
+    os.system(f'cat {ini_path}')
     if not os.path.exists(ini_path):
         raise FileNotFoundError("mcs_config.ini missing from cfg dir")
     return ini_path
