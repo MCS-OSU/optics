@@ -1,5 +1,6 @@
 from pathlib import Path
 import time
+from datetime import datetime
 import os
 from core.optics_dirs        import SystestDirectories
 from core.test_register      import TestRegisterLocal
@@ -45,14 +46,15 @@ class OpticsTestSequencer():
             optics_debug(f' machine: {machine} command: {command}')
             types_to_skip = self.optics_spec.types_to_skip
             if command == JOB_REQUEST:
-                optics_info(f'job request from {machine}')
+                optics_debug(f'job request from {machine}')
                 next_scene_path = self.test_register.assign_next_scene(self.scene_path_list, types_to_skip)
                 if NO_MORE_SCENES_TO_RUN == next_scene_path:
                     add_last_line(session, get_register_control_message(NO_MORE_SCENES_TO_RUN, '---'))
                     optics_info('NO MORE SCENES TO RUN...')
                 else:
                     next_scene_name = os.path.basename(next_scene_path)
-                    optics_info(f'{machine} assigned {next_scene_name}')
+                    timestamp = datetime.today().strftime("%d-%H:%M:%S")
+                    optics_info(f'{timestamp} - {next_scene_name}   assigned to   {machine}')
                     add_last_line(session, get_register_control_message(JOB_ASSIGN, next_scene_path))                    
             else:
                 optics_error(f'unknown command {command} in {session}')

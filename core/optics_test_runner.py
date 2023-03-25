@@ -69,7 +69,7 @@ class OpticsTestRunner():
         ensure_dir_exists(self.tmp_mcs_log_dir) 
         ensure_dir_exists(self.tmp_stdout_log_dir) 
         optics_debug(f'tmp log dir - mcs log root {self.tmp_mcs_log_dir}')
-        optics_debugf'tmp log dir - stdout  {self.tmp_stdout_log_dir}')
+        optics_debug(f'tmp log dir - stdout  {self.tmp_stdout_log_dir}')
         os.makedirs(self.tmp_stdout_log_dir, exist_ok=True)
 
     def configure_tmp_scene_file_dir(self):

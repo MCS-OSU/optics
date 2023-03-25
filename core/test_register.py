@@ -180,7 +180,7 @@ class TestRegisterLocal():
                 scene_name = os.path.basename(scene_path).split('.')[0]
                 if self.is_awaiting_assignment(state_path):
                     self.note_assignment(state_path)
-                    optics_debugf'{scene_name} ASSIGNED')
+                    optics_debug(f'{scene_name} ASSIGNED')
                     return scene_path
                 else:
                     optics_debug(f'{scene_name} already assigned')
