@@ -1,0 +1,52 @@
+2023-03-19 09:19:16  
+first build
+2023-03-19 09:19:16  inter_031923_5w_6new.def - regenerated
+2023-03-19 09:19:16  sifs/inter_031923_5w_6new.sif - build begin
+2023-03-19 09:29:12  sifs/inter_031923_5w_6new.sif - build complete
+2023-03-19 15:21:57  
+testing scene type override
+2023-03-19 15:21:57  inter_031923_5w_6new.def - regenerated
+2023-03-19 15:21:57  sifs/inter_031923_5w_6new.sif - build begin
+2023-03-19 15:33:20  sifs/inter_031923_5w_6new.sif - build complete
+2023-03-19 15:48:53  
+forgot fi statements in run scripts
+2023-03-19 15:48:53  inter_031923_5w_6new.def - regenerated
+2023-03-19 15:48:53  sifs/inter_031923_5w_6new.sif - deleting prior
+2023-03-19 15:48:54  sifs/inter_031923_5w_6new.sif - build begin
+2023-03-19 15:57:58  sifs/inter_031923_5w_6new.sif - build complete
+2023-03-19 16:36:44  
+better output for scene type handling; might test stdout tee again
+2023-03-19 16:36:44  inter_031923_5w_6new.def - regenerated
+2023-03-19 16:36:44  sifs/inter_031923_5w_6new.sif - deleting prior
+2023-03-19 16:36:45  sifs/inter_031923_5w_6new.sif - build begin
+2023-03-19 16:45:44  sifs/inter_031923_5w_6new.sif - build complete
+2023-03-19 17:08:37  
+type handling retry
+2023-03-19 17:08:37  inter_031923_5w_6new.def - regenerated
+2023-03-19 17:08:37  sifs/inter_031923_5w_6new.sif - deleting prior
+2023-03-19 17:08:37  sifs/inter_031923_5w_6new.sif - build begin
+2023-03-19 17:18:23  sifs/inter_031923_5w_6new.sif - build complete
+2023-03-19 18:36:04  
+made constant mactch value in run script
+2023-03-19 18:36:04  inter_031923_5w_6new.def - regenerated
+2023-03-19 18:36:04  sifs/inter_031923_5w_6new.sif - deleting prior
+2023-03-19 18:36:04  sifs/inter_031923_5w_6new.sif - build begin
+2023-03-19 18:45:19  sifs/inter_031923_5w_6new.sif - build complete
+2023-03-19 22:48:52  
+init build
+2023-03-19 22:48:52  inter_031923_5w_6new.def - regenerated
+2023-03-19 22:48:52  sifs/inter_031923_5w_6new.sif - deleting prior
+2023-03-19 22:48:53  sifs/inter_031923_5w_6new.sif - build begin
+2023-03-19 22:58:51  sifs/inter_031923_5w_6new.sif - build complete
+2023-03-19 23:41:34  
+relative path crash
+2023-03-19 23:41:35  inter_031923_5w_6new.def - regenerated
+2023-03-19 23:41:35  sifs/inter_031923_5w_6new.sif - deleting prior
+2023-03-19 23:41:35  sifs/inter_031923_5w_6new.sif - build begin
+2023-03-19 23:51:55  sifs/inter_031923_5w_6new.sif - build complete
+2023-03-20 09:57:31  
+new tag for bugfix
+2023-03-20 09:57:31  inter_031923_5w_6new.def - regenerated
+2023-03-20 09:57:31  sifs/inter_031923_5w_6new.sif - deleting prior
+2023-03-20 09:57:31  sifs/inter_031923_5w_6new.sif - build begin
+2023-03-20 10:07:52  sifs/inter_031923_5w_6new.sif - build complete
