@@ -1,0 +1,22 @@
+2023-03-19 09:14:17  
+first run
+2023-03-19 09:14:17  inter_031923_tools.def - regenerated
+2023-03-19 09:14:17  sifs/inter_031923_tools.sif - build begin
+2023-03-19 09:24:24  sifs/inter_031923_tools.sif - build complete
+2023-03-19 22:50:13  
+init build
+2023-03-19 22:50:14  inter_031923_tools.def - regenerated
+2023-03-19 22:50:14  sifs/inter_031923_tools.sif - build begin
+2023-03-19 22:59:42  sifs/inter_031923_tools.sif - build complete
+2023-03-19 23:42:50  
+relative path crash
+2023-03-19 23:42:50  inter_031923_tools.def - regenerated
+2023-03-19 23:42:50  sifs/inter_031923_tools.sif - deleting prior
+2023-03-19 23:42:50  sifs/inter_031923_tools.sif - build begin
+2023-03-19 23:52:32  sifs/inter_031923_tools.sif - build complete
+2023-03-20 09:59:14  
+adjust tag to bug fix tag
+2023-03-20 09:59:14  inter_031923_tools.def - regenerated
+2023-03-20 09:59:14  sifs/inter_031923_tools.sif - deleting prior
+2023-03-20 09:59:14  sifs/inter_031923_tools.sif - build begin
+2023-03-20 10:08:43  sifs/inter_031923_tools.sif - build complete

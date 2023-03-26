@@ -1,0 +1,11 @@
+2023-03-23 14:10:35  
+init build
+2023-03-23 14:10:35  inter_031923_ramps.def - regenerated
+2023-03-23 14:10:35  sifs/inter_031923_ramps.sif - build begin
+2023-03-23 14:19:53  sifs/inter_031923_ramps.sif - build complete
+2023-03-23 14:46:56  
+had to add typeguard fix and incr the version tag
+2023-03-23 14:46:56  inter_031923_ramps.def - regenerated
+2023-03-23 14:46:56  sifs/inter_031923_ramps.sif - deleting prior
+2023-03-23 14:46:56  sifs/inter_031923_ramps.sif - build begin
+2023-03-23 14:56:34  sifs/inter_031923_ramps.sif - build complete

@@ -1,0 +1,15 @@
+2023-03-24 15:31:52  
+first
+2023-03-24 15:31:52  avoe_test_avoe.def - regenerated
+2023-03-24 15:31:52  sifs/avoe_test_avoe.sif - build begin
+2023-03-24 15:39:29  
+use normal setup script
+2023-03-24 15:39:29  avoe_test_avoe.def - regenerated
+2023-03-24 15:39:29  sifs/avoe_test_avoe.sif - build begin
+2023-03-24 15:48:12  sifs/avoe_test_avoe.sif - build complete
+2023-03-24 16:53:35  
+typeguard fix
+2023-03-24 16:53:35  avoe_test_avoe.def - regenerated
+2023-03-24 16:53:35  sifs/avoe_test_avoe.sif - deleting prior
+2023-03-24 16:53:36  sifs/avoe_test_avoe.sif - build begin
+2023-03-24 17:01:34  sifs/avoe_test_avoe.sif - build complete
