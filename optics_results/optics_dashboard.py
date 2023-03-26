@@ -36,8 +36,11 @@ class OpticsDashboard():
         self.sessions.display_info_header()
         self.sessions.print_session_info()
     
-
-
+    def show_report_part_2(self):
+        self.test_register.show_scene_timings()        
+        self.sessions.sort_by_idle_time()
+        self.sessions.display_info_header()
+        self.sessions.print_session_info()
 # if __name__ == '__main__':
 #     prox = sys.argv[1]
 #     spec = sys.argv[2]
