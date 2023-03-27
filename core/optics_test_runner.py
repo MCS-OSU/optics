@@ -163,7 +163,7 @@ class OpticsTestRunner():
             if os.path.exists(video_dir):
                 optics_info(f'passing videos to manager...')
                 self.pass_video_files_to_manager(video_dir)
-                optics_debugf(f'removing video dir...')
+                optics_debug(f'removing video dir...')
                 os.system(f"rm -rf {video_dir}")
 
     def run(self):
