@@ -125,7 +125,10 @@ if __name__ == '__main__':
         verify_arg_is_file(local_path)
         ec2.put_file(local_path, remote_dest_dir)
 
-
+    else:
+        print(f'unknown command: {cmd}')
+        usage()
+        sys.exit()
     
     
     
