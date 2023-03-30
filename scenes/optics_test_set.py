@@ -28,7 +28,7 @@ class OpticsTestSet():
             full_path_to_json_scene_file = os.path.join(root_dir, line.strip())
             scene_json = SceneJson(full_path_to_json_scene_file)
             max_room_dimension = scene_json.get_max_room_dimension()
-            if (max_room_dimension < MAX_ROOM_DIMENSION):
+            if (max_room_dimension <= MAX_ROOM_DIMENSION):
                 scene_paths.append(full_path_to_json_scene_file)
                 # if 'ramp' in full_path_to_json_scene_file:
                 #     print(f'FYI - including scene {full_path_to_json_scene_file}')

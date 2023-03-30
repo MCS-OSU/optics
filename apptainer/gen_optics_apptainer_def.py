@@ -141,6 +141,18 @@ def get_section_controller_timeout_patch(proj):
 
 
 
+def get_section_version_comparison(proj):
+    s = '    ############################################################################\n'
+    s += '    #                   --- compare versions of python dependencies ---\n'
+    s += '    ############################################################################\n'
+    s += '    export PYTHONPATH=$OPTICS_HOME\n'
+    s += '    cd $OPTICS_HOME/scripts\n'
+    s += f'   python3 compare_pip_lists.py {proj}\n'
+    s += '\n'
+    s += '\n'
+    return s
+
+
 def get_section_run_script(spec_name):
     s = f'/run_{spec_name}.sh $1 $2\n'
     return s
@@ -294,6 +306,7 @@ if __name__ == '__main__':
     s += get_section_models(model_config_steps)
     s += get_section_numpy_hack(proj)
     s += get_section_controller_timeout_patch(proj)
+    s += get_section_version_comparison(proj)
     s += '%runscript\n'
     s += get_section_run_script(spec_name)
 
