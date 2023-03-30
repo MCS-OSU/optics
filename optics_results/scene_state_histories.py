@@ -1,6 +1,9 @@
 import os
 from core.optics_session import OpticsSession
 from optics_results.scene_state_history import SceneStateHistory
+from core.constants import TEST_HISTORY_FIRST_LINE_PREFIX
+from opics_common.launch.opics_run_state import NOT_ATTEMPTED
+from core.utils import add_last_line, get_session_message
 
 class SceneStateHistories:
     def __init__(self, systest_dirs):
@@ -19,6 +22,18 @@ class SceneStateHistories:
                 count += 1
         
         return count
+
+    def create_scene_state_file(self, path, scene_name):
+        add_last_line(path, TEST_HISTORY_FIRST_LINE_PREFIX + scene_name)          
+        init_state = get_session_message(NOT_ATTEMPTED)
+        add_last_line(path, init_state)
+
+    def reset_scene(self, scene_type, scene_name):
+        scene_state_path = os.path.join(self.systest_dirs.scene_state_dir,scene_type,scene_name + '_state.txt')
+        print(f'      resetting {scene_state_path}')
+        os.system(f'rm {scene_state_path}')
+        self.create_scene_state_file(scene_state_path, scene_name)
+        
 
     def load_histories(self):
         histories = {}

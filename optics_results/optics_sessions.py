@@ -29,6 +29,24 @@ class OpticsSessions():
                 print(f'Error loading session {session_path} {err}')
         return sessions
 
+    def is_log_bad(self, bad_logs, scene_name, exception_start_string):
+        for log in bad_logs:
+            if log.scene_name == scene_name:
+                return True 
+        return False
+
+    def show_exceptions_by_session(self, optics_logs, exception_start_string):
+        bad_logs = optics_logs.get_logs_with_crash_starting_with(exception_start_string)
+        for session in self.sessions:
+            print(f'    machine {session.machine}:')
+            scenes_attempted = session.get_scenes_attempted()
+            for scene_path in scenes_attempted:
+                scene_name = os.path.basename(scene_path).split('.')[0]
+                if self.is_log_bad(bad_logs, scene_name, exception_start_string):
+                    print(f'       {scene_name}')
+
+
+
     def sort_by_idle_time(self):
         self.sessions.sort()
 
