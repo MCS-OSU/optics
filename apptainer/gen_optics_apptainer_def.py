@@ -24,6 +24,7 @@ def get_section_environment(proj, run_time_root_name):
         s += f'    export PYTHONPATH=$OPTICS_HOME:$OPTICS_HOME/opics_common\n'
     s += f'    export PATH=/miniconda3/bin:$PATH\n'
     s += f'    export OPTICS_DATASTORE=ec2b\n'
+    #s += f'    export REPLAY_HOME=$OPICS_HOME/replay_scenes\n'
     s += '\n'
     s += '\n'
     return s
