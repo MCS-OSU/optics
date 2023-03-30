@@ -3,26 +3,44 @@ From : /home/jedirv/outer_optics_v6i/apptainer/sifs/ubuntu_python.sif
 
 
 %environment
-    export OPICS_HOME=$HOME/test__pvoe_jed
-    export PYTHONPATH=$OPICS_HOME:$OPICS_HOME/opics_common
+    export OPTICS_HOME=$HOME/test__pvoe_jed
+    export OPICS_HOME=$OPTICS_HOME/opics_pvoe
+    export PYTHONPATH=$OPTICS_HOME:$OPTICS_HOME/opics_common
     export PATH=/miniconda3/bin:$PATH
     export OPTICS_DATASTORE=ec2b
 
 
 %post
+    cp /tmp/run_pvoe_jed.sh /
+    chmod 770 /run_pvoe_jed.sh
+
     ############################################################################
-    # clone the optics repo early in case of permissions challenge
+    # add private key for github auth
     ############################################################################
+    eval "$(ssh-agent -s)"
+    mkdir /root/.ssh
+    cp /tmp/config /root/.ssh
+    cp /tmp/id_ed25529_031623  /root/.ssh
+    ssh-add /root/.ssh/id_ed25529_031623
     cd /
-    git clone --recurse-submodules https://github.com/MCS-OSU/optics.git image__pvoe_jed
+   git clone git@github.com:MCS-OSU/optics.git image__pvoe_jed
     ############################################################################
     # put the correct branches into play
     ############################################################################
     cd image__pvoe_jed
-    git checkout refactor_opics_common
+    git checkout main
+    ############################################################################
+    # copy the ssh version of .gitmodules into place to bypass authentication
+    ############################################################################
+    cp ssh_urls_for_git_modules.txt .gitmodules
+    ############################################################################
+    # credential helper for good measure - may be unnecessary with ssh in play
+    ############################################################################
+    git config --global user.name jedirv
+    git config --global credential.helper store
     git submodule update --init --recursive
     cd /image__pvoe_jed/opics_pvoe
-    git checkout develop
+    git checkout v6.0.5
     cd /image__pvoe_jed/opics_common
     git checkout main
 
@@ -30,43 +48,35 @@ From : /home/jedirv/outer_optics_v6i/apptainer/sifs/ubuntu_python.sif
     ############################################################################
     # install python dependencies
     ############################################################################
-    export OPICS_HOME=/image__pvoe_jed
+    export OPTICS_HOME=/image__pvoe_jed
     echo "==============  python dependencies  ==================="
     cd /image__pvoe_jed/opics_pvoe
-    cd $OPICS_HOME/opics_pvoe
-    ./install.sh
+    cd $OPTICS_HOME/opics_pvoe
+    ./all.sh
 
 
     ############################################################################
     # position models
     ############################################################################
     echo "==============  loading models ==================="
-    ./download_weights.sh
+
+
+    ############################################################################
+    #                   --- mcs controller timeout patch ---
+    # changing from 3 mins to 1 hour:
+    ############################################################################
+    export PYTHONPATH=$OPTICS_HOME
+    cd $OPTICS_HOME/scripts
+    python3 patch_mcs_controller_timeout.py pvoe 60
+
+
+    ############################################################################
+    #                   --- compare versions of python dependencies ---
+    ############################################################################
+    export PYTHONPATH=$OPTICS_HOME
+    cd $OPTICS_HOME/scripts
+   python3 compare_pip_lists.py pvoe
 
 
 %runscript
-    echo "...checking if image__pvoe_jed needs to be wiped..."
-    if [ -d "$OPICS_HOME" ]; then
-        echo "...deleting prior copy..."
-        rm -rf $OPICS_HOME
-        echo "...done with delete..."
-    fi
-    echo "...copying image /image__pvoe_jed to runnable directory $OPICS_HOME"
-    cp -r /image__pvoe_jed $OPICS_HOME
-    echo "...running  . /miniconda3/etc/profile.d/conda.sh"
-    . /miniconda3/etc/profile.d/conda.sh
-    echo "...conda activate env_opics_pvoe"
-    conda activate env_opics_pvoe
-    echo "...conda activate complete"
-    pip list
-    echo "...positioning key file for ec2b ssh commands"
-    cd $OPICS_HOME/scripts/ec2
-    wget --no-check-certificate "https://docs.google.com/uc?export=download&id=1BGff0DlqdUGEHtkCSK2FPjVcw7m5XpnY" -O shared-with-opics.pem
-    chmod 600 shared-with-opics.pem
-    echo "...running optics test_runner for pvoe_jed.cfg:"
-    cat $OPICS_HOME/specs/pvoe_jed.cfg
-    cd $OPICS_HOME
-    echo ""
-    echo ""
-    echo ""
-    python3 optics.py container_run specs/pvoe_jed.cfg
+/run_pvoe_jed.sh $1 $2
