@@ -7,8 +7,11 @@ class RemoteMessenger():
     def __init__(self, name):
         self.name = name
         self.remote_message_dir = f'/home/ubuntu/optics_remote_control/{name}/messages'
+        self.messages_dir = f'messages_{name}'
+        os.makedirs(self.messages_dir, exist_ok=True)
 
-    def process_control_command(self, cmd, window):
+
+    def send_control_command(self, cmd, window):
         cmd = cmd.lower()
         #window[f'status_{self.name}'].update(f'{cmd} {self.name}')
         if cmd == 'stop':
@@ -38,7 +41,7 @@ class RemoteMessenger():
     def send_message(self, message_path):
         remote_copy_file_quiet(message_path, self.remote_message_dir)
 
-    def get_response_file(self, t):
+    def get_response_file_with_time_prefix(self, t):
         response_fname = f'{t}_{self.name}_response.txt'
         remote_src = os.path.join(self.remote_message_dir, response_fname)
         local_dest = os.path.join(os.getcwd(), response_fname)
@@ -46,6 +49,24 @@ class RemoteMessenger():
             if os.path.exists(response_fname):
                 return response_fname
         return None
+
+    def await_control_commands(self, window, key):
+        count = 1
+        while True:
+            window[key].update(f'waiting for control command... {str(count)}')
+            files = os.listdir(self.messages_dir)
+            if len(files) > 0:
+                for fname in files:
+                    # each file has a time prefix, we need to respond with same prefix
+                    t = fname.split('_')[0]
+                    path = os.path.join(self.messages_dir, fname)
+                    f = open(path, 'r')
+                    lines = f.readlines()
+                    for line in lines:
+                        
+            else:
+                time.sleep(2)
+                count += 1
 
     def send_message_and_wait_for_response(self, message, message_type, status_message, window):
         t = int(time.time())
@@ -55,7 +76,7 @@ class RemoteMessenger():
         count = 1
         while True:
             window[f'{message}_status_{self.name}'].update(f'{status_message} {self.name}... {str(count)}')
-            response_path = self.get_response_file(t)
+            response_path = self.get_response_file_with_time_prefix(t)
             if response_path is not None:
                 response = self.read_response(response_path)
                 self.log_message_received(response)

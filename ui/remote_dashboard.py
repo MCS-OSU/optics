@@ -26,7 +26,7 @@ def get_name_row(name, specs):
     return row
 
 def control_message(remote_messenger, cmd, window):
-    remote_messenger.process_control_command(cmd, window)
+    remote_messenger.send_control_command(cmd, window)
 
 
 
