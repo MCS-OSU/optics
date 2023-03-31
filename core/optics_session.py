@@ -16,6 +16,8 @@ def get_alias_for_machine(machine):
             return 'ec2b'
         elif machine == 'ip-172-31-72-254':
             return 'ec2c'
+        elif machine == 'ip-172-31-10-162':
+            return 'ec2d'
         else:
             return machine
 
