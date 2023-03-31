@@ -29,8 +29,7 @@ class OpticsTestSequencer():
     def start(self):
         while True:
             #print('...scanning for job requests')
-            if not self.answer_job_requests():
-                break
+            self.answer_job_requests()
             time.sleep(3)
 
  
@@ -52,7 +51,6 @@ class OpticsTestSequencer():
                 if NO_MORE_SCENES_TO_RUN == next_scene_path:
                     add_last_line(session, get_register_control_message(NO_MORE_SCENES_TO_RUN, '---'))
                     optics_info('NO MORE SCENES TO RUN...')
-                    return False
                 else:
                     next_scene_name = os.path.basename(next_scene_path)
                     timestamp = datetime.today().strftime("%d-%H:%M:%S")
