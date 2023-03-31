@@ -1,0 +1,15 @@
+2023-03-21 16:39:24  
+init build
+2023-03-21 16:39:24  inter_032123_tools.def - regenerated
+2023-03-21 16:39:24  sifs/inter_032123_tools.sif - build begin
+2023-03-21 16:49:34  sifs/inter_032123_tools.sif - build complete
+2023-03-21 19:53:27  
+Pranay added 1 fix so rebuilding from new tag
+2023-03-21 19:53:27  inter_032123_tools.def - regenerated
+2023-03-21 19:53:27  sifs/inter_032123_tools.sif - deleting prior
+2023-03-21 19:53:27  sifs/inter_032123_tools.sif - build begin
+2023-03-21 19:59:34  
+I botched the tag - had to retag
+2023-03-21 19:59:34  inter_032123_tools.def - regenerated
+2023-03-21 19:59:34  sifs/inter_032123_tools.sif - build begin
+2023-03-21 20:08:49  sifs/inter_032123_tools.sif - build complete

@@ -1,0 +1,43 @@
+2023-03-06 08:50:17  
+first pass at this one
+2023-03-06 08:50:17  inter_030623_val6.def - regenerated
+2023-03-06 08:50:17  sifs/inter_030623_val6.sif - build begin
+2023-03-06 09:02:33  sifs/inter_030623_val6.sif - build complete
+2023-03-06 11:17:08  
+doing the run_script right
+2023-03-06 11:17:08  inter_030623_val6.def - regenerated
+2023-03-06 11:17:08  sifs/inter_030623_val6.sif - deleting prior
+2023-03-06 11:17:08  sifs/inter_030623_val6.sif - build begin
+2023-03-06 11:21:10  
+have to pass cwd() 
+2023-03-06 11:21:10  inter_030623_val6.def - regenerated
+2023-03-06 11:21:10  sifs/inter_030623_val6.sif - build begin
+2023-03-06 11:22:20  
+call os.getcwd
+2023-03-06 11:22:20  inter_030623_val6.def - regenerated
+2023-03-06 11:22:20  sifs/inter_030623_val6.sif - build begin
+2023-03-06 11:23:20  
+typo
+2023-03-06 11:23:20  inter_030623_val6.def - regenerated
+2023-03-06 11:23:20  sifs/inter_030623_val6.sif - build begin
+2023-03-06 11:27:56  
+positioning nonense
+2023-03-06 11:27:56  inter_030623_val6.def - regenerated
+2023-03-06 11:27:56  sifs/inter_030623_val6.sif - build begin
+2023-03-06 11:40:27  sifs/inter_030623_val6.sif - build complete
+2023-03-06 13:21:03  
+chnged OPICS_HOME to OPTICS_HOME
+2023-03-06 13:21:03  inter_030623_val6.def - regenerated
+2023-03-06 13:21:03  sifs/inter_030623_val6.sif - deleting prior
+2023-03-06 13:21:03  sifs/inter_030623_val6.sif - build begin
+2023-03-06 13:34:02  sifs/inter_030623_val6.sif - build complete
+2023-03-06 13:41:19  
+instantiate OPICS_HOME to reference opics_inter
+2023-03-06 13:41:19  inter_030623_val6.def - regenerated
+2023-03-06 13:41:19  sifs/inter_030623_val6.sif - deleting prior
+2023-03-06 13:41:20  sifs/inter_030623_val6.sif - build begin
+2023-03-06 13:42:01  
+OPICS_HOME added for opics_inter
+2023-03-06 13:42:01  inter_030623_val6.def - regenerated
+2023-03-06 13:42:01  sifs/inter_030623_val6.sif - build begin
+2023-03-06 13:54:36  sifs/inter_030623_val6.sif - build complete

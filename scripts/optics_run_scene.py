@@ -1,13 +1,13 @@
 import sys, os, argparse
 import machine_common_sense as mcs
 import json
-from opics.common.launch.eval6_agent import Evaluation6_Agent
+from opics_common.launch.eval6_agent import Evaluation6_Agent
 from core.constants                  import EC2_MACHINE_HOME
-from core.optics_run_state           import OpticsRunState
+from opics_common.launch.opics_run_state           import OpicsRunState
 from core.utils                      import get_level_from_config_ini
 from core.optics_dirs                import SystestDirectories
 from core.test_register              import TestRegisterLocal, TestRegisterRemote
-from core.constants                  import MCS_CONTROLLER, REPLAY_CONTROLLER
+from opics_common.launch.constants   import MCS_CONTROLLER, REPLAY_CONTROLLER
 from core.optics_spec_loader         import OpticsSpec
 from rich                            import traceback, pretty
 from pathlib                         import Path
@@ -68,9 +68,9 @@ def usage():
 
 if __name__ == "__main__":
 
-    if not 'OPICS_HOME' in os.environ:
+    if not 'OPTICS_HOME' in os.environ:
         print('')
-        print("      ERROR - OPICS_HOME not defined.  Please 'export OPICS_HOME=<parent_of_opics_dir>'")
+        print("      ERROR - OPTICS_HOME not defined.  Please 'export OPTICS_HOME=<parent_of_optics_dir>'")
         print('')
         sys.exit()
     
@@ -81,10 +81,6 @@ if __name__ == "__main__":
     optics_spec = OpticsSpec(optics_spec_path)
 
     project            = optics_spec.proj
-    if project == 'pvoe':
-        # the tensorflow and torch imports below must be in there and in this order to prevent core dump in pvoe runs
-        import tensorflow as tf 
-        import torch
     version            = optics_spec.version
     controller_type    = optics_spec.controller
     spec_name          = optics_spec.name
@@ -132,10 +128,10 @@ if __name__ == "__main__":
     print("==========================================================================")
     print(f"       running scene {scene_path}")
     print("==========================================================================")
-    scene_type = get_scene_type_from_scene_file(scene_path)
+    json_scene_type = get_scene_type_from_scene_file(scene_path)
     start_time = datetime.datetime.now()
 
-    run_state = OpticsRunState(scene_path)
+    run_state = OpicsRunState(scene_path)
     tr = create_systest_test_register(optics_spec, manager_proximity)
     # share the session path passed in from trun.py
     tr.set_session_path(session_path)
@@ -145,7 +141,7 @@ if __name__ == "__main__":
     run_state.set_test_register(tr)
     while run_state.needs_run_attempt():
         run_state.starting_scene()
-        agent = Evaluation6_Agent(config_ini_path, level, scene_type, controller_type, run_state)
+        agent = Evaluation6_Agent(config_ini_path, level, controller_type, json_scene_type, run_state, optics_spec.additional_logs)
         if run_state.is_session_pointless():
             print(f'Session is pointless because run_state is {run_state.state}')
             print('Ending session.')

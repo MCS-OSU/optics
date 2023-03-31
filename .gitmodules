@@ -1,0 +1,12 @@
+[submodule "opics_common"]
+	path = opics_common
+	url = https://github.com/MCS-OSU/opics-common.git
+[submodule "opics_pvoe"]
+	path = opics_pvoe
+	url = https://github.com/MCS-OSU/opics-pvoe.git
+[submodule "opics_inter"]
+	path = opics_inter
+	url = https://github.com/MCS-OSU/opics-inter.git
+[submodule "opics_avoe"]
+	path = opics
+	url = https://github.com/MCS-OSU/opics.git

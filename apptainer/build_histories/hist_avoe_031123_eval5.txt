@@ -1,0 +1,48 @@
+2023-03-11 17:29:18  
+first one
+2023-03-11 17:29:18  avoe_031123_eval5.def - regenerated
+2023-03-11 17:29:18  sifs/avoe_031123_eval5.sif - build begin
+2023-03-11 17:38:25  sifs/avoe_031123_eval5.sif - build complete
+2023-03-11 17:45:51  
+set env properly
+2023-03-11 17:45:51  avoe_031123_eval5.def - regenerated
+2023-03-11 17:45:51  sifs/avoe_031123_eval5.sif - deleting prior
+2023-03-11 17:45:51  sifs/avoe_031123_eval5.sif - build begin
+2023-03-11 17:54:28  sifs/avoe_031123_eval5.sif - build complete
+2023-03-11 19:28:40  
+Ridha lib addition fix
+2023-03-11 19:28:40  avoe_031123_eval5.def - regenerated
+2023-03-11 19:28:40  sifs/avoe_031123_eval5.sif - deleting prior
+2023-03-11 19:28:41  sifs/avoe_031123_eval5.sif - build begin
+2023-03-11 19:41:09  
+out of space retrying
+2023-03-11 19:41:09  avoe_031123_eval5.def - regenerated
+2023-03-11 19:41:09  sifs/avoe_031123_eval5.sif - build begin
+2023-03-11 19:48:55  sifs/avoe_031123_eval5.sif - build complete
+2023-03-11 23:15:42  
+fix typo choFice
+2023-03-11 23:15:42  avoe_031123_eval5.def - regenerated
+2023-03-11 23:15:42  sifs/avoe_031123_eval5.sif - deleting prior
+2023-03-11 23:15:43  sifs/avoe_031123_eval5.sif - build begin
+2023-03-11 23:24:48  sifs/avoe_031123_eval5.sif - build complete
+2023-03-11 23:55:41  
+had to fix path to pixel.npy
+2023-03-11 23:55:41  sifs/avoe_031123_eval5.sif - deleting prior
+2023-03-11 23:55:42  sifs/avoe_031123_eval5.sif - build begin
+2023-03-12 00:04:46  sifs/avoe_031123_eval5.sif - build complete
+2023-03-12 10:01:58  
+pathing issues in avoe case, trying again on credential helper
+2023-03-12 10:01:58  avoe_031123_eval5.def - regenerated
+2023-03-12 10:01:58  sifs/avoe_031123_eval5.sif - deleting prior
+2023-03-12 10:01:58  sifs/avoe_031123_eval5.sif - build begin
+2023-03-12 10:10:45  sifs/avoe_031123_eval5.sif - build complete
+2023-03-12 11:04:35  
+wroing logger was being imported
+2023-03-12 11:04:35  sifs/avoe_031123_eval5.sif - deleting prior
+2023-03-12 11:04:35  sifs/avoe_031123_eval5.sif - build begin
+2023-03-12 11:13:34  sifs/avoe_031123_eval5.sif - build complete
+2023-03-12 11:21:11  
+changes opics_common.logging to opics_common.opics_logging
+2023-03-12 11:21:11  sifs/avoe_031123_eval5.sif - deleting prior
+2023-03-12 11:21:11  sifs/avoe_031123_eval5.sif - build begin
+2023-03-12 11:30:14  sifs/avoe_031123_eval5.sif - build complete

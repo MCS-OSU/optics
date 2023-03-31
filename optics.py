@@ -10,11 +10,13 @@ from self_test.optics_self_test_runner import OpticsSelfTestRunner
 from core.optics_spec_loader           import OpticsSpec
 from admin.optics_stopper              import OpticsStopper
 from admin.optics_results_eraser       import OpticsResultsEraser
-from results.optics_dashboard          import OpticsDashboard
-from results.error_details             import ErrorDetails
+from admin.optics_repair               import OpticsRepair
+from optics_results.optics_dashboard   import OpticsDashboard
+from optics_results.error_details      import ErrorDetails
 from env.env_snapshot                  import EnvSnapshot
 from core.utils                        import optics_fatal, optics_info, get_optics_datastore_proximity, is_running_on_ec2
-from results.optics_scores             import OpticsScores
+from core.utils                        import verify_key_file_present_if_needed
+from optics_results.optics_scores      import OpticsScores
 
 def resolve_given_optics_spec_path(given_path):
     if given_path.startswith('/'):
@@ -49,6 +51,8 @@ def is_already_manager_running_for_spec(spec_name):
     if len(lines) > 1:
         return True
     return False
+
+
      
 def configure_logging(level):
     optics_info(f'...setting log level to {level}')
@@ -67,22 +71,22 @@ def configure_logging(level):
     logger.addHandler(stderr_handler)
     
 def usage():
-    print("python optics.py manager|run_scenes|stop|scores|erase_results|status|errors|scores|container_run <optics_config>")
+    print("python optics.py manager|run_scenes|stop|scores|erase_results|status|errors|scores|report|container_run|reset_scenes <optics_config>")
     print('        manager - will only work when invoked on ec2b')
-    print('        run_scene - will run a scene form any machine if the env is deemed to match the one specified in the config')
+    print('        run_scene - will run a scene from any machine')
 
 
 if __name__ == '__main__':
     datastore_proximity = get_optics_datastore_proximity()
-    
-    if not 'OPICS_HOME' in os.environ:
-        optics_fatal('OPICS_HOME not defined.  Please "export OPICS_HOME=<parent_of_opics_dir>"')
+    verify_key_file_present_if_needed()
+    if not 'OPTICS_HOME' in os.environ:
+        optics_fatal('OPTICS_HOME not defined.  Please "export OPTICS_HOME=<parent_of_optics_dir>"')
         
     if len(sys.argv) < 3:
         usage()
         sys.exit()
 
-    if sys.argv[1] not in ['manager', 'run_scenes','stop','scores','erase_results','status','errors', 'container_run','scores']:
+    if sys.argv[1] not in ['manager', 'run_scenes','stop','scores','erase_results','status','errors', 'container_run','scores','report', 'reset_scenes']:
         usage()
         sys.exit()
 
@@ -168,9 +172,26 @@ if __name__ == '__main__':
     elif cmd =='scores':
         optics_scores = OpticsScores(proj,optics_spec)
         optics_scores.show_scores()
+        optics_scores.show_exceptions()
         sys.exit()
 
+    elif cmd =='report':
+        print('')
+        print(f'                   OPTICS RUN REPORT FOR {spec_name}')
+        print('')
+        optics_scores = OpticsScores(proj,optics_spec)
+        optics_scores.show_scores()
+        optics_scores.show_exceptions()
+        dashboard = OpticsDashboard(datastore_proximity, optics_spec)
+        dashboard.show_report_part_2()
+        sys.exit()
 
+    elif cmd == 'reset_scenes':
+        print('')
+        print(f'   searching for scenes with issues')
+        print('')
+        optics_repair = OpticsRepair(optics_spec)
+        optics_repair.reset_scenes()
     else:
         usage()
         sys.exit()

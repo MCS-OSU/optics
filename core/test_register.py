@@ -1,12 +1,12 @@
 from importlib.util import set_loader
 import os, time, sys
 import core.utils as utils
-import opics.common.logging.log_constants as log_constants
-from core.optics_run_state        import NOT_ATTEMPTED, IN_PROGRESS_SCENE_ASSIGNED, OpticsRunState
+from opics_common.scene_type.type_constants import get_abbrev_scene_type_from_filename
+from opics_common.launch.opics_run_state        import NOT_ATTEMPTED, IN_PROGRESS_SCENE_ASSIGNED, OpicsRunState
 from core.constants                 import JOB_REQUEST, JOB_REQUEST_SMOKE, JOB_ASSIGN, NO_MORE_SCENES_TO_RUN, SESSION_KILLED, SMOKE_TEST
 from core.constants                 import TEST_HISTORY_FIRST_LINE_PREFIX
 from core.optics_session            import OpticsSession
-from results.scene_state_history    import SceneStateHistory
+from optics_results.scene_state_history    import SceneStateHistory
 from core.utils                     import optics_info, optics_error, optics_debug, optics_fatal
 
 
@@ -16,7 +16,7 @@ class TestRegisterLocal():
         self.systest_dirs = systest_dirs
 
     ##########################################################################
-    # api used by OpticsTestRunner and OpticsRunState
+    # api used by OpticsTestRunner and OpicsRunState
     ##########################################################################
     def register_session(self, proj):
         t = int(time.time())
@@ -64,7 +64,7 @@ class TestRegisterLocal():
                 designated_machine, _, scene_path = utils.parse_job_assign(last_line)
                 if designated_machine == requesting_machine:
                     return scene_path
-        optics_errpr(f'no response from tman on JOB_REQUEST')
+        optics_error(f'no response from tman on JOB_REQUEST')
         optics_error('Check to make sure tman.py is running.')
         sys.exit(1)
 
@@ -87,7 +87,7 @@ class TestRegisterLocal():
     def store_scene_log(self, log_path):
         log_file = os.path.basename(log_path)
         log_name = log_file.split('.')[0]
-        scene_type = log_constants.get_abbrev_scene_type_from_filename(log_name)
+        scene_type = get_abbrev_scene_type_from_filename(log_name)
         dest_path = os.path.join(self.systest_dirs.result_logs_dir, scene_type, log_file)
         optics_info(f'storing mcs log')
         utils.ensure_dir_exists(os.path.dirname(dest_path))
@@ -97,7 +97,7 @@ class TestRegisterLocal():
     def store_stdout_log(self, log_path):
         log_file = os.path.basename(log_path)
         log_name = log_file.split('.')[0]
-        scene_type = log_constants.get_abbrev_scene_type_from_filename(log_name)
+        scene_type = get_abbrev_scene_type_from_filename(log_name)
         dest_path = os.path.join(self.systest_dirs.stdout_logs_dir, scene_type, log_file)
         optics_info(f'storing stdout log')
         utils.ensure_dir_exists(os.path.dirname(dest_path))
@@ -107,19 +107,20 @@ class TestRegisterLocal():
 
     def store_videos(self, videos_dir):
         # videos_dir == scene_name
-        scene_type = log_constants.get_abbrev_scene_type_from_filename(videos_dir)
-        (src, dest) = utils.get_pathnames_for_video(videos_dir, scene_type, self.systest_dirs.videos_dir, 'depth')
-        utils.ensure_dir_exists(os.path.dirname(dest))
-        os.system(f' cp {src} {dest}')
-
-        (src, dest) = utils.get_pathnames_for_video(videos_dir, scene_type, self.systest_dirs.videos_dir, 'segmentation')
-        os.system(f' cp {src} {dest}')
-
+        scene_type = get_abbrev_scene_type_from_filename(videos_dir)
         (src, dest) = utils.get_pathnames_for_video(videos_dir, scene_type, self.systest_dirs.videos_dir, 'topdown')
+        utils.ensure_dir_exists(os.path.dirname(dest))
         os.system(f' cp {src} {dest}')
 
         (src, dest) = utils.get_pathnames_for_video(videos_dir, scene_type, self.systest_dirs.videos_dir, 'visual')
         os.system(f' cp {src} {dest}')
+
+        # abstaining from storing depth and segmentation videos as per Rajesh request
+        # (src, dest) = utils.get_pathnames_for_video(videos_dir, scene_type, self.systest_dirs.videos_dir, 'depth')
+        # os.system(f' cp {src} {dest}')
+
+        # (src, dest) = utils.get_pathnames_for_video(videos_dir, scene_type, self.systest_dirs.videos_dir, 'segmentation')
+        # os.system(f' cp {src} {dest}')
 
 
     ##########################################################################
@@ -179,7 +180,7 @@ class TestRegisterLocal():
                 scene_name = os.path.basename(scene_path).split('.')[0]
                 if self.is_awaiting_assignment(state_path):
                     self.note_assignment(state_path)
-                    optics_info(f'{scene_name} ASSIGNED')
+                    optics_debug(f'{scene_name} ASSIGNED')
                     return scene_path
                 else:
                     optics_debug(f'{scene_name} already assigned')
@@ -217,7 +218,7 @@ class TestRegisterLocal():
         line = utils.get_last_line(state_path)
         run_state = utils.parse_run_state(line)
         optics_debug(f'encountered run_state {run_state}')
-        opics_run_state = OpticsRunState('pretend/scene/path')
+        opics_run_state = OpicsRunState('pretend/scene/path')
         return opics_run_state.should_tman_assign_scene_in_state(run_state)
 
     ##########################################################################
@@ -229,16 +230,20 @@ class TestRegisterLocal():
         
         print(utils.header(f' sessions: {len(session_files)}'))
         for session_file in session_files:
-            session_path = os.path.join(self.systest_dirs.sessions_dir, session_file)
-            f = open(session_path, 'r')
-            lines = f.readlines()
-            f.close()
-            #print(f'session path {session_path}')
-            trun_session = OpticsSession(lines)
-            if trun_session.healthy:
-                trun_session.summary()
-            else:
-                print(f'session not healthy: {session_path} {trun_session.state}')
+            try:
+                session_path = os.path.join(self.systest_dirs.sessions_dir, session_file)
+                f = open(session_path, 'r')
+                lines = f.readlines()
+                f.close()
+                #print(f'session path {session_path}')
+                trun_session = OpticsSession(lines)
+                if trun_session.healthy:
+                    trun_session.summary()
+                else:
+                    print(f'session not healthy: {session_path} {trun_session.state}')
+            except Exception as e:
+                print('ERROR -- problem with session file: ', session_file)
+
 
     def gather_scene_state_paths(self):
         result = []
@@ -258,32 +263,35 @@ class TestRegisterLocal():
         scene_state_histories = []
         print(utils.header(f' runs: {len(scene_state_paths)}'))
         for scene_state_path in scene_state_paths:
-            f = open(scene_state_path, 'r')
-            lines = f.readlines()
-            f.close()
-            scene_name = os.path.basename(scene_state_path).split('.')[0]
-            scene_state_history = SceneStateHistory(scene_name, lines)
-            if scene_state_history.is_well_formatted:
-                scene_state_histories.append(scene_state_history)
-            else:
-                print('')
-                print(f'...WARNING scene state history for {scene_name} is corrupted and is being ignored')
-                print('')
+            try:
+                f = open(scene_state_path, 'r')
+                lines = f.readlines()
+                f.close()
+                scene_name = os.path.basename(scene_state_path).split('.')[0]
+                scene_state_history = SceneStateHistory(scene_name, lines)
+                if scene_state_history.is_well_formatted:
+                    scene_state_histories.append(scene_state_history)
+                else:
+                    print('')
+                    print(f'...WARNING scene state history for {scene_name} is corrupted and is being ignored')
+                    print('')
+            except Exception as e:
+                print(f'...ERROR -- Problem loading scene state history for {scene_name}')
         return scene_state_histories
 
     def show_runs_summary(self):
         scene_state_histories = self.load_scene_state_histories()
-        opics_run_state = OpticsRunState('')
+        opics_run_state = OpicsRunState('')
         opics_run_state.show_runs_summary(scene_state_histories)
 
     def show_gpu_mem_fail_retry_count(self):
         scene_state_histories = self.load_scene_state_histories()
-        opics_run_state = OpticsRunState('')
+        opics_run_state = OpicsRunState('')
         opics_run_state.show_gpu_mem_fail_retry_count(scene_state_histories)
 
     def show_scene_timings(self):
         scene_state_histories = self.load_scene_state_histories()
-        opics_run_state = OpticsRunState('')
+        opics_run_state = OpicsRunState('')
         opics_run_state.show_scene_timings(scene_state_histories)
 
     ##########################################################################
@@ -307,18 +315,24 @@ class TestRegisterLocal():
             count += len(os.listdir(os.path.join(self.systest_dirs.result_logs_dir, scene_type)))
         return count
 
-    def clean_systest_data(self):
+    def clean_systest_data(self,scene_type_choice):
+        if scene_type_choice != 'all':
+            scene_type_choice =   "".join(["/",scene_type_choice])
+        else: 
+            scene_type_choice = ''
         print(f'cleaning systest data...')
-        print('    forgetting sessions')
-        os.system(f'rm -rf {self.systest_dirs.sessions_dir}/*')
-        print('    forgetting scene states')
-        os.system(f'rm -rf {self.systest_dirs.scene_state_dir}/*')
-        print('    forgetting mcs logs')
-        os.system(f'rm -rf {self.systest_dirs.result_logs_dir}/*')
-        print('    forgetting stdout logs')
-        os.system(f'rm -rf {self.systest_dirs.stdout_logs_dir}/*')
-        print('    forgetting videos')
-        os.system(f'rm -rf {self.systest_dirs.videos_dir}/*')
+        
+        if scene_type_choice =='all':
+            print('    forgetting sessions')
+            os.system(f'rm -rf {self.systest_dirs.sessions_dir}/*')
+        print(f'    forgetting {scene_type_choice} scene states')
+        os.system(f'rm -rf {self.systest_dirs.scene_state_dir}{scene_type_choice}/*')
+        print(f'    forgetting {scene_type_choice} mcs logs')
+        os.system(f'rm -rf {self.systest_dirs.result_logs_dir}{scene_type_choice}/*')
+        print(f'    forgetting {scene_type_choice} stdout logs')
+        os.system(f'rm -rf {self.systest_dirs.stdout_logs_dir}{scene_type_choice}/*')
+        print(f'    forgetting {scene_type_choice} videos')
+        os.system(f'rm -rf {self.systest_dirs.videos_dir}/{scene_type_choice}/*')
 
 class TestRegisterRemote():
     def __init__(self, systest_dirs):
@@ -405,7 +419,7 @@ class TestRegisterRemote():
         optics_info(f'storing scene log {log_path}')
         log_file = os.path.basename(log_path)
         log_name = log_file.split('.')[0]
-        scene_type = log_constants.get_abbrev_scene_type_from_filename(log_name)
+        scene_type = get_abbrev_scene_type_from_filename(log_name)
         dest_log_path = os.path.join(self.systest_dirs.result_logs_dir, scene_type, log_file)
         optics_debug(f'remote path will be {dest_log_path}')
         utils.remote_ensure_dir_exists(os.path.dirname(dest_log_path))
@@ -416,7 +430,7 @@ class TestRegisterRemote():
         optics_info(f'storing stdout log {log_path}')
         log_file = os.path.basename(log_path)
         log_name = log_file.split('.')[0]
-        scene_type = log_constants.get_abbrev_scene_type_from_filename(log_name)
+        scene_type = get_abbrev_scene_type_from_filename(log_name)
         dest_log_path = os.path.join(self.systest_dirs.stdout_logs_dir, scene_type, log_file)
         optics_debug(f'remote path will be {dest_log_path}')
         utils.remote_ensure_dir_exists(os.path.dirname(dest_log_path))
@@ -427,21 +441,22 @@ class TestRegisterRemote():
         # videos_dir == scene_name
         optics_info(f'storing videos {videos_dir_path}')
         videos_dir = os.path.basename(videos_dir_path)
-        scene_type = log_constants.get_abbrev_scene_type_from_filename(videos_dir)
-        (src, dest) = utils.get_pathnames_for_video(videos_dir_path, scene_type, self.systest_dirs.videos_dir, 'depth')
+        scene_type = get_abbrev_scene_type_from_filename(videos_dir)
+        (src, dest) = utils.get_pathnames_for_video(videos_dir_path, scene_type, self.systest_dirs.videos_dir, 'topdown')
         optics_debug(f'src:  {src}')
         optics_debug(f'dest: {dest}')
         utils.remote_ensure_dir_exists(os.path.dirname(dest))
         utils.remote_copy_file(src, dest)
 
-        (src, dest) = utils.get_pathnames_for_video(videos_dir_path, scene_type, self.systest_dirs.videos_dir, 'segmentation')
-        utils.remote_copy_file(src, dest)
-
-        (src, dest) = utils.get_pathnames_for_video(videos_dir_path, scene_type, self.systest_dirs.videos_dir, 'topdown')
-        utils.remote_copy_file(src, dest)
-
         (src, dest) = utils.get_pathnames_for_video(videos_dir_path, scene_type, self.systest_dirs.videos_dir, 'visual')
         utils.remote_copy_file(src, dest)
+
+        # abstain from copying depth and segmentation videos as per Rajesh request
+        # (src, dest) = utils.get_pathnames_for_video(videos_dir_path, scene_type, self.systest_dirs.videos_dir, 'depth')
+        # utils.remote_copy_file(src, dest)
+
+        # (src, dest) = utils.get_pathnames_for_video(videos_dir_path, scene_type, self.systest_dirs.videos_dir, 'segmentation')
+        # utils.remote_copy_file(src, dest)
 
 
     def fetch_remote_file(self, remote_path, local_path):

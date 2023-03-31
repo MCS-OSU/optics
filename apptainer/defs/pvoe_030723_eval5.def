@@ -1,0 +1,59 @@
+Bootstrap: localimage
+From : /home/jedirv/outer_optics_v6i/apptainer/sifs/ubuntu_python.sif
+
+
+%environment
+    export OPTICS_HOME=$HOME/test__pvoe_030723_eval5
+    export OPICS_HOME=$OPTICS_HOME/opics_pvoe
+    export PYTHONPATH=$OPTICS_HOME:$OPTICS_HOME/opics_common
+    export PATH=/miniconda3/bin:$PATH
+    export OPTICS_DATASTORE=ec2b
+
+
+%post
+    cp /tmp/run_pvoe_030723_eval5.sh /
+    chmod 770 /run_pvoe_030723_eval5.sh
+
+    ############################################################################
+    # clone the optics repo early in case of permissions challenge
+    ############################################################################
+    cd /
+    git clone --recurse-submodules https://github.com/MCS-OSU/optics.git image__pvoe_030723_eval5
+    ############################################################################
+    # put the correct branches into play
+    ############################################################################
+    cd image__pvoe_030723_eval5
+    git checkout main
+    git submodule update --init --recursive
+    cd /image__pvoe_030723_eval5/opics_pvoe
+    git checkout develop
+    cd /image__pvoe_030723_eval5/opics_common
+    git checkout main
+
+
+    ############################################################################
+    # install python dependencies
+    ############################################################################
+    export OPTICS_HOME=/image__pvoe_030723_eval5
+    echo "==============  python dependencies  ==================="
+    cd /image__pvoe_030723_eval5/opics_pvoe
+    cd $OPTICS_HOME/opics_pvoe
+    ./all.sh
+
+
+    ############################################################################
+    # position models
+    ############################################################################
+    echo "==============  loading models ==================="
+
+
+    ############################################################################
+    #                   --- mcs controller timeout patch ---
+    # changing from 3 mins to 1 hour:
+    ############################################################################
+    cd $OPTICS_HOME/apptainer
+    python3 patch_mcs_controller_timeout_container.py
+
+
+%runscript
+/run_pvoe_030723_eval5.sh $1 $2

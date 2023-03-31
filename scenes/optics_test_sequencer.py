@@ -1,5 +1,6 @@
 from pathlib import Path
 import time
+from datetime import datetime
 import os
 from core.optics_dirs        import SystestDirectories
 from core.test_register      import TestRegisterLocal
@@ -36,22 +37,24 @@ class OpticsTestSequencer():
         sessions = self.runner_sessions.get_sessions_with_job_requests()
         optics_debug(f'sessions with job_requests {len(sessions)}')
         for session in sessions:
-            optics_info(f'checking {session}')
+            optics_debug(f'checking {session}')
             potential_job_request = get_last_line(session)
             if potential_job_request.startswith('#'):
                 optics_debug('job request scanner encountered comment line - skipping this pass...')
                 continue
             machine,command = parse_job_request(potential_job_request)
-            optics_info(f' machine: {machine} command: {command}')
+            optics_debug(f' machine: {machine} command: {command}')
             types_to_skip = self.optics_spec.types_to_skip
             if command == JOB_REQUEST:
-                optics_info(f'job request from {machine} for {self.optics_spec.name}')
+                optics_debug(f'job request from {machine}')
                 next_scene_path = self.test_register.assign_next_scene(self.scene_path_list, types_to_skip)
                 if NO_MORE_SCENES_TO_RUN == next_scene_path:
                     add_last_line(session, get_register_control_message(NO_MORE_SCENES_TO_RUN, '---'))
                     optics_info('NO MORE SCENES TO RUN...')
                 else:
-                    optics_info(f'assigning {next_scene_path}')
+                    next_scene_name = os.path.basename(next_scene_path)
+                    timestamp = datetime.today().strftime("%d-%H:%M:%S")
+                    optics_info(f'{timestamp} - {next_scene_name}   assigned to   {machine}')
                     add_last_line(session, get_register_control_message(JOB_ASSIGN, next_scene_path))                    
             else:
                 optics_error(f'unknown command {command} in {session}')

@@ -1,0 +1,11 @@
+2023-03-20 13:20:51  
+first try
+2023-03-20 13:20:51  inter_031923_val6_no_plotting.def - regenerated
+2023-03-20 13:20:51  sifs/inter_031923_val6_no_plotting.sif - build begin
+2023-03-20 13:30:55  sifs/inter_031923_val6_no_plotting.sif - build complete
+2023-03-20 19:51:18  
+putting tee command into run script
+2023-03-20 19:51:18  inter_031923_val6_no_plotting.def - regenerated
+2023-03-20 19:51:18  sifs/inter_031923_val6_no_plotting.sif - deleting prior
+2023-03-20 19:51:18  sifs/inter_031923_val6_no_plotting.sif - build begin
+2023-03-20 20:01:09  sifs/inter_031923_val6_no_plotting.sif - build complete

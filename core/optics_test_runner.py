@@ -24,11 +24,18 @@ def find_mcs_log_path(log_root, proj, scene_name):
     log_dir = os.path.join(log_root, proj, scene_type)
     # in case old logs left behind, be robust and picj the most recent one
     candidates = []
-    for file in os.listdir(log_dir):
-        if file.startswith(scene_name):
-            candidates.append(os.path.join(log_dir, file))
+    if proj == 'pvoe':
+        for file in os.listdir(log_dir):
+            if file.startswith(scene_name) and file.endswith('.log'):
+                candidates.append(os.path.join(log_dir, file))
+    else:
+        for file in os.listdir(log_dir):
+            if file.startswith(scene_name):
+                candidates.append(os.path.join(log_dir, file))
     if len(candidates) == 0:
         raise Exception(f"ERROR: no log file found for scene {scene_name} in {log_dir}")
+    print(f' *************************  log_candidates: {candidates}')
+    
     return max(candidates, key=os.path.getctime)
 
 
@@ -39,7 +46,7 @@ class OpticsTestRunner():
         self.manager_proximity  = manager_proximity
         self.controller_type    = self.optics_spec.controller
         self.run_mode           = run_mode
-        opics_home              = os.environ["OPICS_HOME"]
+        self.optics_home         = os.environ["OPTICS_HOME"]
 
         self.configure_tmp_log_dirs()
         self.configure_tmp_scene_file_dir()
@@ -53,14 +60,16 @@ class OpticsTestRunner():
        
 
     def configure_tmp_log_dirs(self):
-        opics_home               = os.environ["OPICS_HOME"]
-        self.optics_scripts_dir = opics_home + '/scripts/optics/scripts' # this is where this script lives
+        #if 'pvoe' == self.optics_spec.proj:
+        self.optics_scripts_dir = self.optics_home + '/scripts'
+        #else:
+        #    self.optics_scripts_dir = opics_home + '/scripts/optics/scripts' # this is where this script lives
         self.tmp_mcs_log_dir     = self.optics_scripts_dir + '/tmp_mcs_logs'
         self.tmp_stdout_log_dir  = self.optics_scripts_dir + '/tmp_stdout_logs'
         ensure_dir_exists(self.tmp_mcs_log_dir) 
         ensure_dir_exists(self.tmp_stdout_log_dir) 
-        optics_info(f'tmp log dir - mcs log root {self.tmp_mcs_log_dir}')
-        optics_info(f'tmp log dir - stdout  {self.tmp_stdout_log_dir}')
+        optics_debug(f'tmp log dir - mcs log root {self.tmp_mcs_log_dir}')
+        optics_debug(f'tmp log dir - stdout  {self.tmp_stdout_log_dir}')
         os.makedirs(self.tmp_stdout_log_dir, exist_ok=True)
 
     def configure_tmp_scene_file_dir(self):
@@ -72,15 +81,15 @@ class OpticsTestRunner():
         if self.manager_proximity == 'local':  
             systest_dir_home_dir = str(Path.home())
             self.systest_dirs = SystestDirectories(systest_dir_home_dir, self.optics_spec)      
-            optics_info('ensuring local directories exist')
+            optics_debug('ensuring local directories exist')
             ensure_dirs_exist(self.systest_dirs.get_top_level_dirs())
-            optics_info('local directories ensured')
+            optics_debug('local directories ensured')
         else:
             systest_dir_home_dir = EC2_MACHINE_HOME
             self.systest_dirs = SystestDirectories(systest_dir_home_dir, self.optics_spec)
-            optics_info('ensuring remote directories exist')
+            optics_debug('ensuring remote directories exist')
             remote_ensure_dirs_exist(self.systest_dirs.get_top_level_dirs())
-            optics_info('remote directories ensured')
+            optics_debug('remote directories ensured')
 
     def configure_test_register(self):
         if self.manager_proximity == 'local':
@@ -90,8 +99,8 @@ class OpticsTestRunner():
             # trun will transact files with ec2b via scp
             self.test_register = TestRegisterRemote(self.systest_dirs)
         self.test_register.register_session(self.optics_spec.version)
-        opics_home = os.environ["OPICS_HOME"]
-        self.run_dir = os.path.join(opics_home,'scripts','optics','scripts')
+        # NOTE(Mazen): ec2a testing
+        self.run_dir = os.path.join(self.optics_home,'scripts')
         
     def acquire_scene_from_manager(self, run_mode):
         if self.test_register.is_session_killed():
@@ -102,7 +111,7 @@ class OpticsTestRunner():
         if scene_path == NO_MORE_SCENES_TO_RUN:
             return (NO_MORE_SCENES_TO_RUN, NO_MORE_SCENES_TO_RUN)
         scene_name = get_scene_name_from_path(scene_path)
-        optics_info(f'derived scene_name {scene_name}')
+        optics_debug(f'derived scene_name {scene_name}')
         return (scene_path, scene_name)
 
     def ensure_scene_positioned_locally(self, scene_path, scene_name):
@@ -125,25 +134,22 @@ class OpticsTestRunner():
 
     def get_video_dir(self, scene_name):
         # mcs controller puts video dir under the current directory
-        opics_home = os.environ['OPICS_HOME']
-        optics_dir = os.path.join(opics_home, 'scripts', 'optics')
-        video_dir  = os.path.join(optics_dir, 'scripts', scene_name)
-        optics_info(f'video dir determined as {video_dir}')
+        video_dir  = os.path.join(self.optics_home, 'scripts', scene_name)
+        optics_debug(f'video dir determined as {video_dir}')
         return video_dir
 
     def print_summary_of_run(self, scene_path, scene_name, stdout_log_path):
         optics_info('')
-        optics_info(f'tasked with {scene_path}...')
+        optics_info(f'tasked with {scene_name}...')
         optics_info(f'RUN PROFILE: ')
         optics_info(f'....controller:      {self.controller_type}')
         optics_info(f'....manager is:      {self.manager_proximity}') 
-        optics_info('')
+        optics_debug('')
         optics_info(f'....spec:            {self.optics_spec.name}')
-        optics_info(f'....scene_name:      {scene_name}') 
-        optics_info('')
-        optics_info(f'....mcs_log_dir:     {self.tmp_mcs_log_dir}')
-        optics_info(f'....stdout_log_path: {stdout_log_path}')
-        optics_info('')
+        optics_debug('')
+        optics_debug(f'....mcs_log_dir:     {self.tmp_mcs_log_dir}')
+        optics_debug(f'....stdout_log_path: {stdout_log_path}')
+        optics_debug('')
         optics_info(f'....running scene...')
 
     def save_logs(self, scene_name, stdout_log_path):
@@ -151,13 +157,13 @@ class OpticsTestRunner():
         self.pass_logs_to_manager(mcs_log_path, stdout_log_path)
 
     def save_videos(self, scene_name):
-        optics_info(f'checking to see if video dir {scene_name} is present...')
+        optics_debug(f'checking to see if video dir {scene_name} is present...')
         if self.optics_spec.save_videos:
             video_dir = self.get_video_dir(scene_name)
             if os.path.exists(video_dir):
-                optics_info(f'moving video files to register...')
+                optics_info(f'passing videos to manager...')
                 self.pass_video_files_to_manager(video_dir)
-                optics_info(f'removing video dir...')
+                optics_debug(f'removing video dir...')
                 os.system(f"rm -rf {video_dir}")
 
     def run(self):
@@ -170,21 +176,23 @@ class OpticsTestRunner():
                 if NO_MORE_SCENES_TO_RUN == scene_path:
                     optics_fatal('no more scenes to run')
                 else:
-                    optics_info(f'acquired scene {scene_name} at {scene_path}')
+                    optics_info(f'acquired scene {scene_name}')
                 
                 next_todo = 'ensure_scene_positioned_locally'
                 local_scene_path         = self.ensure_scene_positioned_locally(scene_path, scene_name)
-                optics_info(f'local_scene_path found as {local_scene_path}')
+                optics_debug(f'local_scene_path found as {local_scene_path}')
                 # configure log names
                 stdout_log_path = self.tmp_stdout_log_dir + '/' + scene_name + '_stdout.txt'
                
                 # run the scene
                 next_todo = 'launch_scene'
                 self.print_summary_of_run(scene_path, scene_name, stdout_log_path)
-                run_command = f"cd {self.run_dir};python optics_run_scene.py --scene {local_scene_path} --optics_spec {self.optics_spec_path}  --log_dir {self.tmp_mcs_log_dir} --manager_proximity {self.manager_proximity} --session_path {self.test_register.session_path}  2>&1 | tee {stdout_log_path}"  # redirect stderr to stdout and tee to stdout_logname
+                scene_type = get_scene_type_from_scene_name(scene_name)
+                logger_path_dir = os.path.join(self.tmp_mcs_log_dir, self.optics_spec.proj, scene_type)
+                run_command = f"cd {self.run_dir};LOGGER_PATH={logger_path_dir} python optics_run_scene.py --scene {local_scene_path} --optics_spec {self.optics_spec_path}  --log_dir {self.tmp_mcs_log_dir} --manager_proximity {self.manager_proximity} --session_path {self.test_register.session_path}  2>&1 | tee {stdout_log_path}"  # redirect stderr to stdout and tee to stdout_logname
                 optics_debug(f'run command: {run_command}')
                 os.system(run_command)
-                optics_info('scene run complete')
+                optics_debug('scene run complete')
 
                 # save info to register
                 next_todo = 'save_logs'
@@ -196,10 +204,12 @@ class OpticsTestRunner():
                 next_todo = 'cleanup_temp_files'
                 if self.manager_proximity == 'remote':
                     os.system(f"rm {local_scene_path}") # remove the temp copy of the scene just run
-                optics_info(f'done with {local_scene_path}')
+                optics_info(f'{scene_name} COMPLETED')
             except Exception as err:
                 optics_error(f'exception in OpticsTestRunner.run() + {err}')
                 optics_error(f'failed at step {next_todo}')
+                if next_todo == 'acquire_scene_from_manager':
+                    sys.exit()
                 traceback.format_exc()
                 
 

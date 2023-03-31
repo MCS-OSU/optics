@@ -1,7 +1,7 @@
 
 import os
 import sys
-from scripts.ec2.machines import EC2A, EC2B
+from scripts.machines import EC2A, EC2B, EC2C, EC2D
 
 def verify_2_args(args, cmd, arg1, arg2):
     if not len(args) == 5:
@@ -38,26 +38,35 @@ def get_legal_limit_for_count(limit_string, count):
     return range_limit
 
 def usage():
-    print('usage:  python ec2.py a|b <cmd> <arg1> <arg2>')
+    print('usage:  python ec2.py a|b|c|d <cmd> <arg1> <arg2>')
     print('                          put_scene <src_path> <dest_dir>')
     print('                          put_scenes <src_path> <dest_dir>')
     print('                          gen_videos <src_dir> all|1|2|...')
     print('                          collect_oracle_data <src_dir> <dest_dir>')
     print('                          get_file <remote_path> <local_dest_dir>')
+    print('                          put_file <local_path> <remote_dest_dir>')
   
 if __name__ == '__main__':
+    
+
     if len(sys.argv) < 3:
         usage()
         sys.exit()
 
-    if sys.argv[1] != 'a' and sys.argv[1] != 'b':
-        print('first arg must be a or b to represent ec2a or ec2b')
+    if sys.argv[1] != 'a' and sys.argv[1] != 'b' and sys.argv[1] != 'c' and sys.argv[1] != 'd':
+        print('first arg must be a, b, c, or d to represent ec2a, ec2b, ec2c, ec2d (the p3 machine) ')
         usage()
         sys.exit()
 
     ec2 = EC2B()
     if sys.argv[1] == 'a':
         ec2 = EC2A()
+    if sys.argv[1] == 'c':
+        ec2 = EC2C()
+    if sys.argv[1] == 'd':
+        ec2 = EC2D()
+    
+    
 
     cmd = sys.argv[2]
     if cmd == 'put_scene':
@@ -109,6 +118,17 @@ if __name__ == '__main__':
         ec2.get_file(remote_path, local_dest_dir)
 
 
+    elif cmd == 'put_file':
+        verify_2_args(sys.argv, 'put_file', 'local_path', 'remote_dest_dir')
+        local_path = sys.argv[3]
+        remote_dest_dir = sys.argv[4]
+        verify_arg_is_file(local_path)
+        ec2.put_file(local_path, remote_dest_dir)
+
+    else:
+        print(f'unknown command: {cmd}')
+        usage()
+        sys.exit()
     
     
     

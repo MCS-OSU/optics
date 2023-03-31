@@ -1,0 +1,16 @@
+2023-03-04 10:51:59  
+Needed to complete addition of new scene types to data structs in scene_types.py
+2023-03-04 10:52:00  inter_new_types_test.def - regenerated
+2023-03-04 10:52:00  sifs/inter_new_types_test.sif - build begin
+2023-03-04 11:03:14  sifs/inter_new_types_test.sif - build complete
+2023-03-04 11:39:26  
+had to change instatiation of inter agent to include scene_name and additional logger params
+2023-03-04 11:39:26  inter_new_types_test.def - regenerated
+2023-03-04 11:39:26  sifs/inter_new_types_test.sif - deleting prior
+2023-03-04 11:39:26  sifs/inter_new_types_test.sif - build begin
+2023-03-04 11:50:16  sifs/inter_new_types_test.sif - build complete
+2023-03-04 14:45:09  
+added categories for inter that were missing
+2023-03-04 14:45:09  sifs/inter_new_types_test.sif - deleting prior
+2023-03-04 14:45:09  sifs/inter_new_types_test.sif - build begin
+2023-03-04 14:55:59  sifs/inter_new_types_test.sif - build complete
