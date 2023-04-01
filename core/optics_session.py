@@ -16,6 +16,8 @@ def get_alias_for_machine(machine):
             return 'ec2b'
         elif machine == 'ip-172-31-72-254':
             return 'ec2c'
+        elif machine == 'ip-172-31-10-162':
+            return 'ec2d'
         else:
             return machine
 
@@ -67,6 +69,15 @@ class OpticsSession():
 
     def summary(self):
         print(f'    {self.machine}  {self.job_count} scenes   {self.duration} mins  {self.idle_time} mins idle    {self.session_killed_message}')
+
+    def get_scenes_attempted(self):
+        paths = []
+        for line in self.lines:
+            if JOB_ASSIGN in line:
+                [_,_,_,path] = line.split(';')
+                paths.append(path)
+        return paths
+
 
     def convert_to_time_format(self, time_in_minutes):
         
