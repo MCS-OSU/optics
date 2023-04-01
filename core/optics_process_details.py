@@ -181,6 +181,7 @@ class OpticsProcessDetails:
         print('On EC2A Machine:')
         print('\t'.join(title))
         print('\t'.join(disk_space_ec2a))
+        print('\n')
         print('On EC2B Machine:')
         print('\t'.join(title))
         print('\t'.join(disk_space_ec2b))
@@ -209,6 +210,7 @@ class OpticsProcessDetails:
             print('No other python processes are running on EC2B machine')
         else:
             print(other_python_processes_ec2b)
+        print('On EC2C Machine:')
         if other_python_processes_ec2c == '':
             print('No other python processes are running on EC2C machine')
         else:
@@ -220,19 +222,24 @@ class OpticsProcessDetails:
         print('\n')   
 
     def show_machine_info_from_session(self):
-        optics_datastore = get_optics_datastore_proximity()
-        manager_process_list, manager_machine_name = self.get_optics_manager_details()
-        # print (manager_process_list)
-        for i in range(len(manager_process_list)):
-            given_optics_spec_path = manager_process_list[i] 
-            optics_spec_path = self.resolve_given_optics_spec_path(given_optics_spec_path)
+        if is_running_on_ec2b():
+            optics_datastore = get_optics_datastore_proximity()
+            manager_process_list, manager_machine_name = self.get_optics_manager_details()
+            # print (manager_process_list)
+            for i in range(len(manager_process_list)):
+                given_optics_spec_path = manager_process_list[i] 
+                optics_spec_path = self.resolve_given_optics_spec_path(given_optics_spec_path)
+                self.add_break_line()
+                print(f'Machine status for {manager_process_list[i].split("/")[-1]}')
+                self.add_break_line()
+                optics_spec = OpticsSpec(optics_spec_path)
+                dashboard = OpticsDashboard(optics_datastore,optics_spec)
+                dashboard.show_session_details()
+                print('\n')
+        else:
             self.add_break_line()
-            print(f'Machine status for {manager_process_list[i].split("/")[-1]}')
+            print('This command is only available on EC2B machine. Please run this command on EC2B machine')
             self.add_break_line()
-            optics_spec = OpticsSpec(optics_spec_path)
-            dashboard = OpticsDashboard(optics_datastore,optics_spec)
-            dashboard.show_session_details()
-        
     def what_is_going_on(self):
         # Show manager processes
         self.show_manager_process_details()
@@ -244,7 +251,7 @@ class OpticsProcessDetails:
         self.show_disk_space_details()
         # Show machine info from session
         self.show_machine_info_from_session()
-
+        
 if __name__ == '__main__':
     machine_name = None
     if is_running_on_ec2a():
