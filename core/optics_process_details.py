@@ -3,13 +3,14 @@ import os
 # from optics import resolve_given_optics_spec_path
 from optics_results.optics_dashboard import OpticsDashboard
 from utils import is_running_on_ec2a, is_running_on_ec2b, is_running_on_ec2c, is_running_on_ec2d
-from core.utils import get_optics_datastore_proximity
+from core.utils import get_optics_datastore_proximity, get_public_key_path
 from core.constants import EC2A_URL, EC2B_URL, EC2C_URL,EC2A_UNAME_OUTPUT, EC2B_UNAME_OUTPUT, EC2C_UNAME_OUTPUT
 from core.optics_spec_loader           import OpticsSpec
 
 class OpticsProcessDetails: 
     def __init__(self, machine_name):
         self.machine_name = machine_name
+        self.public_key = get_public_key_path()
 
     def test_runner_process_details(self, command):
         test_runner_process_list = []
@@ -21,6 +22,7 @@ class OpticsProcessDetails:
         return test_runner_process_list
     
     def display_trun_process_list(self, trun_process_list, machine_name):
+        print(f' Machine Name: {machine_name}')
         if len(trun_process_list) > 0:
             for test_runner_process in trun_process_list:
                 print('\t',test_runner_process)
@@ -46,7 +48,7 @@ class OpticsProcessDetails:
     def get_optics_manager_details(self):
         manager_machine = '' 
         if self.machine_name == 'ec2a' or self.machine_name == 'local' or self.machine_name == 'ec2c': #or self.machine_name == 'ec2d':
-            command = f'ssh {EC2B_URL} ps -edalf | grep -v edalf | grep optics | grep manager'
+            command = f'ssh -i {public_key} {EC2B_URL} ps -edalf | grep -v edalf | grep optics | grep manager'
             manager_machine = 'ec2b'        
         
         else:
@@ -65,32 +67,32 @@ class OpticsProcessDetails:
         command_local = f'ps -edalf | grep -v edalf | grep run_scene'        
         if self.machine_name == 'ec2a':
             command_ec2a = command_local
-            command_ec2b = f'ssh {EC2B_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
-            command_ec2c = f'ssh {EC2C_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
+            command_ec2b = f'ssh -i {self.public_key} {EC2B_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
+            command_ec2c = f'ssh -i {self.public_key} {EC2C_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
             # command_ec2d = f'ssh {EC2D_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
 
         elif self.machine_name == 'local':
-            command_ec2a = f'ssh {EC2A_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
-            command_ec2b = f'ssh {EC2B_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
-            command_ec2c = f'ssh {EC2C_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
+            command_ec2a = f'ssh -i {self.public_key} {EC2A_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
+            command_ec2b = f'ssh -i {self.public_key} {EC2B_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
+            command_ec2c = f'ssh -i {self.public_key} {EC2C_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
             # command_ec2d = f'ssh {EC2D_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
 
         elif self.machine_name == 'ec2c':
-            command_ec2a = f'ssh {EC2A_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
-            command_ec2b = f'ssh {EC2B_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
+            command_ec2a = f'ssh -i {self.public_key} {EC2A_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
+            command_ec2b = f'ssh -i {self.public_key} {EC2B_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
             command_ec2c = command_local
             # command_ec2d = f'ssh {EC2D_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
 
         elif self.machine_name == 'ec2d':
-            command_ec2a = f'ssh {EC2A_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
-            command_ec2b = f'ssh {EC2B_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
-            command_ec2c = f'ssh {EC2C_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
+            command_ec2a = f'ssh -i {self.public_key} {EC2A_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
+            command_ec2b = f'ssh -i {self.public_key} {EC2B_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
+            command_ec2c = f'ssh -i {self.public_key} {EC2C_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
             # command_ec2d = command_local
 
         else: # ec2b
-            command_ec2a = f'ssh {EC2A_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
+            command_ec2a = f'ssh -i {self.public_key} {EC2A_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
             command_ec2b = command_local
-            command_ec2c = f'ssh {EC2C_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
+            command_ec2c = f'ssh -i {self.public_key} {EC2C_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
             # command_ec2d = f'ssh {EC2D_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
 
         command_list = [command_ec2a, command_ec2b, command_ec2c]#, command_ec2d]
@@ -103,9 +105,9 @@ class OpticsProcessDetails:
     
     def get_other_python_processes(self):
         
-        command_ec2b = f'ssh {EC2B_URL}ps -edalf | grep -v edalf | grep python'
-        command_ec2a = f'ssh {EC2A_URL}ps -edalf | grep -v edalf | grep python'
-        command_ec2c = f'ssh {EC2C_URL}ps -edalf | grep -v edalf | grep python'
+        command_ec2b = f'ssh -i {self.public_key} {EC2B_URL}ps -edalf | grep -v edalf | grep python'
+        command_ec2a = f'ssh -i {self.public_key} {EC2A_URL}ps -edalf | grep -v edalf | grep python'
+        command_ec2c = f'ssh -i {self.public_key} {EC2C_URL}ps -edalf | grep -v edalf | grep python'
         # command_ec2d = f'ssh {EC2D_URL}ps -edalf | grep -v edalf | grep python'
         output_ec2a = self.run_command_and_return_output(command_ec2a)
         output_ec2b = self.run_command_and_return_output(command_ec2b)
@@ -115,14 +117,16 @@ class OpticsProcessDetails:
         return output_ec2a, output_ec2b, output_ec2c#, output_ec2d
     
     def get_disk_space(self):
-        command_ec2a = f'ssh {EC2A_URL} df --total -h'
-        command_ec2b = f'ssh {EC2B_URL} df --total -h'
-        command_ec2c = f'ssh {EC2C_URL} df --total -h'
+        command_ec2a = f'ssh -i {self.public_key} {EC2A_URL} df --total -h'
+        print(f'command_ec2a: {command_ec2a}')
+        command_ec2b = f'ssh -i {self.public_key} {EC2B_URL} df --total -h'
+        command_ec2c = f'ssh -i {self.public_key} {EC2C_URL} df --total -h'
         # command_ec2d = f'ssh {EC2D_URL} df --total -h'
 
         #for ec2a
         output_ec2a = self.run_command_and_return_output(command_ec2a)
         output_ec2a = output_ec2a.split('\n')
+        print(f'output_ec2a: {output_ec2a}')
         output_ec2a = output_ec2a[-2].split()
         
         #for ec2b
@@ -162,11 +166,9 @@ class OpticsProcessDetails:
         self.add_break_line()
         # print('test_runner_process_list_ec2a: ', len(test_runner_process_list_ec2a))
         self.display_trun_process_list(test_runner_process_list_ec2a, 'ec2a')
-        self.add_break_line()
         self.display_trun_process_list(test_runner_process_list_ec2b, 'ec2b')
-        self.add_break_line()
         self.display_trun_process_list(test_runner_process_list_ec2c, 'ec2c')
-        self.add_break_line()
+        
         # self.display_trun_process_list(test_runner_process_list_ec2d, 'ec2d')
         # self.add_break_line()
         print('\n')
