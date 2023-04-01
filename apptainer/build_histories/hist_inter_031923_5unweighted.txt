@@ -1,0 +1,22 @@
+2023-03-25 23:11:35  
+init build
+2023-03-25 23:11:35  inter_031923_5unweighted.def - regenerated
+2023-03-25 23:11:35  sifs/inter_031923_5unweighted.sif - build begin
+2023-03-25 23:22:07  sifs/inter_031923_5unweighted.sif - build complete
+2023-03-25 23:40:21  
+forgot to commit 2 files
+2023-03-25 23:40:21  inter_031923_5unweighted.def - regenerated
+2023-03-25 23:40:21  sifs/inter_031923_5unweighted.sif - deleting prior
+2023-03-25 23:40:21  sifs/inter_031923_5unweighted.sif - build begin
+2023-03-25 23:49:47  sifs/inter_031923_5unweighted.sif - build complete
+2023-03-26 00:01:25  
+had wrong tag referenced
+2023-03-26 00:01:25  inter_031923_5unweighted.def - regenerated
+2023-03-26 00:01:25  sifs/inter_031923_5unweighted.sif - deleting prior
+2023-03-26 00:01:25  sifs/inter_031923_5unweighted.sif - build begin
+2023-03-26 00:10:45  sifs/inter_031923_5unweighted.sif - build complete
+2023-03-26 20:16:43  
+typo caused crash
+2023-03-26 20:16:43  sifs/inter_031923_5unweighted.sif - deleting prior
+2023-03-26 20:16:43  sifs/inter_031923_5unweighted.sif - build begin
+2023-03-26 20:26:38  sifs/inter_031923_5unweighted.sif - build complete

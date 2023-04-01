@@ -1,0 +1,13 @@
+2023-03-30 22:21:40  
+first
+2023-03-30 22:21:40  avoe_033023_ev5_6new.def - regenerated
+2023-03-30 22:21:40  sifs/avoe_033023_ev5_6new.sif - build begin
+2023-03-30 22:22:21  
+botched auth
+2023-03-30 22:22:21  avoe_033023_ev5_6new.def - regenerated
+2023-03-30 22:22:21  sifs/avoe_033023_ev5_6new.sif - build begin
+2023-03-30 22:33:41  
+forgot to git pull spec change
+2023-03-30 22:33:41  avoe_033023_ev5_6new.def - regenerated
+2023-03-30 22:33:41  sifs/avoe_033023_ev5_6new.sif - build begin
+2023-03-30 22:44:07  sifs/avoe_033023_ev5_6new.sif - build complete
