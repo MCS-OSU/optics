@@ -19,6 +19,8 @@ class SystestDirectories():
         self.scene_state_dir   = os.path.join(self.systest_dir, proj, 'versions', version, 'scene_state')
         self.videos_dir        = os.path.join(self.systest_dir, proj, 'versions', version, 'videos')
         self.eval5_answer_keys_dir = os.path.join(self.systest_dir, 'answer_keys', proj)
+        
+    def print_dirs(self):
         print('optics dirs:')
         print(f' - systest_dir:      {self.systest_dir}')
         print(f' - result_logs_dir:  {self.result_logs_dir}')
@@ -26,7 +28,6 @@ class SystestDirectories():
         print(f' - sessions_dir:     {self.sessions_dir}')
         print(f' - videos_dir:       {self.videos_dir}')
 
-    
     def get_top_level_dirs(self):
         dirs = []
         dirs.append(self.systest_dir)

@@ -14,6 +14,7 @@ class OpticsScores:
         self.proj = proj
         self.optics_spec = optics_spec
         self.systest_dirs = SystestDirectories(str(Path.home()), self.optics_spec)
+        self.systest_dirs.print_dirs()
         self.proj_log_dir = self.systest_dirs.result_logs_dir
 
         if 'OPTICS_HOME' not in os.environ:            
