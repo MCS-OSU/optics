@@ -43,8 +43,17 @@ def is_running_on_ec2b():
     uname_output = os.uname()[1]
     return uname_output == EC2B_UNAME_OUTPUT
 
+def is_running_on_ec2c():
+    uname_output = os.uname()[1]
+    return uname_output == EC2C_UNAME_OUTPUT
+
+def is_running_on_ec2d():
+    uname_output = os.uname()[1]
+    return uname_output == EC2D_UNAME_OUTPUT
+
 def is_running_on_ec2():
     return is_running_on_ec2a() or is_running_on_ec2b()
+
 
 def is_datastore_remote():
     datastore = os.environ['OPTICS_DATASTORE']
