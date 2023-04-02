@@ -29,6 +29,11 @@ class OpticsDashboard():
         self.sessions = OpticsSessions(systest_dirs, scene_state_histories)
         
 
+    def show_session_details(self):
+        # self.sessions.sort_by_idle_time()
+        self.sessions.display_info_header()
+        self.sessions.print_session_info()
+        
     def show_all(self):
         self.test_register.show_gpu_mem_fail_retry_count()
         self.test_register.show_scene_timings()        

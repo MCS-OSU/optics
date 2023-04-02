@@ -1,0 +1,2428 @@
+INFO:    Starting build...
+INFO:    Verifying bootstrap image /home/jedirv/outer_optics_v6i/apptainer/sifs/ubuntu_python.sif
+WARNING: integrity: signature not found for object group 1
+WARNING: Bootstrap image could not be verified, but build will continue.
+INFO:    Running post scriptlet
++ cp /tmp/run_pvoe_040123_val6_cuda_11.sh /
++ chmod 770 /run_pvoe_040123_val6_cuda_11.sh
++ ssh-agent -s
++ eval SSH_AUTH_SOCK=/tmp/ssh-91hj2FOw7fqy/agent.213; export SSH_AUTH_SOCK;
+SSH_AGENT_PID=214; export SSH_AGENT_PID;
+echo Agent pid 214;
++ SSH_AUTH_SOCK=/tmp/ssh-91hj2FOw7fqy/agent.213
++ export SSH_AUTH_SOCK
++ SSH_AGENT_PID=214
++ export SSH_AGENT_PID
++ echo Agent pid 214
+Agent pid 214
++ mkdir /root/.ssh
++ cp /tmp/config /root/.ssh
++ cp /tmp/id_ed25529_031623 /root/.ssh
++ ssh-add /root/.ssh/id_ed25529_031623
+Identity added: /root/.ssh/id_ed25529_031623 (jedirv@gmail.com)
++ cd /
++ git clone git@github.com:MCS-OSU/optics.git image__pvoe_040123_val6_cuda_11
+Cloning into 'image__pvoe_040123_val6_cuda_11'...
+Warning: Permanently added 'github.com,192.30.255.112' (ECDSA) to the list of known hosts.
++ cd image__pvoe_040123_val6_cuda_11
++ git checkout main
+Already on 'main'
+Your branch is up to date with 'origin/main'.
++ cp ssh_urls_for_git_modules.txt .gitmodules
++ git config --global user.name jedirv
++ git config --global credential.helper store
++ git submodule update --init --recursive
+Submodule 'opics_avoe' (git@github.com:MCS-OSU/opics.git) registered for path 'opics'
+Submodule 'opics_common' (git@github.com:MCS-OSU/opics-common.git) registered for path 'opics_common'
+Submodule 'opics_inter' (git@github.com:MCS-OSU/opics-inter.git) registered for path 'opics_inter'
+Submodule 'opics_pvoe' (git@github.com:MCS-OSU/opics-pvoe.git) registered for path 'opics_pvoe'
+Cloning into '/image__pvoe_040123_val6_cuda_11/opics'...
+Cloning into '/image__pvoe_040123_val6_cuda_11/opics_common'...
+Cloning into '/image__pvoe_040123_val6_cuda_11/opics_inter'...
+Cloning into '/image__pvoe_040123_val6_cuda_11/opics_pvoe'...
+Submodule path 'opics': checked out '0f3d8a71c1778b0d172473f09e0782e0e5afb5dc'
+Submodule 'ile' (https://github.com/NextCenturyCorporation/mcs-scene-generator) registered for path 'opics/ile'
+Submodule 'opics_common' (https://github.com/MCS-OSU/opics-common.git) registered for path 'opics/opics_common'
+Cloning into '/image__pvoe_040123_val6_cuda_11/opics/ile'...
+Cloning into '/image__pvoe_040123_val6_cuda_11/opics/opics_common'...
+Submodule path 'opics/ile': checked out '153db055a5c3d7ef7c34b6b22eb9ad7ffd92e1cd'
+Submodule path 'opics/opics_common': checked out '7d3f4404509b1ba89551e49df61ab3e1e3d8885e'
+Submodule path 'opics_common': checked out 'd69b366a5c315b900c79875b95ffa040de6984e0'
+Submodule path 'opics_inter': checked out '0c2d91e4e4104be6ea4edadcfeb65ae04e967b35'
+Submodule path 'opics_pvoe': checked out '3a3a10ec97a97e9b428848c8ca99b2d214fb05eb'
++ cd /image__pvoe_040123_val6_cuda_11/opics_pvoe
++ git checkout v6.1.3
+Previous HEAD position was 3a3a10e initialize the repo by passing pre-commit
+HEAD is now at e86cdc2 Merge pull request #27 from MCS-OSU/venkat/dev/report-VOE-location
++ cd /image__pvoe_040123_val6_cuda_11/opics_common
++ git checkout main
+Previous HEAD position was d69b366 add the import hack for pvoe in eval6_agent so that run_opics_scene and run_optics_scene both catch ig
+Switched to branch 'main'
+Your branch is up to date with 'origin/main'.
++ export OPTICS_HOME=/image__pvoe_040123_val6_cuda_11
++ echo ==============  python dependencies  ===================
+==============  python dependencies  ===================
++ cd /image__pvoe_040123_val6_cuda_11/opics_pvoe
++ cd /image__pvoe_040123_val6_cuda_11/opics_pvoe
++ ./all.sh
+Setting up environment CUDA=11...
+Setting conda init...
+Cearting the environment...
+Collecting package metadata (repodata.json): ...working... done
+Solving environment: ...working... done
+
+
+==> WARNING: A newer version of conda exists. <==
+  current version: 22.11.1
+  latest version: 23.3.1
+
+Please update conda by running
+
+    $ conda update -n base -c defaults conda
+
+Or to minimize the number of packages updated during conda update use
+
+     conda install conda=23.3.1
+
+
+
+Downloading and Extracting Packages
+secretstorage-3.3.1  | 24 KB     |            |   0% 
+absl-py-1.3.0        | 166 KB    |            |   0% [A
+
+libffi-3.3           | 50 KB     |            |   0% [A[A
+
+
+python-3.7.13        | 40.7 MB   |            |   0% [A[A[A
+
+
+
+virtualenv-20.16.2   | 6.0 MB    |            |   0% [A[A[A[A
+
+
+
+
+openssl-1.1.1t       | 3.7 MB    |            |   0% [A[A[A[A[A
+
+
+
+
+
+filelock-3.9.0       | 18 KB     |            |   0% [A[A[A[A[A[A
+
+
+
+
+
+
+mkl-service-2.4.0    | 56 KB     |            |   0% [A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-estimator | 261 KB    |            |   0% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+intel-openmp-2021.4. | 4.2 MB    |            |   0% [A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+requests-toolbelt-0. | 42 KB     |            |   0% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+keras-preprocessing- | 35 KB     |            |   0% [A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+c-ares-1.19.0        | 118 KB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+cffi-1.15.1          | 227 KB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+dbus-1.13.18         | 504 KB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+pyopenssl-23.0.0     | 96 KB     |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+html5lib-1.1         | 91 KB     |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+pylev-1.3.0          | 9 KB      |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+pastel-0.2.1         | 12 KB     |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ... (more hidden) ...[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[Asecretstorage-3.3.1  | 24 KB     | ########## | 100% 
+
+libffi-3.3           | 50 KB     | ########## | 100% [A[A
+
+
+
+
+
+filelock-3.9.0       | 18 KB     | ########## | 100% [A[A[A[A[A[A
+absl-py-1.3.0        | 166 KB    | ########## | 100% [A
+
+
+python-3.7.13        | 40.7 MB   |            |   1% [A[A[A
+
+
+
+
+openssl-1.1.1t       | 3.7 MB    | 3          |   3% [A[A[A[A[A
+
+
+
+
+
+
+mkl-service-2.4.0    | 56 KB     | ##8        |  28% [A[A[A[A[A[A[A
+
+
+
+
+
+
+mkl-service-2.4.0    | 56 KB     | ########## | 100% [A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+intel-openmp-2021.4. | 4.2 MB    |            |   0% [A[A[A[A[A[A[A[A[A
+
+
+
+virtualenv-20.16.2   | 6.0 MB    |            |   0% [A[A[A[A
+
+
+python-3.7.13        | 40.7 MB   | 2          |   2% [A[A[A
+
+
+
+
+openssl-1.1.1t       | 3.7 MB    | #4         |  15% [A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-estimator | 261 KB    | 6          |   6% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+intel-openmp-2021.4. | 4.2 MB    | 8          |   9% [A[A[A[A[A[A[A[A[A
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | 2          |   3% [A[A[A[A
+
+
+
+
+openssl-1.1.1t       | 3.7 MB    | ##4        |  24% [A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-estimator | 261 KB    | ########## | 100% [A[A[A[A[A[A[A[A
+
+
+python-3.7.13        | 40.7 MB   | 3          |   3% [A[A[A
+
+
+
+
+
+
+
+
+intel-openmp-2021.4. | 4.2 MB    | #5         |  15% [A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+requests-toolbelt-0. | 42 KB     | ###7       |  38% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+requests-toolbelt-0. | 42 KB     | ########## | 100% [A[A[A[A[A[A[A[A[A[A
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | 6          |   6% [A[A[A[A
+
+
+
+
+openssl-1.1.1t       | 3.7 MB    | ###6       |  37% [A[A[A[A[A
+
+
+python-3.7.13        | 40.7 MB   | 4          |   5% [A[A[A
+
+
+
+
+
+
+
+
+
+
+keras-preprocessing- | 35 KB     | ####5      |  46% [A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+keras-preprocessing- | 35 KB     | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+intel-openmp-2021.4. | 4.2 MB    | ##         |  21% [A[A[A[A[A[A[A[A[A
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | 9          |  10% [A[A[A[A
+
+
+
+
+openssl-1.1.1t       | 3.7 MB    | ####7      |  47% [A[A[A[A[A
+
+
+python-3.7.13        | 40.7 MB   | 5          |   6% [A[A[A
+
+
+
+
+
+
+
+
+
+
+
+c-ares-1.19.0        | 118 KB    | #3         |  14% [A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+c-ares-1.19.0        | 118 KB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+intel-openmp-2021.4. | 4.2 MB    | ##6        |  26% [A[A[A[A[A[A[A[A[A
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | #3         |  13% [A[A[A[A
+
+
+
+
+openssl-1.1.1t       | 3.7 MB    | #####7     |  58% [A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+cffi-1.15.1          | 227 KB    | 7          |   7% [A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+python-3.7.13        | 40.7 MB   | 7          |   7% [A[A[A
+
+
+
+
+
+
+
+
+intel-openmp-2021.4. | 4.2 MB    | ###2       |  32% [A[A[A[A[A[A[A[A[A
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | #5         |  16% [A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+cffi-1.15.1          | 227 KB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+openssl-1.1.1t       | 3.7 MB    | ######7    |  68% [A[A[A[A[A
+
+
+python-3.7.13        | 40.7 MB   | 8          |   8% [A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+dbus-1.13.18         | 504 KB    | 3          |   3% [A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+intel-openmp-2021.4. | 4.2 MB    | ###7       |  38% [A[A[A[A[A[A[A[A[A
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | #9         |  20% [A[A[A[A
+
+
+
+
+openssl-1.1.1t       | 3.7 MB    | #######9   |  79% [A[A[A[A[A
+
+
+python-3.7.13        | 40.7 MB   | 9          |  10% [A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+dbus-1.13.18         | 504 KB    | #####      |  51% [A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+intel-openmp-2021.4. | 4.2 MB    | ####4      |  45% [A[A[A[A[A[A[A[A[A
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | ##3        |  23% [A[A[A[A
+
+
+
+
+openssl-1.1.1t       | 3.7 MB    | #########1 |  91% [A[A[A[A[A
+
+
+python-3.7.13        | 40.7 MB   | #1         |  11% [A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+dbus-1.13.18         | 504 KB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+dbus-1.13.18         | 504 KB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+intel-openmp-2021.4. | 4.2 MB    | #####1     |  52% [A[A[A[A[A[A[A[A[A
+
+
+
+
+openssl-1.1.1t       | 3.7 MB    | ########## | 100% [A[A[A[A[A
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | ##7        |  27% [A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+pyopenssl-23.0.0     | 96 KB     | #6         |  17% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+pyopenssl-23.0.0     | 96 KB     | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+html5lib-1.1         | 91 KB     | #7         |  18% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+python-3.7.13        | 40.7 MB   | #2         |  13% [A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+html5lib-1.1         | 91 KB     | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+pastel-0.2.1         | 12 KB     | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+pylev-1.3.0          | 9 KB      | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+pastel-0.2.1         | 12 KB     | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+pylev-1.3.0          | 9 KB      | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+intel-openmp-2021.4. | 4.2 MB    | ######1    |  62% [A[A[A[A[A[A[A[A[A
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | ###2       |  33% [A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ... (more hidden) ...[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ... (more hidden) ...[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+python-3.7.13        | 40.7 MB   | #4         |  15% [A[A[A
+
+
+
+
+
+
+
+
+intel-openmp-2021.4. | 4.2 MB    | #######    |  70% [A[A[A[A[A[A[A[A[A
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | ###6       |  37% [A[A[A[A
+
+
+python-3.7.13        | 40.7 MB   | #6         |  16% [A[A[A
+
+
+
+
+
+
+
+
+intel-openmp-2021.4. | 4.2 MB    | #######8   |  78% [A[A[A[A[A[A[A[A[A
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | ####1      |  41% [A[A[A[A
+
+
+python-3.7.13        | 40.7 MB   | #7         |  18% [A[A[A
+
+
+
+
+
+
+
+
+intel-openmp-2021.4. | 4.2 MB    | ########6  |  87% [A[A[A[A[A[A[A[A[A
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | ####5      |  45% [A[A[A[A
+
+
+python-3.7.13        | 40.7 MB   | #9         |  19% [A[A[A
+
+
+
+
+
+
+
+
+intel-openmp-2021.4. | 4.2 MB    | #########4 |  95% [A[A[A[A[A[A[A[A[A
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | ####9      |  50% [A[A[A[A
+
+
+python-3.7.13        | 40.7 MB   | ##         |  21% [A[A[A
+
+
+
+
+
+
+
+
+intel-openmp-2021.4. | 4.2 MB    | ########## | 100% [A[A[A[A[A[A[A[A[A
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | #####4     |  54% [A[A[A[A
+
+
+python-3.7.13        | 40.7 MB   | ##2        |  22% [A[A[A
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | #####8     |  58% [A[A[A[A
+
+
+python-3.7.13        | 40.7 MB   | ##3        |  24% [A[A[A
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | ######2    |  63% [A[A[A[A
+
+
+python-3.7.13        | 40.7 MB   | ##5        |  25% [A[A[A
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | ######7    |  67% [A[A[A[A
+
+
+python-3.7.13        | 40.7 MB   | ##6        |  27% [A[A[A
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | #######1   |  72% [A[A[A[A
+
+
+python-3.7.13        | 40.7 MB   | ##8        |  28% [A[A[A
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | #######6   |  76% [A[A[A[A
+
+
+python-3.7.13        | 40.7 MB   | ##9        |  30% [A[A[A
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | ########   |  81% [A[A[A[A
+
+
+python-3.7.13        | 40.7 MB   | ###1       |  32% [A[A[A
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | ########4  |  85% [A[A[A[A
+
+
+python-3.7.13        | 40.7 MB   | ###2       |  33% [A[A[A
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | ########9  |  89% [A[A[A[A
+
+
+python-3.7.13        | 40.7 MB   | ###4       |  34% [A[A[A
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | #########3 |  93% [A[A[A[A
+
+
+python-3.7.13        | 40.7 MB   | ###5       |  36% [A[A[A
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | #########7 |  97% [A[A[A[A
+
+
+python-3.7.13        | 40.7 MB   | ###7       |  37% [A[A[A
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | ########## | 100% [A[A[A[A
+
+
+python-3.7.13        | 40.7 MB   | ###8       |  39% [A[A[A
+
+
+python-3.7.13        | 40.7 MB   | ####       |  41% [A[A[A
+
+
+python-3.7.13        | 40.7 MB   | ####2      |  43% [A[A[A
+
+
+python-3.7.13        | 40.7 MB   | ####4      |  44% [A[A[A
+
+
+python-3.7.13        | 40.7 MB   | ####6      |  46% [A[A[A
+
+
+python-3.7.13        | 40.7 MB   | ####8      |  48% [A[A[A
+
+
+python-3.7.13        | 40.7 MB   | #####      |  50% [A[A[A
+
+
+python-3.7.13        | 40.7 MB   | #####1     |  52% [A[A[A
+
+
+python-3.7.13        | 40.7 MB   | #####3     |  54% [A[A[A
+
+
+python-3.7.13        | 40.7 MB   | #####6     |  56% [A[A[A
+
+
+python-3.7.13        | 40.7 MB   | #####8     |  58% [A[A[A
+
+
+python-3.7.13        | 40.7 MB   | ######     |  60% [A[A[A
+
+
+python-3.7.13        | 40.7 MB   | ######2    |  62% [A[A[A
+
+
+python-3.7.13        | 40.7 MB   | ######4    |  64% [A[A[A
+
+
+python-3.7.13        | 40.7 MB   | ######6    |  66% [A[A[A
+
+
+python-3.7.13        | 40.7 MB   | ######7    |  68% [A[A[A
+
+
+python-3.7.13        | 40.7 MB   | ######9    |  70% [A[A[A
+
+
+python-3.7.13        | 40.7 MB   | #######1   |  71% [A[A[A
+
+
+python-3.7.13        | 40.7 MB   | #######3   |  73% [A[A[A
+
+
+python-3.7.13        | 40.7 MB   | #######4   |  75% [A[A[A
+
+
+python-3.7.13        | 40.7 MB   | #######6   |  77% [A[A[A
+
+
+python-3.7.13        | 40.7 MB   | #######8   |  78% [A[A[A
+
+
+python-3.7.13        | 40.7 MB   | ########   |  80% [A[A[A
+
+
+python-3.7.13        | 40.7 MB   | ########2  |  82% [A[A[A
+
+
+python-3.7.13        | 40.7 MB   | ########3  |  84% [A[A[A
+
+
+python-3.7.13        | 40.7 MB   | ########5  |  86% [A[A[A
+
+
+python-3.7.13        | 40.7 MB   | ########7  |  88% [A[A[A
+
+
+python-3.7.13        | 40.7 MB   | ########9  |  90% [A[A[A
+
+
+python-3.7.13        | 40.7 MB   | #########1 |  91% [A[A[A
+
+
+python-3.7.13        | 40.7 MB   | #########3 |  93% [A[A[A
+
+
+python-3.7.13        | 40.7 MB   | #########5 |  95% [A[A[A
+
+
+python-3.7.13        | 40.7 MB   | #########7 |  97% [A[A[A
+
+
+python-3.7.13        | 40.7 MB   | #########8 |  99% [A[A[A
+
+
+python-3.7.13        | 40.7 MB   | ########## | 100% [A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                      [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A                                                     
+                                                     [A
+
+                                                     [A[A
+
+
+                                                     [A[A[A
+
+
+
+                                                     [A[A[A[A
+
+
+
+
+                                                     [A[A[A[A[A
+
+
+
+
+
+                                                     [A[A[A[A[A[A
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+[A
+
+[A[A
+
+
+[A[A[A
+
+
+
+[A[A[A[A
+
+
+
+
+[A[A[A[A[A
+
+
+
+
+
+[A[A[A[A[A[A
+
+
+
+
+
+
+[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+[A
+
+[A[A
+
+
+[A[A[A
+
+
+
+[A[A[A[A
+
+
+
+
+[A[A[A[A[A
+
+
+
+
+
+[A[A[A[A[A[A
+
+
+
+
+
+
+[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+[A
+
+[A[A
+
+
+[A[A[A
+
+
+
+[A[A[A[A
+
+
+
+
+[A[A[A[A[A
+
+
+
+
+
+[A[A[A[A[A[A
+
+
+
+
+
+
+[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+[A
+
+[A[A
+
+
+[A[A[A
+
+
+
+[A[A[A[A
+
+
+
+
+[A[A[A[A[A
+
+
+
+
+
+[A[A[A[A[A[A
+
+
+
+
+
+
+[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A
+Preparing transaction: ...working... done
+Verifying transaction: ...working... done
+Executing transaction: ...working... done
+#
+# To activate this environment, use
+#
+#     $ conda activate env_opics_pvoe
+#
+# To deactivate an active environment, use
+#
+#     $ conda deactivate
+
+Activating the environment...
+Upgrading pip...
+Requirement already satisfied: pip in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (22.3.1)
+Collecting pip
+  Downloading pip-23.0.1-py3-none-any.whl (2.1 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 14.0 MB/s eta 0:00:00
+Installing collected packages: pip
+  Attempting uninstall: pip
+    Found existing installation: pip 22.3.1
+    Uninstalling pip-22.3.1:
+      Successfully uninstalled pip-22.3.1
+Successfully installed pip-23.0.1
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+Installing PyTorch=1.12.1 for CUDA=11.6...
+Looking in links: https://download.pytorch.org/whl/torch_stable.html
+Collecting torch==1.8.0+cu111
+  Downloading https://download.pytorch.org/whl/cu111/torch-1.8.0%2Bcu111-cp37-cp37m-linux_x86_64.whl (1982.2 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.0/2.0 GB 3.4 MB/s eta 0:00:00
+Collecting torchvision==0.9.0+cu111
+  Downloading https://download.pytorch.org/whl/cu111/torchvision-0.9.0%2Bcu111-cp37-cp37m-linux_x86_64.whl (17.6 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 17.6/17.6 MB 14.2 MB/s eta 0:00:00
+Collecting typing-extensions
+  Downloading typing_extensions-4.5.0-py3-none-any.whl (27 kB)
+Requirement already satisfied: numpy in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (from torch==1.8.0+cu111) (1.21.5)
+Collecting pillow>=4.1.1
+  Downloading Pillow-9.5.0-cp37-cp37m-manylinux_2_28_x86_64.whl (3.4 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.4/3.4 MB 15.5 MB/s eta 0:00:00
+Installing collected packages: typing-extensions, pillow, torch, torchvision
+Successfully installed pillow-9.5.0 torch-1.8.0+cu111 torchvision-0.9.0+cu111 typing-extensions-4.5.0
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+Updating poetry config...
+Installing dependencies using poetry...
+Updating dependencies
+Resolving dependencies...
+<debug>PackageInfo:</debug> Invalid constraint (jupyter-core!=~5.0,>=4.12) found in jupyter-server-2.0.0 dependencies, skipping
+<debug>PackageInfo:</debug> Invalid constraint (jupyter-core!=~5.0,>=4.12) found in jupyter-server-2.0.0 dependencies, skipping
+<debug>PackageInfo:</debug> Invalid constraint (jupyter-core!=~5.0,>=4.12) found in jupyter-server-2.0.0 dependencies, skipping
+
+Writing lock file
+
+Package operations: 148 installs, 21 updates, 0 removals
+
+  - Updating zipp (3.11.0 -> 3.15.0)
+  - Installing attrs (22.2.0)
+  - Updating importlib-metadata (1.7.0 -> 6.1.0)
+  - Installing importlib-resources (5.12.0)
+  - Installing pkgutil-resolve-name (1.3.10)
+  - Installing pyrsistent (0.19.3)
+  - Installing traitlets (5.9.0)
+  - Installing entrypoints (0.4)
+  - Installing fastjsonschema (2.16.3)
+  - Installing jsonschema (4.17.3)
+  - Installing jupyter-core (4.12.0)
+  - Installing nest-asyncio (1.5.6)
+  - Installing python-dateutil (2.8.2)
+  - Installing pyzmq (25.0.2)
+  - Installing tornado (6.2)
+  - Installing jupyter-client (7.4.9)
+  - Updating markupsafe (2.1.1 -> 2.1.2)
+  - Installing nbformat (5.8.0)
+  - Installing soupsieve (2.4)
+  - Installing argon2-cffi-bindings (21.2.0)
+  - Installing beautifulsoup4 (4.12.0)
+  - Installing bleach (6.0.0)
+  - Installing defusedxml (0.7.1)
+  - Installing jinja2 (3.1.2)
+  - Installing jupyterlab-pygments (0.2.2)
+  - Installing mistune (2.0.5)
+  - Installing nbclient (0.7.2)
+  - Updating packaging (20.9 -> 23.0)
+  - Installing pandocfilters (1.5.0)
+  - Installing parso (0.8.3)
+  - Installing pygments (2.14.0)
+  - Installing sniffio (1.3.0)
+  - Installing tinycss2 (1.2.1)
+  - Installing wcwidth (0.2.5)
+  - Installing anyio (3.6.2)
+  - Installing argon2-cffi (21.3.0)
+  - Installing backcall (0.2.0)
+  - Installing decorator (5.1.1)
+  - Installing jedi (0.18.2)
+  - Installing matplotlib-inline (0.1.6)
+  - Installing nbconvert (7.2.10)
+  - Installing pickleshare (0.7.5)
+  - Installing prometheus-client (0.16.0)
+  - Installing prompt-toolkit (3.0.38)
+  - Installing send2trash (1.8.0)
+  - Installing terminado (0.17.1)
+  - Installing websocket-client (1.5.1)
+  - Installing debugpy (1.6.6)
+  - Installing ipython (7.34.0)
+  - Installing jupyter-server (1.23.6)
+  - Installing psutil (5.9.4)
+  - Updating charset-normalizer (2.0.4 -> 3.1.0)
+  - Installing ipykernel (6.16.2)
+  - Installing ipython-genutils (0.2.0)
+  - Installing notebook-shim (0.2.2)
+  - Installing pyasn1 (0.4.8)
+  - Installing tomli (2.0.1)
+  - Updating urllib3 (1.26.14 -> 1.26.15)
+  - Installing cachetools (5.3.0)
+  - Installing click (8.1.3)
+  - Installing cycler (0.11.0)
+  - Installing fonttools (4.38.0)
+  - Installing itsdangerous (2.1.2)
+  - Installing jmespath (1.0.1)
+  - Installing jupyterlab-widgets (3.0.7)
+  - Installing kiwisolver (1.4.4)
+  - Installing mypy-extensions (1.0.0)
+  - Installing nbclassic (0.5.4)
+  - Updating numpy (1.21.5 -> 1.21.0)
+  - Installing oauthlib (3.2.2)
+  - Updating pillow (9.5.0 -> 6.2.2)
+  - Installing pyasn1-modules (0.2.8)
+  - Installing python-utils (3.5.2)
+  - Installing qtpy (2.3.1)
+  - Updating requests (2.28.1 -> 2.28.2)
+  - Installing rsa (4.9)
+  - Installing setuptools-scm (7.1.0)
+  - Updating werkzeug (2.2.2 -> 2.2.3)
+  - Installing widgetsnbextension (4.0.7)
+  - Installing aws-requests-auth (0.4.3)
+  - Installing botocore (1.29.104)
+  - Updating filelock (3.9.0 -> 3.10.7)
+  - Installing flask (2.2.3)
+  - Installing google-auth (2.17.1)
+  - Installing imageio (2.9.0)
+  - Installing ipywidgets (8.0.6)
+  - Installing joblib (1.2.0)
+  - Installing jsonpointer (2.3)
+  - Installing jupyter-console (6.6.3)
+  - Installing matplotlib (3.5.1)
+  - Updating msgpack (1.0.3 -> 1.0.5)
+  - Installing networkx (2.6.3)
+  - Installing notebook (6.5.3)
+  - Installing opencv-python (4.5.3.56)
+  - Updating platformdirs (2.5.2 -> 3.2.0)
+  - Installing progressbar2 (4.2.0)
+  - Installing pytz (2023.3)
+  - Installing pywavelets (1.4.0)
+  - Installing pyyaml (6.0)
+  - Installing qtconsole (5.4.1)
+  - Installing requests-oauthlib (1.3.1)
+  - Installing ruamel.yaml.clib (0.2.7)
+  - Updating termcolor (2.1.0 -> 1.1.0)
+  - Installing tifffile (2021.11.2)
+  - Installing typing-inspect (0.8.0)
+  - Updating absl-py (1.3.0 -> 1.4.0)
+  - Installing ai2thor (2.5.0)
+  - Installing asttokens (2.2.1)
+  - Installing cfgv (3.3.1)
+  - Installing colour (0.1.5)
+  - Installing commonmark (0.9.1)
+  - Installing descartes (1.1.0)
+  - Installing exceptiongroup (1.1.1)
+  - Installing executing (0.10.0)
+  - Installing fire (0.5.0)
+  - Installing google-auth-oauthlib (0.4.6)
+  - Updating grpcio (1.42.0 -> 1.53.0)
+  - Installing identify (2.5.22)
+  - Installing iniconfig (2.0.0)
+  - Installing jsonpatch (1.32)
+  - Installing jupyter (1.0.0)
+  - Installing libcst (0.4.9)
+  - Installing llvmlite (0.38.1)
+  - Updating markdown (3.3.4 -> 3.4.3)
+  - Installing nodeenv (1.7.0)
+  - Installing numpyencoder (0.3.0)
+  - Installing pandas (1.3.5)
+  - Installing pathspec (0.10.3)
+  - Installing pluggy (1.0.0)
+  - Updating protobuf (3.20.3 -> 3.20.1)
+  - Installing pycocotools (2.0.4)
+  - Installing pydantic (1.10.7)
+  - Installing pyquaternion (0.9.9)
+  - Installing ruamel.yaml (0.17.21)
+  - Installing scikit-image (0.19.3)
+  - Installing scikit-learn (0.22.2)
+  - Installing shapely (2.0.1)
+  - Installing tensorboard-data-server (0.6.1)
+  - Installing tensorboard-plugin-wit (1.8.1)
+  - Installing terminaltables (3.1.10)
+  - Updating tomlkit (0.11.1 -> 0.11.7)
+  - Installing tqdm (4.65.0)
+  - Installing typed-ast (1.5.4)
+  - Installing typeguard (2.13.2)
+  - Installing typer (0.7.0)
+  - Updating virtualenv (20.16.2 -> 20.21.0)
+  - Installing xmltodict (0.13.0)
+  - Installing black (22.12.0)
+  - Installing cython (0.29.30)
+  - Installing devtools (0.9.0)
+  - Installing gdown (4.4.0)
+  - Installing isort (5.11.5)
+  - Installing loguru (0.6.0)
+  - Installing machine-common-sense (0.6.5)
+  - Installing mmdet (2.24.1)
+  - Installing motmetrics (1.2.5)
+  - Installing mypy (0.961)
+  - Installing numba (0.55.2)
+  - Installing nuscenes-devkit (1.1.9)
+  - Installing pre-commit (2.21.0)
+  - Installing pre-commit-hooks (4.4.0)
+  - Installing progress (1.6)
+  - Installing pycln (2.1.3)
+  - Installing pytest (7.2.2)
+  - Installing python-dotenv (0.20.0)
+  - Installing rich (12.6.0)
+  - Updating tensorboard (1.14.0 -> 2.8.0)
+  - Installing transforms3d (0.3.1)
+  - Installing visdom (0.2.4)
+
+Installing the current project: opics_pvoe (0.1.0)
+installing gdown without caching
+Requirement already satisfied: gdown in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (4.4.0)
+Collecting gdown
+  Downloading gdown-4.7.1-py3-none-any.whl (15 kB)
+Requirement already satisfied: filelock in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (from gdown) (3.10.7)
+Requirement already satisfied: beautifulsoup4 in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (from gdown) (4.12.0)
+Requirement already satisfied: tqdm in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (from gdown) (4.65.0)
+Requirement already satisfied: requests[socks] in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (from gdown) (2.28.2)
+Requirement already satisfied: six in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (from gdown) (1.16.0)
+Requirement already satisfied: soupsieve>1.2 in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (from beautifulsoup4->gdown) (2.4)
+Requirement already satisfied: urllib3<1.27,>=1.21.1 in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (from requests[socks]->gdown) (1.26.15)
+Requirement already satisfied: idna<4,>=2.5 in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (from requests[socks]->gdown) (3.4)
+Requirement already satisfied: charset-normalizer<4,>=2 in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (from requests[socks]->gdown) (3.1.0)
+Requirement already satisfied: certifi>=2017.4.17 in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (from requests[socks]->gdown) (2022.12.7)
+Requirement already satisfied: PySocks!=1.5.7,>=1.5.6 in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (from requests[socks]->gdown) (1.7.1)
+Installing collected packages: gdown
+  Attempting uninstall: gdown
+    Found existing installation: gdown 4.4.0
+    Uninstalling gdown-4.4.0:
+      Successfully uninstalled gdown-4.4.0
+Successfully installed gdown-4.7.1
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+Downloading weights...
+Setting conda init...
+Activating the environment...
+Downloading...
+From (uriginal): https://drive.google.com/uc?id=1wepo_mdyOqphSn4C_iOD8tVAvSuci3ki
+From (redirected): https://drive.google.com/uc?id=1wepo_mdyOqphSn4C_iOD8tVAvSuci3ki&confirm=t&uuid=b519be01-9c37-43bc-a0ac-9c0f4a7fdb9d
+To: /image__pvoe_040123_val6_cuda_11/opics_pvoe/eval5_models_ckpts.zip
+  0%|          | 0.00/504M [00:00<?, ?B/s]  0%|          | 1.05M/504M [00:00<01:06, 7.53MB/s]  0%|          | 2.10M/504M [00:00<00:57, 8.71MB/s]  1%|          | 3.67M/504M [00:00<00:48, 10.3MB/s]  1%|          | 5.24M/504M [00:00<00:42, 11.8MB/s]  1%|▏         | 6.82M/504M [00:00<00:39, 12.7MB/s]  2%|▏         | 8.91M/504M [00:00<00:41, 12.0MB/s]  2%|▏         | 11.0M/504M [00:00<00:36, 13.4MB/s]  2%|▏         | 12.6M/504M [00:01<00:35, 13.9MB/s]  3%|▎         | 14.2M/504M [00:01<00:34, 14.2MB/s]  3%|▎         | 16.3M/504M [00:01<00:33, 14.8MB/s]  4%|▎         | 17.8M/504M [00:01<00:32, 14.8MB/s]  4%|▍         | 19.4M/504M [00:01<00:32, 15.0MB/s]  4%|▍         | 21.0M/504M [00:01<00:31, 15.1MB/s]  5%|▍         | 23.1M/504M [00:01<00:30, 15.6MB/s]  5%|▍         | 25.2M/504M [00:01<00:30, 15.9MB/s]  5%|▌         | 27.3M/504M [00:01<00:29, 16.2MB/s]  6%|▌         | 29.4M/504M [00:02<00:28, 16.5MB/s]  6%|▌         | 31.5M/504M [00:02<00:29, 15.8MB/s]  7%|▋         | 33.6M/504M [00:02<00:29, 16.0MB/s]  7%|▋         | 35.7M/504M [00:02<00:30, 15.5MB/s]  7%|▋         | 37.2M/504M [00:02<00:31, 14.8MB/s]  8%|▊         | 38.8M/504M [00:02<00:32, 14.4MB/s]  8%|▊         | 40.4M/504M [00:02<00:33, 13.9MB/s]  8%|▊         | 41.9M/504M [00:02<00:33, 13.8MB/s]  9%|▊         | 43.5M/504M [00:03<00:33, 13.7MB/s]  9%|▉         | 45.1M/504M [00:03<00:32, 14.1MB/s]  9%|▉         | 46.7M/504M [00:03<00:33, 13.6MB/s] 10%|▉         | 48.2M/504M [00:03<00:33, 13.4MB/s] 10%|▉         | 49.8M/504M [00:03<00:34, 13.2MB/s] 10%|█         | 51.4M/504M [00:03<00:34, 13.2MB/s] 11%|█         | 53.0M/504M [00:03<00:32, 13.7MB/s] 11%|█         | 54.5M/504M [00:03<00:32, 14.0MB/s] 11%|█         | 56.1M/504M [00:03<00:31, 14.1MB/s] 11%|█▏        | 57.7M/504M [00:04<00:31, 14.2MB/s] 12%|█▏        | 59.2M/504M [00:04<00:30, 14.4MB/s] 12%|█▏        | 61.3M/504M [00:04<00:30, 14.6MB/s] 12%|█▏        | 62.9M/504M [00:04<00:30, 14.5MB/s] 13%|█▎        | 64.5M/504M [00:04<00:31, 14.1MB/s] 13%|█▎        | 66.1M/504M [00:04<00:31, 13.7MB/s] 13%|█▎        | 67.6M/504M [00:04<00:32, 13.6MB/s] 14%|█▎        | 69.2M/504M [00:04<00:32, 13.4MB/s] 14%|█▍        | 70.8M/504M [00:05<00:35, 12.3MB/s] 14%|█▍        | 72.4M/504M [00:05<00:42, 10.1MB/s] 15%|█▍        | 73.9M/504M [00:05<00:42, 10.2MB/s] 15%|█▍        | 75.5M/504M [00:05<00:45, 9.51MB/s] 15%|█▌        | 77.1M/504M [00:05<00:42, 10.0MB/s] 16%|█▌        | 78.6M/504M [00:05<00:42, 10.1MB/s] 16%|█▌        | 80.2M/504M [00:06<00:40, 10.4MB/s] 16%|█▌        | 81.8M/504M [00:06<00:40, 10.4MB/s] 17%|█▋        | 83.4M/504M [00:06<00:39, 10.7MB/s] 17%|█▋        | 84.9M/504M [00:06<00:39, 10.6MB/s] 17%|█▋        | 86.5M/504M [00:06<00:38, 10.9MB/s] 17%|█▋        | 88.1M/504M [00:06<00:38, 10.8MB/s] 18%|█▊        | 89.7M/504M [00:06<00:38, 10.8MB/s] 18%|█▊        | 91.2M/504M [00:07<00:41, 9.90MB/s] 18%|█▊        | 92.8M/504M [00:07<00:39, 10.3MB/s] 19%|█▊        | 94.4M/504M [00:07<00:38, 10.7MB/s] 19%|█▉        | 95.9M/504M [00:07<00:39, 10.3MB/s] 19%|█▉        | 97.5M/504M [00:07<00:37, 10.9MB/s] 20%|█▉        | 99.1M/504M [00:07<00:35, 11.3MB/s] 20%|█▉        | 101M/504M [00:07<00:36, 11.2MB/s]  20%|██        | 102M/504M [00:08<00:35, 11.3MB/s] 21%|██        | 104M/504M [00:08<00:35, 11.4MB/s] 21%|██        | 105M/504M [00:08<00:35, 11.3MB/s] 21%|██        | 107M/504M [00:08<00:35, 11.3MB/s] 22%|██▏       | 109M/504M [00:08<00:34, 11.4MB/s] 22%|██▏       | 110M/504M [00:08<00:35, 11.1MB/s] 22%|██▏       | 112M/504M [00:08<00:34, 11.4MB/s] 22%|██▏       | 113M/504M [00:09<00:33, 11.7MB/s] 23%|██▎       | 115M/504M [00:09<00:36, 10.6MB/s] 23%|██▎       | 116M/504M [00:09<00:36, 10.6MB/s] 23%|██▎       | 118M/504M [00:09<00:36, 10.7MB/s] 24%|██▎       | 120M/504M [00:09<00:34, 11.0MB/s] 24%|██▍       | 121M/504M [00:09<00:34, 11.0MB/s] 24%|██▍       | 123M/504M [00:09<00:34, 11.0MB/s] 25%|██▍       | 124M/504M [00:10<00:34, 11.0MB/s] 25%|██▍       | 126M/504M [00:10<00:34, 11.0MB/s] 25%|██▌       | 127M/504M [00:10<00:45, 8.21MB/s] 26%|██▌       | 129M/504M [00:10<00:42, 8.91MB/s] 26%|██▌       | 131M/504M [00:10<00:39, 9.46MB/s] 26%|██▌       | 132M/504M [00:10<00:37, 9.88MB/s] 27%|██▋       | 134M/504M [00:11<00:36, 10.2MB/s] 27%|██▋       | 135M/504M [00:11<00:35, 10.5MB/s] 27%|██▋       | 137M/504M [00:11<00:36, 10.0MB/s] 27%|██▋       | 138M/504M [00:11<00:37, 9.70MB/s] 28%|██▊       | 139M/504M [00:11<00:33, 10.9MB/s] 28%|██▊       | 141M/504M [00:11<00:31, 11.4MB/s] 28%|██▊       | 143M/504M [00:11<00:32, 11.2MB/s] 29%|██▊       | 144M/504M [00:12<00:31, 11.3MB/s] 29%|██▉       | 146M/504M [00:12<00:30, 11.7MB/s] 29%|██▉       | 147M/504M [00:12<00:31, 11.5MB/s] 30%|██▉       | 149M/504M [00:12<00:30, 11.5MB/s] 30%|██▉       | 150M/504M [00:12<00:31, 11.3MB/s] 30%|███       | 152M/504M [00:12<00:30, 11.4MB/s] 30%|███       | 154M/504M [00:12<00:30, 11.7MB/s] 31%|███       | 155M/504M [00:12<00:28, 12.1MB/s] 31%|███       | 157M/504M [00:13<00:28, 12.0MB/s] 31%|███▏      | 158M/504M [00:13<00:28, 12.1MB/s] 32%|███▏      | 160M/504M [00:13<00:28, 12.0MB/s] 32%|███▏      | 161M/504M [00:13<00:32, 10.4MB/s] 32%|███▏      | 163M/504M [00:13<00:31, 11.0MB/s] 33%|███▎      | 165M/504M [00:13<00:30, 11.3MB/s] 33%|███▎      | 166M/504M [00:13<00:29, 11.5MB/s] 33%|███▎      | 168M/504M [00:14<00:29, 11.6MB/s] 34%|███▎      | 169M/504M [00:14<00:28, 11.6MB/s] 34%|███▍      | 171M/504M [00:14<00:28, 11.5MB/s] 34%|███▍      | 172M/504M [00:14<00:28, 11.5MB/s] 35%|███▍      | 174M/504M [00:14<00:28, 11.6MB/s] 35%|███▍      | 176M/504M [00:14<00:28, 11.6MB/s] 35%|███▌      | 177M/504M [00:14<00:29, 11.2MB/s] 35%|███▌      | 179M/504M [00:15<00:28, 11.4MB/s] 36%|███▌      | 180M/504M [00:15<00:28, 11.4MB/s] 36%|███▌      | 182M/504M [00:15<00:28, 11.4MB/s] 36%|███▋      | 184M/504M [00:15<00:27, 11.6MB/s] 37%|███▋      | 185M/504M [00:15<00:40, 7.86MB/s] 37%|███▋      | 186M/504M [00:15<00:39, 8.12MB/s] 37%|███▋      | 188M/504M [00:16<00:35, 8.88MB/s] 38%|███▊      | 189M/504M [00:16<00:33, 9.46MB/s] 38%|███▊      | 191M/504M [00:16<00:30, 10.2MB/s] 38%|███▊      | 192M/504M [00:16<00:28, 10.9MB/s] 38%|███▊      | 194M/504M [00:16<00:27, 11.1MB/s] 39%|███▉      | 196M/504M [00:16<00:27, 11.2MB/s] 39%|███▉      | 197M/504M [00:16<00:27, 11.2MB/s] 39%|███▉      | 199M/504M [00:17<00:26, 11.3MB/s] 40%|███▉      | 200M/504M [00:17<00:26, 11.3MB/s] 40%|████      | 202M/504M [00:17<00:25, 11.6MB/s] 40%|████      | 203M/504M [00:17<00:26, 11.1MB/s] 41%|████      | 205M/504M [00:17<00:27, 10.9MB/s] 41%|████      | 207M/504M [00:17<00:25, 11.6MB/s] 41%|████▏     | 208M/504M [00:17<00:24, 12.0MB/s] 42%|████▏     | 210M/504M [00:17<00:23, 12.5MB/s] 42%|████▏     | 211M/504M [00:18<00:22, 12.8MB/s] 42%|████▏     | 213M/504M [00:18<00:21, 13.4MB/s] 43%|████▎     | 214M/504M [00:18<00:20, 14.0MB/s] 43%|████▎     | 216M/504M [00:18<00:20, 14.2MB/s] 43%|████▎     | 218M/504M [00:18<00:19, 14.5MB/s] 43%|████▎     | 219M/504M [00:18<00:20, 13.9MB/s] 44%|████▍     | 221M/504M [00:18<00:21, 13.4MB/s] 44%|████▍     | 222M/504M [00:18<00:21, 13.1MB/s] 44%|████▍     | 224M/504M [00:18<00:22, 12.4MB/s] 45%|████▍     | 225M/504M [00:19<00:22, 12.3MB/s] 45%|████▌     | 227M/504M [00:19<00:22, 12.2MB/s] 45%|████▌     | 229M/504M [00:19<00:22, 12.1MB/s] 46%|████▌     | 230M/504M [00:19<00:23, 11.6MB/s] 46%|████▌     | 232M/504M [00:19<00:22, 12.0MB/s] 46%|████▋     | 233M/504M [00:19<00:24, 11.0MB/s] 47%|████▋     | 235M/504M [00:19<00:22, 12.0MB/s] 47%|████▋     | 236M/504M [00:20<00:20, 12.9MB/s] 47%|████▋     | 238M/504M [00:20<00:20, 13.3MB/s] 48%|████▊     | 240M/504M [00:20<00:19, 13.6MB/s] 48%|████▊     | 241M/504M [00:20<00:18, 13.9MB/s] 48%|████▊     | 243M/504M [00:20<00:18, 14.5MB/s] 49%|████▊     | 245M/504M [00:20<00:19, 13.3MB/s] 49%|████▉     | 246M/504M [00:20<00:20, 12.8MB/s] 49%|████▉     | 248M/504M [00:21<00:28, 9.07MB/s] 50%|████▉     | 250M/504M [00:21<00:27, 9.13MB/s] 50%|████▉     | 251M/504M [00:21<00:27, 9.23MB/s] 50%|█████     | 252M/504M [00:21<00:26, 9.51MB/s] 50%|█████     | 253M/504M [00:21<00:26, 9.59MB/s] 50%|█████     | 254M/504M [00:21<00:26, 9.32MB/s] 51%|█████     | 256M/504M [00:21<00:25, 9.70MB/s] 51%|█████     | 257M/504M [00:22<00:23, 10.4MB/s] 51%|█████▏    | 259M/504M [00:22<00:22, 10.8MB/s] 52%|█████▏    | 261M/504M [00:22<00:22, 10.8MB/s] 52%|█████▏    | 262M/504M [00:22<00:21, 11.0MB/s] 52%|█████▏    | 264M/504M [00:22<00:21, 11.3MB/s] 53%|█████▎    | 265M/504M [00:22<00:20, 11.9MB/s] 53%|█████▎    | 267M/504M [00:22<00:19, 12.2MB/s] 53%|█████▎    | 268M/504M [00:22<00:18, 12.7MB/s] 54%|█████▎    | 270M/504M [00:23<00:18, 12.8MB/s] 54%|█████▍    | 272M/504M [00:23<00:17, 12.9MB/s] 54%|█████▍    | 273M/504M [00:23<00:17, 13.4MB/s] 54%|█████▍    | 275M/504M [00:23<00:16, 13.6MB/s] 55%|█████▍    | 276M/504M [00:23<00:16, 14.2MB/s] 55%|█████▌    | 278M/504M [00:23<00:21, 10.6MB/s] 55%|█████▌    | 279M/504M [00:23<00:20, 11.0MB/s] 56%|█████▌    | 281M/504M [00:23<00:20, 11.1MB/s] 56%|█████▌    | 283M/504M [00:24<00:19, 11.2MB/s] 56%|█████▋    | 284M/504M [00:24<00:19, 11.5MB/s] 57%|█████▋    | 286M/504M [00:24<00:18, 11.6MB/s] 57%|█████▋    | 287M/504M [00:24<00:18, 11.7MB/s] 57%|█████▋    | 289M/504M [00:24<00:17, 12.6MB/s] 58%|█████▊    | 291M/504M [00:24<00:15, 13.8MB/s] 58%|█████▊    | 293M/504M [00:24<00:15, 13.7MB/s] 58%|█████▊    | 294M/504M [00:24<00:15, 13.8MB/s] 59%|█████▊    | 296M/504M [00:25<00:15, 13.5MB/s] 59%|█████▉    | 298M/504M [00:25<00:14, 14.4MB/s] 59%|█████▉    | 300M/504M [00:25<00:13, 15.0MB/s] 60%|█████▉    | 301M/504M [00:25<00:13, 15.1MB/s] 60%|██████    | 303M/504M [00:25<00:14, 14.3MB/s] 60%|██████    | 305M/504M [00:25<00:14, 13.5MB/s] 61%|██████    | 306M/504M [00:25<00:14, 13.3MB/s] 61%|██████    | 308M/504M [00:25<00:15, 13.0MB/s] 61%|██████▏   | 309M/504M [00:26<00:15, 12.8MB/s] 62%|██████▏   | 311M/504M [00:26<00:14, 12.9MB/s] 62%|██████▏   | 312M/504M [00:26<00:14, 12.9MB/s] 62%|██████▏   | 314M/504M [00:26<00:14, 12.7MB/s] 63%|██████▎   | 316M/504M [00:26<00:14, 13.1MB/s] 63%|██████▎   | 317M/504M [00:26<00:13, 13.4MB/s] 63%|██████▎   | 319M/504M [00:26<00:12, 14.4MB/s] 64%|██████▍   | 321M/504M [00:26<00:12, 15.0MB/s] 64%|██████▍   | 323M/504M [00:27<00:12, 15.0MB/s] 64%|██████▍   | 325M/504M [00:27<00:11, 15.4MB/s] 65%|██████▍   | 327M/504M [00:27<00:11, 15.8MB/s] 65%|██████▌   | 329M/504M [00:27<00:11, 15.7MB/s] 66%|██████▌   | 331M/504M [00:27<00:11, 14.8MB/s] 66%|██████▌   | 332M/504M [00:27<00:12, 14.2MB/s] 66%|██████▋   | 334M/504M [00:27<00:12, 13.6MB/s] 67%|██████▋   | 336M/504M [00:27<00:12, 14.0MB/s] 67%|██████▋   | 337M/504M [00:28<00:12, 13.8MB/s] 67%|██████▋   | 339M/504M [00:28<00:11, 13.9MB/s] 68%|██████▊   | 340M/504M [00:28<00:11, 13.8MB/s] 68%|██████▊   | 342M/504M [00:28<00:12, 13.4MB/s] 68%|██████▊   | 343M/504M [00:28<00:12, 13.3MB/s] 68%|██████▊   | 345M/504M [00:28<00:14, 11.3MB/s] 69%|██████▊   | 347M/504M [00:28<00:15, 10.2MB/s] 69%|██████▉   | 348M/504M [00:29<00:14, 10.6MB/s] 69%|██████▉   | 350M/504M [00:29<00:13, 11.3MB/s] 70%|██████▉   | 351M/504M [00:29<00:12, 12.0MB/s] 70%|██████▉   | 353M/504M [00:29<00:12, 12.6MB/s] 70%|███████   | 354M/504M [00:29<00:11, 12.9MB/s] 71%|███████   | 356M/504M [00:29<00:12, 12.2MB/s] 71%|███████   | 358M/504M [00:29<00:11, 12.4MB/s] 71%|███████   | 359M/504M [00:29<00:11, 12.5MB/s] 72%|███████▏  | 361M/504M [00:29<00:11, 12.7MB/s] 72%|███████▏  | 362M/504M [00:30<00:10, 13.1MB/s] 72%|███████▏  | 364M/504M [00:30<00:10, 13.0MB/s] 72%|███████▏  | 365M/504M [00:30<00:10, 12.7MB/s] 73%|███████▎  | 367M/504M [00:30<00:10, 12.6MB/s] 73%|███████▎  | 369M/504M [00:30<00:10, 12.6MB/s] 73%|███████▎  | 370M/504M [00:30<00:10, 13.0MB/s] 74%|███████▎  | 372M/504M [00:30<00:10, 13.0MB/s] 74%|███████▍  | 373M/504M [00:30<00:09, 13.6MB/s] 74%|███████▍  | 375M/504M [00:31<00:09, 14.0MB/s] 75%|███████▍  | 377M/504M [00:31<00:08, 14.8MB/s] 75%|███████▌  | 379M/504M [00:31<00:08, 15.4MB/s] 76%|███████▌  | 381M/504M [00:31<00:07, 15.6MB/s] 76%|███████▌  | 383M/504M [00:31<00:07, 16.1MB/s] 76%|███████▋  | 385M/504M [00:31<00:08, 14.5MB/s] 77%|███████▋  | 387M/504M [00:31<00:08, 14.3MB/s] 77%|███████▋  | 388M/504M [00:31<00:08, 14.4MB/s] 77%|███████▋  | 390M/504M [00:32<00:08, 14.0MB/s] 78%|███████▊  | 392M/504M [00:32<00:07, 14.3MB/s] 78%|███████▊  | 393M/504M [00:32<00:07, 14.1MB/s] 78%|███████▊  | 395M/504M [00:32<00:08, 13.5MB/s] 79%|███████▊  | 396M/504M [00:32<00:07, 13.5MB/s] 79%|███████▉  | 398M/504M [00:32<00:07, 13.9MB/s] 79%|███████▉  | 400M/504M [00:32<00:07, 14.8MB/s] 80%|███████▉  | 402M/504M [00:32<00:06, 15.6MB/s] 80%|████████  | 404M/504M [00:32<00:06, 15.8MB/s] 81%|████████  | 406M/504M [00:33<00:06, 16.2MB/s] 81%|████████  | 408M/504M [00:33<00:05, 16.0MB/s] 81%|████████▏ | 411M/504M [00:33<00:05, 15.9MB/s] 82%|████████▏ | 413M/504M [00:33<00:05, 16.2MB/s] 82%|████████▏ | 415M/504M [00:33<00:05, 15.1MB/s] 83%|████████▎ | 417M/504M [00:33<00:05, 15.7MB/s] 83%|████████▎ | 419M/504M [00:34<00:07, 12.0MB/s] 83%|████████▎ | 420M/504M [00:34<00:06, 12.5MB/s] 84%|████████▎ | 422M/504M [00:34<00:06, 12.9MB/s] 84%|████████▍ | 424M/504M [00:34<00:06, 13.2MB/s] 84%|████████▍ | 425M/504M [00:34<00:05, 13.5MB/s] 85%|████████▍ | 427M/504M [00:34<00:05, 14.2MB/s] 85%|████████▌ | 429M/504M [00:34<00:05, 14.9MB/s] 85%|████████▌ | 431M/504M [00:34<00:05, 14.5MB/s] 86%|████████▌ | 433M/504M [00:35<00:04, 15.2MB/s] 86%|████████▌ | 435M/504M [00:35<00:04, 15.0MB/s] 87%|████████▋ | 437M/504M [00:35<00:04, 15.7MB/s] 87%|████████▋ | 438M/504M [00:35<00:04, 15.4MB/s] 87%|████████▋ | 440M/504M [00:35<00:04, 15.3MB/s] 88%|████████▊ | 442M/504M [00:35<00:03, 15.6MB/s] 88%|████████▊ | 444M/504M [00:35<00:03, 16.0MB/s] 89%|████████▊ | 446M/504M [00:35<00:03, 16.6MB/s] 89%|████████▉ | 448M/504M [00:35<00:03, 16.6MB/s] 89%|████████▉ | 450M/504M [00:36<00:03, 17.0MB/s] 90%|████████▉ | 452M/504M [00:36<00:03, 16.3MB/s] 90%|█████████ | 455M/504M [00:36<00:03, 16.3MB/s] 91%|█████████ | 457M/504M [00:36<00:02, 16.6MB/s] 91%|█████████ | 459M/504M [00:36<00:02, 16.6MB/s] 91%|█████████▏| 461M/504M [00:36<00:02, 15.2MB/s] 92%|█████████▏| 462M/504M [00:36<00:02, 15.0MB/s] 92%|█████████▏| 464M/504M [00:36<00:02, 15.2MB/s] 92%|█████████▏| 466M/504M [00:37<00:02, 15.1MB/s] 93%|█████████▎| 467M/504M [00:37<00:02, 15.0MB/s] 93%|█████████▎| 469M/504M [00:37<00:02, 15.2MB/s] 93%|█████████▎| 470M/504M [00:37<00:02, 14.9MB/s] 94%|█████████▎| 472M/504M [00:37<00:02, 15.2MB/s] 94%|█████████▍| 474M/504M [00:37<00:02, 14.7MB/s] 94%|█████████▍| 476M/504M [00:37<00:02, 14.2MB/s] 95%|█████████▍| 477M/504M [00:37<00:01, 14.4MB/s] 95%|█████████▌| 479M/504M [00:37<00:01, 15.1MB/s] 95%|█████████▌| 481M/504M [00:38<00:01, 15.5MB/s] 96%|█████████▌| 483M/504M [00:38<00:01, 15.7MB/s] 96%|█████████▋| 485M/504M [00:38<00:01, 16.1MB/s] 97%|█████████▋| 488M/504M [00:38<00:01, 16.0MB/s] 97%|█████████▋| 490M/504M [00:38<00:00, 15.7MB/s] 97%|█████████▋| 491M/504M [00:38<00:00, 14.8MB/s] 98%|█████████▊| 493M/504M [00:38<00:00, 14.5MB/s] 98%|█████████▊| 494M/504M [00:38<00:00, 14.5MB/s] 98%|█████████▊| 496M/504M [00:39<00:00, 14.6MB/s] 99%|█████████▊| 498M/504M [00:39<00:00, 11.3MB/s] 99%|█████████▉| 499M/504M [00:39<00:00, 11.2MB/s] 99%|█████████▉| 501M/504M [00:39<00:00, 11.7MB/s]100%|█████████▉| 502M/504M [00:39<00:00, 11.6MB/s]100%|█████████▉| 504M/504M [00:39<00:00, 12.0MB/s]100%|██████████| 504M/504M [00:39<00:00, 12.7MB/s]
+Archive:  eval5_models_ckpts.zip
+   creating: ckpts/contrastive_model/
+   creating: ckpts/contrastive_model/v1/
+  inflating: ckpts/contrastive_model/v1/parameters_best  
+  inflating: ckpts/contrastive_model/v1/parameters  
+  inflating: ckpts/contrastive_model/v1/weights  
+  inflating: ckpts/contrastive_model/v1/weights_best  
+  inflating: ckpts/contrastive_model/gravity_scene_classifier  
+  inflating: ckpts/contrastive_model/sc_scene_classifier  
+   creating: ckpts/vision/
+   creating: ckpts/vision/tracker/
+   creating: ckpts/vision/tracker/mot_model/
+  inflating: ckpts/vision/tracker/mot_model/247744.ckpt.meta  
+  inflating: ckpts/vision/tracker/mot_model/247744.ckpt.data-00000-of-00001  
+  inflating: ckpts/vision/tracker/mot_model/247744.ckpt.index  
+   creating: ckpts/vision/tracker/app_model/
+  inflating: ckpts/vision/tracker/app_model/247744.ckpt.meta  
+  inflating: ckpts/vision/tracker/app_model/247744.ckpt.data-00000-of-00001  
+  inflating: ckpts/vision/tracker/app_model/247744.ckpt.index  
+   creating: ckpts/vision/tracker/appearance_matcher/
+  inflating: ckpts/vision/tracker/appearance_matcher/full_training_non_mask_trained_on_all_seqs_two_stage_tracker_model_state_v3.pth  
+   creating: ckpts/vision/center_track/
+  inflating: ckpts/vision/center_track/model_last.pth  
+   creating: ckpts/vision/shape_classifier/
+  inflating: ckpts/vision/shape_classifier/shape_classifier_eval5train.pth  
+replace ckpts/.gitignore? [y]es, [n]o, [A]ll, [N]one, [r]ename:  NULL
+(EOF or read error, treating as "[N]one" ...)
+   creating: ckpts/transformer/
+  inflating: ckpts/transformer/v1_weights.pth  
++ echo ==============  loading models ===================
+==============  loading models ===================
++ export PYTHONPATH=/image__pvoe_040123_val6_cuda_11
++ cd /image__pvoe_040123_val6_cuda_11/scripts
++ python3 patch_mcs_controller_timeout.py pvoe 60
+TIME_LIMIT_SECONDS = 3600
+
+attempting to patch installed package machine_common_sense/__init__.py TIME_LIMIT_SECONDS value...
+
+mcs init file found at /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages/machine_common_sense/__init__.py - will attempt to patch
+mcs init file located at : /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages/machine_common_sense/__init__.py
+60 minutes will be converted to 3600 seconds for the TIME_LIMIT_SECONDS value 
+...initally set as:
+TIME_LIMIT_SECONDS = 180
+
+...now set to: 
+
+patch successful
++ export PYTHONPATH=/image__pvoe_040123_val6_cuda_11
++ cd /image__pvoe_040123_val6_cuda_11/scripts
++ python3 compare_pip_lists.py pvoe
+############################################################
+....comparing pip lists for pvoe...
+
+    different package count
+
+
+    packages present in the reference image that are not in the current env
+    absl-py 1.4.0
+    ai2thor 2.5.0
+    anyio 3.6.2
+    argon2-cffi 21.3.0
+    argon2-cffi-bindings 21.2.0
+    astor 0.8.1
+    asttokens 2.2.1
+    attrs 22.2.0
+    aws-requests-auth 0.4.3
+    backcall 0.2.0
+    beautifulsoup4 4.12.0
+    black 22.12.0
+    bleach 6.0.0
+    botocore 1.29.102
+    CacheControl 0.12.11
+    cachetools 5.3.0
+    cachy 0.3.0
+    cfgv 3.3.1
+    cleo 0.8.1
+    click 8.1.3
+    clikit 0.6.2
+    colour 0.1.5
+    commonmark 0.9.1
+    crashtest 0.3.1
+    cycler 0.11.0
+    Cython 0.29.30
+    debugpy 1.6.6
+    decorator 5.1.1
+    defusedxml 0.7.1
+    descartes 1.1.0
+    devtools 0.9.0
+    distlib 0.3.6
+    entrypoints 0.4
+    exceptiongroup 1.1.1
+    executing 0.10.0
+    fastjsonschema 2.16.3
+    filelock 3.10.7
+    fire 0.5.0
+    Flask 2.2.3
+    fonttools 4.38.0
+    gast 0.5.3
+    gdown 4.7.1
+    google-auth 2.17.0
+    google-auth-oauthlib 0.4.6
+    google-pasta 0.2.0
+    grpcio 1.53.0
+    h5py 3.7.0
+    html5lib 1.1
+    identify 2.5.22
+    imageio 2.9.0
+    importlib-metadata 6.1.0
+    importlib-resources 5.12.0
+    iniconfig 2.0.0
+    ipykernel 6.16.2
+    ipython 7.34.0
+    ipython-genutils 0.2.0
+    ipywidgets 8.0.6
+    isort 5.11.5
+    itsdangerous 2.1.2
+    jedi 0.18.2
+    jeepney 0.7.1
+    Jinja2 3.1.2
+    jmespath 1.0.1
+    joblib 1.2.0
+    jsonpatch 1.32
+    jsonpointer 2.3
+    jsonschema 4.17.3
+    jupyter 1.0.0
+    jupyter_client 7.4.9
+    jupyter-console 6.6.3
+    jupyter_core 4.12.0
+    jupyter-server 1.23.6
+    jupyterlab-pygments 0.2.2
+    jupyterlab-widgets 3.0.7
+    Keras-Applications 1.0.8
+    Keras-Preprocessing 1.1.2
+    keyring 22.3.0
+    kiwisolver 1.4.4
+    libcst 0.4.9
+    llvmlite 0.38.1
+    lockfile 0.12.2
+    loguru 0.6.0
+    machine-common-sense 0.6.5
+    Markdown 3.4.3
+    MarkupSafe 2.1.2
+    matplotlib 3.5.1
+    matplotlib-inline 0.1.6
+    mistune 2.0.5
+    mkl-fft 1.3.1
+    mkl-random 1.2.2
+    mkl-service 2.4.0
+    mmdet 2.24.1
+    motmetrics 1.2.5
+    msgpack 1.0.5
+    mypy 0.961
+    mypy-extensions 1.0.0
+    nbclassic 0.5.3
+    nbclient 0.7.2
+    nbconvert 7.2.10
+    nbformat 5.8.0
+    nest-asyncio 1.5.6
+    networkx 2.6.3
+    nodeenv 1.7.0
+    notebook 6.5.3
+    notebook_shim 0.2.2
+    numba 0.55.2
+    numpy 1.21.0
+    numpyencoder 0.3.0
+    nuscenes-devkit 1.1.9
+    oauthlib 3.2.2
+    opencv-python 4.5.3.56
+    opics-pvoe 0.1.0
+    packaging 23.0
+    pandas 1.3.5
+    pandocfilters 1.5.0
+    parso 0.8.3
+    pastel 0.2.1
+    pathspec 0.10.3
+    pexpect 4.8.0
+    pickleshare 0.7.5
+    Pillow 6.2.2
+    pkginfo 1.8.3
+    pkgutil_resolve_name 1.3.10
+    platformdirs 3.2.0
+    poetry 1.1.14
+    poetry-core 1.0.8
+    pre-commit 2.21.0
+    pre-commit-hooks 4.4.0
+    progress 1.6
+    progressbar2 4.2.0
+    prometheus-client 0.16.0
+    prompt-toolkit 3.0.38
+    protobuf 3.20.1
+    psutil 5.9.4
+    ptyprocess 0.7.0
+    pyasn1 0.4.8
+    pyasn1-modules 0.2.8
+    pycln 2.1.3
+    pycocotools 2.0.4
+    pydantic 1.10.7
+    Pygments 2.14.0
+    pylev 1.3.0
+    pyparsing 3.0.9
+    pyquaternion 0.9.9
+    pyrsistent 0.19.3
+    pytest 7.2.2
+    python-dateutil 2.8.2
+    python-dotenv 0.20.0
+    python-utils 3.5.2
+    pytz 2023.3
+    PyWavelets 1.4.0
+    PyYAML 6.0
+    pyzmq 25.0.2
+    qtconsole 5.4.1
+    QtPy 2.3.1
+    requests-oauthlib 1.3.1
+    requests-toolbelt 0.9.1
+    rich 12.6.0
+    rsa 4.9
+    scikit-image 0.19.3
+    scikit-learn 0.22.2
+    scipy 1.7.3
+    SecretStorage 3.3.1
+    Send2Trash 1.8.0
+    setuptools-scm 7.1.0
+    shapely 2.0.1
+    shellingham 1.5.0
+    sniffio 1.3.0
+    soupsieve 2.4
+    tensorboard 2.8.0
+    tensorboard-data-server 0.6.1
+    tensorboard-plugin-wit 1.8.1
+    tensorflow 1.14.0
+    tensorflow-estimator 1.14.0
+    termcolor 1.1.0
+    terminado 0.17.1
+    terminaltables 3.1.10
+    tifffile 2021.11.2
+    tinycss2 1.2.1
+    tomli 2.0.1
+    tomlkit 0.11.7
+    torch 1.8.0+cu111
+    torchvision 0.9.0+cu111
+    tornado 6.2
+    traitlets 5.9.0
+    transforms3d 0.3.1
+    typed-ast 1.5.4
+    typeguard 2.13.2
+    typer 0.7.0
+    typing_extensions 4.5.0
+    typing-inspect 0.8.0
+    virtualenv 20.21.0
+    visdom 0.2.4
+    wcwidth 0.2.5
+    webencodings 0.5.1
+    websocket-client 1.5.1
+    Werkzeug 2.2.3
+    widgetsnbextension 4.0.7
+    wrapt 1.14.1
+    xmltodict 0.13.0
+    zipp 3.15.0
+
+
+    packages present in the current env that are not in the reference image
+    conda 22.11.1
+    conda-content-trust 0.1.3
+    conda-package-handling 1.9.0
+    pycosat 0.6.4
+    toolz 0.12.0
+
+
+    version differences:
+    charset-normalizer reference versions: 3.1.0      in play version: 2.0.4
+    cryptography reference versions: 39.0.1     in play version: 38.0.1
+    pip reference versions: 23.0.1     in play version: 22.3.1
+    pyOpenSSL reference versions: 23.0.0     in play version: 22.0.0
+    requests reference versions: 2.28.2     in play version: 2.28.1
+    ruamel.yaml.clib reference versions: 0.2.7      in play version: 0.2.6
+    setuptools reference versions: 65.6.3     in play version: 65.5.0
+    tqdm reference versions: 4.65.0     in play version: 4.64.1
+    urllib3 reference versions: 1.26.15    in play version: 1.26.13
+    wheel reference versions: 0.38.4     in play version: 0.37.1
+
+
+############################################################
+INFO:    Adding environment to container
+INFO:    Adding runscript
+INFO:    Creating SIF file...
+INFO:    Build complete: sifs/pvoe_040123_val6_cuda_11.sif

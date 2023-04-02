@@ -18,6 +18,8 @@ class SceneJson:
 
 
     def get_max_room_dimension(self):
+        if not 'roomDimensions' in self.data:
+            return 0
         x =int(self.data['roomDimensions']['x'])
         z =int(self.data['roomDimensions']['z'])
         return max(x,z)
