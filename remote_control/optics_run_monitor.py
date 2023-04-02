@@ -65,7 +65,7 @@ class OpticsRunMonitor():
             file_path = os.path.join(cur_running_scene_dir, file)
             scene_type = file.split('_')[0]
             mtime = os.path.getmtime(file_path)
-            max_run_time = max_run_time_for_type(scene_type)
+            max_run_time = max_run_time_for_type(scene_type) * 60
             duration = time.time() - mtime
             print(f'duration: {duration}     max_run_time: {max_run_time}')
             if duration > max_run_time:
