@@ -16,8 +16,8 @@ def start_container(sif_path):
 def usage():
     print('usage: python3 optics_wrapper.py <cmd> ...')
     print('         where <cmd> can be ')
-    print('               get          a|b|c|d  <run_name> # fetches the .sif file')
-    print('               get_then_run a|b|c|d  <run_name> # fetches the .sif file and runs it')
+    #print('               get          a|b|c|d  <run_name> # fetches the .sif file')
+    #print('               get_then_run a|b|c|d  <run_name> # fetches the .sif file and runs it')
     print('               run          <sif_path>  # runs a container already downloaded')
     print('')
     sys.exit(1)
