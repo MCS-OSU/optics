@@ -12,6 +12,8 @@ def get_running_optics_processes(run_name):
                 processes.append(OpticsProcess(line))
             elif 'container_run' in line:
                 processes.append(OpticsProcess(line))
+            elif 'Unity' in line:
+                processes.append(OpticsProcess(line))
     os.system('rm tmp_ps.txt')
     return processes
 
@@ -20,6 +22,7 @@ class OpticsProcess():
     def __init__(self, line):
         parts = line.split()
         self.pid = parts[1]
+        self.line = line
 
     def stop(self):
         cmd = f'kill -9 {self.pid}'
