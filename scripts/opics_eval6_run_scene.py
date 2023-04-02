@@ -7,8 +7,8 @@ import json
 
 container_for_project = {}
 container_for_project['avoe' ] = 'avoe_031223_eval5.sif'
-container_for_project['inter'] = 'inter_031323_val6.sif'
-container_for_project['pvoe' ] = 'pvoe_030723_eval5.sif'
+container_for_project['inter'] = 'inter_031923_val6_no_plotting.sif'
+container_for_project['pvoe' ] = 'pvoe_033023_eval5_cuda_11.sif'
 
     
 def make_parser():
@@ -65,7 +65,7 @@ if __name__ == '__main__':
     container_fname = container_for_project[proj]
     container_path = os.path.join(containers_dir, container_fname)
     print(f'container_path is {container_path}')
-    cmd = f'apptainer run --nv {container_path} run_opics_scene {scene_path} 2>&1 | tee logs/{scene_name}_stdout.log'
+    cmd = f'apptainer run --nv {container_path} run_opics_scene {scene_path} 2>&1 | tee -a logs/{scene_name}_stdout.log'
     try:
         os.system(cmd)
     except Exception as err:
