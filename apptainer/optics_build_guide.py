@@ -22,7 +22,8 @@ def rebuild_base_container(optics_spec_name, base_name):
     log_build_info(optics_spec_name, f'{sif_path} - deleting prior')
     os.system(f'rm {sif_path}')
     log_build_info(optics_spec_name, f'{sif_path} - build begin')
-    os.system(f'apptainer build {sif_path} defs/{base_name}.def 2>&1 | tee build_log_container_{base_name}.txt')
+    os.makedirs("build_logs", exist_ok = True)
+    os.system(f'apptainer build {sif_path} defs/{base_name}.def 2>&1 | tee build_logs/build_log_container_{base_name}.txt')
     if os.path.exists(sif_path):
         log_build_info(optics_spec_name, f'{sif_path} - build complete')
 
@@ -43,7 +44,8 @@ def rebuild_outer_container(optics_spec_name):
         log_build_info(optics_spec_name, f'{sif_path} - deleting prior')
         os.system(f'rm {sif_path}')
     log_build_info(optics_spec_name, f'{sif_path} - build begin')
-    os.system(f'apptainer build {sif_path} defs/{optics_spec_name}.def 2>&1 | tee build_log_container_{optics_spec_name}.txt')
+    os.makedirs("build_logs", exist_ok = True)
+    os.system(f'apptainer build {sif_path} defs/{optics_spec_name}.def 2>&1 | tee build_logs/build_log_container_{optics_spec_name}.txt')
     if os.path.exists(sif_path):
         log_build_info(optics_spec_name, f'{sif_path} - build complete')
 

@@ -24,6 +24,7 @@ def get_section_environment(proj, run_time_root_name):
         s += f'    export PYTHONPATH=$OPTICS_HOME:$OPTICS_HOME/opics_common\n'
     s += f'    export PATH=/miniconda3/bin:$PATH\n'
     s += f'    export OPTICS_DATASTORE=ec2b\n'
+    #s += f'    export REPLAY_HOME=$OPICS_HOME/replay_scenes\n'
     s += '\n'
     s += '\n'
     return s
@@ -140,6 +141,18 @@ def get_section_controller_timeout_patch(proj):
 
 
 
+def get_section_version_comparison(proj):
+    s = '    ############################################################################\n'
+    s += '    #                   --- compare versions of python dependencies ---\n'
+    s += '    ############################################################################\n'
+    s += '    export PYTHONPATH=$OPTICS_HOME\n'
+    s += '    cd $OPTICS_HOME/scripts\n'
+    s += f'   python3 compare_pip_lists.py {proj}\n'
+    s += '\n'
+    s += '\n'
+    return s
+
+
 def get_section_run_script(spec_name):
     s = f'/run_{spec_name}.sh $1 $2\n'
     return s
@@ -171,6 +184,28 @@ def generate_run_script(proj, pull_time_root_name, optics_spec_fname, spec_name)
     s += f'chmod 600 shared-with-opics.pem\n'
     s += f'echo "arg decides on optics run vs run_opics_scene"\n'
     s += f'if [[ $1 == optics ]]; then\n'
+    s += f'    if [[ {proj} == "inter" ]]; then\n'
+    s += f'        if [ -z "$2" ]; then\n'
+    s += f'            echo ""\n'
+    s += f'            echo ""\n'
+    s += f'            echo "ERROR - optics for inter requires scene type handling as additional arg: scene_type_provided|scene_type_deduced"\n'
+    s += f'            echo ""\n'
+    s += f'            echo ""\n'
+    s += f'            exit 1\n'
+    s += f'        else\n'
+    # see opics_common/opics_common/launch/constants.py for the following constant scene_type handling definitions
+    s += f'            if [[ $2 == "scene_type_provided" ]] || [[ $2 == "scene_type_deduced" ]]; then\n'
+    s += f'                export OPICS_SCENE_TYPE_HANDLING=$2\n'
+    s += f'            else\n'
+    s += f'                echo ""\n'
+    s += f'                echo ""\n'
+    s += f'                echo "ERROR - scene_type_handling must be scene_type_provided|scene_type_deduced"\n'
+    s += f'                echo ""\n'
+    s += f'                echo ""\n'
+    s += f'                exit 1\n'
+    s += f'            fi\n'
+    s += f'        fi\n'
+    s += f'    fi\n'
     s += f'    echo "...running optics test_runner for {optics_spec_fname}:"\n'
     s += f'    cat $OPTICS_HOME/specs/{optics_spec_fname}\n'
     s += f'    cd $OPTICS_HOME\n'
@@ -186,8 +221,12 @@ def generate_run_script(proj, pull_time_root_name, optics_spec_fname, spec_name)
     s += f'        cd $OPTICS_HOME/scripts\n'
     s += f'        echo ""\n'
     s += f'        echo ""\n'
-    s += f'        echo "running - python3 run_opics_scene.py --scene $2 --controller mcs --log_dir logs"\n'
-    s += f'        python3 run_opics_scene.py --scene $2 --controller mcs --log_dir logs\n'
+    s += f'        scene_name=$(echo $2 | cut -d. -f1 | rev | cut -d/ -f1 | rev)\n'
+    s += f'        mkdir -p logs\n'
+    s += f'        echo "...determined scene_name for log file as $scene_name"\n'
+    s += f'        log_suffix="_log"\n'
+    s += f'        echo "...running - python3 run_opics_scene.py --scene $2 --controller mcs --log_dir logs  2>&1 | tee -a logs/$scene_name$log_suffix.txt"\n'
+    s += f'        python3 run_opics_scene.py --scene $2 --controller mcs --log_dir logs  2>&1 | tee -a logs/$scene_name$log_suffix.txt\n'
     s += f'    fi\n'
     s += f'else\n'
     s += f'    echo "command $1 not recognized"\n'
@@ -267,6 +306,7 @@ if __name__ == '__main__':
     s += get_section_models(model_config_steps)
     s += get_section_numpy_hack(proj)
     s += get_section_controller_timeout_patch(proj)
+    s += get_section_version_comparison(proj)
     s += '%runscript\n'
     s += get_section_run_script(spec_name)
 

@@ -47,6 +47,8 @@ class OpticsScores:
         else:
             self.inter_stats = StatsInter(self.opics_logs,'inter')
     
+    def show_exceptions(self):
+        self.opics_logs.express_exceptions(self.proj)
 
     def show_scores(self):
         stats_title(self.proj_log_dir)
@@ -70,6 +72,7 @@ class OpticsScores:
             self.avoe_stats.results_by_scene_type()
             self.avoe_stats.results_expected_by_scene_type()
             self.avoe_stats.results_unexpected_by_scene_type()
+            self.avoe_stats.results_noexpectation_by_scene_type()
             print('')
             # self.avoe_stats.pvoe_outcome_by_category('expected','correct')
             # self.avoe_stats.pvoe_outcome_by_category('expected','incorrect')

@@ -1,4 +1,4 @@
-from core.constants import JOB_REQUEST, JOB_ASSIGN, SESSION_KILLED
+from core.constants import JOB_REQUEST, JOB_ASSIGN, SESSION_KILLED, get_alias_for_machine
 import time
 
 ## trun_session;v5_final2;ip-172-31-72-254;1667607584
@@ -8,16 +8,6 @@ import time
 SESSION_STATE_EMPTY_FILE    = 'empty_file'
 SESSION_STATE_LACKS_REQUEST = 'lacks_request'
 SESSION_STATE_REQUEST_UNANSWERED = 'lacks_assigment'
-
-def get_alias_for_machine(machine):
-        if machine == 'ip-172-31-32-89':
-            return 'ec2a'
-        elif machine == 'ip-172-31-12-56':
-            return 'ec2b'
-        elif machine == 'ip-172-31-72-254':
-            return 'ec2c'
-        else:
-            return machine
 
 class OpticsSession():
     def __init__(self, lines,scene_state_histories):
@@ -67,6 +57,15 @@ class OpticsSession():
 
     def summary(self):
         print(f'    {self.machine}  {self.job_count} scenes   {self.duration} mins  {self.idle_time} mins idle    {self.session_killed_message}')
+
+    def get_scenes_attempted(self):
+        paths = []
+        for line in self.lines:
+            if JOB_ASSIGN in line:
+                [_,_,_,path] = line.split(';')
+                paths.append(path)
+        return paths
+
 
     def convert_to_time_format(self, time_in_minutes):
         

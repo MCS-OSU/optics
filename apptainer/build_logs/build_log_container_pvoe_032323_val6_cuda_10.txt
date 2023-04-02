@@ -1,0 +1,3049 @@
+INFO:    Starting build...
+INFO:    Verifying bootstrap image /home/jedirv/outer_optics_v6i/apptainer/sifs/ubuntu_python.sif
+WARNING: integrity: signature not found for object group 1
+WARNING: Bootstrap image could not be verified, but build will continue.
+INFO:    Running post scriptlet
++ cp /tmp/run_pvoe_032323_val6_cuda_10.sh /
++ chmod 770 /run_pvoe_032323_val6_cuda_10.sh
++ ssh-agent -s
++ eval SSH_AUTH_SOCK=/tmp/ssh-G3hLEazOFWvr/agent.207; export SSH_AUTH_SOCK;
+SSH_AGENT_PID=208; export SSH_AGENT_PID;
+echo Agent pid 208;
++ SSH_AUTH_SOCK=/tmp/ssh-G3hLEazOFWvr/agent.207
++ export SSH_AUTH_SOCK
++ SSH_AGENT_PID=208
++ export SSH_AGENT_PID
++ echo Agent pid 208
+Agent pid 208
++ mkdir /root/.ssh
++ cp /tmp/config /root/.ssh
++ cp /tmp/id_ed25529_031623 /root/.ssh
++ ssh-add /root/.ssh/id_ed25529_031623
+Identity added: /root/.ssh/id_ed25529_031623 (jedirv@gmail.com)
++ cd /
++ git clone git@github.com:MCS-OSU/optics.git image__pvoe_032323_val6_cuda_10
+Cloning into 'image__pvoe_032323_val6_cuda_10'...
+Warning: Permanently added 'github.com,192.30.255.113' (ECDSA) to the list of known hosts.
++ cd image__pvoe_032323_val6_cuda_10
++ git checkout main
+Already on 'main'
+Your branch is up to date with 'origin/main'.
++ cp ssh_urls_for_git_modules.txt .gitmodules
++ git config --global user.name jedirv
++ git config --global credential.helper store
++ git submodule update --init --recursive
+Submodule 'opics_avoe' (git@github.com:MCS-OSU/opics.git) registered for path 'opics'
+Submodule 'opics_common' (git@github.com:MCS-OSU/opics-common.git) registered for path 'opics_common'
+Submodule 'opics_inter' (git@github.com:MCS-OSU/opics-inter.git) registered for path 'opics_inter'
+Submodule 'opics_pvoe' (git@github.com:MCS-OSU/opics-pvoe.git) registered for path 'opics_pvoe'
+Cloning into '/image__pvoe_032323_val6_cuda_10/opics'...
+Cloning into '/image__pvoe_032323_val6_cuda_10/opics_common'...
+Cloning into '/image__pvoe_032323_val6_cuda_10/opics_inter'...
+Cloning into '/image__pvoe_032323_val6_cuda_10/opics_pvoe'...
+Submodule path 'opics': checked out '0f3d8a71c1778b0d172473f09e0782e0e5afb5dc'
+Submodule 'ile' (https://github.com/NextCenturyCorporation/mcs-scene-generator) registered for path 'opics/ile'
+Submodule 'opics_common' (https://github.com/MCS-OSU/opics-common.git) registered for path 'opics/opics_common'
+Cloning into '/image__pvoe_032323_val6_cuda_10/opics/ile'...
+Cloning into '/image__pvoe_032323_val6_cuda_10/opics/opics_common'...
+Submodule path 'opics/ile': checked out '153db055a5c3d7ef7c34b6b22eb9ad7ffd92e1cd'
+Submodule path 'opics/opics_common': checked out '7d3f4404509b1ba89551e49df61ab3e1e3d8885e'
+Submodule path 'opics_common': checked out 'd69b366a5c315b900c79875b95ffa040de6984e0'
+Submodule path 'opics_inter': checked out '0c2d91e4e4104be6ea4edadcfeb65ae04e967b35'
+Submodule path 'opics_pvoe': checked out '3a3a10ec97a97e9b428848c8ca99b2d214fb05eb'
++ cd /image__pvoe_032323_val6_cuda_10/opics_pvoe
++ git checkout v6.0.5
+Previous HEAD position was 3a3a10e initialize the repo by passing pre-commit
+HEAD is now at dee3cd6 nail down version of typeguard to 2.13.2
++ cd /image__pvoe_032323_val6_cuda_10/opics_common
++ git checkout main
+Previous HEAD position was d69b366 add the import hack for pvoe in eval6_agent so that run_opics_scene and run_optics_scene both catch ig
+Switched to branch 'main'
+Your branch is up to date with 'origin/main'.
++ export OPTICS_HOME=/image__pvoe_032323_val6_cuda_10
++ echo ==============  python dependencies  ===================
+==============  python dependencies  ===================
++ cd /image__pvoe_032323_val6_cuda_10/opics_pvoe
++ cd /image__pvoe_032323_val6_cuda_10/opics_pvoe
++ ./all.sh --old
+Setting up environment CUDA=10...
+Setting conda init...
+Cearting the environment...
+Collecting package metadata (repodata.json): ...working... done
+Solving environment: ...working... done
+
+
+==> WARNING: A newer version of conda exists. <==
+  current version: 22.11.1
+  latest version: 23.1.0
+
+Please update conda by running
+
+    $ conda update -n base -c defaults conda
+
+Or to minimize the number of packages updated during conda update use
+
+     conda install conda=23.1.0
+
+
+
+Downloading and Extracting Packages
+lockfile-0.12.2      | 246 KB    |            |   0% 
+h5py-3.7.0           | 1.1 MB    |            |   0% [A
+
+scipy-1.7.3          | 16.5 MB   |            |   0% [A[A
+
+
+clikit-0.6.2         | 59 KB     |            |   0% [A[A[A
+
+
+
+blas-1.0             | 6 KB      |            |   0% [A[A[A[A
+
+
+
+
+cryptography-39.0.1  | 1.4 MB    |            |   0% [A[A[A[A[A
+
+
+
+
+
+shellingham-1.5.0    | 18 KB     |            |   0% [A[A[A[A[A[A
+
+
+
+
+
+
+distlib-0.3.6        | 382 KB    |            |   0% [A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   |            |   0% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+werkzeug-2.2.2       | 337 KB    |            |   0% [A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+libgfortran-ng-11.2. | 20 KB     |            |   0% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+pexpect-4.8.0        | 53 KB     |            |   0% [A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+virtualenv-20.16.2   | 6.0 MB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+pkginfo-1.8.3        | 45 KB     |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+protobuf-3.20.3      | 324 KB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+libgfortran5-11.2.0  | 2.0 MB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+poetry-1.1.14        | 245 KB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+wheel-0.38.4         | 63 KB     |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+certifi-2022.12.7    | 150 KB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ... (more hidden) ...[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+clikit-0.6.2         | 59 KB     | ########## | 100% [A[A[A
+
+
+clikit-0.6.2         | 59 KB     | ########## | 100% [A[A[A
+h5py-3.7.0           | 1.1 MB    | ##9        |  30% [Alockfile-0.12.2      | 246 KB    | #########  |  91% 
+
+scipy-1.7.3          | 16.5 MB   | 1          |   1% [A[A
+
+
+
+
+cryptography-39.0.1  | 1.4 MB    | 6          |   7% [A[A[A[A[A
+
+
+
+blas-1.0             | 6 KB      | ########## | 100% [A[A[A[A
+
+
+
+blas-1.0             | 6 KB      | ########## | 100% [A[A[A[A
+
+
+
+
+
+shellingham-1.5.0    | 18 KB     | #########  |  91% [A[A[A[A[A[Alockfile-0.12.2      | 246 KB    | ########## | 100% 
+
+
+
+
+
+
+distlib-0.3.6        | 382 KB    | 4          |   4% [A[A[A[A[A[A[A
+
+
+
+
+
+shellingham-1.5.0    | 18 KB     | ########## | 100% [A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   |            |   0% [A[A[A[A[A[A[A[A
+
+scipy-1.7.3          | 16.5 MB   | 3          |   4% [A[A
+
+
+
+
+cryptography-39.0.1  | 1.4 MB    | ####4      |  44% [A[A[A[A[A
+h5py-3.7.0           | 1.1 MB    | ########## | 100% [A
+h5py-3.7.0           | 1.1 MB    | ########## | 100% [A
+
+
+
+
+
+
+distlib-0.3.6        | 382 KB    | ########## | 100% [A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+werkzeug-2.2.2       | 337 KB    | 4          |   5% [A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+libgfortran-ng-11.2. | 20 KB     | ########1  |  81% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+libgfortran-ng-11.2. | 20 KB     | ########## | 100% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+werkzeug-2.2.2       | 337 KB    | ########## | 100% [A[A[A[A[A[A[A[A[A
+
+scipy-1.7.3          | 16.5 MB   | 5          |   6% [A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   |            |   0% [A[A[A[A[A[A[A[A
+
+
+
+
+cryptography-39.0.1  | 1.4 MB    | ######9    |  70% [A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+virtualenv-20.16.2   | 6.0 MB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+pexpect-4.8.0        | 53 KB     | ###        |  30% [A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+pexpect-4.8.0        | 53 KB     | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+pkginfo-1.8.3        | 45 KB     | ###5       |  36% [A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   |            |   1% [A[A[A[A[A[A[A[A
+
+scipy-1.7.3          | 16.5 MB   | 8          |   8% [A[A
+
+
+
+
+
+
+
+
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | #2         |  13% [A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+protobuf-3.20.3      | 324 KB    | 4          |   5% [A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+cryptography-39.0.1  | 1.4 MB    | ########## | 100% [A[A[A[A[A
+
+
+
+
+cryptography-39.0.1  | 1.4 MB    | ########## | 100% [A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+pkginfo-1.8.3        | 45 KB     | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+libgfortran5-11.2.0  | 2.0 MB    |            |   1% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | 1          |   1% [A[A[A[A[A[A[A[A
+
+scipy-1.7.3          | 16.5 MB   | #          |  11% [A[A
+
+
+
+
+
+
+
+
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | ##7        |  27% [A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+protobuf-3.20.3      | 324 KB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+libgfortran5-11.2.0  | 2.0 MB    | ##2        |  22% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | 1          |   2% [A[A[A[A[A[A[A[A
+
+scipy-1.7.3          | 16.5 MB   | #3         |  13% [A[A
+
+
+
+
+
+
+
+
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | ####1      |  42% [A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+libgfortran5-11.2.0  | 2.0 MB    | ####3      |  44% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | 2          |   2% [A[A[A[A[A[A[A[A
+
+scipy-1.7.3          | 16.5 MB   | #6         |  16% [A[A
+
+
+
+
+
+
+
+
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | #####5     |  56% [A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+poetry-1.1.14        | 245 KB    | 6          |   7% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+libgfortran5-11.2.0  | 2.0 MB    | ######6    |  66% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | 2          |   3% [A[A[A[A[A[A[A[A
+
+scipy-1.7.3          | 16.5 MB   | #8         |  19% [A[A
+
+
+
+
+
+
+
+
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | ######9    |  70% [A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+poetry-1.1.14        | 245 KB    | ###9       |  39% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+libgfortran5-11.2.0  | 2.0 MB    | ########5  |  85% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | 3          |   3% [A[A[A[A[A[A[A[A
+
+scipy-1.7.3          | 16.5 MB   | ##         |  21% [A[A
+
+
+
+
+
+
+
+
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | ########3  |  83% [A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+poetry-1.1.14        | 245 KB    | #########1 |  91% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+wheel-0.38.4         | 63 KB     | ##5        |  25% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+libgfortran5-11.2.0  | 2.0 MB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | 3          |   4% [A[A[A[A[A[A[A[A
+
+scipy-1.7.3          | 16.5 MB   | ##3        |  23% [A[A
+
+
+
+
+
+
+
+
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | #########6 |  96% [A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+poetry-1.1.14        | 245 KB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+wheel-0.38.4         | 63 KB     | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+certifi-2022.12.7    | 150 KB    | #          |  11% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ... (more hidden) ...[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+certifi-2022.12.7    | 150 KB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | 4          |   4% [A[A[A[A[A[A[A[A
+
+scipy-1.7.3          | 16.5 MB   | ##7        |  27% [A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ... (more hidden) ...[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | 4          |   5% [A[A[A[A[A[A[A[A
+
+scipy-1.7.3          | 16.5 MB   | ###        |  30% [A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ... (more hidden) ...[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | 5          |   6% [A[A[A[A[A[A[A[A
+
+scipy-1.7.3          | 16.5 MB   | ###3       |  33% [A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ... (more hidden) ...[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | 6          |   6% [A[A[A[A[A[A[A[A
+
+scipy-1.7.3          | 16.5 MB   | ###5       |  36% [A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | 6          |   7% [A[A[A[A[A[A[A[A
+
+scipy-1.7.3          | 16.5 MB   | ###8       |  39% [A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | 7          |   7% [A[A[A[A[A[A[A[A
+
+scipy-1.7.3          | 16.5 MB   | ####1      |  41% [A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | 8          |   8% [A[A[A[A[A[A[A[A
+
+scipy-1.7.3          | 16.5 MB   | ####4      |  44% [A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | 8          |   9% [A[A[A[A[A[A[A[A
+
+scipy-1.7.3          | 16.5 MB   | ####6      |  47% [A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | 9          |   9% [A[A[A[A[A[A[A[A
+
+scipy-1.7.3          | 16.5 MB   | #####1     |  52% [A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #          |  10% [A[A[A[A[A[A[A[A
+
+scipy-1.7.3          | 16.5 MB   | #####5     |  55% [A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #          |  11% [A[A[A[A[A[A[A[A
+
+scipy-1.7.3          | 16.5 MB   | #####8     |  58% [A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #1         |  11% [A[A[A[A[A[A[A[A
+
+scipy-1.7.3          | 16.5 MB   | ######1    |  61% [A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #2         |  12% [A[A[A[A[A[A[A[A
+
+scipy-1.7.3          | 16.5 MB   | ######4    |  64% [A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #2         |  13% [A[A[A[A[A[A[A[A
+
+scipy-1.7.3          | 16.5 MB   | ######7    |  67% [A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #3         |  13% [A[A[A[A[A[A[A[A
+
+scipy-1.7.3          | 16.5 MB   | #######    |  70% [A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #3         |  14% [A[A[A[A[A[A[A[A
+
+scipy-1.7.3          | 16.5 MB   | #######3   |  73% [A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #4         |  14% [A[A[A[A[A[A[A[A
+
+scipy-1.7.3          | 16.5 MB   | #######6   |  76% [A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #5         |  15% [A[A[A[A[A[A[A[A
+
+scipy-1.7.3          | 16.5 MB   | #######9   |  79% [A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #5         |  16% [A[A[A[A[A[A[A[A
+
+scipy-1.7.3          | 16.5 MB   | ########2  |  83% [A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #6         |  16% [A[A[A[A[A[A[A[A
+
+scipy-1.7.3          | 16.5 MB   | ########5  |  86% [A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #6         |  17% [A[A[A[A[A[A[A[A
+
+scipy-1.7.3          | 16.5 MB   | ########8  |  89% [A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #7         |  18% [A[A[A[A[A[A[A[A
+
+scipy-1.7.3          | 16.5 MB   | #########1 |  91% [A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #8         |  18% [A[A[A[A[A[A[A[A
+
+scipy-1.7.3          | 16.5 MB   | #########4 |  94% [A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #8         |  19% [A[A[A[A[A[A[A[A
+
+scipy-1.7.3          | 16.5 MB   | #########6 |  97% [A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #9         |  19% [A[A[A[A[A[A[A[A
+
+scipy-1.7.3          | 16.5 MB   | #########9 |  99% [A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #9         |  20% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ##         |  20% [A[A[A[A[A[A[A[A
+
+scipy-1.7.3          | 16.5 MB   | ########## | 100% [A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ##         |  21% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ##1        |  21% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ##1        |  22% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ##2        |  22% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ##2        |  23% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ##3        |  23% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ##3        |  24% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ##4        |  24% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ##4        |  25% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ##5        |  25% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ##5        |  26% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ##6        |  27% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ##7        |  27% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ##7        |  28% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ##8        |  28% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ##8        |  29% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ##9        |  29% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ##9        |  30% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ###        |  30% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ###        |  31% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ###1       |  31% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ###2       |  32% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ###3       |  33% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ###3       |  34% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ###4       |  34% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ###4       |  35% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ###5       |  36% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ###6       |  36% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ###6       |  37% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ###7       |  38% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ###8       |  38% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ###8       |  39% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ###9       |  40% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ####       |  40% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ####       |  41% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ####1      |  42% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ####2      |  42% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ####3      |  43% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ####3      |  44% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ####4      |  44% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ####4      |  45% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ####5      |  45% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ####6      |  46% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ####6      |  47% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ####7      |  48% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ####8      |  48% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ####8      |  49% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ####9      |  50% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #####      |  50% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #####1     |  51% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #####1     |  52% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #####2     |  53% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #####4     |  54% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #####5     |  55% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #####6     |  56% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #####7     |  58% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #####9     |  59% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ######     |  61% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ######2    |  62% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ######3    |  64% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ######5    |  65% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ######6    |  67% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ######8    |  68% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ######9    |  69% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #######1   |  71% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #######2   |  72% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #######3   |  74% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #######5   |  75% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #######6   |  77% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #######7   |  78% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #######9   |  79% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ########   |  81% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ########1  |  82% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ########3  |  83% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ########4  |  85% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ########5  |  86% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ########7  |  87% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ########8  |  89% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ########9  |  90% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #########  |  90% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #########1 |  91% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #########2 |  92% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #########3 |  93% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #########3 |  94% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #########4 |  95% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #########5 |  96% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #########6 |  96% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #########7 |  97% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #########8 |  98% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #########8 |  99% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #########9 | 100% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ########## | 100% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                      [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A                                                     
+                                                     [A
+
+                                                     [A[A
+
+
+                                                     [A[A[A
+
+
+
+                                                     [A[A[A[A
+
+
+
+
+                                                     [A[A[A[A[A
+
+
+
+
+
+                                                     [A[A[A[A[A[A
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+[A
+
+[A[A
+
+
+[A[A[A
+
+
+
+[A[A[A[A
+
+
+
+
+[A[A[A[A[A
+
+
+
+
+
+[A[A[A[A[A[A
+
+
+
+
+
+
+[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+[A
+
+[A[A
+
+
+[A[A[A
+
+
+
+[A[A[A[A
+
+
+
+
+[A[A[A[A[A
+
+
+
+
+
+[A[A[A[A[A[A
+
+
+
+
+
+
+[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+[A
+
+[A[A
+
+
+[A[A[A
+
+
+
+[A[A[A[A
+
+
+
+
+[A[A[A[A[A
+
+
+
+
+
+[A[A[A[A[A[A
+
+
+
+
+
+
+[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+[A
+
+[A[A
+
+
+[A[A[A
+
+
+
+[A[A[A[A
+
+
+
+
+[A[A[A[A[A
+
+
+
+
+
+[A[A[A[A[A[A
+
+
+
+
+
+
+[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A
+Preparing transaction: ...working... done
+Verifying transaction: ...working... done
+Executing transaction: ...working... done
+#
+# To activate this environment, use
+#
+#     $ conda activate env_opics_pvoe
+#
+# To deactivate an active environment, use
+#
+#     $ conda deactivate
+
+Activating the environment...
+Upgrading pip...
+Requirement already satisfied: pip in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (22.3.1)
+Collecting pip
+  Downloading pip-23.0.1-py3-none-any.whl (2.1 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 14.7 MB/s eta 0:00:00
+Installing collected packages: pip
+  Attempting uninstall: pip
+    Found existing installation: pip 22.3.1
+    Uninstalling pip-22.3.1:
+      Successfully uninstalled pip-22.3.1
+Successfully installed pip-23.0.1
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+Installing PyTorch=1.12.1 for CUDA=10.2...
+Collecting torch==1.8.0
+  Downloading torch-1.8.0-cp37-cp37m-manylinux1_x86_64.whl (735.5 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 735.5/735.5 MB 7.2 MB/s eta 0:00:00
+Collecting torchvision==0.9.0
+  Downloading torchvision-0.9.0-cp37-cp37m-manylinux1_x86_64.whl (17.3 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 17.3/17.3 MB 16.8 MB/s eta 0:00:00
+Collecting typing-extensions
+  Downloading typing_extensions-4.5.0-py3-none-any.whl (27 kB)
+Requirement already satisfied: numpy in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (from torch==1.8.0) (1.21.5)
+Collecting pillow>=4.1.1
+  Downloading Pillow-9.4.0-cp37-cp37m-manylinux_2_28_x86_64.whl (3.4 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.4/3.4 MB 15.8 MB/s eta 0:00:00
+Installing collected packages: typing-extensions, pillow, torch, torchvision
+Successfully installed pillow-9.4.0 torch-1.8.0 torchvision-0.9.0 typing-extensions-4.5.0
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+Updating poetry config...
+Installing dependencies using poetry...
+Updating dependencies
+Resolving dependencies...
+<debug>PackageInfo:</debug> Invalid constraint (jupyter-core!=~5.0,>=4.12) found in jupyter-server-2.0.0 dependencies, skipping
+<debug>PackageInfo:</debug> Invalid constraint (jupyter-core!=~5.0,>=4.12) found in jupyter-server-2.0.0 dependencies, skipping
+<debug>PackageInfo:</debug> Invalid constraint (jupyter-core!=~5.0,>=4.12) found in jupyter-server-2.0.0 dependencies, skipping
+
+Writing lock file
+
+Package operations: 148 installs, 21 updates, 0 removals
+
+  - Updating zipp (3.11.0 -> 3.15.0)
+  - Installing attrs (22.2.0)
+  - Updating importlib-metadata (1.7.0 -> 6.1.0)
+  - Installing importlib-resources (5.12.0)
+  - Installing pkgutil-resolve-name (1.3.10)
+  - Installing pyrsistent (0.19.3)
+  - Installing traitlets (5.9.0)
+  - Installing entrypoints (0.4)
+  - Installing fastjsonschema (2.16.3)
+  - Installing jsonschema (4.17.3)
+  - Installing jupyter-core (4.12.0)
+  - Installing nest-asyncio (1.5.6)
+  - Installing python-dateutil (2.8.2)
+  - Installing pyzmq (25.0.2)
+  - Installing tornado (6.2)
+  - Installing jupyter-client (7.4.9)
+  - Updating markupsafe (2.1.1 -> 2.1.2)
+  - Installing nbformat (5.8.0)
+  - Installing soupsieve (2.4)
+  - Installing argon2-cffi-bindings (21.2.0)
+  - Installing beautifulsoup4 (4.12.0)
+  - Installing bleach (6.0.0)
+  - Installing defusedxml (0.7.1)
+  - Installing jinja2 (3.1.2)
+  - Installing jupyterlab-pygments (0.2.2)
+  - Installing mistune (2.0.5)
+  - Installing nbclient (0.7.2)
+  - Updating packaging (20.9 -> 23.0)
+  - Installing pandocfilters (1.5.0)
+  - Installing parso (0.8.3)
+  - Installing pygments (2.14.0)
+  - Installing sniffio (1.3.0)
+  - Installing tinycss2 (1.2.1)
+  - Installing wcwidth (0.2.5)
+  - Installing anyio (3.6.2)
+  - Installing argon2-cffi (21.3.0)
+  - Installing backcall (0.2.0)
+  - Installing decorator (5.1.1)
+  - Installing jedi (0.18.2)
+  - Installing matplotlib-inline (0.1.6)
+  - Installing nbconvert (7.2.10)
+  - Installing pickleshare (0.7.5)
+  - Installing prometheus-client (0.16.0)
+  - Installing prompt-toolkit (3.0.38)
+  - Installing send2trash (1.8.0)
+  - Installing terminado (0.17.1)
+  - Installing websocket-client (1.5.1)
+  - Installing debugpy (1.6.6)
+  - Installing ipython (7.34.0)
+  - Installing jupyter-server (1.23.6)
+  - Installing psutil (5.9.4)
+  - Updating charset-normalizer (2.0.4 -> 3.1.0)
+  - Installing ipykernel (6.16.2)
+  - Installing ipython-genutils (0.2.0)
+  - Installing notebook-shim (0.2.2)
+  - Installing pyasn1 (0.4.8)
+  - Installing tomli (2.0.1)
+  - Updating urllib3 (1.26.14 -> 1.26.15)
+  - Installing cachetools (5.3.0)
+  - Installing click (8.1.3)
+  - Installing cycler (0.11.0)
+  - Installing fonttools (4.38.0)
+  - Installing itsdangerous (2.1.2)
+  - Installing jmespath (1.0.1)
+  - Installing jupyterlab-widgets (3.0.6)
+  - Installing kiwisolver (1.4.4)
+  - Installing mypy-extensions (1.0.0)
+  - Installing nbclassic (0.5.3)
+  - Updating numpy (1.21.5 -> 1.21.0)
+  - Installing oauthlib (3.2.2)
+  - Updating pillow (9.4.0 -> 6.2.2)
+  - Installing pyasn1-modules (0.2.8)
+  - Installing python-utils (3.5.2)
+  - Installing qtpy (2.3.0)
+  - Updating requests (2.28.1 -> 2.28.2)
+  - Installing rsa (4.9)
+  - Installing setuptools-scm (7.1.0)
+  - Updating werkzeug (2.2.2 -> 2.2.3)
+  - Installing widgetsnbextension (4.0.6)
+  - Installing aws-requests-auth (0.4.3)
+  - Installing botocore (1.29.98)
+  - Updating filelock (3.9.0 -> 3.10.2)
+  - Installing flask (2.2.3)
+  - Installing google-auth (2.16.2)
+  - Installing imageio (2.9.0)
+  - Installing ipywidgets (8.0.5)
+  - Installing joblib (1.2.0)
+  - Installing jsonpointer (2.3)
+  - Installing jupyter-console (6.6.3)
+  - Installing matplotlib (3.5.1)
+  - Updating msgpack (1.0.3 -> 1.0.5)
+  - Installing networkx (2.6.3)
+  - Installing notebook (6.5.3)
+  - Installing opencv-python (4.5.3.56)
+  - Updating platformdirs (2.5.2 -> 3.1.1)
+  - Installing progressbar2 (4.2.0)
+  - Installing pytz (2022.7.1)
+  - Installing pywavelets (1.4.0)
+  - Installing pyyaml (6.0)
+  - Installing qtconsole (5.4.1)
+  - Installing requests-oauthlib (1.3.1)
+  - Installing ruamel.yaml.clib (0.2.7)
+  - Updating termcolor (2.1.0 -> 1.1.0)
+  - Installing tifffile (2021.11.2)
+  - Installing typing-inspect (0.8.0)
+  - Updating absl-py (1.3.0 -> 1.4.0)
+  - Installing ai2thor (2.5.0)
+  - Installing asttokens (2.2.1)
+  - Installing cfgv (3.3.1)
+  - Installing colour (0.1.5)
+  - Installing commonmark (0.9.1)
+  - Installing descartes (1.1.0)
+  - Installing exceptiongroup (1.1.1)
+  - Installing executing (0.10.0)
+  - Installing fire (0.5.0)
+  - Installing google-auth-oauthlib (0.4.6)
+  - Updating grpcio (1.42.0 -> 1.52.0)
+  - Installing identify (2.5.21)
+  - Installing iniconfig (2.0.0)
+  - Installing jsonpatch (1.32)
+  - Installing jupyter (1.0.0)
+  - Installing libcst (0.4.9)
+  - Installing llvmlite (0.38.1)
+  - Updating markdown (3.3.4 -> 3.4.3)
+  - Installing nodeenv (1.7.0)
+  - Installing numpyencoder (0.3.0)
+  - Installing pandas (1.3.5)
+  - Installing pathspec (0.10.3)
+  - Installing pluggy (1.0.0)
+  - Updating protobuf (3.20.3 -> 3.20.1)
+  - Installing pycocotools (2.0.4)
+  - Installing pydantic (1.10.7)
+  - Installing pyquaternion (0.9.9)
+  - Installing ruamel.yaml (0.17.21)
+  - Installing scikit-image (0.19.3)
+  - Installing scikit-learn (0.22.2)
+  - Installing shapely (2.0.1)
+  - Installing tensorboard-data-server (0.6.1)
+  - Installing tensorboard-plugin-wit (1.8.1)
+  - Installing terminaltables (3.1.10)
+  - Updating tomlkit (0.11.1 -> 0.11.6)
+  - Installing tqdm (4.65.0)
+  - Installing typed-ast (1.5.4)
+  - Installing typeguard (2.13.2)
+  - Installing typer (0.7.0)
+  - Updating virtualenv (20.16.2 -> 20.21.0)
+  - Installing xmltodict (0.13.0)
+  - Installing black (22.12.0)
+  - Installing cython (0.29.30)
+  - Installing devtools (0.9.0)
+  - Installing gdown (4.4.0)
+  - Installing isort (5.11.5)
+  - Installing loguru (0.6.0)
+  - Installing machine-common-sense (0.6.5)
+  - Installing mmdet (2.24.1)
+  - Installing motmetrics (1.2.5)
+  - Installing mypy (0.961)
+  - Installing numba (0.55.2)
+  - Installing nuscenes-devkit (1.1.9)
+  - Installing pre-commit (2.21.0)
+  - Installing pre-commit-hooks (4.4.0)
+  - Installing progress (1.6)
+  - Installing pycln (2.1.3)
+  - Installing pytest (7.2.2)
+  - Installing python-dotenv (0.20.0)
+  - Installing rich (12.6.0)
+  - Updating tensorboard (1.14.0 -> 2.8.0)
+  - Installing transforms3d (0.3.1)
+  - Installing visdom (0.2.4)
+
+Installing the current project: opics_pvoe (0.1.0)
+installing gdown without caching
+Requirement already satisfied: gdown in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (4.4.0)
+Collecting gdown
+  Downloading gdown-4.6.4-py3-none-any.whl (14 kB)
+Requirement already satisfied: tqdm in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (from gdown) (4.65.0)
+Requirement already satisfied: filelock in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (from gdown) (3.10.2)
+Requirement already satisfied: requests[socks] in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (from gdown) (2.28.2)
+Requirement already satisfied: beautifulsoup4 in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (from gdown) (4.12.0)
+Requirement already satisfied: six in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (from gdown) (1.16.0)
+Requirement already satisfied: soupsieve>1.2 in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (from beautifulsoup4->gdown) (2.4)
+Requirement already satisfied: urllib3<1.27,>=1.21.1 in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (from requests[socks]->gdown) (1.26.15)
+Requirement already satisfied: idna<4,>=2.5 in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (from requests[socks]->gdown) (3.4)
+Requirement already satisfied: certifi>=2017.4.17 in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (from requests[socks]->gdown) (2022.12.7)
+Requirement already satisfied: charset-normalizer<4,>=2 in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (from requests[socks]->gdown) (3.1.0)
+Requirement already satisfied: PySocks!=1.5.7,>=1.5.6 in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (from requests[socks]->gdown) (1.7.1)
+Installing collected packages: gdown
+  Attempting uninstall: gdown
+    Found existing installation: gdown 4.4.0
+    Uninstalling gdown-4.4.0:
+      Successfully uninstalled gdown-4.4.0
+Successfully installed gdown-4.6.4
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+Downloading weights...
+Setting conda init...
+Activating the environment...
+Downloading...
+From: https://drive.google.com/uc?id=1wepo_mdyOqphSn4C_iOD8tVAvSuci3ki
+To: /image__pvoe_032323_val6_cuda_10/opics_pvoe/eval5_models_ckpts.zip
+  0%|          | 0.00/504M [00:00<?, ?B/s]  0%|          | 1.57M/504M [00:00<00:34, 14.5MB/s]  1%|          | 4.19M/504M [00:00<00:26, 18.9MB/s]  1%|          | 6.29M/504M [00:00<00:26, 18.8MB/s]  2%|▏         | 8.39M/504M [00:00<00:27, 18.3MB/s]  2%|▏         | 10.5M/504M [00:00<00:25, 19.1MB/s]  2%|▏         | 12.6M/504M [00:00<00:25, 19.3MB/s]  3%|▎         | 15.2M/504M [00:00<00:24, 20.1MB/s]  4%|▎         | 17.8M/504M [00:00<00:23, 20.6MB/s]  4%|▍         | 20.4M/504M [00:01<00:23, 21.0MB/s]  5%|▍         | 23.1M/504M [00:01<00:22, 21.4MB/s]  5%|▌         | 25.7M/504M [00:01<00:22, 21.7MB/s]  6%|▌         | 28.3M/504M [00:01<00:22, 21.5MB/s]  6%|▌         | 30.9M/504M [00:01<00:22, 21.3MB/s]  7%|▋         | 33.6M/504M [00:01<00:22, 20.5MB/s]  7%|▋         | 35.7M/504M [00:01<00:23, 19.7MB/s]  7%|▋         | 37.7M/504M [00:01<00:23, 19.5MB/s]  8%|▊         | 39.8M/504M [00:01<00:24, 19.3MB/s]  8%|▊         | 41.9M/504M [00:02<00:24, 19.0MB/s]  9%|▊         | 44.0M/504M [00:02<00:24, 18.6MB/s]  9%|▉         | 46.1M/504M [00:02<00:24, 18.7MB/s] 10%|▉         | 48.2M/504M [00:02<00:24, 18.4MB/s] 10%|▉         | 50.3M/504M [00:02<00:25, 17.5MB/s] 10%|█         | 52.4M/504M [00:02<00:24, 18.1MB/s] 11%|█         | 54.5M/504M [00:02<00:24, 18.3MB/s] 11%|█         | 56.6M/504M [00:02<00:23, 18.8MB/s] 12%|█▏        | 58.7M/504M [00:03<00:23, 18.9MB/s] 12%|█▏        | 60.8M/504M [00:03<00:23, 18.6MB/s] 12%|█▏        | 62.9M/504M [00:03<00:23, 18.5MB/s] 13%|█▎        | 65.0M/504M [00:03<00:23, 18.8MB/s] 13%|█▎        | 67.1M/504M [00:03<00:22, 19.2MB/s] 14%|█▎        | 69.2M/504M [00:03<00:22, 19.0MB/s] 14%|█▍        | 71.3M/504M [00:03<00:23, 18.6MB/s] 15%|█▍        | 73.9M/504M [00:03<00:22, 19.5MB/s] 15%|█▌        | 76.5M/504M [00:03<00:21, 20.1MB/s] 16%|█▌        | 78.6M/504M [00:04<00:21, 19.7MB/s] 16%|█▌        | 81.3M/504M [00:04<00:20, 20.5MB/s] 17%|█▋        | 83.9M/504M [00:04<00:20, 20.8MB/s] 17%|█▋        | 86.0M/504M [00:04<00:20, 20.8MB/s] 18%|█▊        | 88.6M/504M [00:04<00:19, 21.4MB/s] 18%|█▊        | 91.2M/504M [00:04<00:22, 18.5MB/s] 19%|█▊        | 93.3M/504M [00:04<00:22, 18.4MB/s] 19%|█▉        | 95.4M/504M [00:04<00:21, 18.6MB/s] 19%|█▉        | 97.5M/504M [00:05<00:22, 17.9MB/s] 20%|█▉        | 99.6M/504M [00:05<00:28, 14.4MB/s] 20%|██        | 101M/504M [00:05<00:27, 14.6MB/s]  20%|██        | 103M/504M [00:05<00:25, 15.7MB/s] 21%|██        | 105M/504M [00:05<00:24, 16.4MB/s] 21%|██▏       | 107M/504M [00:05<00:24, 16.2MB/s] 22%|██▏       | 110M/504M [00:05<00:24, 16.3MB/s] 22%|██▏       | 112M/504M [00:05<00:24, 16.1MB/s] 23%|██▎       | 114M/504M [00:06<00:24, 15.8MB/s] 23%|██▎       | 116M/504M [00:06<00:25, 15.5MB/s] 23%|██▎       | 118M/504M [00:06<00:24, 15.8MB/s] 24%|██▍       | 120M/504M [00:06<00:23, 16.4MB/s] 24%|██▍       | 122M/504M [00:06<00:23, 16.1MB/s] 25%|██▍       | 124M/504M [00:06<00:23, 15.8MB/s] 25%|██▌       | 126M/504M [00:06<00:22, 16.8MB/s] 25%|██▌       | 128M/504M [00:07<00:22, 16.9MB/s] 26%|██▌       | 131M/504M [00:07<00:21, 17.2MB/s] 26%|██▋       | 133M/504M [00:07<00:21, 17.0MB/s] 27%|██▋       | 135M/504M [00:07<00:21, 17.2MB/s] 27%|██▋       | 137M/504M [00:07<00:20, 17.7MB/s] 28%|██▊       | 139M/504M [00:07<00:20, 17.7MB/s] 28%|██▊       | 141M/504M [00:07<00:20, 18.2MB/s] 28%|██▊       | 143M/504M [00:07<00:19, 18.3MB/s] 29%|██▉       | 145M/504M [00:07<00:19, 18.6MB/s] 29%|██▉       | 147M/504M [00:08<00:18, 18.9MB/s] 30%|██▉       | 149M/504M [00:08<00:18, 18.7MB/s] 30%|███       | 152M/504M [00:08<00:18, 18.9MB/s] 30%|███       | 154M/504M [00:08<00:18, 19.1MB/s] 31%|███       | 156M/504M [00:08<00:18, 19.1MB/s] 31%|███▏      | 158M/504M [00:08<00:18, 19.1MB/s] 32%|███▏      | 160M/504M [00:08<00:17, 19.4MB/s] 32%|███▏      | 162M/504M [00:08<00:17, 19.7MB/s] 33%|███▎      | 164M/504M [00:08<00:18, 18.4MB/s] 33%|███▎      | 167M/504M [00:09<00:17, 19.5MB/s] 33%|███▎      | 169M/504M [00:09<00:17, 19.6MB/s] 34%|███▍      | 171M/504M [00:09<00:16, 20.4MB/s] 35%|███▍      | 174M/504M [00:09<00:15, 21.0MB/s] 35%|███▌      | 177M/504M [00:09<00:16, 20.3MB/s] 35%|███▌      | 179M/504M [00:09<00:16, 20.0MB/s] 36%|███▌      | 181M/504M [00:09<00:17, 18.6MB/s] 36%|███▋      | 183M/504M [00:09<00:17, 18.6MB/s] 37%|███▋      | 185M/504M [00:10<00:17, 18.3MB/s] 37%|███▋      | 187M/504M [00:10<00:17, 18.3MB/s] 38%|███▊      | 189M/504M [00:10<00:17, 18.4MB/s] 38%|███▊      | 191M/504M [00:10<00:16, 18.7MB/s] 38%|███▊      | 193M/504M [00:10<00:22, 14.0MB/s] 39%|███▊      | 195M/504M [00:10<00:21, 14.2MB/s] 39%|███▉      | 197M/504M [00:10<00:22, 13.5MB/s] 39%|███▉      | 198M/504M [00:10<00:21, 14.0MB/s] 40%|███▉      | 200M/504M [00:11<00:20, 15.1MB/s] 40%|████      | 202M/504M [00:11<00:19, 15.3MB/s] 40%|████      | 204M/504M [00:11<00:18, 16.3MB/s] 41%|████      | 206M/504M [00:11<00:17, 17.0MB/s] 41%|████▏     | 208M/504M [00:11<00:16, 17.6MB/s] 42%|████▏     | 210M/504M [00:11<00:16, 17.5MB/s] 42%|████▏     | 212M/504M [00:11<00:17, 16.9MB/s] 43%|████▎     | 214M/504M [00:11<00:17, 16.9MB/s] 43%|████▎     | 217M/504M [00:11<00:16, 17.2MB/s] 43%|████▎     | 219M/504M [00:12<00:16, 17.4MB/s] 44%|████▍     | 221M/504M [00:12<00:16, 17.3MB/s] 44%|████▍     | 223M/504M [00:12<00:16, 17.0MB/s] 45%|████▍     | 225M/504M [00:12<00:16, 17.3MB/s] 45%|████▌     | 227M/504M [00:12<00:16, 17.1MB/s] 45%|████▌     | 229M/504M [00:12<00:16, 17.0MB/s] 46%|████▌     | 231M/504M [00:12<00:15, 17.1MB/s] 46%|████▋     | 233M/504M [00:12<00:15, 17.6MB/s] 47%|████▋     | 235M/504M [00:13<00:17, 15.8MB/s] 47%|████▋     | 238M/504M [00:13<00:16, 16.5MB/s] 48%|████▊     | 240M/504M [00:13<00:15, 16.8MB/s] 48%|████▊     | 242M/504M [00:13<00:15, 17.2MB/s] 48%|████▊     | 244M/504M [00:13<00:15, 16.7MB/s] 49%|████▉     | 246M/504M [00:13<00:15, 16.9MB/s] 49%|████▉     | 248M/504M [00:13<00:15, 16.2MB/s] 50%|████▉     | 250M/504M [00:13<00:15, 16.7MB/s] 50%|█████     | 252M/504M [00:14<00:15, 16.4MB/s] 50%|█████     | 254M/504M [00:14<00:14, 16.7MB/s] 51%|█████     | 256M/504M [00:14<00:15, 16.4MB/s] 51%|█████▏    | 258M/504M [00:14<00:14, 16.6MB/s] 52%|█████▏    | 261M/504M [00:14<00:14, 16.3MB/s] 52%|█████▏    | 263M/504M [00:14<00:14, 16.7MB/s] 53%|█████▎    | 265M/504M [00:14<00:14, 16.5MB/s] 53%|█████▎    | 267M/504M [00:14<00:13, 17.0MB/s] 53%|█████▎    | 269M/504M [00:15<00:13, 17.6MB/s] 54%|█████▍    | 271M/504M [00:15<00:15, 15.5MB/s] 54%|█████▍    | 273M/504M [00:15<00:14, 16.0MB/s] 55%|█████▍    | 275M/504M [00:15<00:14, 16.1MB/s] 55%|█████▌    | 277M/504M [00:15<00:15, 14.4MB/s] 55%|█████▌    | 279M/504M [00:15<00:18, 12.2MB/s] 56%|█████▌    | 280M/504M [00:16<00:18, 11.9MB/s] 56%|█████▌    | 282M/504M [00:16<00:17, 12.6MB/s] 56%|█████▋    | 284M/504M [00:16<00:15, 13.8MB/s] 57%|█████▋    | 286M/504M [00:16<00:14, 15.0MB/s] 57%|█████▋    | 288M/504M [00:16<00:13, 15.6MB/s] 58%|█████▊    | 290M/504M [00:16<00:13, 16.4MB/s] 58%|█████▊    | 293M/504M [00:16<00:12, 16.8MB/s] 58%|█████▊    | 295M/504M [00:16<00:12, 17.0MB/s] 59%|█████▉    | 297M/504M [00:16<00:12, 17.1MB/s] 59%|█████▉    | 299M/504M [00:17<00:11, 17.3MB/s] 60%|█████▉    | 301M/504M [00:17<00:11, 17.3MB/s] 60%|██████    | 303M/504M [00:17<00:12, 15.8MB/s] 61%|██████    | 305M/504M [00:17<00:12, 16.3MB/s] 61%|██████    | 307M/504M [00:17<00:11, 17.1MB/s] 61%|██████▏   | 309M/504M [00:17<00:11, 17.5MB/s] 62%|██████▏   | 311M/504M [00:17<00:11, 17.2MB/s] 62%|██████▏   | 314M/504M [00:17<00:10, 18.0MB/s] 63%|██████▎   | 316M/504M [00:18<00:10, 18.4MB/s] 63%|██████▎   | 318M/504M [00:18<00:09, 18.9MB/s] 63%|██████▎   | 320M/504M [00:18<00:09, 19.3MB/s] 64%|██████▍   | 322M/504M [00:18<00:09, 19.5MB/s] 64%|██████▍   | 324M/504M [00:18<00:09, 19.6MB/s] 65%|██████▍   | 326M/504M [00:18<00:09, 19.6MB/s] 65%|██████▌   | 328M/504M [00:18<00:09, 19.5MB/s] 66%|██████▌   | 330M/504M [00:18<00:08, 19.3MB/s] 66%|██████▌   | 332M/504M [00:18<00:08, 19.8MB/s] 66%|██████▋   | 335M/504M [00:18<00:08, 20.5MB/s] 67%|██████▋   | 337M/504M [00:19<00:08, 20.3MB/s] 67%|██████▋   | 339M/504M [00:19<00:08, 20.4MB/s] 68%|██████▊   | 341M/504M [00:19<00:08, 19.9MB/s] 68%|██████▊   | 344M/504M [00:19<00:07, 20.4MB/s] 69%|██████▊   | 346M/504M [00:19<00:08, 19.5MB/s] 69%|██████▉   | 348M/504M [00:19<00:07, 19.9MB/s] 69%|██████▉   | 350M/504M [00:19<00:07, 19.4MB/s] 70%|██████▉   | 352M/504M [00:19<00:07, 19.4MB/s] 70%|███████   | 355M/504M [00:19<00:07, 20.3MB/s] 71%|███████   | 357M/504M [00:20<00:07, 20.5MB/s] 71%|███████▏  | 360M/504M [00:20<00:06, 21.4MB/s] 72%|███████▏  | 362M/504M [00:20<00:06, 21.0MB/s] 72%|███████▏  | 365M/504M [00:20<00:06, 21.2MB/s] 73%|███████▎  | 368M/504M [00:20<00:06, 21.5MB/s] 73%|███████▎  | 370M/504M [00:20<00:06, 21.8MB/s] 74%|███████▍  | 373M/504M [00:20<00:06, 21.2MB/s] 74%|███████▍  | 375M/504M [00:21<00:07, 17.5MB/s] 75%|███████▍  | 377M/504M [00:21<00:07, 16.6MB/s] 75%|███████▌  | 380M/504M [00:21<00:07, 17.5MB/s] 76%|███████▌  | 382M/504M [00:21<00:06, 17.9MB/s] 76%|███████▌  | 384M/504M [00:21<00:07, 16.9MB/s] 77%|███████▋  | 386M/504M [00:21<00:06, 17.6MB/s] 77%|███████▋  | 388M/504M [00:21<00:06, 18.2MB/s] 77%|███████▋  | 390M/504M [00:21<00:06, 18.2MB/s] 78%|███████▊  | 392M/504M [00:21<00:05, 18.8MB/s] 78%|███████▊  | 395M/504M [00:22<00:05, 19.7MB/s] 79%|███████▊  | 397M/504M [00:22<00:05, 20.0MB/s] 79%|███████▉  | 399M/504M [00:22<00:05, 20.2MB/s] 80%|███████▉  | 401M/504M [00:22<00:05, 20.3MB/s] 80%|████████  | 404M/504M [00:22<00:04, 21.0MB/s] 81%|████████  | 406M/504M [00:22<00:04, 20.8MB/s] 81%|████████  | 409M/504M [00:22<00:04, 21.3MB/s] 82%|████████▏ | 412M/504M [00:22<00:04, 20.3MB/s] 82%|████████▏ | 414M/504M [00:22<00:04, 20.1MB/s] 82%|████████▏ | 416M/504M [00:23<00:04, 20.1MB/s] 83%|████████▎ | 418M/504M [00:23<00:04, 20.2MB/s] 83%|████████▎ | 420M/504M [00:23<00:04, 20.1MB/s] 84%|████████▎ | 422M/504M [00:23<00:04, 19.8MB/s] 84%|████████▍ | 424M/504M [00:23<00:04, 19.0MB/s] 85%|████████▍ | 426M/504M [00:23<00:04, 19.1MB/s] 85%|████████▍ | 428M/504M [00:23<00:03, 19.1MB/s] 85%|████████▌ | 430M/504M [00:23<00:04, 17.3MB/s] 86%|████████▌ | 433M/504M [00:24<00:03, 18.1MB/s] 86%|████████▌ | 435M/504M [00:24<00:03, 18.5MB/s] 87%|████████▋ | 437M/504M [00:24<00:03, 18.9MB/s] 87%|████████▋ | 439M/504M [00:24<00:03, 19.0MB/s] 87%|████████▋ | 441M/504M [00:24<00:03, 16.6MB/s] 88%|████████▊ | 443M/504M [00:24<00:03, 17.3MB/s] 88%|████████▊ | 445M/504M [00:24<00:03, 18.0MB/s] 89%|████████▊ | 447M/504M [00:24<00:03, 18.2MB/s] 89%|████████▉ | 450M/504M [00:24<00:02, 19.5MB/s] 90%|████████▉ | 452M/504M [00:25<00:02, 20.4MB/s] 90%|█████████ | 455M/504M [00:25<00:02, 21.1MB/s] 91%|█████████ | 458M/504M [00:25<00:02, 21.1MB/s] 91%|█████████▏| 460M/504M [00:25<00:02, 21.3MB/s] 92%|█████████▏| 463M/504M [00:25<00:01, 21.4MB/s] 92%|█████████▏| 466M/504M [00:25<00:01, 21.2MB/s] 93%|█████████▎| 468M/504M [00:25<00:01, 18.9MB/s] 93%|█████████▎| 470M/504M [00:25<00:01, 19.2MB/s] 94%|█████████▍| 473M/504M [00:26<00:01, 19.8MB/s] 94%|█████████▍| 475M/504M [00:26<00:01, 16.6MB/s] 95%|█████████▍| 477M/504M [00:26<00:01, 14.9MB/s] 95%|█████████▌| 479M/504M [00:26<00:01, 16.1MB/s] 96%|█████████▌| 482M/504M [00:26<00:01, 17.6MB/s] 96%|█████████▌| 484M/504M [00:26<00:01, 18.8MB/s] 97%|█████████▋| 487M/504M [00:26<00:00, 19.2MB/s] 97%|█████████▋| 489M/504M [00:26<00:00, 19.1MB/s] 97%|█████████▋| 491M/504M [00:27<00:00, 19.2MB/s] 98%|█████████▊| 493M/504M [00:27<00:00, 19.5MB/s] 98%|█████████▊| 495M/504M [00:27<00:00, 17.2MB/s] 99%|█████████▊| 497M/504M [00:27<00:00, 16.8MB/s] 99%|█████████▉| 499M/504M [00:27<00:00, 12.8MB/s] 99%|█████████▉| 501M/504M [00:27<00:00, 12.6MB/s]100%|█████████▉| 503M/504M [00:27<00:00, 14.2MB/s]100%|██████████| 504M/504M [00:28<00:00, 18.0MB/s]
+Archive:  eval5_models_ckpts.zip
+   creating: ckpts/contrastive_model/
+   creating: ckpts/contrastive_model/v1/
+  inflating: ckpts/contrastive_model/v1/parameters_best  
+  inflating: ckpts/contrastive_model/v1/parameters  
+  inflating: ckpts/contrastive_model/v1/weights  
+  inflating: ckpts/contrastive_model/v1/weights_best  
+  inflating: ckpts/contrastive_model/gravity_scene_classifier  
+  inflating: ckpts/contrastive_model/sc_scene_classifier  
+   creating: ckpts/vision/
+   creating: ckpts/vision/tracker/
+   creating: ckpts/vision/tracker/mot_model/
+  inflating: ckpts/vision/tracker/mot_model/247744.ckpt.meta  
+  inflating: ckpts/vision/tracker/mot_model/247744.ckpt.data-00000-of-00001  
+  inflating: ckpts/vision/tracker/mot_model/247744.ckpt.index  
+   creating: ckpts/vision/tracker/app_model/
+  inflating: ckpts/vision/tracker/app_model/247744.ckpt.meta  
+  inflating: ckpts/vision/tracker/app_model/247744.ckpt.data-00000-of-00001  
+  inflating: ckpts/vision/tracker/app_model/247744.ckpt.index  
+   creating: ckpts/vision/tracker/appearance_matcher/
+  inflating: ckpts/vision/tracker/appearance_matcher/full_training_non_mask_trained_on_all_seqs_two_stage_tracker_model_state_v3.pth  
+   creating: ckpts/vision/center_track/
+  inflating: ckpts/vision/center_track/model_last.pth  
+   creating: ckpts/vision/shape_classifier/
+  inflating: ckpts/vision/shape_classifier/shape_classifier_eval5train.pth  
+replace ckpts/.gitignore? [y]es, [n]o, [A]ll, [N]one, [r]ename:  NULL
+(EOF or read error, treating as "[N]one" ...)
+   creating: ckpts/transformer/
+  inflating: ckpts/transformer/v1_weights.pth  
++ echo ==============  loading models ===================
+==============  loading models ===================
++ export PYTHONPATH=/image__pvoe_032323_val6_cuda_10
++ cd /image__pvoe_032323_val6_cuda_10/scripts
++ python3 patch_mcs_controller_timeout.py pvoe 60
+TIME_LIMIT_SECONDS = 3600
+
+attempting to patch installed package machine_common_sense/__init__.py TIME_LIMIT_SECONDS value...
+
+mcs init file located at : /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages/machine_common_sense/__init__.py
+60 minutes will be converted to 3600 seconds for the TIME_LIMIT_SECONDS value 
+...initally set as:
+TIME_LIMIT_SECONDS = 180
+
+...now set to: 
+
+INFO:    Adding environment to container
+INFO:    Adding runscript
+INFO:    Creating SIF file...
+INFO:    Build complete: sifs/pvoe_032323_val6_cuda_10.sif
