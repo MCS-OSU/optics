@@ -4,33 +4,34 @@
 MODEL LOCATIONS NOTE.  The model locations referenced below are relative paths.  The parent directory can be found 
 either inside the apptainer container or in the runnable copy of the image that is under the home directory.
 
+
 To find them in the apptainer container, start with :
 
-cd ~/containers
+    cd ~/containers
 
-INTER:
-apptainer shell xyz.sif
-cd /image_xyz
+    INTER:
+    apptainer shell inter_040323_5w_6new.sif
+    cd /image_inter_040323_5w_6new
 
-PVOE:
-apptainer shell pvoe_040123_eval5_cuda_11.sif
-cd /image_pvoe_040123_eval5_cuda_11
+    PVOE:
+    apptainer shell pvoe_040123_eval5_cuda_11.sif
+    cd /image_pvoe_040123_eval5_cuda_11
 
-AVOE:
-apptainer shell xyz.sif
-cd /image_xyz
+    AVOE:
+    apptainer shell avoe_040223_ev5_6new.sif
+    cd /image_avoe_040223_ev5_6new
 
 
 To find them under the home dir (this assumes a scene has already been run, causing the runnable image to be copied here), start with:
 
-INTER
-cd ~/xyz
+    INTER
+    cd ~/test__inter_040323_5w_6new
 
-PVOE
-cd ~/pvoe_040123_eval5_cuda_11
+    PVOE
+    cd ~/test__pvoe_040123_eval5_cuda_11
 
-AVOE
-cd ~/xyz
+    AVOE
+    cd ~/test__avoe_040223_ev5_6new
 
 
 
