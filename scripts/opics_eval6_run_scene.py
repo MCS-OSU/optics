@@ -6,9 +6,9 @@ import traceback
 import json
 
 container_for_project = {}
-container_for_project['avoe' ] = 'avoe_031223_eval5.sif'
-container_for_project['inter'] = 'inter_031923_val6_no_plotting.sif'
-container_for_project['pvoe' ] = 'pvoe_033023_eval5_cuda_11.sif'
+container_for_project['avoe' ] = '???.sif'
+container_for_project['inter'] = '???.sif'
+container_for_project['pvoe' ] = 'pvoe_040123_eval5_cuda_11.sif'
 
     
 def make_parser():
