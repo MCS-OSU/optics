@@ -1,0 +1,28 @@
+The OPICS evaluation 6 submission uses apptainer containers to contain the environments used by each of our three systems:
+
+    AVOE - agency violation of expectation
+    PVOE - phyics violaation of expectation
+    INTER - interactive / retrieval
+
+The three containers are located apptainer
+
+
+~/containers/avoe_040223_5ev5_6new.sif
+~/containers/pvoe_040123_eval5_cuda_11.sif
+~/containers/inter_040223_5w_6new.sif
+
+
+HOW TO RUN A SCENE
+
+# run the main_optics alias to set headless mode and env variables 
+%main_optics
+
+# cd in to the scripts dir and run the unified launch script
+%cd scripts
+%python opics_eval6_run_scene.py --scene <path_to_scene_file>
+
+
+This script uses the scene category to choose the appropriate container and then invokes
+
+    apptainer run --nv <container path>
+
