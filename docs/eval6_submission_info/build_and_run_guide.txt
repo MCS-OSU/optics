@@ -24,5 +24,18 @@ HOW TO RUN A SCENE
 
 This script uses the scene category to choose the appropriate container and then invokes
 
-    apptainer run --nv <container path>
+    apptainer run --nv <container path> run_opics_scene <scene_path>
+
+
+
+Since apptainer containers are read only unless you bind directories in from the outside, we avoid the binding issue altogether
+by copying our code image from the container at /image__<container_name> to ~/test__<container_name, so that it can be run in
+writeable space (under the home dir). We are "in the container" environment-wise, but running code that is now outside the container.
+
+Each time a scene is run, the ~/test__<container_name> area is purged and the /image__<container_name> image is copied afresh.
+
+
+
+
+
 
