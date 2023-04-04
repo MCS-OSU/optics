@@ -14,8 +14,8 @@ To find them in the apptainer container, start with :
     cd /image_inter_040323_5w_6new
 
     PVOE:
-    apptainer shell pvoe_040123_eval5_cuda_11.sif
-    cd /image_pvoe_040123_eval5_cuda_11
+    apptainer shell pvoe_040323_eval5_cuda_11.sif
+    cd /image_pvoe_040323_eval5_cuda_11
 
     AVOE:
     apptainer shell avoe_040223_ev5_6new.sif
@@ -28,7 +28,7 @@ To find them under the home dir (this assumes a scene has already been run, caus
     cd ~/test__inter_040323_5w_6new
 
     PVOE
-    cd ~/test__pvoe_040123_eval5_cuda_11
+    cd ~/test__pvoe_040323_eval5_cuda_11
 
     AVOE
     cd ~/test__avoe_040223_ev5_6new

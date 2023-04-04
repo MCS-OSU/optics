@@ -8,7 +8,7 @@ import json
 container_for_project = {}
 container_for_project['avoe' ] = 'avoe_040223_ev5_6new.sif'
 container_for_project['inter'] = 'inter_040323_5w_6new.sif'
-container_for_project['pvoe' ] = 'pvoe_040123_eval5_cuda_11.sif'
+container_for_project['pvoe' ] = 'pvoe_040323_eval5_cuda_11.sif'
 
     
 def make_parser():
