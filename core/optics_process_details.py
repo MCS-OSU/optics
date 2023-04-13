@@ -21,13 +21,18 @@ class OpticsProcessDetails:
                 test_runner_process_list.append(output[i])
         return test_runner_process_list
     
-    def display_trun_process_list(self, trun_process_list, machine_name):
-        print(f' Machine Name: {machine_name}')
+    def get_trun_process_list(self, trun_process_list, machine_name):
+        # print(f' Machine Name: {machine_name}')
+        process_list = list(set(trun_process_list))
+        process_list = list(map(lambda x: x.split('specs/')[1].split('/'), process_list))
+        warning_msg = 'WARNING: Two or more test runners are running on the same machine.'
         if len(trun_process_list) > 0:
-            for test_runner_process in trun_process_list:
-                print('\t',test_runner_process)
+            print(machine_name,'\t'.join(process_list[-1]))
+        
+        elif len(trun_process_list) > 1: 
+            print(machine_name,'\t'.join(process_list), '\t', warning_msg)
         else:
-            print('\t',f'No test_runner process is running on {machine_name}')
+            print(machine_name,'\t',f'-')
         print('\n')
     
     def resolve_given_optics_spec_path(self,given_path):
@@ -101,7 +106,7 @@ class OpticsProcessDetails:
         test_runner_process_list_ec2c = self.test_runner_process_details(command_ec2c)
         # test_runner_process_list_ec2d = self.test_runner_process_details(command_ec2d)
         
-        return test_runner_process_list_ec2a, test_runner_process_list_ec2b, test_runner_process_list_ec2c#, test_runner_process_list_ec2d
+        return set(test_runner_process_list_ec2a), set(test_runner_process_list_ec2b), set(test_runner_process_list_ec2c)#, test_runner_process_list_ec2d
     
     def get_other_python_processes(self):
         
@@ -118,7 +123,7 @@ class OpticsProcessDetails:
     
     def get_disk_space(self):
         command_ec2a = f'ssh -i {self.public_key} {EC2A_URL} df --total -h'
-        print(f'command_ec2a: {command_ec2a}')
+        # print(f'command_ec2a: {command_ec2a}')
         command_ec2b = f'ssh -i {self.public_key} {EC2B_URL} df --total -h'
         command_ec2c = f'ssh -i {self.public_key} {EC2C_URL} df --total -h'
         # command_ec2d = f'ssh {EC2D_URL} df --total -h'
@@ -126,7 +131,7 @@ class OpticsProcessDetails:
         #for ec2a
         output_ec2a = self.run_command_and_return_output(command_ec2a)
         output_ec2a = output_ec2a.split('\n')
-        print(f'output_ec2a: {output_ec2a}')
+        # print(f'output_ec2a: {output_ec2a}')
         output_ec2a = output_ec2a[-2].split()
         
         #for ec2b
@@ -144,7 +149,7 @@ class OpticsProcessDetails:
         # output_ec2d = output_ec2d.split('\n')
         # output_ec2d = output_ec2d[-2].split()
 
-        return output_ec2a, output_ec2b, output_ec2c#, output_ec2d
+        return output_ec2a[-2], output_ec2b[-2], output_ec2c[-2]#, output_ec2d
         
     
 
@@ -162,43 +167,33 @@ class OpticsProcessDetails:
     def show_test_runner_process_details(self):
         test_runner_process_list_ec2a, test_runner_process_list_ec2b, test_runner_process_list_ec2c = self.get_optics_test_runner_details()
         self.add_break_line()
-        print('test_runners : ', len(test_runner_process_list_ec2a) + len(test_runner_process_list_ec2b) + len(test_runner_process_list_ec2c))
+        print('EC2 test runners')
+        print('Total : ', len(test_runner_process_list_ec2a) + len(test_runner_process_list_ec2b) + len(test_runner_process_list_ec2c))
         self.add_break_line()
         # print('test_runner_process_list_ec2a: ', len(test_runner_process_list_ec2a))
-        self.display_trun_process_list(test_runner_process_list_ec2a, 'ec2a')
-        self.display_trun_process_list(test_runner_process_list_ec2b, 'ec2b')
-        self.display_trun_process_list(test_runner_process_list_ec2c, 'ec2c')
+        self.get_trun_process_list(test_runner_process_list_ec2a, 'ec2a')
+        self.get_trun_process_list(test_runner_process_list_ec2b, 'ec2b')
+        self.get_trun_process_list(test_runner_process_list_ec2c, 'ec2c')
         
-        # self.display_trun_process_list(test_runner_process_list_ec2d, 'ec2d')
+        # self.get_trun_process_list(test_runner_process_list_ec2d, 'ec2d')
         # self.add_break_line()
         print('\n')
 
     def show_disk_space_details(self):
-        title = ['Filesystem','Used','Avail','Use%','Mounted on']
+        title = ['EC2A', 'EC2B', 'EC2C']#, 'EC2D']
         disk_space_ec2a, disk_space_ec2b, disk_space_ec2c = self.get_disk_space()
-
+        disk_space = [disk_space_ec2a, disk_space_ec2b, disk_space_ec2c]#, disk_space_ec2d]
         self.add_break_line()
         print('\t\tDISK SPACE')
         self.add_break_line()
-        print('On EC2A Machine:')
         print('\t'.join(title))
-        print('\t'.join(disk_space_ec2a))
+        print('\t'.join(disk_space))
         print('\n')
-        print('On EC2B Machine:')
-        print('\t'.join(title))
-        print('\t'.join(disk_space_ec2b))
-        print('\n')
-        print('On EC2C Machine:')
-        print('\t'.join(title))
-        print('\t'.join(disk_space_ec2c))
-        print('\n')
-        # print('On EC2D Machine:')
-        # print('\t'.join(title))
-        # print('\t'.join(disk_space_ec2d))
-        # print('\n')
+       
 
     def show_other_python_processes(self):
-        other_python_processes_ec2a, other_python_processes_ec2b , other_python_processes_ec2c = self.get_other_python_processes() 
+        other_python_processes_ec2a, other_python_processes_ec2b , other_python_processes_ec2c = self.get_other_python_processes()
+        print(other_python_processes_ec2a.split()) 
         self.add_break_line()
         print('\t\tOTHER PYTHON PROCESSES')
         self.add_break_line()
@@ -236,8 +231,8 @@ class OpticsProcessDetails:
                 self.add_break_line()
                 optics_spec = OpticsSpec(optics_spec_path)
                 dashboard = OpticsDashboard(optics_datastore,optics_spec)
-                dashboard.show_session_details()
-                print('\n')
+                machine_info = dashboard.show_session_details()
+                print(machine_info)
         else:
             self.add_break_line()
             print('This command is only available on EC2B machine. Please run this command on EC2B machine')
@@ -268,5 +263,5 @@ if __name__ == '__main__':
         machine_name = 'local'
     
     process_details = OpticsProcessDetails(machine_name)
-    process_details.what_is_going_on()
-   
+    # process_details.what_is_going_on()
+    process_details.show_machine_info_from_session()

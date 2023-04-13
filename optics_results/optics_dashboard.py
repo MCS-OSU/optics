@@ -31,8 +31,8 @@ class OpticsDashboard():
 
     def show_session_details(self):
         # self.sessions.sort_by_idle_time()
-        self.sessions.display_info_header()
-        self.sessions.print_session_info()
+        # self.sessions.display_info_header()
+        self.sessions.get_session_info()
         
     def show_all(self):
         self.test_register.show_gpu_mem_fail_retry_count()

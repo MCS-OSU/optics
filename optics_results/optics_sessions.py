@@ -46,6 +46,13 @@ class OpticsSessions():
                     print(f'       {scene_name}')
 
 
+    def get_session_info(self):
+        sessions_details = dict()
+        for session in self.sessions:
+            session.idle_time = session.convert_to_time_format(session.idle_time)
+            session.duration = session.convert_to_time_format(session.duration)
+            sessions_details[session]= [session.idle_time, session.machine, session.job_count, session.duration]
+        return sessions_details
 
     def sort_by_idle_time(self):
         self.sessions.sort()
