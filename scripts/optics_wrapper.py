@@ -1,6 +1,6 @@
 import sys, os
 import threading, time
-from remote_control.optics_run_monitor import OpticsRunMonitor
+from remote_control.optics_run_monitor import OpticsRunMonitor, log_event
 
 def start_container(sif_path):
     run_name = os.path.basename(sif_path).split('.')[0]
@@ -9,15 +9,16 @@ def start_container(sif_path):
         run_cmd = f'singularity run --nv {sif_path} optics scene_type_provided'
     else:
         run_cmd = f'singularity run --nv {sif_path} optics'
-    print(f'running {run_name}...')
+    log_event(f'\n\n\nrunning {run_name} with : {run_cmd}\n\n\n')
+    time.sleep(2)
     os.system(run_cmd)
 
 
 def usage():
     print('usage: python3 optics_wrapper.py <cmd> ...')
     print('         where <cmd> can be ')
-    print('               get          a|b|c|d  <run_name> # fetches the .sif file')
-    print('               get_then_run a|b|c|d  <run_name> # fetches the .sif file and runs it')
+    #print('               get          a|b|c|d  <run_name> # fetches the .sif file')
+    #print('               get_then_run a|b|c|d  <run_name> # fetches the .sif file and runs it')
     print('               run          <sif_path>  # runs a container already downloaded')
     print('')
     sys.exit(1)
@@ -48,6 +49,7 @@ if __name__=='__main__':
             usage()
             sys.exit()
         sif_path = sys.argv[2]
+        print(f'sif path is {sif_path}')
         if not sif_path.endswith('.sif'):
             sif_path += '.sif'
         if not os.path.exists(sif_path):
@@ -56,11 +58,11 @@ if __name__=='__main__':
         run_name = os.path.basename(sif_path).split('.')[0]
         keep_restarting = True
         while keep_restarting:
-            threading.Thread(target=start_container, args=(sif_path), daemon=True).start()
+            threading.Thread(target=start_container, args=(sif_path,), daemon=True).start()
             orm = OpticsRunMonitor(run_name)
             optics_run_ended_healthily = orm.monitor_run()
             if optics_run_ended_healthily:
                 keep_restarting = False
             else:
-                print('restarting hung or crashed optics run in 3 sec...')
+                log_event('.........restarting hung or crashed optics run in 5 sec... just waiting for the smoke to clear...')
                 time.sleep(5)

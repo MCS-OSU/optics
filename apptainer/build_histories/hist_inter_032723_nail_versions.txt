@@ -1,0 +1,5 @@
+2023-03-28 19:03:35  
+first run
+2023-03-28 19:03:35  inter_032723_nail_versions.def - regenerated
+2023-03-28 19:03:35  sifs/inter_032723_nail_versions.sif - build begin
+2023-03-28 19:14:00  sifs/inter_032723_nail_versions.sif - build complete
