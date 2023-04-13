@@ -17,3 +17,7 @@ class RemoteClientMessenger():
 
     def send_response(self, fname):
         pass
+
+    def get_commands(self):
+        pass
+    
