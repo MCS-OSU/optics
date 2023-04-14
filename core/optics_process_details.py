@@ -123,6 +123,7 @@ class OpticsProcessDetails:
     
     def get_disk_space(self):
         command_ec2a = f'ssh -i {self.public_key} {EC2A_URL} df --total -h'
+        
         # print(f'command_ec2a: {command_ec2a}')
         command_ec2b = f'ssh -i {self.public_key} {EC2B_URL} df --total -h'
         command_ec2c = f'ssh -i {self.public_key} {EC2C_URL} df --total -h'
@@ -130,6 +131,7 @@ class OpticsProcessDetails:
 
         #for ec2a
         output_ec2a = self.run_command_and_return_output(command_ec2a)
+        # print(f'OUTPUT_EC2A:{output_ec2a}')
         output_ec2a = output_ec2a.split('\n')
         # print(f'output_ec2a: {output_ec2a}')
         output_ec2a = output_ec2a[-2].split()
@@ -263,5 +265,5 @@ if __name__ == '__main__':
         machine_name = 'local'
     
     process_details = OpticsProcessDetails(machine_name)
-    # process_details.what_is_going_on()
-    process_details.show_machine_info_from_session()
+    process_details.what_is_going_on()
+    # process_details.show_machine_info_from_session()
