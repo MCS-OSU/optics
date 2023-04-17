@@ -72,6 +72,7 @@ class OpticsScores:
             self.avoe_stats.results_by_scene_type()
             self.avoe_stats.results_expected_by_scene_type()
             self.avoe_stats.results_unexpected_by_scene_type()
+            self.avoe_stats.results_noexpectation_by_scene_type()
             print('')
             # self.avoe_stats.pvoe_outcome_by_category('expected','correct')
             # self.avoe_stats.pvoe_outcome_by_category('expected','incorrect')

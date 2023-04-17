@@ -1,1896 +1,0 @@
-INFO:    Starting build...
-INFO:    Verifying bootstrap image /home/jedirv/outer_optics_v6i/apptainer/sifs/ubuntu_python.sif
-WARNING: integrity: signature not found for object group 1
-WARNING: Bootstrap image could not be verified, but build will continue.
-INFO:    Running post scriptlet
-+ cd /
-+ git clone --recurse-submodules https://github.com/MCS-OSU/optics.git image__pvoe_jed
-Cloning into 'image__pvoe_jed'...
-+ cd image__pvoe_jed
-+ git checkout refactor_opics_common
-Switched to a new branch 'refactor_opics_common'
-Branch 'refactor_opics_common' set up to track remote branch 'refactor_opics_common' from 'origin'.
-+ git submodule update --init --recursive
-Submodule 'opics_common' (https://github.com/MCS-OSU/opics-common.git) registered for path 'opics_common'
-Submodule 'opics_inter' (https://github.com/MCS-OSU/opics-inter.git) registered for path 'opics_inter'
-Submodule 'opics_pvoe' (https://github.com/MCS-OSU/opics-pvoe.git) registered for path 'opics_pvoe'
-Cloning into '/image__pvoe_jed/opics_common'...
-Cloning into '/image__pvoe_jed/opics_inter'...
-Cloning into '/image__pvoe_jed/opics_pvoe'...
-Submodule path 'opics_common': checked out 'd69b366a5c315b900c79875b95ffa040de6984e0'
-Submodule path 'opics_inter': checked out '0c2d91e4e4104be6ea4edadcfeb65ae04e967b35'
-Submodule path 'opics_pvoe': checked out '3a3a10ec97a97e9b428848c8ca99b2d214fb05eb'
-+ cd /image__pvoe_jed/opics_pvoe
-+ git checkout develop
-Previous HEAD position was 3a3a10e initialize the repo by passing pre-commit
-Switched to a new branch 'develop'
-Branch 'develop' set up to track remote branch 'develop' from 'origin'.
-+ cd /image__pvoe_jed/opics_common
-+ git checkout main
-Previous HEAD position was d69b366 add the import hack for pvoe in eval6_agent so that run_opics_scene and run_optics_scene both catch ig
-Switched to branch 'main'
-Your branch is up to date with 'origin/main'.
-+ export OPICS_HOME=/image__pvoe_jed
-+ echo ==============  python dependencies  ===================
-==============  python dependencies  ===================
-+ cd /image__pvoe_jed/opics_pvoe
-+ cd /image__pvoe_jed/opics_pvoe
-+ ./install.sh
-Setting conda init...
-Cearting the environment...
-Collecting package metadata (repodata.json): ...working... done
-Solving environment: ...working... done
-
-
-==> WARNING: A newer version of conda exists. <==
-  current version: 22.11.1
-  latest version: 23.1.0
-
-Please update conda by running
-
-    $ conda update -n base -c defaults conda
-
-Or to minimize the number of packages updated during conda update use
-
-     conda install conda=23.1.0
-
-
-
-Downloading and Extracting Packages
-keras-preprocessing- | 35 KB     |            |   0% 
-keyring-22.3.0       | 53 KB     |            |   0% [A
-
-protobuf-3.20.3      | 324 KB    |            |   0% [A[A
-
-
-mkl_fft-1.3.1        | 172 KB    |            |   0% [A[A[A
-
-
-
-fftw-3.3.9           | 2.3 MB    |            |   0% [A[A[A[A
-
-
-
-
-pysocks-1.7.1        | 27 KB     |            |   0% [A[A[A[A[A
-
-
-
-
-
-urllib3-1.26.14      | 195 KB    |            |   0% [A[A[A[A[A[A
-
-
-
-
-
-
-idna-3.4             | 91 KB     |            |   0% [A[A[A[A[A[A[A
-
-
-
-
-
-
-
-tomlkit-0.11.1       | 71 KB     |            |   0% [A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-poetry-core-1.0.8    | 658 KB    |            |   0% [A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-blas-1.0             | 6 KB      |            |   0% [A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-c-ares-1.18.1        | 114 KB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-absl-py-1.3.0        | 166 KB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-grpcio-1.42.0        | 2.1 MB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-requests-toolbelt-0. | 42 KB     |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-cachy-0.3.0          | 21 KB     |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-tensorboard-1.14.0   | 3.1 MB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-lockfile-0.12.2      | 246 KB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-msgpack-python-1.0.3 | 82 KB     |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- ... (more hidden) ...[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[Akeras-preprocessing- | 35 KB     | ########## | 100% 
-keyring-22.3.0       | 53 KB     | ########## | 100% [A
-
-
-
-
-pysocks-1.7.1        | 27 KB     | ########## | 100% [A[A[A[A[A
-
-
-mkl_fft-1.3.1        | 172 KB    | ########## | 100% [A[A[A
-
-
-
-fftw-3.3.9           | 2.3 MB    | 7          |   7% [A[A[A[A
-
-
-mkl_fft-1.3.1        | 172 KB    | ########## | 100% [A[A[A
-
-protobuf-3.20.3      | 324 KB    | ######9    |  69% [A[A
-
-
-
-
-
-urllib3-1.26.14      | 195 KB    | 8          |   8% [A[A[A[A[A[A
-
-protobuf-3.20.3      | 324 KB    | ########## | 100% [A[A
-
-
-
-
-
-
-idna-3.4             | 91 KB     | #7         |  18% [A[A[A[A[A[A[A
-
-
-
-
-
-
-idna-3.4             | 91 KB     | ########## | 100% [A[A[A[A[A[A[A
-
-
-
-
-
-
-
-tomlkit-0.11.1       | 71 KB     | ##2        |  22% [A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-tomlkit-0.11.1       | 71 KB     | ########## | 100% [A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-blas-1.0             | 6 KB      | ########## | 100% [A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-blas-1.0             | 6 KB      | ########## | 100% [A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-urllib3-1.26.14      | 195 KB    | ########## | 100% [A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-c-ares-1.18.1        | 114 KB    | #4         |  14% [A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-grpcio-1.42.0        | 2.1 MB    |            |   1% [A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-fftw-3.3.9           | 2.3 MB    | ##7        |  27% [A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-absl-py-1.3.0        | 166 KB    | 9          |  10% [A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-c-ares-1.18.1        | 114 KB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-poetry-core-1.0.8    | 658 KB    | 2          |   2% [A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-requests-toolbelt-0. | 42 KB     | ###7       |  38% [A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-absl-py-1.3.0        | 166 KB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-cachy-0.3.0          | 21 KB     | #######7   |  77% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-requests-toolbelt-0. | 42 KB     | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-tensorboard-1.14.0   | 3.1 MB    |            |   1% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-cachy-0.3.0          | 21 KB     | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-fftw-3.3.9           | 2.3 MB    | #####      |  50% [A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-grpcio-1.42.0        | 2.1 MB    | ##2        |  23% [A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-lockfile-0.12.2      | 246 KB    | 6          |   6% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-poetry-core-1.0.8    | 658 KB    | ##4        |  24% [A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-tensorboard-1.14.0   | 3.1 MB    | #1         |  12% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-fftw-3.3.9           | 2.3 MB    | #######2   |  72% [A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-grpcio-1.42.0        | 2.1 MB    | ####       |  40% [A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-lockfile-0.12.2      | 246 KB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-poetry-core-1.0.8    | 658 KB    | ####6      |  46% [A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-tensorboard-1.14.0   | 3.1 MB    | #8         |  18% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-grpcio-1.42.0        | 2.1 MB    | #####7     |  58% [A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-fftw-3.3.9           | 2.3 MB    | #########1 |  92% [A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-msgpack-python-1.0.3 | 82 KB     | #9         |  20% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-msgpack-python-1.0.3 | 82 KB     | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-poetry-core-1.0.8    | 658 KB    | ######5    |  66% [A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- ... (more hidden) ...[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-fftw-3.3.9           | 2.3 MB    | ########## | 100% [A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- ... (more hidden) ...[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-tensorboard-1.14.0   | 3.1 MB    | ###        |  30% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-grpcio-1.42.0        | 2.1 MB    | ########1  |  82% [A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-tensorboard-1.14.0   | 3.1 MB    | ###9       |  40% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-poetry-core-1.0.8    | 658 KB    | ########## | 100% [A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-poetry-core-1.0.8    | 658 KB    | ########## | 100% [A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-grpcio-1.42.0        | 2.1 MB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-tensorboard-1.14.0   | 3.1 MB    | ######7    |  67% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-tensorboard-1.14.0   | 3.1 MB    | ########2  |  83% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-tensorboard-1.14.0   | 3.1 MB    | #########7 |  97% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-tensorboard-1.14.0   | 3.1 MB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                      [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A                                                     
-                                                     [A
-
-                                                     [A[A
-
-
-                                                     [A[A[A
-
-
-
-                                                     [A[A[A[A
-
-
-
-
-                                                     [A[A[A[A[A
-
-
-
-
-
-                                                     [A[A[A[A[A[A
-
-
-
-
-
-
-                                                     [A[A[A[A[A[A[A
-
-
-
-
-
-
-
-                                                     [A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-                                                     [A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-                                                     [A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-                                                     [A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-                                                     [A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-                                                     [A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                                     [A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                                     [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                                     [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                                     [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                                     [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-[A
-
-[A[A
-
-
-[A[A[A
-
-
-
-[A[A[A[A
-
-
-
-
-[A[A[A[A[A
-
-
-
-
-
-[A[A[A[A[A[A
-
-
-
-
-
-
-[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-[A
-
-[A[A
-
-
-[A[A[A
-
-
-
-[A[A[A[A
-
-
-
-
-[A[A[A[A[A
-
-
-
-
-
-[A[A[A[A[A[A
-
-
-
-
-
-
-[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-[A
-
-[A[A
-
-
-[A[A[A
-
-
-
-[A[A[A[A
-
-
-
-
-[A[A[A[A[A
-
-
-
-
-
-[A[A[A[A[A[A
-
-
-
-
-
-
-[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
-[A
-
-[A[A
-
-
-[A[A[A
-
-
-
-[A[A[A[A
-
-
-
-
-[A[A[A[A[A
-
-
-
-
-
-[A[A[A[A[A[A
-
-
-
-
-
-
-[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-[A[A[A[A[A[A[A[A[A[A
-
-
-
-
-
-
-
-
-
-
-[A[A[A[A[A[A[A[A[A[A[A
-Preparing transaction: ...working... done
-Verifying transaction: ...working... done
-Executing transaction: ...working... done
-#
-# To activate this environment, use
-#
-#     $ conda activate env_opics_pvoe
-#
-# To deactivate an active environment, use
-#
-#     $ conda deactivate
-
-Activating the environment...
-Upgrading pip...
-Requirement already satisfied: pip in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (22.3.1)
-Collecting pip
-  Downloading pip-23.0.1-py3-none-any.whl (2.1 MB)
-     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 12.1 MB/s eta 0:00:00
-Installing collected packages: pip
-  Attempting uninstall: pip
-    Found existing installation: pip 22.3.1
-    Uninstalling pip-22.3.1:
-      Successfully uninstalled pip-22.3.1
-Successfully installed pip-23.0.1
-WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
-Installing PyTorch=1.12.1 for CUDA=11.6...
-Looking in links: https://download.pytorch.org/whl/torch_stable.html
-Collecting torch==1.8.0+cu111
-  Downloading https://download.pytorch.org/whl/cu111/torch-1.8.0%2Bcu111-cp37-cp37m-linux_x86_64.whl (1982.2 MB)
-     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.0/2.0 GB 3.4 MB/s eta 0:00:00
-Collecting torchvision==0.9.0+cu111
-  Downloading https://download.pytorch.org/whl/cu111/torchvision-0.9.0%2Bcu111-cp37-cp37m-linux_x86_64.whl (17.6 MB)
-     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 17.6/17.6 MB 13.4 MB/s eta 0:00:00
-Collecting typing-extensions
-  Downloading typing_extensions-4.5.0-py3-none-any.whl (27 kB)
-Requirement already satisfied: numpy in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (from torch==1.8.0+cu111) (1.21.5)
-Collecting pillow>=4.1.1
-  Downloading Pillow-9.4.0-cp37-cp37m-manylinux_2_28_x86_64.whl (3.4 MB)
-     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.4/3.4 MB 10.0 MB/s eta 0:00:00
-Installing collected packages: typing-extensions, pillow, torch, torchvision
-Successfully installed pillow-9.4.0 torch-1.8.0+cu111 torchvision-0.9.0+cu111 typing-extensions-4.5.0
-WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
-Updating poetry config...
-Installing dependencies using poetry...
-Updating dependencies
-Resolving dependencies...
-<debug>PackageInfo:</debug> Invalid constraint (jupyter-core!=~5.0,>=4.12) found in jupyter-server-2.0.0 dependencies, skipping
-<debug>PackageInfo:</debug> Invalid constraint (jupyter-core!=~5.0,>=4.12) found in jupyter-server-2.0.0 dependencies, skipping
-<debug>PackageInfo:</debug> Invalid constraint (jupyter-core!=~5.0,>=4.12) found in jupyter-server-2.0.0 dependencies, skipping
-
-Writing lock file
-
-Package operations: 148 installs, 19 updates, 0 removals
-
-  - Updating zipp (3.11.0 -> 3.14.0)
-  - Installing attrs (22.2.0)
-  - Updating importlib-metadata (1.7.0 -> 6.0.0)
-  - Installing importlib-resources (5.12.0)
-  - Installing pkgutil-resolve-name (1.3.10)
-  - Installing pyrsistent (0.19.3)
-  - Installing traitlets (5.9.0)
-  - Installing entrypoints (0.4)
-  - Installing fastjsonschema (2.16.2)
-  - Installing jsonschema (4.17.3)
-  - Installing jupyter-core (4.12.0)
-  - Installing nest-asyncio (1.5.6)
-  - Installing python-dateutil (2.8.2)
-  - Installing pyzmq (25.0.0)
-  - Installing tornado (6.2)
-  - Installing jupyter-client (7.4.9)
-  - Updating markupsafe (2.1.1 -> 2.1.2)
-  - Installing nbformat (5.7.3)
-  - Installing soupsieve (2.4)
-  - Installing argon2-cffi-bindings (21.2.0)
-  - Installing beautifulsoup4 (4.11.2)
-  - Installing bleach (6.0.0)
-  - Installing defusedxml (0.7.1)
-  - Installing jinja2 (3.1.2)
-  - Installing jupyterlab-pygments (0.2.2)
-  - Installing mistune (2.0.5)
-  - Installing nbclient (0.7.2)
-  - Updating packaging (20.9 -> 23.0)
-  - Installing pandocfilters (1.5.0)
-  - Installing parso (0.8.3)
-  - Installing pygments (2.14.0)
-  - Installing sniffio (1.3.0)
-  - Installing tinycss2 (1.2.1)
-  - Installing wcwidth (0.2.5)
-  - Installing anyio (3.6.2)
-  - Installing argon2-cffi (21.3.0)
-  - Installing backcall (0.2.0)
-  - Installing decorator (5.1.1)
-  - Installing jedi (0.18.2)
-  - Installing matplotlib-inline (0.1.6)
-  - Installing nbconvert (7.2.9)
-  - Installing pickleshare (0.7.5)
-  - Installing prometheus-client (0.16.0)
-  - Installing prompt-toolkit (3.0.37)
-  - Installing send2trash (1.8.0)
-  - Installing terminado (0.17.1)
-  - Installing websocket-client (1.5.1)
-  - Installing debugpy (1.6.6)
-  - Installing ipython (7.34.0)
-  - Installing jupyter-server (1.23.6)
-  - Installing psutil (5.9.4)
-  - Updating charset-normalizer (2.0.4 -> 3.0.1)
-  - Installing ipykernel (6.16.2)
-  - Installing ipython-genutils (0.2.0)
-  - Installing notebook-shim (0.2.2)
-  - Installing pyasn1 (0.4.8)
-  - Installing tomli (2.0.1)
-  - Installing cachetools (5.3.0)
-  - Installing click (8.1.3)
-  - Installing cycler (0.11.0)
-  - Installing fonttools (4.38.0)
-  - Installing itsdangerous (2.1.2)
-  - Installing jmespath (1.0.1)
-  - Installing jupyterlab-widgets (3.0.5)
-  - Installing kiwisolver (1.4.4)
-  - Installing mypy-extensions (1.0.0)
-  - Installing nbclassic (0.5.2)
-  - Updating numpy (1.21.5 -> 1.21.0)
-  - Installing oauthlib (3.2.2)
-  - Updating pillow (9.4.0 -> 6.2.2)
-  - Installing pyasn1-modules (0.2.8)
-  - Installing python-utils (3.5.2)
-  - Installing qtpy (2.3.0)
-  - Updating requests (2.28.1 -> 2.28.2)
-  - Installing rsa (4.9)
-  - Installing setuptools-scm (7.1.0)
-  - Updating werkzeug (2.2.2 -> 2.2.3)
-  - Installing widgetsnbextension (4.0.5)
-  - Installing aws-requests-auth (0.4.3)
-  - Installing botocore (1.29.78)
-  - Installing flask (2.2.3)
-  - Installing google-auth (2.16.1)
-  - Installing imageio (2.9.0)
-  - Installing ipywidgets (8.0.4)
-  - Installing joblib (1.2.0)
-  - Installing jsonpointer (2.3)
-  - Installing jupyter-console (6.6.1)
-  - Installing matplotlib (3.5.1)
-  - Updating msgpack (1.0.3 -> 1.0.4)
-  - Installing networkx (2.6.3)
-  - Installing notebook (6.5.2)
-  - Installing opencv-python (4.5.3.56)
-  - Updating platformdirs (2.5.2 -> 3.0.0)
-  - Installing progressbar2 (4.2.0)
-  - Installing pytz (2022.7.1)
-  - Installing pywavelets (1.4.0)
-  - Installing pyyaml (6.0)
-  - Installing qtconsole (5.4.0)
-  - Installing requests-oauthlib (1.3.1)
-  - Installing ruamel.yaml.clib (0.2.7)
-  - Updating termcolor (2.1.0 -> 1.1.0)
-  - Installing tifffile (2021.11.2)
-  - Installing typing-inspect (0.8.0)
-  - Updating absl-py (1.3.0 -> 1.4.0)
-  - Installing ai2thor (2.5.0)
-  - Installing asttokens (2.2.1)
-  - Installing cfgv (3.3.1)
-  - Installing colour (0.1.5)
-  - Installing commonmark (0.9.1)
-  - Installing descartes (1.1.0)
-  - Installing exceptiongroup (1.1.0)
-  - Installing executing (0.10.0)
-  - Installing fire (0.5.0)
-  - Installing google-auth-oauthlib (0.4.6)
-  - Updating grpcio (1.42.0 -> 1.52.0)
-  - Installing identify (2.5.18)
-  - Installing iniconfig (2.0.0)
-  - Installing jsonpatch (1.32)
-  - Installing jupyter (1.0.0)
-  - Installing libcst (0.4.9)
-  - Installing llvmlite (0.38.1)
-  - Updating markdown (3.3.4 -> 3.4.1)
-  - Installing nodeenv (1.7.0)
-  - Installing numpyencoder (0.3.0)
-  - Installing pandas (1.3.5)
-  - Installing pathspec (0.10.3)
-  - Installing pluggy (1.0.0)
-  - Updating protobuf (3.20.3 -> 3.20.1)
-  - Installing pycocotools (2.0.4)
-  - Installing pydantic (1.10.5)
-  - Installing pyquaternion (0.9.9)
-  - Installing ruamel.yaml (0.17.21)
-  - Installing scikit-image (0.19.3)
-  - Installing scikit-learn (0.22.2)
-  - Installing shapely (2.0.1)
-  - Installing tensorboard-data-server (0.6.1)
-  - Installing tensorboard-plugin-wit (1.8.1)
-  - Installing terminaltables (3.1.10)
-  - Updating tomlkit (0.11.1 -> 0.11.6)
-  - Installing tqdm (4.64.1)
-  - Installing typed-ast (1.5.4)
-  - Installing typeguard (2.13.3)
-  - Installing typer (0.7.0)
-  - Updating virtualenv (20.16.2 -> 20.19.0)
-  - Installing xmltodict (0.13.0)
-  - Installing black (22.12.0)
-  - Installing cython (0.29.30)
-  - Installing devtools (0.9.0)
-  - Installing gdown (4.4.0)
-  - Installing isort (5.11.5)
-  - Installing loguru (0.6.0)
-  - Installing machine-common-sense (0.6.3)
-  - Installing mmdet (2.24.1)
-  - Installing motmetrics (1.2.5)
-  - Installing mypy (0.961)
-  - Installing numba (0.55.2)
-  - Installing nuscenes-devkit (1.1.9)
-  - Installing pre-commit (2.21.0)
-  - Installing pre-commit-hooks (4.4.0)
-  - Installing progress (1.6)
-  - Installing pycln (2.1.3)
-  - Installing pytest (7.2.1)
-  - Installing python-dotenv (0.20.0)
-  - Installing rich (12.6.0)
-  - Updating tensorboard (1.14.0 -> 2.8.0)
-  - Installing transforms3d (0.3.1)
-  - Installing visdom (0.2.4)
-
-Installing the current project: opics_pvoe (0.1.0)
-installing gdown without caching
-Requirement already satisfied: gdown in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (4.4.0)
-Collecting gdown
-  Downloading gdown-4.6.4-py3-none-any.whl (14 kB)
-Requirement already satisfied: six in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (from gdown) (1.16.0)
-Requirement already satisfied: filelock in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (from gdown) (3.9.0)
-Requirement already satisfied: requests[socks] in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (from gdown) (2.28.2)
-Requirement already satisfied: tqdm in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (from gdown) (4.64.1)
-Requirement already satisfied: beautifulsoup4 in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (from gdown) (4.11.2)
-Requirement already satisfied: soupsieve>1.2 in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (from beautifulsoup4->gdown) (2.4)
-Requirement already satisfied: idna<4,>=2.5 in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (from requests[socks]->gdown) (3.4)
-Requirement already satisfied: certifi>=2017.4.17 in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (from requests[socks]->gdown) (2022.12.7)
-Requirement already satisfied: urllib3<1.27,>=1.21.1 in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (from requests[socks]->gdown) (1.26.14)
-Requirement already satisfied: charset-normalizer<4,>=2 in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (from requests[socks]->gdown) (3.0.1)
-Requirement already satisfied: PySocks!=1.5.7,>=1.5.6 in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (from requests[socks]->gdown) (1.7.1)
-Installing collected packages: gdown
-  Attempting uninstall: gdown
-    Found existing installation: gdown 4.4.0
-    Uninstalling gdown-4.4.0:
-      Successfully uninstalled gdown-4.4.0
-Successfully installed gdown-4.6.4
-WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
-+ echo ==============  loading models ===================
-==============  loading models ===================
-+ ./download_weights.sh
-Setting conda init...
-Activating the environment...
-Downloading...
-From: https://drive.google.com/uc?id=1wepo_mdyOqphSn4C_iOD8tVAvSuci3ki
-To: /image__pvoe_jed/opics_pvoe/eval5_models_ckpts.zip
-  0%|          | 0.00/504M [00:00<?, ?B/s]  0%|          | 1.57M/504M [00:00<00:35, 14.0MB/s]  1%|          | 3.67M/504M [00:00<00:31, 15.9MB/s]  1%|          | 5.77M/504M [00:00<00:30, 16.5MB/s]  2%|▏         | 7.86M/504M [00:00<00:29, 16.6MB/s]  2%|▏         | 9.96M/504M [00:00<00:27, 17.7MB/s]  2%|▏         | 12.1M/504M [00:00<00:29, 16.7MB/s]  3%|▎         | 14.2M/504M [00:00<00:30, 15.9MB/s]  3%|▎         | 16.3M/504M [00:00<00:29, 16.3MB/s]  4%|▎         | 18.4M/504M [00:01<00:29, 16.6MB/s]  4%|▍         | 20.4M/504M [00:01<00:28, 16.9MB/s]  4%|▍         | 22.5M/504M [00:01<00:27, 17.6MB/s]  5%|▍         | 24.6M/504M [00:01<00:27, 17.3MB/s]  5%|▌         | 26.7M/504M [00:01<00:27, 17.2MB/s]  6%|▌         | 28.8M/504M [00:01<00:27, 17.5MB/s]  6%|▌         | 30.9M/504M [00:01<00:27, 17.0MB/s]  7%|▋         | 33.0M/504M [00:01<00:27, 17.3MB/s]  7%|▋         | 35.1M/504M [00:02<00:27, 17.0MB/s]  7%|▋         | 37.2M/504M [00:02<00:27, 17.0MB/s]  8%|▊         | 39.3M/504M [00:02<00:28, 16.2MB/s]  8%|▊         | 41.4M/504M [00:02<00:28, 16.5MB/s]  9%|▊         | 43.5M/504M [00:02<00:28, 16.1MB/s]  9%|▉         | 45.6M/504M [00:02<00:28, 16.0MB/s]  9%|▉         | 47.7M/504M [00:02<00:27, 16.7MB/s] 10%|▉         | 49.8M/504M [00:02<00:26, 17.1MB/s] 10%|█         | 51.9M/504M [00:03<00:26, 17.3MB/s] 11%|█         | 54.0M/504M [00:03<00:27, 16.4MB/s] 11%|█         | 56.1M/504M [00:03<00:28, 15.8MB/s] 12%|█▏        | 58.2M/504M [00:03<00:30, 14.9MB/s] 12%|█▏        | 60.3M/504M [00:03<00:29, 15.1MB/s] 12%|█▏        | 61.9M/504M [00:03<00:29, 15.2MB/s] 13%|█▎        | 64.0M/504M [00:03<00:28, 15.5MB/s] 13%|█▎        | 65.5M/504M [00:04<00:28, 15.5MB/s] 13%|█▎        | 67.6M/504M [00:04<00:27, 15.7MB/s] 14%|█▎        | 69.2M/504M [00:04<00:28, 15.5MB/s] 14%|█▍        | 71.3M/504M [00:04<00:28, 15.3MB/s] 15%|█▍        | 73.4M/504M [00:04<00:27, 15.4MB/s] 15%|█▍        | 75.0M/504M [00:04<00:27, 15.3MB/s] 15%|█▌        | 77.1M/504M [00:04<00:27, 15.3MB/s] 16%|█▌        | 79.2M/504M [00:04<00:27, 15.4MB/s] 16%|█▌        | 81.3M/504M [00:05<00:26, 15.8MB/s] 17%|█▋        | 83.4M/504M [00:05<00:34, 12.2MB/s] 17%|█▋        | 85.5M/504M [00:05<00:31, 13.2MB/s] 17%|█▋        | 87.6M/504M [00:05<00:28, 14.5MB/s] 18%|█▊        | 89.1M/504M [00:05<00:29, 14.1MB/s] 18%|█▊        | 91.2M/504M [00:05<00:27, 15.0MB/s] 18%|█▊        | 92.8M/504M [00:05<00:29, 13.8MB/s] 19%|█▊        | 94.4M/504M [00:06<00:30, 13.4MB/s] 19%|█▉        | 95.9M/504M [00:06<00:29, 13.8MB/s] 19%|█▉        | 98.0M/504M [00:06<00:27, 14.7MB/s] 20%|█▉        | 100M/504M [00:06<00:25, 15.7MB/s]  20%|██        | 102M/504M [00:06<00:26, 15.5MB/s] 21%|██        | 104M/504M [00:06<00:24, 16.3MB/s] 21%|██        | 106M/504M [00:06<00:23, 16.8MB/s] 22%|██▏       | 109M/504M [00:06<00:22, 17.7MB/s] 22%|██▏       | 111M/504M [00:06<00:22, 17.2MB/s] 22%|██▏       | 113M/504M [00:07<00:22, 17.7MB/s] 23%|██▎       | 115M/504M [00:07<00:22, 17.3MB/s] 23%|██▎       | 117M/504M [00:07<00:22, 17.3MB/s] 24%|██▎       | 119M/504M [00:07<00:21, 17.6MB/s] 24%|██▍       | 121M/504M [00:07<00:21, 17.8MB/s] 24%|██▍       | 123M/504M [00:07<00:22, 16.7MB/s] 25%|██▍       | 125M/504M [00:07<00:22, 16.7MB/s] 25%|██▌       | 127M/504M [00:07<00:21, 17.4MB/s] 26%|██▌       | 129M/504M [00:08<00:22, 17.0MB/s] 26%|██▌       | 132M/504M [00:08<00:24, 15.4MB/s] 27%|██▋       | 134M/504M [00:08<00:24, 15.3MB/s] 27%|██▋       | 136M/504M [00:08<00:23, 15.4MB/s] 27%|██▋       | 138M/504M [00:08<00:22, 16.1MB/s] 28%|██▊       | 140M/504M [00:08<00:22, 16.3MB/s] 28%|██▊       | 142M/504M [00:08<00:21, 16.8MB/s] 29%|██▊       | 144M/504M [00:08<00:21, 16.8MB/s] 29%|██▉       | 146M/504M [00:09<00:20, 17.1MB/s] 29%|██▉       | 148M/504M [00:09<00:20, 17.3MB/s] 30%|██▉       | 150M/504M [00:09<00:20, 17.5MB/s] 30%|███       | 153M/504M [00:09<00:20, 16.8MB/s] 31%|███       | 155M/504M [00:09<00:20, 17.0MB/s] 31%|███       | 157M/504M [00:09<00:20, 16.9MB/s] 32%|███▏      | 159M/504M [00:09<00:20, 16.8MB/s] 32%|███▏      | 161M/504M [00:09<00:21, 16.1MB/s] 32%|███▏      | 163M/504M [00:10<00:20, 16.6MB/s] 33%|███▎      | 165M/504M [00:10<00:19, 17.2MB/s] 33%|███▎      | 167M/504M [00:10<00:21, 15.7MB/s] 34%|███▎      | 169M/504M [00:10<00:26, 12.6MB/s] 34%|███▍      | 171M/504M [00:10<00:24, 13.5MB/s] 34%|███▍      | 173M/504M [00:10<00:24, 13.8MB/s] 35%|███▍      | 175M/504M [00:10<00:22, 14.6MB/s] 35%|███▌      | 177M/504M [00:11<00:21, 15.5MB/s] 36%|███▌      | 179M/504M [00:11<00:20, 15.7MB/s] 36%|███▌      | 181M/504M [00:11<00:19, 16.3MB/s] 36%|███▋      | 184M/504M [00:11<00:18, 16.9MB/s] 37%|███▋      | 186M/504M [00:11<00:19, 16.5MB/s] 37%|███▋      | 188M/504M [00:11<00:19, 16.3MB/s] 38%|███▊      | 190M/504M [00:11<00:18, 16.7MB/s] 38%|███▊      | 192M/504M [00:11<00:18, 16.6MB/s] 38%|███▊      | 194M/504M [00:12<00:18, 16.8MB/s] 39%|███▉      | 196M/504M [00:12<00:18, 17.1MB/s] 39%|███▉      | 198M/504M [00:12<00:17, 17.4MB/s] 40%|███▉      | 200M/504M [00:12<00:17, 17.3MB/s] 40%|████      | 202M/504M [00:12<00:17, 17.2MB/s] 41%|████      | 204M/504M [00:12<00:18, 16.4MB/s] 41%|████      | 207M/504M [00:12<00:17, 16.7MB/s] 41%|████▏     | 209M/504M [00:12<00:17, 16.8MB/s] 42%|████▏     | 211M/504M [00:13<00:17, 16.4MB/s] 42%|████▏     | 213M/504M [00:13<00:17, 16.9MB/s] 43%|████▎     | 215M/504M [00:13<00:17, 16.9MB/s] 43%|████▎     | 217M/504M [00:13<00:16, 17.3MB/s] 43%|████▎     | 219M/504M [00:13<00:16, 17.7MB/s] 44%|████▍     | 221M/504M [00:13<00:16, 17.6MB/s] 44%|████▍     | 223M/504M [00:13<00:16, 16.9MB/s] 45%|████▍     | 225M/504M [00:13<00:16, 17.1MB/s] 45%|████▌     | 228M/504M [00:14<00:16, 16.8MB/s] 46%|████▌     | 230M/504M [00:14<00:16, 16.5MB/s] 46%|████▌     | 232M/504M [00:14<00:15, 17.0MB/s] 46%|████▋     | 234M/504M [00:14<00:15, 17.1MB/s] 47%|████▋     | 236M/504M [00:14<00:15, 16.9MB/s] 47%|████▋     | 238M/504M [00:14<00:15, 17.1MB/s] 48%|████▊     | 240M/504M [00:14<00:14, 17.6MB/s] 48%|████▊     | 242M/504M [00:14<00:15, 17.4MB/s] 48%|████▊     | 244M/504M [00:15<00:14, 17.5MB/s] 49%|████▉     | 246M/504M [00:15<00:14, 17.8MB/s] 49%|████▉     | 249M/504M [00:15<00:14, 17.2MB/s] 50%|████▉     | 251M/504M [00:15<00:14, 17.4MB/s] 50%|█████     | 253M/504M [00:15<00:14, 17.7MB/s] 51%|█████     | 255M/504M [00:15<00:14, 17.1MB/s] 51%|█████     | 257M/504M [00:15<00:19, 12.4MB/s] 51%|█████▏    | 258M/504M [00:16<00:19, 12.7MB/s] 52%|█████▏    | 260M/504M [00:16<00:19, 12.4MB/s] 52%|█████▏    | 262M/504M [00:16<00:17, 13.8MB/s] 52%|█████▏    | 264M/504M [00:16<00:16, 14.6MB/s] 53%|█████▎    | 266M/504M [00:16<00:15, 15.1MB/s] 53%|█████▎    | 268M/504M [00:16<00:14, 15.8MB/s] 54%|█████▎    | 271M/504M [00:16<00:14, 16.3MB/s] 54%|█████▍    | 273M/504M [00:16<00:14, 16.3MB/s] 54%|█████▍    | 275M/504M [00:17<00:13, 16.8MB/s] 55%|█████▍    | 277M/504M [00:17<00:13, 16.7MB/s] 55%|█████▌    | 279M/504M [00:17<00:13, 16.7MB/s] 56%|█████▌    | 281M/504M [00:17<00:13, 17.1MB/s] 56%|█████▌    | 283M/504M [00:17<00:13, 17.0MB/s] 57%|█████▋    | 285M/504M [00:17<00:13, 16.5MB/s] 57%|█████▋    | 287M/504M [00:17<00:12, 16.9MB/s] 57%|█████▋    | 289M/504M [00:17<00:12, 17.3MB/s] 58%|█████▊    | 292M/504M [00:18<00:12, 17.0MB/s] 58%|█████▊    | 294M/504M [00:18<00:12, 17.0MB/s] 59%|█████▊    | 296M/504M [00:18<00:12, 16.2MB/s] 59%|█████▉    | 298M/504M [00:18<00:12, 16.6MB/s] 59%|█████▉    | 300M/504M [00:18<00:12, 16.4MB/s] 60%|█████▉    | 302M/504M [00:18<00:12, 16.5MB/s] 60%|██████    | 304M/504M [00:18<00:11, 17.1MB/s] 61%|██████    | 306M/504M [00:18<00:11, 17.5MB/s] 61%|██████    | 308M/504M [00:19<00:11, 17.0MB/s] 62%|██████▏   | 310M/504M [00:19<00:11, 17.5MB/s] 62%|██████▏   | 312M/504M [00:19<00:10, 17.5MB/s] 62%|██████▏   | 315M/504M [00:19<00:10, 17.6MB/s] 63%|██████▎   | 317M/504M [00:19<00:10, 17.6MB/s] 63%|██████▎   | 319M/504M [00:19<00:10, 17.9MB/s] 64%|██████▎   | 321M/504M [00:19<00:11, 16.2MB/s] 64%|██████▍   | 323M/504M [00:19<00:10, 17.0MB/s] 64%|██████▍   | 325M/504M [00:19<00:10, 16.9MB/s] 65%|██████▍   | 327M/504M [00:20<00:10, 17.5MB/s] 65%|██████▌   | 329M/504M [00:20<00:09, 18.0MB/s] 66%|██████▌   | 332M/504M [00:20<00:09, 19.1MB/s] 66%|██████▋   | 334M/504M [00:20<00:08, 19.7MB/s] 67%|██████▋   | 337M/504M [00:20<00:08, 18.9MB/s] 67%|██████▋   | 339M/504M [00:20<00:08, 18.4MB/s] 68%|██████▊   | 341M/504M [00:20<00:08, 18.6MB/s] 68%|██████▊   | 343M/504M [00:20<00:09, 17.6MB/s] 68%|██████▊   | 345M/504M [00:21<00:11, 13.8MB/s] 69%|██████▊   | 347M/504M [00:21<00:11, 13.4MB/s] 69%|██████▉   | 349M/504M [00:21<00:10, 14.4MB/s] 70%|██████▉   | 351M/504M [00:21<00:10, 15.2MB/s] 70%|██████▉   | 353M/504M [00:21<00:09, 16.1MB/s] 70%|███████   | 355M/504M [00:21<00:09, 16.2MB/s] 71%|███████   | 357M/504M [00:21<00:09, 16.3MB/s] 71%|███████   | 359M/504M [00:22<00:08, 16.2MB/s] 72%|███████▏  | 361M/504M [00:22<00:08, 16.8MB/s] 72%|███████▏  | 363M/504M [00:22<00:08, 16.9MB/s] 72%|███████▏  | 365M/504M [00:22<00:07, 17.4MB/s] 73%|███████▎  | 368M/504M [00:22<00:08, 16.5MB/s] 73%|███████▎  | 370M/504M [00:22<00:08, 16.0MB/s] 74%|███████▎  | 372M/504M [00:22<00:07, 16.7MB/s] 74%|███████▍  | 374M/504M [00:22<00:07, 17.2MB/s] 75%|███████▍  | 376M/504M [00:23<00:07, 17.4MB/s] 75%|███████▍  | 378M/504M [00:23<00:07, 17.7MB/s] 75%|███████▌  | 380M/504M [00:23<00:07, 17.7MB/s] 76%|███████▌  | 382M/504M [00:23<00:06, 17.5MB/s] 76%|███████▌  | 384M/504M [00:23<00:07, 17.1MB/s] 77%|███████▋  | 386M/504M [00:23<00:07, 16.7MB/s] 77%|███████▋  | 388M/504M [00:23<00:06, 16.9MB/s] 77%|███████▋  | 391M/504M [00:23<00:06, 17.0MB/s] 78%|███████▊  | 393M/504M [00:23<00:06, 17.5MB/s] 78%|███████▊  | 395M/504M [00:24<00:06, 17.7MB/s] 79%|███████▊  | 397M/504M [00:24<00:06, 17.2MB/s] 79%|███████▉  | 399M/504M [00:24<00:06, 17.1MB/s] 80%|███████▉  | 401M/504M [00:24<00:05, 17.5MB/s] 80%|███████▉  | 403M/504M [00:24<00:05, 17.5MB/s] 80%|████████  | 405M/504M [00:24<00:05, 17.3MB/s] 81%|████████  | 408M/504M [00:24<00:05, 18.5MB/s] 81%|████████▏ | 410M/504M [00:24<00:05, 17.8MB/s] 82%|████████▏ | 412M/504M [00:25<00:05, 16.8MB/s] 82%|████████▏ | 414M/504M [00:25<00:05, 17.8MB/s] 83%|████████▎ | 416M/504M [00:25<00:04, 17.8MB/s] 83%|████████▎ | 418M/504M [00:25<00:05, 16.9MB/s] 83%|████████▎ | 420M/504M [00:25<00:04, 17.2MB/s] 84%|████████▍ | 423M/504M [00:25<00:04, 17.1MB/s] 84%|████████▍ | 425M/504M [00:25<00:04, 16.8MB/s] 85%|████████▍ | 427M/504M [00:25<00:04, 17.1MB/s] 85%|████████▌ | 429M/504M [00:26<00:04, 16.4MB/s] 85%|████████▌ | 431M/504M [00:26<00:04, 16.1MB/s] 86%|████████▌ | 433M/504M [00:26<00:04, 16.5MB/s] 86%|████████▋ | 435M/504M [00:26<00:04, 17.1MB/s] 87%|████████▋ | 437M/504M [00:26<00:03, 17.3MB/s] 87%|████████▋ | 439M/504M [00:26<00:04, 15.9MB/s] 88%|████████▊ | 441M/504M [00:26<00:04, 14.7MB/s] 88%|████████▊ | 443M/504M [00:27<00:04, 12.5MB/s] 88%|████████▊ | 445M/504M [00:27<00:04, 13.0MB/s] 89%|████████▊ | 447M/504M [00:27<00:04, 14.0MB/s] 89%|████████▉ | 449M/504M [00:27<00:03, 14.9MB/s] 89%|████████▉ | 450M/504M [00:27<00:03, 14.9MB/s] 90%|████████▉ | 452M/504M [00:27<00:03, 15.1MB/s] 90%|████████▉ | 454M/504M [00:27<00:03, 14.2MB/s] 90%|█████████ | 455M/504M [00:27<00:03, 14.1MB/s] 91%|█████████ | 457M/504M [00:28<00:03, 14.0MB/s] 91%|█████████ | 459M/504M [00:28<00:02, 15.5MB/s] 91%|█████████▏| 460M/504M [00:28<00:02, 15.5MB/s] 92%|█████████▏| 462M/504M [00:28<00:02, 16.6MB/s] 92%|█████████▏| 465M/504M [00:28<00:02, 16.6MB/s] 93%|█████████▎| 467M/504M [00:28<00:02, 17.6MB/s] 93%|█████████▎| 469M/504M [00:28<00:02, 17.5MB/s] 93%|█████████▎| 471M/504M [00:28<00:01, 18.3MB/s] 94%|█████████▍| 473M/504M [00:28<00:01, 17.5MB/s] 94%|█████████▍| 475M/504M [00:29<00:01, 17.4MB/s] 95%|█████████▍| 477M/504M [00:29<00:01, 18.3MB/s] 95%|█████████▌| 479M/504M [00:29<00:01, 18.5MB/s] 95%|█████████▌| 481M/504M [00:29<00:01, 18.4MB/s] 96%|█████████▌| 483M/504M [00:29<00:01, 17.5MB/s] 96%|█████████▋| 485M/504M [00:29<00:01, 18.1MB/s] 97%|█████████▋| 488M/504M [00:29<00:00, 17.8MB/s] 97%|█████████▋| 490M/504M [00:29<00:00, 17.7MB/s] 98%|█████████▊| 492M/504M [00:29<00:00, 17.7MB/s] 98%|█████████▊| 494M/504M [00:30<00:00, 17.0MB/s] 98%|█████████▊| 496M/504M [00:30<00:00, 17.3MB/s] 99%|█████████▉| 498M/504M [00:30<00:00, 17.3MB/s] 99%|█████████▉| 500M/504M [00:30<00:00, 17.9MB/s]100%|█████████▉| 502M/504M [00:30<00:00, 17.8MB/s]100%|██████████| 504M/504M [00:30<00:00, 16.4MB/s]
-Archive:  eval5_models_ckpts.zip
-   creating: ckpts/contrastive_model/
-   creating: ckpts/contrastive_model/v1/
-  inflating: ckpts/contrastive_model/v1/parameters_best  
-  inflating: ckpts/contrastive_model/v1/parameters  
-  inflating: ckpts/contrastive_model/v1/weights  
-  inflating: ckpts/contrastive_model/v1/weights_best  
-  inflating: ckpts/contrastive_model/gravity_scene_classifier  
-  inflating: ckpts/contrastive_model/sc_scene_classifier  
-   creating: ckpts/vision/
-   creating: ckpts/vision/tracker/
-   creating: ckpts/vision/tracker/mot_model/
-  inflating: ckpts/vision/tracker/mot_model/247744.ckpt.meta  
-  inflating: ckpts/vision/tracker/mot_model/247744.ckpt.data-00000-of-00001  
-  inflating: ckpts/vision/tracker/mot_model/247744.ckpt.index  
-   creating: ckpts/vision/tracker/app_model/
-  inflating: ckpts/vision/tracker/app_model/247744.ckpt.meta  
-  inflating: ckpts/vision/tracker/app_model/247744.ckpt.data-00000-of-00001  
-  inflating: ckpts/vision/tracker/app_model/247744.ckpt.index  
-   creating: ckpts/vision/tracker/appearance_matcher/
-  inflating: ckpts/vision/tracker/appearance_matcher/full_training_non_mask_trained_on_all_seqs_two_stage_tracker_model_state_v3.pth  
-   creating: ckpts/vision/center_track/
-  inflating: ckpts/vision/center_track/model_last.pth  
-   creating: ckpts/vision/shape_classifier/
-  inflating: ckpts/vision/shape_classifier/shape_classifier_eval5train.pth  
-replace ckpts/.gitignore? [y]es, [n]o, [A]ll, [N]one, [r]ename:  NULL
-(EOF or read error, treating as "[N]one" ...)
-   creating: ckpts/transformer/
-  inflating: ckpts/transformer/v1_weights.pth  
-INFO:    Adding environment to container
-INFO:    Adding runscript
-INFO:    Creating SIF file...
-INFO:    Build complete: sifs/pvoe_jed.sif

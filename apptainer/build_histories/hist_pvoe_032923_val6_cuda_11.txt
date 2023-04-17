@@ -1,0 +1,11 @@
+2023-03-29 20:20:43  
+first try
+2023-03-29 20:20:43  pvoe_032923_val6_cuda_11.def - regenerated
+2023-03-29 20:20:43  sifs/pvoe_032923_val6_cuda_11.sif - build begin
+2023-03-29 20:30:27  sifs/pvoe_032923_val6_cuda_11.sif - build complete
+2023-03-29 22:55:16  
+needed fix via new tag
+2023-03-29 22:55:16  pvoe_032923_val6_cuda_11.def - regenerated
+2023-03-29 22:55:16  sifs/pvoe_032923_val6_cuda_11.sif - deleting prior
+2023-03-29 22:55:16  sifs/pvoe_032923_val6_cuda_11.sif - build begin
+2023-03-29 23:10:50  sifs/pvoe_032923_val6_cuda_11.sif - build complete

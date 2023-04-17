@@ -1,0 +1,5 @@
+2023-03-23 22:13:39  
+first try
+2023-03-23 22:13:39  pvoe_032323_eval5_cuda_10.def - regenerated
+2023-03-23 22:13:39  sifs/pvoe_032323_eval5_cuda_10.sif - build begin
+2023-03-23 22:22:11  sifs/pvoe_032323_eval5_cuda_10.sif - build complete

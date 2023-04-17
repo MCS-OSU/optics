@@ -1,0 +1,15 @@
+2023-03-29 18:45:04  
+testing
+2023-03-29 18:45:04  pvoe_jed.def - regenerated
+2023-03-29 18:45:04  sifs/pvoe_jed.sif - build begin
+2023-03-29 18:47:30  
+out of date spec env var
+2023-03-29 18:47:30  pvoe_jed.def - regenerated
+2023-03-29 18:47:30  sifs/pvoe_jed.sif - build begin
+2023-03-29 18:57:09  sifs/pvoe_jed.sif - build complete
+2023-03-29 20:02:02  
+testing more recent tag for version diffs
+2023-03-29 20:02:02  pvoe_jed.def - regenerated
+2023-03-29 20:02:02  sifs/pvoe_jed.sif - deleting prior
+2023-03-29 20:02:02  sifs/pvoe_jed.sif - build begin
+2023-03-29 20:12:20  sifs/pvoe_jed.sif - build complete

@@ -1,4 +1,6 @@
 import os, sys
+from scenes.scene_json import SceneJson
+from core.constants import MAX_ROOM_DIMENSION
 
 def exit_with(error_msg):
     print(error_msg)
@@ -24,7 +26,18 @@ class OpticsTestSet():
             if line.strip() == '':
                 continue
             full_path_to_json_scene_file = os.path.join(root_dir, line.strip())
-            scene_paths.append(full_path_to_json_scene_file)
+            if self.is_multa_training_scene(full_path_to_json_scene_file):
+                continue
+            scene_json = SceneJson(full_path_to_json_scene_file)
+            max_room_dimension = scene_json.get_max_room_dimension()
+            if (max_room_dimension <= MAX_ROOM_DIMENSION):
+                scene_paths.append(full_path_to_json_scene_file)
+                # if 'ramp' in full_path_to_json_scene_file:
+                #     print(f'FYI - including scene {full_path_to_json_scene_file}')
+            else:
+                pass
+                # if 'ramp' in full_path_to_json_scene_file:
+                #     print(f'FYI - omitting scene {full_path_to_json_scene_file} because max room dimension is {max_room_dimension}')
         return scene_paths
 
     def validate_scene_paths(self, scene_paths):
@@ -33,3 +46,8 @@ class OpticsTestSet():
                 exit_with(f'ERROR - scene path {scene_path} does not exist')
             if not scene_path.endswith('.json'):
                 exit_with(f'ERROR - scene path {scene_path} must end with .json')
+
+    def is_multa_training_scene(self, scene_path):
+        if 'multa_' in scene_path and '_training_' in scene_path:
+            return True
+        return False

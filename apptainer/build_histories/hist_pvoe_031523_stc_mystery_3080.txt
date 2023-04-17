@@ -1,0 +1,67 @@
+2023-03-16 15:41:37  
+testing whether timeout patcher works in container
+2023-03-16 15:41:37  pvoe_031523_stc_mystery_3080.def - regenerated
+2023-03-16 15:41:37  sifs/pvoe_031523_stc_mystery_3080.sif - build begin
+2023-03-16 15:52:40  sifs/pvoe_031523_stc_mystery_3080.sif - build complete
+2023-03-16 17:10:17  
+need to see why timeoout patch didn't work
+2023-03-16 17:10:17  pvoe_031523_stc_mystery_3080.def - regenerated
+2023-03-16 17:10:17  sifs/pvoe_031523_stc_mystery_3080.sif - deleting prior
+2023-03-16 17:10:17  sifs/pvoe_031523_stc_mystery_3080.sif - build begin
+2023-03-16 17:40:55  
+testing ssh key for gh AND logging the process to see what went wrong with doctoring the file
+2023-03-16 17:40:55  pvoe_031523_stc_mystery_3080.def - regenerated
+2023-03-16 17:40:55  sifs/pvoe_031523_stc_mystery_3080.sif - build begin
+2023-03-16 17:45:56  
+start up ssh-agent in container build for authentication
+2023-03-16 17:45:56  pvoe_031523_stc_mystery_3080.def - regenerated
+2023-03-16 17:45:56  sifs/pvoe_031523_stc_mystery_3080.sif - build begin
+2023-03-16 17:47:29  
+use full path to ssh key
+2023-03-16 17:47:29  pvoe_031523_stc_mystery_3080.def - regenerated
+2023-03-16 17:47:29  sifs/pvoe_031523_stc_mystery_3080.sif - build begin
+2023-03-16 17:49:58  
+try positiong key in /tmp
+2023-03-16 17:49:58  pvoe_031523_stc_mystery_3080.def - regenerated
+2023-03-16 17:49:58  sifs/pvoe_031523_stc_mystery_3080.sif - build begin
+2023-03-16 17:54:52  
+copying files from /tmp into /root/.ssh
+2023-03-16 17:54:52  pvoe_031523_stc_mystery_3080.def - regenerated
+2023-03-16 17:54:52  sifs/pvoe_031523_stc_mystery_3080.sif - build begin
+2023-03-16 17:58:39  
+use the ssh clone format
+2023-03-16 17:58:39  pvoe_031523_stc_mystery_3080.def - regenerated
+2023-03-16 17:58:39  sifs/pvoe_031523_stc_mystery_3080.sif - build begin
+2023-03-17 10:32:54  
+bothed auth
+2023-03-17 10:32:54  pvoe_031523_stc_mystery_3080.def - regenerated
+2023-03-17 10:32:54  sifs/pvoe_031523_stc_mystery_3080.sif - build begin
+2023-03-17 10:42:46  sifs/pvoe_031523_stc_mystery_3080.sif - build complete
+2023-03-18 17:57:47  
+trying to get patcher to express
+2023-03-18 17:57:47  pvoe_031523_stc_mystery_3080.def - regenerated
+2023-03-18 17:57:47  sifs/pvoe_031523_stc_mystery_3080.sif - deleting prior
+2023-03-18 17:57:47  sifs/pvoe_031523_stc_mystery_3080.sif - build begin
+2023-03-18 21:47:32  
+trying copying over .gitmodules with ssh targets for urls
+2023-03-18 21:47:32  pvoe_031523_stc_mystery_3080.def - regenerated
+2023-03-18 21:47:32  sifs/pvoe_031523_stc_mystery_3080.sif - build begin
+2023-03-18 22:21:49  
+had old name for version patcher
+2023-03-18 22:21:49  pvoe_031523_stc_mystery_3080.def - regenerated
+2023-03-18 22:21:49  sifs/pvoe_031523_stc_mystery_3080.sif - build begin
+2023-03-18 23:25:31  
+setting PYTHONPATH at build time so that imtout patcher can work
+2023-03-18 23:25:31  pvoe_031523_stc_mystery_3080.def - regenerated
+2023-03-18 23:25:31  sifs/pvoe_031523_stc_mystery_3080.sif - build begin
+2023-03-18 23:35:21  sifs/pvoe_031523_stc_mystery_3080.sif - build complete
+2023-03-18 23:42:25  
+forgot the two args to the patcher like a dufus
+2023-03-18 23:42:25  pvoe_031523_stc_mystery_3080.def - regenerated
+2023-03-18 23:42:25  sifs/pvoe_031523_stc_mystery_3080.sif - deleting prior
+2023-03-18 23:42:26  sifs/pvoe_031523_stc_mystery_3080.sif - build begin
+2023-03-18 23:43:51  
+bothed auth
+2023-03-18 23:43:52  pvoe_031523_stc_mystery_3080.def - regenerated
+2023-03-18 23:43:52  sifs/pvoe_031523_stc_mystery_3080.sif - build begin
+2023-03-18 23:52:57  sifs/pvoe_031523_stc_mystery_3080.sif - build complete

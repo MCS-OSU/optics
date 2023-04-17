@@ -45,7 +45,7 @@ class McsControllerInit():
         for line in lines:
             if line.startswith(root):
                 return line.rstrip()
-        return 'could not find init file for mcs'
+        return False
 
 
     def patch_timeout(self, num_minutes):
@@ -54,17 +54,26 @@ class McsControllerInit():
         print('')
         patched = False
         for path in self.known_paths:
-            if self.patch_timeout_for_path(path, num_minutes):
-                patched = True
+            if os.path.exists(path):
+                print(f'mcs init file found at {path} - will attempt to patch')
+                if self.patch_timeout_for_path(path, num_minutes):
+                    print('patch successful')
+                    patched = True
 
         if not patched:
+            print('mcs init file not found in known locations - searching using CONDA ENV prefix')
             error_string = '\nERROR - unable to patch machine_common_sense/__init__.py with new timeout - file not in expected locations - did you forget to activate the conda environment?\n'
             path = self.use_conda_env_prefix_to_find_file()
-            if os.path.exists(path):
-                if not self.patch_timeout_for_path(path, num_minutes):
+            if path!= False:
+                if os.path.exists(path):
+                    if self.patch_timeout_for_path(path, num_minutes):
+                        print('patch successful')
+                    else:
+                        print(error_string)
+                else:
                     print(error_string)
             else:
-                print(error_string)
+                print('failed to find mcs controller __init__.py file')
                 
                 
 class McsControllerInitPvoe(McsControllerInit):
