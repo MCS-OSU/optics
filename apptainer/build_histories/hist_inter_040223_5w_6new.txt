@@ -1,0 +1,5 @@
+2023-04-02 17:10:38  
+first
+2023-04-02 17:10:38  inter_040223_5w_6new.def - regenerated
+2023-04-02 17:10:38  sifs/inter_040223_5w_6new.sif - build begin
+2023-04-02 17:20:48  sifs/inter_040223_5w_6new.sif - build complete
