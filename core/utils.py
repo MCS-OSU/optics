@@ -4,7 +4,7 @@ import configparser
 import logging
 import sys
 import inspect
-from core.constants  import EC2A_UNAME_OUTPUT, EC2B_UNAME_OUTPUT, EC2A_URL, EC2B_URL
+from core.constants  import EC2A_UNAME_OUTPUT, EC2B_UNAME_OUTPUT, EC2C_UNAME_OUTPUT, EC2D_UNAME_OUTPUT,EC2A_URL, EC2B_URL, EC2C_URL, EC2D_URL
 
 def get_optics_datastore():
     if not 'OPTICS_DATASTORE' in os.environ:
