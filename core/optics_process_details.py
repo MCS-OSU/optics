@@ -15,7 +15,7 @@ class OpticsProcessDetails:
     def test_runner_process_details(self, command):
         test_runner_process_list = []
         output = self.run_command_and_return_output(command)
-        output = output.split()
+        output = output.split() 
         for i in range(len(output)):
             if 'specs/' in output[i]:
                 test_runner_process_list.append(output[i])
@@ -64,7 +64,7 @@ class OpticsProcessDetails:
     def get_optics_manager_details(self):
         manager_machine = '' 
         if self.machine_name == 'local' or self.machine_name == 'ec2c' or self.machine_name == 'ec2d':
-            command = f'ssh -i {self.public_key} {EC2B_URL} ps -edalf | grep -v edalf | grep optics | grep manager'
+            command = f'ssh -i {self.public_key} {EC2A_URL} ps -edalf | grep -v edalf | grep optics | grep manager'
             manager_machine = 'ec2a'        
         
         else:
@@ -144,6 +144,7 @@ class OpticsProcessDetails:
 
         #for ec2a
         output_ec2a = self.run_command_and_return_output(command_ec2a)
+        # print(f'output_ec2a: {output_ec2a}')
         output_ec2a = output_ec2a.split('\n')
         output_ec2a = output_ec2a[-2].split()
         
@@ -264,7 +265,7 @@ class OpticsProcessDetails:
                 print('\n')
         else:
             self.add_break_line()
-            print('This command is only available on EC2A machine. Please run this command on EC2A machine')
+            print('Machine status of spec files is only available on $OPTICS_DATASTORE machine. Please run this file on the $OPTICS_DATASTORE machine')
             self.add_break_line()
     def what_is_going_on(self):
         # Show manager processes
