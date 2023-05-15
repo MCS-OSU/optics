@@ -1,0 +1,65 @@
+2023-04-27 15:57:08  
+first
+2023-04-27 15:57:08  pvoe_042723_eval5_scene_gen.def - regenerated
+2023-04-27 15:57:08  sifs/pvoe_042723_eval5_scene_gen.sif - build begin
+2023-04-27 16:10:19  sifs/pvoe_042723_eval5_scene_gen.sif - build complete
+2023-04-28 17:33:03  
+forgot to commit spec
+2023-04-28 17:33:03  pvoe_042723_eval5_scene_gen.def - regenerated
+2023-04-28 17:33:03  sifs/pvoe_042723_eval5_scene_gen.sif - deleting prior
+2023-04-28 17:33:03  sifs/pvoe_042723_eval5_scene_gen.sif - build begin
+2023-04-28 17:45:53  sifs/pvoe_042723_eval5_scene_gen.sif - build complete
+2023-05-02 16:01:12  
+permission chnge to enable dgx
+2023-05-02 16:01:12  pvoe_042723_eval5_scene_gen.def - regenerated
+2023-05-02 16:01:12  sifs/pvoe_042723_eval5_scene_gen.sif - deleting prior
+2023-05-02 16:01:13  sifs/pvoe_042723_eval5_scene_gen.sif - build begin
+2023-05-02 16:03:39  
+forgot slash in plath
+2023-05-02 16:03:39  pvoe_042723_eval5_scene_gen.def - regenerated
+2023-05-02 16:03:39  sifs/pvoe_042723_eval5_scene_gen.sif - build begin
+2023-05-02 16:16:15  sifs/pvoe_042723_eval5_scene_gen.sif - build complete
+2023-05-03 12:51:44  
+added print statements after permissions chnage
+2023-05-03 12:51:44  pvoe_042723_eval5_scene_gen.def - regenerated
+2023-05-03 12:51:44  sifs/pvoe_042723_eval5_scene_gen.sif - deleting prior
+2023-05-03 12:51:45  sifs/pvoe_042723_eval5_scene_gen.sif - build begin
+2023-05-04 06:08:03  sifs/pvoe_042723_eval5_scene_gen.sif - build complete
+2023-05-04 11:31:34  
+added more print statements
+2023-05-04 11:31:34  pvoe_042723_eval5_scene_gen.def - regenerated
+2023-05-04 11:31:34  sifs/pvoe_042723_eval5_scene_gen.sif - deleting prior
+2023-05-04 11:31:35  sifs/pvoe_042723_eval5_scene_gen.sif - build begin
+2023-05-04 11:43:20  
+typo in gen script derailed it
+2023-05-04 11:43:20  pvoe_042723_eval5_scene_gen.def - regenerated
+2023-05-04 11:43:20  sifs/pvoe_042723_eval5_scene_gen.sif - build begin
+2023-05-04 11:58:22  
+bothced auth
+2023-05-04 11:58:22  pvoe_042723_eval5_scene_gen.def - regenerated
+2023-05-04 11:58:22  sifs/pvoe_042723_eval5_scene_gen.sif - build begin
+2023-05-04 12:01:01  
+forgot newlines
+2023-05-04 12:01:01  pvoe_042723_eval5_scene_gen.def - regenerated
+2023-05-04 12:01:01  sifs/pvoe_042723_eval5_scene_gen.sif - build begin
+2023-05-04 12:04:26  
+forgot extra opics_pvoe layer
+2023-05-04 12:04:26  pvoe_042723_eval5_scene_gen.def - regenerated
+2023-05-04 12:04:26  sifs/pvoe_042723_eval5_scene_gen.sif - build begin
+2023-05-04 12:05:31  
+auth failed
+2023-05-04 12:05:31  pvoe_042723_eval5_scene_gen.def - regenerated
+2023-05-04 12:05:31  sifs/pvoe_042723_eval5_scene_gen.sif - build begin
+2023-05-04 12:10:25  
+moved perm change to after loading models
+2023-05-04 12:10:25  pvoe_042723_eval5_scene_gen.def - regenerated
+2023-05-04 12:10:25  sifs/pvoe_042723_eval5_scene_gen.sif - build begin
+2023-05-04 14:47:01  
+hung up
+2023-05-04 14:47:01  pvoe_042723_eval5_scene_gen.def - regenerated
+2023-05-04 14:47:01  sifs/pvoe_042723_eval5_scene_gen.sif - build begin
+2023-05-05 15:40:19  
+extra opics_home was not correct to add
+2023-05-05 15:40:19  pvoe_042723_eval5_scene_gen.def - regenerated
+2023-05-05 15:40:19  sifs/pvoe_042723_eval5_scene_gen.sif - build begin
+2023-05-06 09:07:10  sifs/pvoe_042723_eval5_scene_gen.sif - build complete

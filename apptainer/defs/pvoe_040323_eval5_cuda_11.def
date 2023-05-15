@@ -1,0 +1,82 @@
+Bootstrap: localimage
+From : /home/jedirv/outer_optics_v6i/apptainer/sifs/ubuntu_python.sif
+
+
+%environment
+    export OPTICS_HOME=$HOME/test__pvoe_040323_eval5_cuda_11
+    export OPICS_HOME=$OPTICS_HOME/opics_pvoe
+    export PYTHONPATH=$OPTICS_HOME:$OPTICS_HOME/opics_common
+    export PATH=/miniconda3/bin:$PATH
+    export OPTICS_DATASTORE=ec2b
+
+
+%post
+    cp /tmp/run_pvoe_040323_eval5_cuda_11.sh /
+    chmod 770 /run_pvoe_040323_eval5_cuda_11.sh
+
+    ############################################################################
+    # add private key for github auth
+    ############################################################################
+    eval "$(ssh-agent -s)"
+    mkdir /root/.ssh
+    cp /tmp/config /root/.ssh
+    cp /tmp/id_ed25529_031623  /root/.ssh
+    ssh-add /root/.ssh/id_ed25529_031623
+    cd /
+   git clone git@github.com:MCS-OSU/optics.git image__pvoe_040323_eval5_cuda_11
+    ############################################################################
+    # put the correct branches into play
+    ############################################################################
+    cd image__pvoe_040323_eval5_cuda_11
+    git checkout main
+    ############################################################################
+    # copy the ssh version of .gitmodules into place to bypass authentication
+    ############################################################################
+    cp ssh_urls_for_git_modules.txt .gitmodules
+    ############################################################################
+    # credential helper for good measure - may be unnecessary with ssh in play
+    ############################################################################
+    git config --global user.name jedirv
+    git config --global credential.helper store
+    git submodule update --init --recursive
+    cd /image__pvoe_040323_eval5_cuda_11/opics_pvoe
+    git checkout v6.1.4
+    cd /image__pvoe_040323_eval5_cuda_11/opics_common
+    git checkout main
+
+
+    ############################################################################
+    # install python dependencies
+    ############################################################################
+    export OPTICS_HOME=/image__pvoe_040323_eval5_cuda_11
+    echo "==============  python dependencies  ==================="
+    cd /image__pvoe_040323_eval5_cuda_11/opics_pvoe
+    cd $OPTICS_HOME/opics_pvoe
+    ./all.sh
+
+
+    ############################################################################
+    # position models
+    ############################################################################
+    echo "==============  loading models ==================="
+
+
+    ############################################################################
+    #                   --- mcs controller timeout patch ---
+    # changing from 3 mins to 1 hour:
+    ############################################################################
+    export PYTHONPATH=$OPTICS_HOME
+    cd $OPTICS_HOME/scripts
+    python3 patch_mcs_controller_timeout.py pvoe 60
+
+
+    ############################################################################
+    #                   --- compare versions of python dependencies ---
+    ############################################################################
+    export PYTHONPATH=$OPTICS_HOME
+    cd $OPTICS_HOME/scripts
+   python3 compare_pip_lists.py pvoe
+
+
+%runscript
+/run_pvoe_040323_eval5_cuda_11.sh $1 $2

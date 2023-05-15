@@ -31,7 +31,7 @@ def get_section_environment(proj, run_time_root_name):
 
 def get_section_position_run_script(spec_name):
     s =  f'    cp /tmp/run_{spec_name}.sh /\n'
-    s += f'    chmod 770 /run_{spec_name}.sh\n\n'
+    s += f'    chmod 775 /run_{spec_name}.sh\n\n'
     return s
 
 def get_dirname_for_project(proj):
@@ -82,6 +82,20 @@ def get_section_opics_project_code(optics_branch, proj, project_branch,  pull_ti
     return s
 
 
+def get_section_scene_gen_code(spec_name):
+    s =  '    ############################################################################\n'
+    s += '    # add scene_gen repo into play\n'
+    s += '    ############################################################################\n'
+    s += '    cd /\n'
+    s += f'    git clone https://github.com/MCS-OSU/scene-gen.git scene-gen__{spec_name}\n'
+    s += f'    cd scene-gen__{spec_name}\n'
+    s += '    git checkout main\n'
+    s += '    ./install.sh\n'
+    s += '\n'
+    s += '\n'
+    return s
+
+
 def get_section_opics_dependencies(proj, pull_time_root_name, lib_config_steps):
     s =  '    ############################################################################\n'
     s += '    # install python dependencies\n'
@@ -108,6 +122,19 @@ def get_section_models(model_config_steps):
     s += '    echo "==============  loading models ==================="\n'
     for step in model_config_steps:
         s += f'    {step}\n'
+
+    # once models are in place, change all dir permissions so that image can be successfully copied on dgx run
+    s += f'    cd /\n'
+    s += f'    echo "contents of slash is : "\n'
+    s += f'    ls\n'
+    s += f'    ls -la /{pull_time_root_name}\n'
+    s += f'    ls -la /{pull_time_root_name}/opics_pvoe\n'
+    s += f'    ls -la /{pull_time_root_name}/opics_pvoe/ckpts\n'
+    s += f'    ls -la /{pull_time_root_name}/opics_pvoe/ckpts/vision\n'
+    s += f'    ls -la /{pull_time_root_name}/opics_pvoe/ckpts/vision/tracker\n'
+    s += f'    echo "find {pull_time_root_name} -type d -print0 | xargs -0 chmod 775"\n'
+    s += f'    find {pull_time_root_name} -type d -print0 | xargs -0 chmod 775\n'
+    s += f'    ls -la /{pull_time_root_name}/opics_pvoe/ckpts/vision/tracker\n'
     s += '\n'
     s += '\n'
     return s
@@ -167,6 +194,9 @@ def generate_run_script(proj, pull_time_root_name, optics_spec_fname, spec_name)
     s += f'fi\n'
     s += f'echo "...copying image /{pull_time_root_name} to runnable directory $OPTICS_HOME"\n'
     s += f'cp -r /{pull_time_root_name} $OPTICS_HOME\n'
+
+    #s += f'cp -r /scene-gen__{spec_name} ~/scene_gen__{spec_name}\n'
+
     s += f'echo "...running  . /miniconda3/etc/profile.d/conda.sh"\n'
     s += f'. /miniconda3/etc/profile.d/conda.sh\n'
     if proj == 'avoe':
@@ -237,6 +267,7 @@ def generate_run_script(proj, pull_time_root_name, optics_spec_fname, spec_name)
     f = open(run_script_path, 'w')
     f.write(s)
     f.close()
+    # put it in /tmp in case need to debug it, it will be moved into / of the container as per get_section_position_run_script
     command = f'cp {run_script_path} /tmp/run_{spec_name}.sh'
     os.system(command)
 
@@ -307,6 +338,7 @@ if __name__ == '__main__':
     s += get_section_numpy_hack(proj)
     s += get_section_controller_timeout_patch(proj)
     s += get_section_version_comparison(proj)
+    s += get_section_scene_gen_code(spec_name)
     s += '%runscript\n'
     s += get_section_run_script(spec_name)
 

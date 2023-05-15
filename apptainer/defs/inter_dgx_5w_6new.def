@@ -1,0 +1,91 @@
+Bootstrap: localimage
+From : /home/jedirv/outer_optics_v6i/apptainer/sifs/ubuntu_python.sif
+
+
+%environment
+    export OPTICS_HOME=$HOME/test__inter_dgx_5w_6new
+    export OPICS_HOME=$OPTICS_HOME/opics_inter
+    export PYTHONPATH=$OPTICS_HOME:$OPTICS_HOME/opics_common
+    export PATH=/miniconda3/bin:$PATH
+    export OPTICS_DATASTORE=ec2b
+
+
+%post
+    cp /tmp/run_inter_dgx_5w_6new.sh /
+    chmod 775 /run_inter_dgx_5w_6new.sh
+
+    ############################################################################
+    # add private key for github auth
+    ############################################################################
+    eval "$(ssh-agent -s)"
+    mkdir /root/.ssh
+    cp /tmp/config /root/.ssh
+    cp /tmp/id_ed25529_031623  /root/.ssh
+    ssh-add /root/.ssh/id_ed25529_031623
+    cd /
+   git clone git@github.com:MCS-OSU/optics.git image__inter_dgx_5w_6new
+    ############################################################################
+    # put the correct branches into play
+    ############################################################################
+    cd image__inter_dgx_5w_6new
+    git checkout main
+    ############################################################################
+    # copy the ssh version of .gitmodules into place to bypass authentication
+    ############################################################################
+    cp ssh_urls_for_git_modules.txt .gitmodules
+    ############################################################################
+    # credential helper for good measure - may be unnecessary with ssh in play
+    ############################################################################
+    git config --global user.name jedirv
+    git config --global credential.helper store
+    git submodule update --init --recursive
+    cd /image__inter_dgx_5w_6new/opics_inter
+    git checkout v6.0.8
+    cd /image__inter_dgx_5w_6new/opics_common
+    git checkout main
+
+
+    ############################################################################
+    # install python dependencies
+    ############################################################################
+    export OPTICS_HOME=/image__inter_dgx_5w_6new
+    echo "==============  python dependencies  ==================="
+    cd /image__inter_dgx_5w_6new/opics_inter
+    cd $OPTICS_HOME/opics_inter
+    ./all.sh
+
+
+    ############################################################################
+    # position models
+    ############################################################################
+    echo "==============  loading models ==================="
+
+
+    ############################################################################
+    #                   --- numpy version hack ---
+    # Reduce numpy version to solve error when 1.24.1 is in place:
+    # AttributeError: module 'numpy' has no attribute 'float'
+    ############################################################################
+    python3 -m pip uninstall -y numpy
+    python3 -m pip install numpy==1.23.5
+
+
+    ############################################################################
+    #                   --- mcs controller timeout patch ---
+    # changing from 3 mins to 1 hour:
+    ############################################################################
+    export PYTHONPATH=$OPTICS_HOME
+    cd $OPTICS_HOME/scripts
+    python3 patch_mcs_controller_timeout.py inter 60
+
+
+    ############################################################################
+    #                   --- compare versions of python dependencies ---
+    ############################################################################
+    export PYTHONPATH=$OPTICS_HOME
+    cd $OPTICS_HOME/scripts
+   python3 compare_pip_lists.py inter
+
+
+%runscript
+/run_inter_dgx_5w_6new.sh $1 $2
