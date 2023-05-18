@@ -115,7 +115,7 @@ def get_section_opics_dependencies(proj, pull_time_root_name, lib_config_steps):
     return s
 
 
-def get_section_models(model_config_steps):
+def get_section_models(model_config_steps, proj):
     s =  '    ############################################################################\n'
     s += '    # position models\n'
     s += '    ############################################################################\n'
@@ -128,13 +128,15 @@ def get_section_models(model_config_steps):
     s += f'    echo "contents of slash is : "\n'
     s += f'    ls\n'
     s += f'    ls -la /{pull_time_root_name}\n'
-    s += f'    ls -la /{pull_time_root_name}/opics_pvoe\n'
-    s += f'    ls -la /{pull_time_root_name}/opics_pvoe/ckpts\n'
-    s += f'    ls -la /{pull_time_root_name}/opics_pvoe/ckpts/vision\n'
-    s += f'    ls -la /{pull_time_root_name}/opics_pvoe/ckpts/vision/tracker\n'
+    if proj == 'pvoe':
+        s += f'    ls -la /{pull_time_root_name}/opics_pvoe\n'
+        s += f'    ls -la /{pull_time_root_name}/opics_pvoe/ckpts\n'
+        s += f'    ls -la /{pull_time_root_name}/opics_pvoe/ckpts/vision\n'
+        s += f'    ls -la /{pull_time_root_name}/opics_pvoe/ckpts/vision/tracker\n'
     s += f'    echo "find {pull_time_root_name} -type d -print0 | xargs -0 chmod 775"\n'
     s += f'    find {pull_time_root_name} -type d -print0 | xargs -0 chmod 775\n'
-    s += f'    ls -la /{pull_time_root_name}/opics_pvoe/ckpts/vision/tracker\n'
+    if proj == 'pvoe':
+        s += f'    ls -la /{pull_time_root_name}/opics_pvoe/ckpts/vision/tracker\n'
     s += '\n'
     s += '\n'
     return s
@@ -334,7 +336,7 @@ if __name__ == '__main__':
     s += get_section_position_run_script(spec_name)
     s += get_section_opics_project_code(optics_branch, proj, project_branch, pull_time_root_name)
     s += get_section_opics_dependencies(proj, pull_time_root_name, lib_config_steps)
-    s += get_section_models(model_config_steps)
+    s += get_section_models(model_config_steps, proj)
     s += get_section_numpy_hack(proj)
     s += get_section_controller_timeout_patch(proj)
     s += get_section_version_comparison(proj)
