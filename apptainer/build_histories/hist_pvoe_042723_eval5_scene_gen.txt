@@ -63,3 +63,20 @@ extra opics_home was not correct to add
 2023-05-05 15:40:19  pvoe_042723_eval5_scene_gen.def - regenerated
 2023-05-05 15:40:19  sifs/pvoe_042723_eval5_scene_gen.sif - build begin
 2023-05-06 09:07:10  sifs/pvoe_042723_eval5_scene_gen.sif - build complete
+2023-05-08 14:12:45  
+regrounding
+2023-05-08 14:12:45  pvoe_042723_eval5_scene_gen.def - regenerated
+2023-05-08 14:12:45  sifs/pvoe_042723_eval5_scene_gen.sif - deleting prior
+2023-05-08 14:12:45  sifs/pvoe_042723_eval5_scene_gen.sif - build begin
+2023-05-08 15:38:28  
+crashed
+2023-05-08 15:38:28  pvoe_042723_eval5_scene_gen.def - regenerated
+2023-05-08 15:38:28  sifs/pvoe_042723_eval5_scene_gen.sif - build begin
+2023-05-08 15:44:34  
+try again with ssh config file at /tmp/config
+2023-05-08 15:44:34  pvoe_042723_eval5_scene_gen.def - regenerated
+2023-05-08 15:44:34  sifs/pvoe_042723_eval5_scene_gen.sif - build begin
+2023-05-08 15:46:12  
+forgot the private key needed to be in tmp as well
+2023-05-08 15:46:12  pvoe_042723_eval5_scene_gen.def - regenerated
+2023-05-08 15:46:12  sifs/pvoe_042723_eval5_scene_gen.sif - build begin
