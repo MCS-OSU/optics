@@ -17,14 +17,13 @@ def get_optics_datastore_from_env():
 def get_optics_datastore():
     home_dir = str(Path.home())
     ini_path = os.path.join(home_dir, '.optics.ini')
-    print(f'optics ini path :  {ini_path}')
     if not os.path.exists(ini_path):
         return get_optics_datastore_from_env()
 
     config = configparser.ConfigParser()
-    config.read(config_ini_path)
-    datastore = config_ini['EC2']['datastore']
-    print(f'datastore read as {datastore}')
+    config.read(ini_path)
+    datastore = config['EC2']['datastore']
+    #print(f'datastore read as {datastore}')
     if datastore not in ['EC2A', 'EC2C','ec2a', 'ec2c']:
         optics_fatal("~/.optics.ini value for datastyore must be set to either 'ec2a' or 'ec2c'")
     return datastore
