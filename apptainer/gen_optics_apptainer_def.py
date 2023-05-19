@@ -340,7 +340,7 @@ if __name__ == '__main__':
     s += get_section_numpy_hack(proj)
     s += get_section_controller_timeout_patch(proj)
     s += get_section_version_comparison(proj)
-    s += get_section_scene_gen_code(spec_name)
+    #s += get_section_scene_gen_code(spec_name)
     s += '%runscript\n'
     s += get_section_run_script(spec_name)
 
