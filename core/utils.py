@@ -4,14 +4,30 @@ import configparser
 import logging
 import sys
 import inspect
+from pathlib import Path
 from core.constants  import EC2A_UNAME_OUTPUT, EC2B_UNAME_OUTPUT, EC2C_UNAME_OUTPUT, EC2D_UNAME_OUTPUT,EC2A_URL, EC2B_URL, EC2C_URL, EC2D_URL
 
-def get_optics_datastore():
+def get_optics_datastore_from_env():
     if not 'OPTICS_DATASTORE' in os.environ:
-        optics_fatal("env variable OPTICS_DATASTORE not defined - please set it either 'ec2a' or 'ec2b'")
-    if os.environ['OPTICS_DATASTORE'] not in ['EC2A', 'EC2B','ec2a', 'ec2b']:
-        optics_fatal("env variable OPTICS_DATASTORE must be set to either 'ec2a' or 'ec2b'")
+        optics_fatal("env variable OPTICS_DATASTORE not defined - please set it either 'ec2a' or 'ec2c'")
+    if os.environ['OPTICS_DATASTORE'] not in ['EC2A', 'EC2C','ec2a', 'ec2c']:
+        optics_fatal("env variable OPTICS_DATASTORE must be set to either 'ec2a' or 'ec2c'")
     return os.environ['OPTICS_DATASTORE']
+
+def get_optics_datastore():
+    home_dir = str(Path.home())
+    ini_path = os.path.join(home_dir, '.optics.ini')
+    print(f'optics ini path :  {ini_path}')
+    if not os.path.exists(ini_path):
+        return get_optics_datastore_from_env()
+
+    config = configparser.ConfigParser()
+    config.read(config_ini_path)
+    datastore = config_ini['EC2']['datastore']
+    print(f'datastore read as {datastore}')
+    if datastore not in ['EC2A', 'EC2C','ec2a', 'ec2c']:
+        optics_fatal("~/.optics.ini value for datastyore must be set to either 'ec2a' or 'ec2c'")
+    return datastore
 
 def get_optics_datastore_url():
     # if this is being called, we know we are in the 'manager is remote' situation
