@@ -1,1 +1,2 @@
 Jed creates dummy2.txt
+Jed adding line 2 before doing rebase
