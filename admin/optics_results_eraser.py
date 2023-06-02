@@ -24,17 +24,16 @@ class OpticsResultsEraser():
 
     def erase_results(self):
         
-        scene_type_list = abbrev_types[self.project_name]
+        scene_type_list = abbrev_types[self.project_name]   
         result = input(f' ***  Are you ABSOLUTELY sure you want to delete systest data for {self.optics_spec.name}.  Press enter to Y or N\n')
         print("Printing all the scene types for this project: ")
         print(*scene_type_list, sep = ", ")
-        scene_type_choice = input(f' Select the scene type to erase or write all to delete all the scene_type: \n')
-        if result == 'Y' or result == 'y':          
+        scene_type_choice = input(f'Select the scene type to erase or write all to delete all the scene_type: \n')
+
+        if result.lower() == 'y' or result == 'yes':          
             print('[optics]...deleting systest data')
             self.test_register.clean_systest_data(scene_type_choice)
         else:
             print('[optics]...abandoned erase maneuver - exiting')
             sys.exit()
-        
-
     
