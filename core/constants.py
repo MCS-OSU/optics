@@ -30,6 +30,16 @@ EC2D_URL = f'ubuntu@{EC2D_IP_ADDRESS}'
 
 MAX_ROOM_DIMENSION = 30
 
+def get_url_for_machine_alias(machine_nickname):
+    if machine_nickname == 'ec2a':
+        return EC2A_IP_ADDRESS
+    elif machine_nickname == 'ec2c':
+        return EC2C_IP_ADDRESS
+    elif machine_nickname == 'ec2d':
+        return EC2D_IP_ADDRESS
+    else:
+        print(f'unknown machine nickname: {machine_nickname}')
+        return  None  #LEFT OFF HERE
 
 def get_alias_for_machine(machine):
     if machine == 'ip-172-31-32-89':
