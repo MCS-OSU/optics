@@ -15,6 +15,7 @@ def resolve_given_optics_spec_path(given_path):
 
 class OpticsDashboard():
     def __init__(self, manager_proximity, optics_spec):
+        self.optics_spec = optics_spec
         systest_dirs = None
         if manager_proximity == 'local':
             home_dir = str(Path.home())
@@ -27,10 +28,12 @@ class OpticsDashboard():
 
         scene_state_histories = SceneStateHistories(systest_dirs)
         self.sessions = OpticsSessions(systest_dirs, scene_state_histories)
+        self.test_register.gather_do_types_from_spec(self.optics_spec.types_to_run)
         
-
+   
+        
     def show_session_details(self):
-        # self.sessions.sort_by_idle_time()
+        self.sessions.sort_by_idle_time()
         self.sessions.display_info_header()
         self.sessions.print_session_info()
         
