@@ -95,7 +95,7 @@ if __name__ == '__main__':
     optics_spec_path = resolve_given_optics_spec_path(given_optics_spec_path)
     print(f'optics_spec_path: {optics_spec_path}')
     optics_spec = OpticsSpec(optics_spec_path)
-
+    
     configure_logging(optics_spec.log_level)
     proj            = optics_spec.proj
     version         = optics_spec.version
