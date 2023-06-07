@@ -10,7 +10,6 @@ from optics_results.scene_state_history    import SceneStateHistory
 from core.utils                     import optics_info, optics_error, optics_debug, optics_fatal
 
 
-
 class TestRegisterLocal():
     def __init__(self, systest_dirs):
         self.systest_dirs = systest_dirs
@@ -244,18 +243,35 @@ class TestRegisterLocal():
             except Exception as e:
                 print('ERROR -- problem with session file: ', session_file)
 
+    def gather_do_types_from_spec(self, do_types_list):
+        self.scenes_do_type = do_types_list
+        return None
+
+
 
     def gather_scene_state_paths(self):
         result = []
         scene_state_dir = self.systest_dirs.scene_state_dir
         type_dirs = os.listdir(scene_state_dir)
+        # print(f'...do_types_list: {self.scenes_do_type}')
+        # print(f'...list of type dirs: {type_dirs}')
         for type_dir in type_dirs:
-            type_dir_path = os.path.join(scene_state_dir, type_dir)
-            files = os.listdir(type_dir_path)
-            for file in files:
-                path = os.path.join(type_dir_path, file)
-                result.append(path)
+            if type_dir not in self.scenes_do_type:
+                pass
+            else:
+                type_dir_path = os.path.join(scene_state_dir, type_dir)
+                # print(f'...gathering scene state paths from {type_dir_path}')
+                files = os.listdir(type_dir_path)
+                # print(f'...found {len(files)} files')
+                for file in files:
+                    # print(f'...found file {file}')
+                    path = os.path.join(type_dir_path, file)
+                    # print(f'...path: {path}')
+                    result.append(path)
         return result
+
+ 
+
 
     def load_scene_state_histories(self):
         scene_state_paths = self.gather_scene_state_paths()
