@@ -3,10 +3,12 @@ import os
 from pathlib import Path
 from opics_common.scene_type.type_constants import formal_type
 from opics_common.opics_logging.opics_logs import OpicsLogs
+from opics_common.opics_logging.stdout_logs import StdoutLogs
 from opics_common.results.stats_output import stats_title
 from opics_common.results.stats_pvoe import StatsPvoe
 from opics_common.results.stats_avoe import StatsAvoe
 from opics_common.results.stats_inter import StatsInter
+from opics_common.results.avoe_pairs import AvoePairs
 from core.optics_dirs import SystestDirectories
 
 class OpticsScores:
@@ -15,6 +17,7 @@ class OpticsScores:
         self.optics_spec = optics_spec
         self.systest_dirs = SystestDirectories(str(Path.home()), self.optics_spec)
         self.proj_log_dir = self.systest_dirs.result_logs_dir
+        self.proj_stdout_log_dir = self.systest_dirs.stdout_logs_dir
 
         if 'OPTICS_HOME' not in os.environ:            
             print('')
@@ -22,6 +25,7 @@ class OpticsScores:
             print('')
             sys.exit()
 
+        self.stdout_logs = StdoutLogs()
         self.opics_logs = OpicsLogs()
 
         for scene_type in formal_type:
@@ -43,7 +47,17 @@ class OpticsScores:
         
         elif self.proj == 'avoe':
             self.avoe_stats = StatsAvoe(self.opics_logs,'avoe')
-        
+            for scene_type in formal_type:
+                type_dir = os.path.join(self.proj_stdout_log_dir, scene_type)
+                if os.path.exists(type_dir):
+                    files = os.listdir(type_dir)
+                    #print(type_dir)
+                    for file in files:
+                        filepath = os.path.join(type_dir, file)
+                        #print(f'log file {filepath}')
+                        if os.path.isfile(filepath):
+                            # print(f'file:  {filepath}')
+                            self.stdout_logs.load_file(filepath, proj, scene_type)
         else:
             self.inter_stats = StatsInter(self.opics_logs,'inter')
     
@@ -68,11 +82,14 @@ class OpticsScores:
             # self.pvoe_stats.outcome_by_category('implausible','incorrect')
             
         elif self.proj == 'avoe':
-            self.avoe_stats.results_summary()
-            self.avoe_stats.results_by_scene_type()
-            self.avoe_stats.results_expected_by_scene_type()
-            self.avoe_stats.results_unexpected_by_scene_type()
-            self.avoe_stats.results_noexpectation_by_scene_type()
+            # self.avoe_stats.results_summary()
+            # self.avoe_stats.results_by_scene_type()
+            # self.avoe_stats.results_expected_by_scene_type()
+            # self.avoe_stats.results_unexpected_by_scene_type()
+            # self.avoe_stats.results_noexpectation_by_scene_type()
+
+            pairs = AvoePairs(self.stdout_logs)
+            pairs.results_pairwise_by_scene_type()
             print('')
             # self.avoe_stats.pvoe_outcome_by_category('expected','correct')
             # self.avoe_stats.pvoe_outcome_by_category('expected','incorrect')
