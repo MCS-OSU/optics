@@ -347,7 +347,7 @@ class TestRegisterLocal():
 class TestRegisterRemote():
     def __init__(self, systest_dirs):
         self.systest_dirs = systest_dirs
-        has_job_requested = False
+        self.has_requested_job = False
         
     ##########################################################################
     # api used by trun_system_tests.py, trun.py and SceneStatusUpdater
@@ -374,7 +374,7 @@ class TestRegisterRemote():
         return False
 
         
-    def set_session_path(self, session_path):
+    # def set_session_path(self, session_path):
         # this is needed because trun.py creates the session.  For systest_run_opics_scene to tweak that session file, 
         # it needs to know where it is.
         self.session_path = session_path
@@ -392,10 +392,8 @@ class TestRegisterRemote():
             t = int(time.time())
             machine = os.uname()[1]
             session_start_string = f'# trun_session;{proj};{machine};{t}'
-            session_filename = f'runner_session_{proj}_{machine}_{t}.txt'
-            self.session_path = os.path.join(self.systest_dirs.sessions_dir, session_filename)
-            utils.add_last_line(self.session_path, session_start_string+'\n'+job_request)
-            # utils.add_last_line(self.session_path, job_request)
+            utils.remote_add_last_line(self.session_path, session_start_string+'\n'+job_request)
+            # utils.remote_add_last_line(self.session_path, job_request)
             self.has_requested_job = True
         else: 
             utils.remote_add_last_line(self.session_path, job_request)
