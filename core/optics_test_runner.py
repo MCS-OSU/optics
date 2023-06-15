@@ -98,7 +98,7 @@ class OpticsTestRunner():
         else:
             # trun will transact files with ec2b via scp
             self.test_register = TestRegisterRemote(self.systest_dirs)
-        self.test_register.set_session_path(self.optics_spec.version)
+        self.test_register.derive_session_path(self.optics_spec.version)
         # NOTE(Mazen): ec2a testing
         self.run_dir = os.path.join(self.optics_home,'scripts')
         

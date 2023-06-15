@@ -19,10 +19,10 @@ class TestRegisterLocal():
     ##########################################################################
     # api used by OpticsTestRunner and OpicsRunState
     ##########################################################################
-    def set_session_path(self, proj):
+    def derive_session_path(self, spec_name_sans_proj):
         t = int(time.time())
         machine = os.uname()[1]
-        session_filename = f'runner_session_{proj}_{machine}_{t}.txt'
+        session_filename = f'runner_session_{spec_name_sans_proj}_{machine}_{t}.txt'
         self.session_path = os.path.join(self.systest_dirs.sessions_dir, session_filename)
         # optics_info(f'registering session')
         # utils.add_last_line(self.session_path, session_start_string)
@@ -34,9 +34,10 @@ class TestRegisterLocal():
             return True
         return False
 
-    # def set_session_path(self, session_path):
-        # this is needed because trun.py creates the session.  For systest_run_opics_scene to tweak that session file, 
-        # it needs to know where it is.
+    def set_session_path(self, session_path):
+        # this is needed because run_optics_scene.py needs the session_path to be passed in as an argument by  optics_test_runner.py. 
+        # i.e. optics_test_runner.py calls derive_session_path to set it initially, and then needs to pass that derived path in full the
+        # run_optics_script that it calls 
         self.session_path = session_path
 
     def request_job(self, proj, run_mode):
@@ -352,10 +353,10 @@ class TestRegisterRemote():
     ##########################################################################
     # api used by trun_system_tests.py, trun.py and SceneStatusUpdater
     ##########################################################################
-    def set_session_path(self, proj):
+    def derive_session_path(self, spec_name_sans_proj):
         t = int(time.time())
         machine = os.uname()[1]
-        session_filename = f'runner_session_{proj}_{machine}_{t}.txt'
+        session_filename = f'runner_session_{spec_name_sans_proj}_{machine}_{t}.txt'
         self.session_path = os.path.join(self.systest_dirs.sessions_dir, session_filename)
         # optics_info(f'registering session {session_filename}')
         # utils.remote_copy_file(local_path, self.session_path)
@@ -373,10 +374,11 @@ class TestRegisterRemote():
         optics_debug('SESSION_KILLED determined as NO')
         return False
 
-        
-    # def set_session_path(self, session_path):
-        # this is needed because trun.py creates the session.  For systest_run_opics_scene to tweak that session file, 
-        # it needs to know where it is.
+ 
+    def set_session_path(self, session_path):
+        # this is needed because run_optics_scene.py needs the session_path to be passed in as an argument by  optics_test_runner.py. 
+        # i.e. optics_test_runner.py calls derive_session_path to set it initially, and then needs to pass that derived path in full the
+        # run_optics_script that it calls 
         self.session_path = session_path
 
 
