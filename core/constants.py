@@ -1,3 +1,5 @@
+OPTICS_DATA_ROOT_DIR = '/home/ubuntu/eval6_systest'
+
 # session status 
 NO_MORE_SCENES_TO_RUN = 'NO_MORE_SCENES_TO_RUN'
 SESSION_KILLED = 'SESSION_KILLED'
