@@ -8,6 +8,7 @@ from core.utils                import optics_info, optics_debug, optics_error, o
 from core.constants            import NO_MORE_SCENES_TO_RUN
 from core.optics_spec_loader   import OpticsSpec
 from core.constants            import EC2_MACHINE_HOME
+from core.constants            import OPTICS_DATA_ROOT_DIR
 
 import subprocess
 
@@ -74,8 +75,8 @@ class OpticsTestRunner():
 
     def configure_tmp_scene_file_dir(self):
         if self.manager_proximity == 'remote':
-            self.scenes_dir = self.optics_scripts_dir + '/scenes_being_run'
-            ensure_dir_exists(self.scenes_dir) 
+            self.local_scenes_root = self.optics_scripts_dir + '/scenes_being_run'
+            ensure_dir_exists(self.local_scenes_root) 
 
     def configure_systest_dirs(self):
         if self.manager_proximity == 'local':  
@@ -107,21 +108,25 @@ class OpticsTestRunner():
         # if self.test_register.is_session_killed():
         #     optics_info('session killed, likely due to detected resource constraints')
         #     sys.exit()
-        scene_path = self.test_register.request_job(self.optics_spec.version, run_mode)
-        optics_debug(f'request_job returned scene_path: {scene_path}')
-        if scene_path == NO_MORE_SCENES_TO_RUN:
+        optics_scene_path = self.test_register.request_job(self.optics_spec.version, run_mode)
+        optics_debug(f'request_job returned scene_path: {optics_scene_path}')
+        if optics_scene_path == NO_MORE_SCENES_TO_RUN:
             return (NO_MORE_SCENES_TO_RUN, NO_MORE_SCENES_TO_RUN)
-        scene_name = get_scene_name_from_path(scene_path)
+        scene_name = get_scene_name_from_path(optics_scene_path)
         optics_debug(f'derived scene_name {scene_name}')
-        return (scene_path, scene_name)
+        return (optics_scene_path, scene_name)
 
-    def ensure_scene_positioned_locally(self, scene_path, scene_name):
+    # JED_TODO put scene locally under <scene_set_version>/<scene_type>
+    def ensure_scene_positioned_locally(self, optics_scene_path):
+        #optics_scene_path is OPTICS_DATA_ROOT_DIR/{proj}/scenes/{scene_set_version}/{scene_type}/{scene_json}
         if self.manager_proximity == 'remote':
             # copy scene file to local
-            local_scene_path = os.path.join(self.scenes_dir,scene_name+'.json')
-            self.test_register.fetch_remote_file(scene_path, local_scene_path)
+            relative_scene_path = optics_scene_path.replace(OPTICS_DATA_ROOT_DIR + '/', '')
+            local_scene_path = os.path.join(self.local_scenes_root,relative_scene_path)
+            self.test_register.fetch_remote_file(optics_scene_path, local_scene_path)
             return local_scene_path
-        return scene_path
+        else:
+            return optics_scene_path
 
     def pass_logs_to_manager(self, mcs_log_path, stdout_log_path):
         optics_info('passing logs to manager')
@@ -173,21 +178,21 @@ class OpticsTestRunner():
             try:
                 next_todo = 'acquire_scene_from_manager'
                 optics_debug(f'starting run loop iteration...')
-                (scene_path, scene_name) = self.acquire_scene_from_manager(self.run_mode)
-                if NO_MORE_SCENES_TO_RUN == scene_path:
+                (optics_scene_path, scene_name) = self.acquire_scene_from_manager(self.run_mode)
+                if NO_MORE_SCENES_TO_RUN == optics_scene_path:
                     optics_fatal('no more scenes to run')
                 else:
                     optics_info(f'acquired scene {scene_name}')
                 
                 next_todo = 'ensure_scene_positioned_locally'
-                local_scene_path         = self.ensure_scene_positioned_locally(scene_path, scene_name)
+                local_scene_path = self.ensure_scene_positioned_locally(optics_scene_path)
                 optics_debug(f'local_scene_path found as {local_scene_path}')
                 # configure log names
                 stdout_log_path = self.tmp_stdout_log_dir + '/' + scene_name + '_stdout.txt'
                
                 # run the scene
                 next_todo = 'launch_scene'
-                self.print_summary_of_run(scene_path, scene_name, stdout_log_path)
+                self.print_summary_of_run(optics_scene_path, scene_name, stdout_log_path)
                 scene_type = get_scene_type_from_scene_name(scene_name)
                 logger_path_dir = os.path.join(self.tmp_mcs_log_dir, self.optics_spec.proj, scene_type)
                 run_command = f"cd {self.run_dir};LOGGER_PATH={logger_path_dir} python optics_run_scene.py --scene {local_scene_path} --optics_spec {self.optics_spec_path}  --log_dir {self.tmp_mcs_log_dir} --manager_proximity {self.manager_proximity} --session_path {self.test_register.session_path}  2>&1 | tee {stdout_log_path}"  # redirect stderr to stdout and tee to stdout_logname
