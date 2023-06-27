@@ -35,7 +35,10 @@ if __name__ == "__main__":
 
     if not 'OPICS_HOME' in os.environ:
         print('')
-        print("      ERROR - OPICS_HOME not defined.  Please 'export OPICS_HOME=<parent_of_opics_dir>'")
+        print("      ERROR - OPICS_HOME not defined.  Should be defined as either...")
+        print("      export OPICS_HOME=$OPTICS_HOME/opics       (for AVOE)")
+        print("      export OPICS_HOME=$OPTICS_HOME/opics_pvoe  (for PVOE)")
+        print("      export OPICS_HOME=$OPTICS_HOME/opics_inter (for INTER)")
         print('')
         sys.exit()
     
@@ -67,5 +70,7 @@ if __name__ == "__main__":
         if file.endswith('.json'):
             scene_path = os.path.join(scene_dir, file)
             command = f'python run_opics_scene.py --scene {scene_path} --controller {controller_type} --log_dir {log_dir}'
-            os.system(command)
+            result = os.system(command)
+            if result != 0:
+                sys.exit()
     
