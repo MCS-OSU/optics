@@ -116,13 +116,17 @@ class OpticsTestRunner():
         optics_debug(f'derived scene_name {scene_name}')
         return (optics_scene_path, scene_name)
 
-    # JED_TODO put scene locally under <scene_set_version>/<scene_type>
     def ensure_scene_positioned_locally(self, optics_scene_path):
         #optics_scene_path is OPTICS_DATA_ROOT_DIR/{proj}/scenes/{scene_set_version}/{scene_type}/{scene_json}
         if self.manager_proximity == 'remote':
             # copy scene file to local
+            print(f'optics_scene_path : {optics_scene_path}')
             relative_scene_path = optics_scene_path.replace(OPTICS_DATA_ROOT_DIR + '/', '')
+            print(f'relative_scene_path : {relative_scene_path}')
             local_scene_path = os.path.join(self.local_scenes_root,relative_scene_path)
+            print(f'local_scene_path : {local_scene_path}')
+            target_dir = os.path.dirname(local_scene_path)
+            os.makedirs(target_dir, exist_ok = True)
             self.test_register.fetch_remote_file(optics_scene_path, local_scene_path)
             return local_scene_path
         else:
@@ -186,7 +190,8 @@ class OpticsTestRunner():
                 
                 next_todo = 'ensure_scene_positioned_locally'
                 local_scene_path = self.ensure_scene_positioned_locally(optics_scene_path)
-                optics_debug(f'local_scene_path found as {local_scene_path}')
+                print(f'local_scene_path found as {local_scene_path}')
+                #optics_debug(f'local_scene_path found as {local_scene_path}')
                 # configure log names
                 stdout_log_path = self.tmp_stdout_log_dir + '/' + scene_name + '_stdout.txt'
                
