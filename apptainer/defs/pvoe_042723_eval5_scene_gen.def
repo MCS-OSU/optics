@@ -89,15 +89,5 @@ From : /home/jedirv/main_optics/apptainer/sifs/ubuntu_python.sif
    python3 compare_pip_lists.py pvoe
 
 
-    ############################################################################
-    # add scene_gen repo into play
-    ############################################################################
-    cd /
-    git clone https://github.com/MCS-OSU/scene-gen.git scene-gen__pvoe_042723_eval5_scene_gen
-    cd scene-gen__pvoe_042723_eval5_scene_gen
-    git checkout main
-    ./install.sh
-
-
 %runscript
 /run_pvoe_042723_eval5_scene_gen.sh $1 $2

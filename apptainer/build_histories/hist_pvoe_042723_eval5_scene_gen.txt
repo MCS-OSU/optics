@@ -80,3 +80,8 @@ try again with ssh config file at /tmp/config
 forgot the private key needed to be in tmp as well
 2023-05-08 15:46:12  pvoe_042723_eval5_scene_gen.def - regenerated
 2023-05-08 15:46:12  sifs/pvoe_042723_eval5_scene_gen.sif - build begin
+2023-05-30 19:57:27  
+testing to see if poetry problem went away for pvoe
+2023-05-30 19:57:27  pvoe_042723_eval5_scene_gen.def - regenerated
+2023-05-30 19:57:27  sifs/pvoe_042723_eval5_scene_gen.sif - build begin
+2023-05-31 04:11:17  sifs/pvoe_042723_eval5_scene_gen.sif - build complete
