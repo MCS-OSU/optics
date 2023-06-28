@@ -105,9 +105,10 @@ def remote_copy_file(src, dest):
     os.system(cmd)
 
 def remote_get_file(remote_src, local_dest):
+    ensure_dir_exists(os.path.dirname(local_dest))
     remote_url = get_optics_datastore_url()
     remote_fname = os.path.basename(remote_src)
-    optics_info(f'...fetching {remote_fname}...')
+    optics_info(f'...fetching {local_dest} <-{remote_fname}...')
     public_key = get_public_key_path()
     cmd = f'scp -q -i {public_key} {remote_url}:{remote_src} {local_dest}'
     optics_debug(f'running command: {cmd}')

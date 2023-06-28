@@ -23,6 +23,7 @@ import datetime
 def find_mcs_log_path(log_root, proj, scene_name):
     scene_type = get_scene_type_from_scene_name(scene_name)
     log_dir = os.path.join(log_root, proj, scene_type)
+    foo = input(f'in find_mcs_log_path with {log_root} proj: {proj} scene_name: {scene_name}')
     # in case old logs left behind, be robust and picj the most recent one
     candidates = []
     if proj == 'pvoe':
@@ -122,9 +123,10 @@ class OpticsTestRunner():
             # copy scene file to local
             print(f'optics_scene_path : {optics_scene_path}')
             relative_scene_path = optics_scene_path.replace(OPTICS_DATA_ROOT_DIR + '/', '')
-            print(f'relative_scene_path : {relative_scene_path}')
+            print(f'@@@ relative_scene_path : {relative_scene_path}')
             local_scene_path = os.path.join(self.local_scenes_root,relative_scene_path)
-            print(f'local_scene_path : {local_scene_path}')
+            print(f'@@@ local_scene_path : {local_scene_path}')
+
             target_dir = os.path.dirname(local_scene_path)
             os.makedirs(target_dir, exist_ok = True)
             self.test_register.fetch_remote_file(optics_scene_path, local_scene_path)
@@ -190,8 +192,13 @@ class OpticsTestRunner():
                 
                 next_todo = 'ensure_scene_positioned_locally'
                 local_scene_path = self.ensure_scene_positioned_locally(optics_scene_path)
+<<<<<<< HEAD
                 print(f'local_scene_path found as {local_scene_path}')
                 #optics_debug(f'local_scene_path found as {local_scene_path}')
+=======
+                foo = input(f' positioned locally as {local_scene_path}')
+                optics_debug(f'local_scene_path found as {local_scene_path}')
+>>>>>>> 57f73feb687023a811bddea17371afec9213677c
                 # configure log names
                 stdout_log_path = self.tmp_stdout_log_dir + '/' + scene_name + '_stdout.txt'
                
@@ -200,10 +207,12 @@ class OpticsTestRunner():
                 self.print_summary_of_run(optics_scene_path, scene_name, stdout_log_path)
                 scene_type = get_scene_type_from_scene_name(scene_name)
                 logger_path_dir = os.path.join(self.tmp_mcs_log_dir, self.optics_spec.proj, scene_type)
+                foo = input('about to run optics_run_scene.py')
                 run_command = f"cd {self.run_dir};LOGGER_PATH={logger_path_dir} python optics_run_scene.py --scene {local_scene_path} --optics_spec {self.optics_spec_path}  --log_dir {self.tmp_mcs_log_dir} --manager_proximity {self.manager_proximity} --session_path {self.test_register.session_path}  2>&1 | tee {stdout_log_path}"  # redirect stderr to stdout and tee to stdout_logname
                 optics_debug(f'run command: {run_command}')
                 os.system(run_command)
                 optics_debug('scene run complete')
+                foo = input('scene run complete')
 
                 # save info to register
                 next_todo = 'save_logs'
