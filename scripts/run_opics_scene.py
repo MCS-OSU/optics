@@ -36,7 +36,10 @@ if __name__ == "__main__":
 
     if not 'OPICS_HOME' in os.environ:
         print('')
-        print("      ERROR - OPICS_HOME not defined.  Please 'export OPICS_HOME=<parent_of_opics_dir>'")
+        print("      ERROR - OPICS_HOME not defined.  Should be defined as either...")
+        print("      export OPICS_HOME=$OPTICS_HOME/opics       (for AVOE)")
+        print("      export OPICS_HOME=$OPTICS_HOME/opics_pvoe  (for PVOE)")
+        print("      export OPICS_HOME=$OPTICS_HOME/opics_inter (for INTER)")
         print('')
         sys.exit()
     

@@ -143,10 +143,12 @@ def remote_ensure_dir_exists(dir):
     cmd = f'ssh -i {public_key} {remote_url} "mkdir -p {dir}"'
     optics_debug(f'funning command: {cmd}')
     os.system(cmd)
+    print('.', end='', flush=True)
 
 def remote_ensure_dirs_exist(dirs):
     for d in dirs:
         remote_ensure_dir_exists(d)
+    print('.')
 
 def get_last_line(path):
     f = open(path, 'r')
@@ -185,7 +187,7 @@ def remote_get_last_line(path):
     public_key = get_public_key_path()
     cmd = f'scp -q -i {public_key}  {remote_url}:{path} .'
     optics_debug(f'running command: {cmd}')
-    print('.', end='', flush=True)
+    print('<-')
     os.system(cmd)
     f = open(fname, 'r')
     lines = f.readlines()
@@ -198,29 +200,45 @@ def remote_get_last_line(path):
     print('.')
     return result
 
+#Keeping this snippet for now, but it is not used
+# def remote_add_last_line(path, s):
+#     remote_url = get_optics_datastore_url()
+#     optics_debug(f'adding last line {s} to remote {path}')
+#     fname = os.path.basename(path)
+#     #...pulling remote file ...
+#     public_key = get_public_key_path()
+#     cmd = f'scp -q -i {public_key}  {remote_url}:{path} .'
+#     optics_debug(f'running command: {cmd}')
+#     print('.', end='', flush=True)
+#     os.system(cmd)
+#     #...adding line ...
+#     f = open(fname, 'a')
+#     f.write(s + '\n')
+#     f.close()
+#     #...pushing file back...
+#     public_key = get_public_key_path()
+#     cmd = f'scp -q -i {public_key}  {fname} {remote_url}:{path}'
+#     optics_debug(f'running command: {cmd}')
+#     print('.', end='', flush=True)
+#     os.system(cmd)
+#     optics_debug(f'removing file {fname}')
+#     print('.')
+#     os.remove(fname)
+
+
 def remote_add_last_line(path, s):
     remote_url = get_optics_datastore_url()
     optics_debug(f'adding last line {s} to remote {path}')
     fname = os.path.basename(path)
-    #...pulling remote file ...
-    public_key = get_public_key_path()
-    cmd = f'scp -q -i {public_key}  {remote_url}:{path} .'
+
+    # Using ssh command to echo the line into the file
+    cmd = f'ssh -i {get_public_key_path()} {remote_url} "echo \'{s}\' >> {path}"'
+    #print(f' running this command {cmd}')
     optics_debug(f'running command: {cmd}')
-    print('.', end='', flush=True)
+    print('->')
     os.system(cmd)
-    #...adding line ...
-    f = open(fname, 'a')
-    f.write(s + '\n')
-    f.close()
-    #...pushing file back...
-    public_key = get_public_key_path()
-    cmd = f'scp -q -i {public_key}  {fname} {remote_url}:{path}'
-    optics_debug(f'running command: {cmd}')
-    print('.', end='', flush=True)
-    os.system(cmd)
-    optics_debug(f'removing file {fname}')
-    print('.')
-    os.remove(fname)
+
+
 
 
 def parse_job_assign(job_assign):
