@@ -1,5 +1,5 @@
 import sys, os
-from scripts.machines import EC2B
+from scripts.machines import EC2A
 
 def usage():
     print('Usage: python remote_results.py scores <spec_path>')
@@ -23,7 +23,7 @@ if __name__ == '__main__':
 
     spec_name = os.path.basename(spec_path)
     if cmd == 'scores':
-        ec2b = EC2B()
+        ec2x = EC2A()
         
-        ec2b.print_remote_scores(spec_name)
+        ec2x.print_remote_scores(spec_name)
     
