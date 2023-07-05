@@ -39,7 +39,7 @@ def get_ec2_machine_name_for_uname_output(uname_output):
         print(f"@@@@@@@@@@@@@@@@@@@@@@  TEST_MARKER - get_ec2_machine_name_for_uname_output lookup @@@@@@@@")
         return ec2_machine_name_for_uname_output[uname_output]
     else:
-        raise Exception(f'ERROR:  uname output {uname_output} not recognized in get_ec2_machine_name_for_uname_output()')
+        return uname_output
 
 def is_running_on_ec2_machine():
     uname_output = os.uname()[1]
