@@ -12,11 +12,9 @@ from core.ec2_mappings import get_url_for_ec2_machine_name, get_uname_output_for
 
 def get_optics_datastore_from_env():
     if not 'OPTICS_DATASTORE' in os.environ:
-        print(f"@@@@@@@@@@@@@@@@@@@@@@  TEST_MARKER - NO .optics.ini, no OPTICS_DATASTORE @@@@@@@@")
-        optics_fatal(f"env variable OPTICS_DATASTORE not defined - please set it to one of {legal_datastores}")
+        optics_fatal(f"env variable OPTICS_DATASTORE not defined - please set it to one of {legal_datastores} or position ~/.optics.ini with valid 'datastore' setting")
     if os.environ['OPTICS_DATASTORE'].lower() not in legal_datastores:
-        print(f"@@@@@@@@@@@@@@@@@@@@@@  TEST_MARKER - NO .optics.ini, OPTICS_DATASTORE illegal value @@@@@@@@")
-        optics_fatal(f"env variable OPTICS_DATASTORE must be set to one of {legal_datastores}")
+        optics_fatal(f"env variable OPTICS_DATASTORE must be set to one of {legal_datastores} or position ~/.optics.ini with valid 'datastore' setting")
     return os.environ['OPTICS_DATASTORE']
 
 def get_optics_datastore():
@@ -31,8 +29,7 @@ def get_optics_datastore():
     datastore = config['EC2']['datastore']
     #print(f'datastore read as {datastore}')
     if datastore.lower() not in legal_datastores:
-        print(f"@@@@@@@@@@@@@@@@@@@@@@  TEST_MARKER - .optics.ini,  illegal value for datastore @@@@@@@@")
-        optics_fatal(f"~/.optics.ini value for datastore must be set to one of {legal_datastores}")
+        optics_fatal(f"~/.optics.ini value for datastore must be set to one of {legal_datastores} - currently set to {datastore}")
     return datastore
 
 def get_optics_datastore_url():
@@ -66,9 +63,6 @@ def is_running_on_ec2d():
 
 def is_datastore_remote():
     datastore = get_optics_datastore()
-    print(f"@@@@@@@@@@@@@@@@@@@@@@  TEST_MARKER - is_datastore_remote works with .optics.ini @@@@@@@@")
-
-    print(f"@@@@@@@@@@@@@@@@@@@@@@  TEST_MARKER - is_datastore_remote works with OPTICS_DATASTORE @@@@@@@@")
     uname_output_for_datastore = get_uname_output_for_ec2_machine_name(datastore)
     uname_output_this_machine = os.uname()[1]
     return uname_output_for_datastore != uname_output_this_machine

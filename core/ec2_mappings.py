@@ -11,7 +11,6 @@ url_for_ec2_machine_name['ec2d'] = EC2D_URL
 
 def get_url_for_ec2_machine_name(machine_name):
     if machine_name in url_for_ec2_machine_name:
-        print(f"@@@@@@@@@@@@@@@@@@@@@@  TEST_MARKER - get_url_for_ec2_machine_name lookup @@@@@@@@")
         return url_for_ec2_machine_name[machine_name]
     else:
         raise Exception(f'ERROR:  machine name {machine_name} not recognized in get_url_for_ec2_machine_name()')
@@ -24,7 +23,6 @@ uname_output_for_ec2_machine_name['ec2d'] = EC2D_UNAME_OUTPUT
 
 def get_uname_output_for_ec2_machine_name(machine_name):
     if machine_name in uname_output_for_ec2_machine_name:
-        print(f"@@@@@@@@@@@@@@@@@@@@@@  TEST_MARKER - get_uname_output_for_ec2_machine_name lookup @@@@@@@@")
         return uname_output_for_ec2_machine_name[machine_name]
     else:
         raise Exception(f'ERROR:  machine name {machine_name} not recognized in get_uname_output_for_ec2_machine_name()')
@@ -36,7 +34,6 @@ ec2_machine_name_for_uname_output[EC2D_UNAME_OUTPUT] = 'ec2d'
 
 def get_ec2_machine_name_for_uname_output(uname_output):
     if uname_output in ec2_machine_name_for_uname_output:
-        print(f"@@@@@@@@@@@@@@@@@@@@@@  TEST_MARKER - get_ec2_machine_name_for_uname_output lookup @@@@@@@@")
         return ec2_machine_name_for_uname_output[uname_output]
     else:
         return uname_output
