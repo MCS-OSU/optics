@@ -23,8 +23,8 @@ def get_section_environment(proj, run_time_root_name):
         s += f'    export OPICS_HOME=$OPTICS_HOME/opics_{proj}\n'
         s += f'    export PYTHONPATH=$OPTICS_HOME:$OPTICS_HOME/opics_common\n'
     s += f'    export PATH=/miniconda3/bin:$PATH\n'
-    s += f'    export OPTICS_DATASTORE=ec2b\n'
     s += f'    export REPLAY_HOME=$OPICS_HOME/replay_scenes\n'
+    print(f"@@@@@@@@@@@@@@@@@@@@@@  TEST_MARKER - container success sans OPTICS_DATASTORE @@@@@@@@")
     s += '\n'
     s += '\n'
     return s
@@ -210,7 +210,7 @@ def generate_run_script(proj, pull_time_root_name, optics_spec_fname, spec_name)
     s += f'echo "...conda activate complete"\n'
     s += f'pip list\n'
 
-    s += f'echo "...positioning key file for ec2b ssh commands"\n'
+    s += f'echo "...positioning key file for OPTICS_DATASTORE ssh commands"\n'
     s += f'cd $OPTICS_HOME/scripts/ec2\n'
     s += f'wget --no-check-certificate "https://docs.google.com/uc?export=download&id=1BGff0DlqdUGEHtkCSK2FPjVcw7m5XpnY" -O shared-with-opics.pem\n'
     s += f'chmod 600 shared-with-opics.pem\n'
