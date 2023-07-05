@@ -5,9 +5,9 @@ import logging
 import sys
 import inspect
 from pathlib import Path
-#from core.constants  import EC2A_UNAME_OUTPUT, EC2C_UNAME_OUTPUT, EC2D_UNAME_OUTPUT,EC2A_URL, EC2C_URL, EC2D_URL
+from core.constants  import EC2A_UNAME_OUTPUT, EC2C_UNAME_OUTPUT, EC2D_UNAME_OUTPUT,EC2A_URL, EC2C_URL, EC2D_URL
 from core.constants import legal_datastores
-from core.ec2_mappings import get_url_for_machine_name, get_uname_output_for_ec2_machine_name
+from core.ec2_mappings import get_url_for_ec2_machine_name, get_uname_output_for_ec2_machine_name
 
 
 def get_optics_datastore_from_env():
@@ -39,7 +39,7 @@ def get_optics_datastore_url():
     # if this is being called, we know we are in the 'manager is remote' situation
     # so we just need to find which url correlates to the datastore
     optics_datastore = get_optics_datastore()
-    return get_url_for_machine_name(optics_datastore)
+    return get_url_for_ec2_machine_name(optics_datastore)
 
 def get_optics_datastore_proximity():
     if is_datastore_remote():
@@ -47,18 +47,18 @@ def get_optics_datastore_proximity():
     else:
         return 'local'
 
-# def is_running_on_ec2a():
-#     uname_output = os.uname()[1]
-#     return uname_output == EC2A_UNAME_OUTPUT
+def is_running_on_ec2a():
+    uname_output = os.uname()[1]
+    return uname_output == EC2A_UNAME_OUTPUT
 
 
-# def is_running_on_ec2c():
-#     uname_output = os.uname()[1]
-#     return uname_output == EC2C_UNAME_OUTPUT
+def is_running_on_ec2c():
+    uname_output = os.uname()[1]
+    return uname_output == EC2C_UNAME_OUTPUT
 
-# def is_running_on_ec2d():
-#     uname_output = os.uname()[1]
-#     return uname_output == EC2D_UNAME_OUTPUT
+def is_running_on_ec2d():
+    uname_output = os.uname()[1]
+    return uname_output == EC2D_UNAME_OUTPUT
 
 # def is_running_on_ec2():
 #     return is_running_on_ec2a() or is_running_on_ec2b()

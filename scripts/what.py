@@ -80,7 +80,6 @@ class OpticsProcessDetails:
         return manager_process_list, manager_machine
     
     def get_optics_test_runner_details(self):
-        print(f"@@@@@@@@@@@@@@@@@@@@@@  TEST_MARKER - what.py @@@@@@@@")
         command_local = f'ps -edalf | grep -v edalf | grep run_scene'        
         if self.machine_name == 'ec2a':
             command_ec2a = command_local
