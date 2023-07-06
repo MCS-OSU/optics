@@ -1,6 +1,6 @@
 import os, sys
 import time
-from core.constants import EC2A_URL, EC2B_URL, EC2C_URL, EC2D_URL
+from core.constants import EC2A_URL, EC2C_URL, EC2D_URL
 
 class EC2():
     def __init__(self, name, url, root_dir):

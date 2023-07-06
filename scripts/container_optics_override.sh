@@ -1,8 +1,8 @@
 #! /bin/bash
 
 case $1 in
-    ec2[abcd]) echo "$1 is valid ec2 machine name";;
-    *) echo "$1 is not valid ec2 machine name - should be ec2a, ec2b, ec2c, or ec2d"
+    ec2[acd]) echo "$1 is valid ec2 machine name";;
+    *) echo "$1 is not valid ec2 machine name - should be ec2a, ec2c, or ec2d"
         exit ;;
 esac
 

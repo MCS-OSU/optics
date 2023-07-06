@@ -13,7 +13,7 @@ from admin.optics_results_eraser       import OpticsResultsEraser
 from optics_results.optics_dashboard   import OpticsDashboard
 from optics_results.error_details      import ErrorDetails
 from env.env_snapshot                  import EnvSnapshot
-from core.utils                        import optics_fatal, optics_info, is_running_on_ec2
+from core.utils                        import optics_fatal, optics_info
 from core.utils                        import verify_key_file_present_if_needed
 from optics_results.optics_scores      import OpticsScores
 
@@ -63,7 +63,10 @@ def usage():
 
 
 if __name__ == '__main__':
-    datastore_proximity = 'local''
+    if True:
+        print(f' this script is intended to allow students to run optics locally on their machines, but has not been fully develooped.')
+        sys.exit()
+    datastore_proximity = 'local'
     verify_key_file_present_if_needed()
     if not 'OPTICS_HOME' in os.environ:
         optics_fatal('OPTICS_HOME not defined.  Please "export OPTICS_HOME=<parent_of_optics_dir>"')

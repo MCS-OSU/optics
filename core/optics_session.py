@@ -1,4 +1,5 @@
-from core.constants import JOB_REQUEST, JOB_ASSIGN, SESSION_KILLED, get_alias_for_machine
+from core.constants import JOB_REQUEST, JOB_ASSIGN, SESSION_KILLED
+from core.ec2_mappings import get_ec2_machine_name_for_uname_output
 import time
 
 ## trun_session;v5_final2;ip-172-31-72-254;1667607584
@@ -26,7 +27,7 @@ class OpticsSession():
             self.healthy = True
             header = lines[0]
             [_,_,machine, start_time] = header.split(';')
-            self.machine = get_alias_for_machine(machine)
+            self.machine = get_ec2_machine_name_for_uname_output(machine)
             self.start_time = start_time
             self.jobs = []
             for i in range(1, len(lines)):
