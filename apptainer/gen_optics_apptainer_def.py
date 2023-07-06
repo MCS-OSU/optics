@@ -324,7 +324,7 @@ if __name__ == '__main__':
     run_time_root_name   = f'{RUN_SYSTEM_PREFIX}{spec_name}'
 
     optics_branch = 'main'
-
+    
     generate_run_script(proj, pull_time_root_name, optics_spec_fname, spec_name)
 
 
