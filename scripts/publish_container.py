@@ -1,7 +1,7 @@
 import os, sys
-
+from core.constants import active_ec2_machines
 def publish_usage():
-    print('usage:  python publish_container a|b|c|d <optics_spec_path>')
+    print('usage:  python publish_container a|c|d <optics_spec_path>')
 
 if __name__ == '__main__':
     if not 'OPTICS_HOME' in os.environ:
@@ -13,8 +13,9 @@ if __name__ == '__main__':
         publish_usage()
         sys.exit()
     machine = sys.argv[1]
-    if not machine in ['a','b','c','d']:
-        print('machine name should be a for ec2a, b for ec2b,  c for ec2c,  or d for ec2d')
+    full_machine_name = f'ec2{machine}'
+    if not full_machine_name in active_ec2_machines:
+        print(f'machine name should be a single letter representing one of {active_ec2_machines}')
         publish_usage()
         sys.exit()
 
