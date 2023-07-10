@@ -2,9 +2,9 @@ import subprocess
 import os
 # from optics import resolve_given_optics_spec_path
 from optics_results.optics_dashboard import OpticsDashboard
-from core.utils import is_running_on_ec2a, is_running_on_ec2b, is_running_on_ec2c, is_running_on_ec2d
+from core.utils import is_running_on_ec2a, is_running_on_ec2c, is_running_on_ec2d
 from core.utils import get_optics_datastore_proximity, get_public_key_path
-from core.constants import EC2A_URL, EC2B_URL, EC2C_URL,EC2D_URL,EC2A_UNAME_OUTPUT, EC2B_UNAME_OUTPUT, EC2C_UNAME_OUTPUT, EC2D_UNAME_OUTPUT
+from core.constants import EC2A_URL, EC2C_URL,EC2D_URL
 from core.optics_spec_loader           import OpticsSpec
 
 class OpticsProcessDetails: 
@@ -83,49 +83,38 @@ class OpticsProcessDetails:
         command_local = f'ps -edalf | grep -v edalf | grep run_scene'        
         if self.machine_name == 'ec2a':
             command_ec2a = command_local
-            # command_ec2b = f'ssh -i {self.public_key} {EC2B_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
             command_ec2c = f'ssh -i {self.public_key} {EC2C_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
             command_ec2d = f'ssh {EC2D_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
 
         elif self.machine_name == 'local':
             command_ec2a = f'ssh -i {self.public_key} {EC2A_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
-            # command_ec2b = f'ssh -i {self.public_key} {EC2B_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
             command_ec2c = f'ssh -i {self.public_key} {EC2C_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
             command_ec2d = f'ssh {EC2D_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
 
         elif self.machine_name == 'ec2c':
             command_ec2a = f'ssh -i {self.public_key} {EC2A_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
-            # command_ec2b = f'ssh -i {self.public_key} {EC2B_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
             command_ec2c = command_local
             command_ec2d = f'ssh {EC2D_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
 
         else: #self.machine_name == 'ec2d':
             command_ec2a = f'ssh -i {self.public_key} {EC2A_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
-            # command_ec2b = f'ssh -i {self.public_key} {EC2B_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
             command_ec2c = f'ssh -i {self.public_key} {EC2C_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
             command_ec2d = command_local
 
-        # else: # ec2b
-            # command_ec2a = f'ssh -i {self.public_key} {EC2A_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
-            # command_ec2b = command_local
-            # command_ec2c = f'ssh -i {self.public_key} {EC2C_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
-            # command_ec2d = f'ssh {EC2D_URL} ps -edalf | grep -v edalf | grep optics | grep run_scene'
+    
 
         test_runner_process_list_ec2a = self.test_runner_process_details(command_ec2a)
-        # test_runner_process_list_ec2b = self.test_runner_process_details(command_ec2b)
         test_runner_process_list_ec2c = self.test_runner_process_details(command_ec2c)
         test_runner_process_list_ec2d = self.test_runner_process_details(command_ec2d)
         
-        return test_runner_process_list_ec2a, test_runner_process_list_ec2d, test_runner_process_list_ec2c#, test_runner_process_list_ec2b
+        return test_runner_process_list_ec2a, test_runner_process_list_ec2c, test_runner_process_list_ec2d
     
     def get_other_python_processes(self):
         
-        # command_ec2b = f'ssh -i {self.public_key} {EC2B_URL}ps -edalf | grep -v edalf | grep python'
         command_ec2a = f'ssh -i {self.public_key} {EC2A_URL} ps -edalf | grep -v edalf | grep python'
         command_ec2c = f'ssh -i {self.public_key} {EC2C_URL} ps -edalf | grep -v edalf | grep python'
         command_ec2d = f'ssh -i {self.public_key} {EC2D_URL} ps -edalf | grep -v edalf | grep python'
         output_ec2a = self.run_command_and_return_output(command_ec2a)
-        # output_ec2b = self.run_command_and_return_output(command_ec2b)
         output_ec2c = self.run_command_and_return_output(command_ec2c)
         output_ec2d = self.run_command_and_return_output(command_ec2d)
         
@@ -133,12 +122,11 @@ class OpticsProcessDetails:
         output_ec2a = self.trim_output(output_ec2a, 30)
         output_ec2d = self.trim_output(output_ec2d, 30)
         
-        return output_ec2a, output_ec2d, output_ec2c #,output_ec2b,
+        return output_ec2a, output_ec2c, output_ec2d
     
     def get_disk_space(self):
         command_ec2a = f'ssh -i {self.public_key} {EC2A_URL} df --total -h'
         # print(f'command_ec2a: {command_ec2a}')
-        # command_ec2b = f'ssh -i {self.public_key} {EC2B_URL} df --total -h'
         command_ec2c = f'ssh -i {self.public_key} {EC2C_URL} df --total -h'
         command_ec2d = f'ssh -i {self.public_key} {EC2D_URL} df --total -h'
 
@@ -148,11 +136,6 @@ class OpticsProcessDetails:
         output_ec2a = output_ec2a.split('\n')
         output_ec2a = output_ec2a[-2].split()
         
-        #for ec2b
-        # output_ec2b = self.run_command_and_return_output(command_ec2b)
-        # output_ec2b = output_ec2b.split('\n')
-        # output_ec2b = output_ec2b[-2].split()
-
         #for ec2c
         output_ec2c = self.run_command_and_return_output(command_ec2c)
         output_ec2c = output_ec2c.split('\n')
@@ -163,7 +146,7 @@ class OpticsProcessDetails:
         output_ec2d = output_ec2d.split('\n')
         output_ec2d = output_ec2d[-2].split()
 
-        return output_ec2a, output_ec2d, output_ec2c#, output_ec2b
+        return output_ec2a, output_ec2c, output_ec2d
         
     
 
@@ -179,22 +162,21 @@ class OpticsProcessDetails:
        
     
     def show_test_runner_process_details(self):
-        test_runner_process_list_ec2a, test_runner_process_list_ec2b, test_runner_process_list_ec2c = self.get_optics_test_runner_details()
+        test_runner_process_list_ec2a, test_runner_process_list_ec2c, test_runner_process_list_ec2d = self.get_optics_test_runner_details()
         self.add_break_line()
-        print('test_runners : ', len(test_runner_process_list_ec2a) + len(test_runner_process_list_ec2b) + len(test_runner_process_list_ec2c))
+        print('test_runners : ', len(test_runner_process_list_ec2a) + len(test_runner_process_list_ec2c) + len(test_runner_process_list_ec2d))
         self.add_break_line()
         # print('test_runner_process_list_ec2a: ', len(test_runner_process_list_ec2a))
         self.display_trun_process_list(test_runner_process_list_ec2a, 'ec2a')
-        self.display_trun_process_list(test_runner_process_list_ec2b, 'ec2b')
         self.display_trun_process_list(test_runner_process_list_ec2c, 'ec2c')
+        self.display_trun_process_list(test_runner_process_list_ec2d, 'ec2d')
         
-        # self.display_trun_process_list(test_runner_process_list_ec2d, 'ec2d')
         # self.add_break_line()
         print('\n')
 
     def show_disk_space_details(self):
         title = ['Filesystem','Used','Avail','Use%','Mounted on']
-        disk_space_ec2a, disk_space_ec2d, disk_space_ec2c = self.get_disk_space()
+        disk_space_ec2a, disk_space_ec2c, disk_space_ec2d = self.get_disk_space()
 
         self.add_break_line()
         print('\t\tDISK SPACE')
@@ -203,21 +185,17 @@ class OpticsProcessDetails:
         print('\t'.join(title))
         print('\t'.join(disk_space_ec2a))
         print('\n')
-        print('On EC2B Machine:')
-        print('\t'.join(title))
-        print('\t'.join(disk_space_ec2d))
-        print('\n')
         print('On EC2C Machine:')
         print('\t'.join(title))
         print('\t'.join(disk_space_ec2c))
         print('\n')
-        # print('On EC2D Machine:')
-        # print('\t'.join(title))
-        # print('\t'.join(disk_space_ec2d))
-        # print('\n')
+        print('On EC2D Machine:')
+        print('\t'.join(title))
+        print('\t'.join(disk_space_ec2d))
+        print('\n')
 
     def show_other_python_processes(self):
-        other_python_processes_ec2a,other_python_processes_ec2d,other_python_processes_ec2c = self.get_other_python_processes() #other_python_processes_ec2b ,
+        other_python_processes_ec2a,other_python_processes_ec2c,other_python_processes_ec2d = self.get_other_python_processes()
         
         self.add_break_line()
         print('\t\tOTHER PYTHON PROCESSES')
@@ -228,12 +206,7 @@ class OpticsProcessDetails:
         else:
             for i in other_python_processes_ec2a:
                 print('\t',i)
-        # print('On EC2B Machine:')
-        # if other_python_processes_ec2b == []:
-        #     print('---')
-        # else:
-        #     for i in other_python_processes_ec2b:
-                # print('\t',i)
+        
         print('On EC2C Machine:')
         if other_python_processes_ec2c == []:
             print('---')
@@ -283,8 +256,6 @@ if __name__ == '__main__':
     machine_name = None
     if is_running_on_ec2a():
         machine_name = 'ec2a'
-    elif is_running_on_ec2b():
-        machine_name = 'ec2b'
     elif is_running_on_ec2c():
         machine_name = 'ec2c'
     elif is_running_on_ec2d():

@@ -93,13 +93,12 @@ class OpticsTestRunner():
 
     def configure_test_register(self):
         if self.manager_proximity == 'local':
-            # trun  will read and write files directly
+            # test_runner  will read and write files directly to local OPTICS_DATASTORE
             self.test_register = TestRegisterLocal(self.systest_dirs)
         else:
-            # trun will transact files with ec2b via scp
+            # test_runner will transact files with OPTICS_DATASTORE via scp
             self.test_register = TestRegisterRemote(self.systest_dirs)
         self.test_register.derive_session_path(self.optics_spec.version)
-        # NOTE(Mazen): ec2a testing
         self.run_dir = os.path.join(self.optics_home,'scripts')
         
     def acquire_scene_from_manager(self, run_mode):
