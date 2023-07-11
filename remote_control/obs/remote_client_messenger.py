@@ -2,7 +2,7 @@ import os
 from remote_control.constants import TO_USER_REMOTE_DIR, FROM_USER_REMOTE_DIR, REMOTE_ROOT
 from core.utils import remote_copy_file_quiet, remote_get_file_quiet, remote_copy_file, remote_get_file
 
-class RemoteClientMessenger():
+class Obsolete_RemoteClientMessenger():
     def __init__(self, name):
         self.name = name
         self.remote_message_dir_from_user = os.path.join(REMOTE_ROOT, name, FROM_USER_REMOTE_DIR)

@@ -3,7 +3,7 @@ import os
 from core.utils import remote_copy_file_quiet, remote_get_file_quiet
 
 
-class RemoteMessenger():
+class Obsolete_RemoteMessenger():
     def __init__(self, name):
         self.name = name
         self.remote_message_dir = f'/home/ubuntu/optics_remote_control/{name}/messages'
