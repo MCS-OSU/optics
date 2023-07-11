@@ -18,8 +18,8 @@ if __name__=='__main__':
 
     messenger = Messenger(user)
     while True:
-        while not messenger.has_received_command():
-            messenger.scan_for_commands()
+        while not messenger.has_incoming_messages():
+            messenger.scan_for_imcoming_messages()
             time.sleep(CLIENT_POLLING_DELAY)
         commands = messenger.get_commands()
         for command in commands:
