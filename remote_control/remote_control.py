@@ -31,7 +31,7 @@ if __name__=='__main__':
         command = command_parts[1]
         if is_legal_command(command):
             message_mux.send_control_message(user, command)
-            while not message_mux.has_responses():
+            while not message_mux.has_incoming_messages():
                 time.sleep(SERVER_POLLING_DELAY)
                 message_mux.scan_for_user_responses()
             message_mux.print_responses()
