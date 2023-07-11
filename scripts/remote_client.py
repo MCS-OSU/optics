@@ -1,10 +1,10 @@
 import sys, os
 import time
-from remote_control.remote_client_messenger import RemoteClientMessenger
+from remote_control.messenger import Messenger
 from remote_control.constants import REMOTE_USERS, CLIENT_POLLING_DELAY, REMOTE_ROOT
 
 def usage():
-    print('usage: python3 remote.py <user>')
+    print('usage: python3 remote_client.py <user>')
     sys.exit(1)
 
 if __name__=='__main__':
@@ -16,7 +16,7 @@ if __name__=='__main__':
         print(f'invalid user: {user}')
         usage()
 
-    messenger = RemoteClientMessenger(user, REMOTE_ROOT)
+    messenger = Messenger(user)
     while True:
         while not messenger.has_received_command():
             messenger.scan_for_commands()
