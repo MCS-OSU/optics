@@ -1,6 +1,6 @@
 import os, sys
 import time
-from core.constants import EC2A_URL, EC2B_URL, EC2C_URL, EC2D_URL
+from core.constants import EC2A_URL, EC2C_URL, EC2D_URL
 
 class EC2():
     def __init__(self, name, url, root_dir):
@@ -64,7 +64,8 @@ class EC2():
         print(f'printing scores for {spec_name}')
         python_path = self.get_optics_pythonpath()
         optics_home = self.get_optics_home()
-        exports_string = f'export OPTICS_HOME={optics_home};export PYTHONPATH={python_path};export OPTICS_DATASTORE=ec2b'
+        optics_datastore = os.environ['OPTICS_DATASTORE']
+        exports_string = f'export OPTICS_HOME={optics_home};export PYTHONPATH={python_path};export OPTICS_DATASTORE={optics_datastore}'
         invoke_string = f'cd {self.root_dir};python3 optics.py scores specs/{spec_name}'
         os.system(f'ssh -i {self.pem_path} -l ubuntu {self.url} "{exports_string};{invoke_string}"')
 
@@ -183,10 +184,6 @@ class EC2D(EC2):
 class EC2C(EC2):
     def __init__(self):
         EC2.__init__(self, 'ec2c', EC2C_URL,  '/home/ubuntu/main_optics')
-
-class EC2B(EC2):
-    def __init__(self):
-        EC2.__init__(self, 'ec2b', EC2B_URL,  '/home/ubuntu/main_optics')
 
 class EC2A(EC2):
     def __init__(self):

@@ -93,19 +93,19 @@ class OpticsTestRunner():
 
     def configure_test_register(self):
         if self.manager_proximity == 'local':
-            # trun  will read and write files directly
+            # test_runner  will read and write files directly to local OPTICS_DATASTORE
             self.test_register = TestRegisterLocal(self.systest_dirs)
         else:
-            # trun will transact files with ec2b via scp
+            # test_runner will transact files with OPTICS_DATASTORE via scp
             self.test_register = TestRegisterRemote(self.systest_dirs)
-        self.test_register.register_session(self.optics_spec.version)
-        # NOTE(Mazen): ec2a testing
+        self.test_register.derive_session_path(self.optics_spec.version)
         self.run_dir = os.path.join(self.optics_home,'scripts')
         
     def acquire_scene_from_manager(self, run_mode):
-        if self.test_register.is_session_killed():
-            optics_info('session killed, likely due to detected resource constraints')
-            sys.exit()
+        #Removing this check for now, since we don't think it is necessary
+        # if self.test_register.is_session_killed():
+        #     optics_info('session killed, likely due to detected resource constraints')
+        #     sys.exit()
         scene_path = self.test_register.request_job(self.optics_spec.version, run_mode)
         optics_debug(f'request_job returned scene_path: {scene_path}')
         if scene_path == NO_MORE_SCENES_TO_RUN:

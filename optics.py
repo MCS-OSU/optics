@@ -14,7 +14,7 @@ from admin.optics_repair               import OpticsRepair
 from optics_results.optics_dashboard   import OpticsDashboard
 from optics_results.error_details      import ErrorDetails
 from env.env_snapshot                  import EnvSnapshot
-from core.utils                        import optics_fatal, optics_info, get_optics_datastore_proximity, is_running_on_ec2
+from core.utils                        import optics_fatal, optics_info, get_optics_datastore_proximity
 from core.utils                        import verify_key_file_present_if_needed
 from optics_results.optics_scores      import OpticsScores
 
@@ -72,7 +72,6 @@ def configure_logging(level):
     
 def usage():
     print("python optics.py manager|run_scenes|stop|scores|erase_results|status|errors|scores|report|container_run|reset_scenes <optics_config>")
-    print('        manager - will only work when invoked on ec2b')
     print('        run_scene - will run a scene from any machine')
 
 
@@ -95,7 +94,7 @@ if __name__ == '__main__':
     optics_spec_path = resolve_given_optics_spec_path(given_optics_spec_path)
     print(f'optics_spec_path: {optics_spec_path}')
     optics_spec = OpticsSpec(optics_spec_path)
-
+    
     configure_logging(optics_spec.log_level)
     proj            = optics_spec.proj
     version         = optics_spec.version
@@ -103,9 +102,6 @@ if __name__ == '__main__':
     spec_name       = optics_spec.name
     
     if cmd == 'manager':
-        if not is_running_on_ec2():
-            print('ERROR - manager command can only be invoked on ec2a or ec2b')
-            sys.exit()
         if is_already_manager_running_for_spec(spec_name):
             optics_fatal("ERROR - manager for this optics spec already running on this machine.  Shut the other one down with 'stop'")
         else:
@@ -143,9 +139,6 @@ if __name__ == '__main__':
         sys.exit()
 
     elif cmd == 'erase_results':
-        if not is_running_on_ec2():
-            print('ERROR - erase_results is only relevant on ec2a or ec2b')
-            sys.exit()
         manager_process = os.popen(f'ps -edalf | grep -v edalf | grep optics | grep {optics_spec}').read()
         if manager_process:
             print(f'[optics]...ERROR: optics manager is running for {given_optics_spec_path} - stop it and try again')
@@ -161,9 +154,6 @@ if __name__ == '__main__':
         dashboard.show_all()
 
     elif cmd == 'errors':
-        if not is_running_on_ec2():
-            print('ERROR - errors command only relevant on ec2a or ec2b')
-            sys.exit()
         if proj == 'inter':
             error_details = ErrorDetails(optics_spec)
             error_details.show_errors_by_scene_type_inter()

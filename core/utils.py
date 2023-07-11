@@ -4,44 +4,50 @@ import configparser
 import logging
 import sys
 import inspect
-from core.constants  import EC2A_UNAME_OUTPUT, EC2B_UNAME_OUTPUT, EC2A_URL, EC2B_URL
+from pathlib import Path
+from core.constants  import EC2A_UNAME_OUTPUT, EC2C_UNAME_OUTPUT, EC2D_UNAME_OUTPUT,EC2A_URL, EC2C_URL, EC2D_URL
+from core.constants import legal_datastores
+from core.ec2_mappings import get_url_for_ec2_machine_name, get_uname_output_for_ec2_machine_name
+
+
+def get_optics_datastore_from_env():
+    if not 'OPTICS_DATASTORE' in os.environ:
+        optics_fatal(f"env variable OPTICS_DATASTORE not defined - please set it to one of {legal_datastores} or position ~/.optics.ini with valid 'datastore' setting")
+    if os.environ['OPTICS_DATASTORE'].lower() not in legal_datastores:
+        optics_fatal(f"env variable OPTICS_DATASTORE must be set to one of {legal_datastores} or position ~/.optics.ini with valid 'datastore' setting")
+    return os.environ['OPTICS_DATASTORE']
 
 def get_optics_datastore():
-    if not 'OPTICS_DATASTORE' in os.environ:
-        optics_fatal("env variable OPTICS_DATASTORE not defined - please set it either 'ec2a' or 'ec2b'")
-    if os.environ['OPTICS_DATASTORE'] not in ['EC2A', 'EC2B','ec2a', 'ec2b']:
-        optics_fatal("env variable OPTICS_DATASTORE must be set to either 'ec2a' or 'ec2b'")
-    return os.environ['OPTICS_DATASTORE']
+    home_dir = str(Path.home())
+    ini_path = os.path.join(home_dir, '.optics.ini')
+    if not os.path.exists(ini_path):
+        print(f'WARNING - ~/.optics.ini not found - will attempt to use OPTICS_DATASTORE env variable')
+        return get_optics_datastore_from_env()
+
+    config = configparser.ConfigParser()
+    config.read(ini_path)
+    datastore = config['EC2']['datastore']
+    #print(f'datastore read as {datastore}')
+    if datastore.lower() not in legal_datastores:
+        optics_fatal(f"~/.optics.ini value for datastore must be set to one of {legal_datastores} - currently set to {datastore}")
+    return datastore
 
 def get_optics_datastore_url():
     # if this is being called, we know we are in the 'manager is remote' situation
     # so we just need to find which url correlates to the datastore
     optics_datastore = get_optics_datastore()
-    if optics_datastore == 'EC2A' or optics_datastore == 'ec2a':
-        return EC2A_URL
-    else:
-        return EC2B_URL
+    return get_url_for_ec2_machine_name(optics_datastore)
 
 def get_optics_datastore_proximity():
-    datastore_url = get_optics_datastore_url()
-    uname_output = os.uname()[1]
-    if datastore_url == EC2A_URL and uname_output == EC2A_UNAME_OUTPUT:
-        return 'local'
-    if datastore_url == EC2B_URL and uname_output == EC2B_UNAME_OUTPUT:
-        return 'local'
-    if datastore_url == EC2A_URL and uname_output != EC2A_UNAME_OUTPUT:
+    if is_datastore_remote():
         return 'remote'
-    if datastore_url == EC2B_URL and uname_output != EC2B_UNAME_OUTPUT:
-        return 'remote'
+    else:
+        return 'local'
 
 def is_running_on_ec2a():
     uname_output = os.uname()[1]
     return uname_output == EC2A_UNAME_OUTPUT
 
-
-def is_running_on_ec2b():
-    uname_output = os.uname()[1]
-    return uname_output == EC2B_UNAME_OUTPUT
 
 def is_running_on_ec2c():
     uname_output = os.uname()[1]
@@ -51,17 +57,15 @@ def is_running_on_ec2d():
     uname_output = os.uname()[1]
     return uname_output == EC2D_UNAME_OUTPUT
 
-def is_running_on_ec2():
-    return is_running_on_ec2a() or is_running_on_ec2b()
+# def is_running_on_ec2():
+#     return is_running_on_ec2a() or is_running_on_ec2b()
 
 
 def is_datastore_remote():
-    datastore = os.environ['OPTICS_DATASTORE']
-    if datastore == 'ec2b' and not is_running_on_ec2b():
-        return True
-    if datastore == 'ec2a' and not is_running_on_ec2a():
-        return True
-    return False
+    datastore = get_optics_datastore()
+    uname_output_for_datastore = get_uname_output_for_ec2_machine_name(datastore)
+    uname_output_this_machine = os.uname()[1]
+    return uname_output_for_datastore != uname_output_this_machine
 
 
 def verify_key_file_present_if_needed():
@@ -146,10 +150,12 @@ def remote_ensure_dir_exists(dir):
     cmd = f'ssh -i {public_key} {remote_url} "mkdir -p {dir}"'
     optics_debug(f'funning command: {cmd}')
     os.system(cmd)
+    print('.', end='', flush=True)
 
 def remote_ensure_dirs_exist(dirs):
     for d in dirs:
         remote_ensure_dir_exists(d)
+    print('.')
 
 def get_last_line(path):
     f = open(path, 'r')
@@ -188,7 +194,7 @@ def remote_get_last_line(path):
     public_key = get_public_key_path()
     cmd = f'scp -q -i {public_key}  {remote_url}:{path} .'
     optics_debug(f'running command: {cmd}')
-    print('.', end='', flush=True)
+    print('<-')
     os.system(cmd)
     f = open(fname, 'r')
     lines = f.readlines()
@@ -201,29 +207,45 @@ def remote_get_last_line(path):
     print('.')
     return result
 
+#Keeping this snippet for now, but it is not used
+# def remote_add_last_line(path, s):
+#     remote_url = get_optics_datastore_url()
+#     optics_debug(f'adding last line {s} to remote {path}')
+#     fname = os.path.basename(path)
+#     #...pulling remote file ...
+#     public_key = get_public_key_path()
+#     cmd = f'scp -q -i {public_key}  {remote_url}:{path} .'
+#     optics_debug(f'running command: {cmd}')
+#     print('.', end='', flush=True)
+#     os.system(cmd)
+#     #...adding line ...
+#     f = open(fname, 'a')
+#     f.write(s + '\n')
+#     f.close()
+#     #...pushing file back...
+#     public_key = get_public_key_path()
+#     cmd = f'scp -q -i {public_key}  {fname} {remote_url}:{path}'
+#     optics_debug(f'running command: {cmd}')
+#     print('.', end='', flush=True)
+#     os.system(cmd)
+#     optics_debug(f'removing file {fname}')
+#     print('.')
+#     os.remove(fname)
+
+
 def remote_add_last_line(path, s):
     remote_url = get_optics_datastore_url()
     optics_debug(f'adding last line {s} to remote {path}')
     fname = os.path.basename(path)
-    #...pulling remote file ...
-    public_key = get_public_key_path()
-    cmd = f'scp -q -i {public_key}  {remote_url}:{path} .'
+
+    # Using ssh command to echo the line into the file
+    cmd = f'ssh -i {get_public_key_path()} {remote_url} "echo \'{s}\' >> {path}"'
+    #print(f' running this command {cmd}')
     optics_debug(f'running command: {cmd}')
-    print('.', end='', flush=True)
+    print('->')
     os.system(cmd)
-    #...adding line ...
-    f = open(fname, 'a')
-    f.write(s + '\n')
-    f.close()
-    #...pushing file back...
-    public_key = get_public_key_path()
-    cmd = f'scp -q -i {public_key}  {fname} {remote_url}:{path}'
-    optics_debug(f'running command: {cmd}')
-    print('.', end='', flush=True)
-    os.system(cmd)
-    optics_debug(f'removing file {fname}')
-    print('.')
-    os.remove(fname)
+
+
 
 
 def parse_job_assign(job_assign):

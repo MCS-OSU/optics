@@ -1,0 +1,2814 @@
+INFO:    Starting build...
+INFO:    Verifying bootstrap image /home/jedirv/main_optics/apptainer/sifs/ubuntu_python.sif
+WARNING: integrity: signature not found for object group 1
+WARNING: Bootstrap image could not be verified, but build will continue.
+INFO:    Running post scriptlet
++ cp /tmp/run_pvoe_042723_eval5_scene_gen.sh /
++ chmod 775 /run_pvoe_042723_eval5_scene_gen.sh
++ ssh-agent -s
++ eval SSH_AUTH_SOCK=/tmp/ssh-U8k8CVD5lYk1/agent.213; export SSH_AUTH_SOCK;
+SSH_AGENT_PID=214; export SSH_AGENT_PID;
+echo Agent pid 214;
++ SSH_AUTH_SOCK=/tmp/ssh-U8k8CVD5lYk1/agent.213
++ export SSH_AUTH_SOCK
++ SSH_AGENT_PID=214
++ export SSH_AGENT_PID
++ echo Agent pid 214
+Agent pid 214
++ mkdir /root/.ssh
++ cp /tmp/config /root/.ssh
++ cp /tmp/id_ed25529_031623 /root/.ssh
++ ssh-add /root/.ssh/id_ed25529_031623
+Identity added: /root/.ssh/id_ed25529_031623 (jedirv@gmail.com)
++ cd /
++ git clone git@github.com:MCS-OSU/optics.git image__pvoe_042723_eval5_scene_gen
+Cloning into 'image__pvoe_042723_eval5_scene_gen'...
+Warning: Permanently added 'github.com,192.30.255.113' (ECDSA) to the list of known hosts.
++ cd image__pvoe_042723_eval5_scene_gen
++ git checkout main
+Already on 'main'
+Your branch is up to date with 'origin/main'.
++ cp ssh_urls_for_git_modules.txt .gitmodules
++ git config --global user.name jedirv
++ git config --global credential.helper store
++ git submodule update --init --recursive
+Submodule 'opics_avoe' (git@github.com:MCS-OSU/opics.git) registered for path 'opics'
+Submodule 'opics_common' (git@github.com:MCS-OSU/opics-common.git) registered for path 'opics_common'
+Submodule 'opics_inter' (git@github.com:MCS-OSU/opics-inter.git) registered for path 'opics_inter'
+Submodule 'opics_pvoe' (git@github.com:MCS-OSU/opics-pvoe.git) registered for path 'opics_pvoe'
+Cloning into '/image__pvoe_042723_eval5_scene_gen/opics'...
+Cloning into '/image__pvoe_042723_eval5_scene_gen/opics_common'...
+Cloning into '/image__pvoe_042723_eval5_scene_gen/opics_inter'...
+Cloning into '/image__pvoe_042723_eval5_scene_gen/opics_pvoe'...
+Submodule path 'opics': checked out '0f3d8a71c1778b0d172473f09e0782e0e5afb5dc'
+Submodule 'ile' (https://github.com/NextCenturyCorporation/mcs-scene-generator) registered for path 'opics/ile'
+Submodule 'opics_common' (https://github.com/MCS-OSU/opics-common.git) registered for path 'opics/opics_common'
+Cloning into '/image__pvoe_042723_eval5_scene_gen/opics/ile'...
+Cloning into '/image__pvoe_042723_eval5_scene_gen/opics/opics_common'...
+Submodule path 'opics/ile': checked out '153db055a5c3d7ef7c34b6b22eb9ad7ffd92e1cd'
+Submodule path 'opics/opics_common': checked out '7d3f4404509b1ba89551e49df61ab3e1e3d8885e'
+Submodule path 'opics_common': checked out 'd69b366a5c315b900c79875b95ffa040de6984e0'
+Submodule path 'opics_inter': checked out '0c2d91e4e4104be6ea4edadcfeb65ae04e967b35'
+Submodule path 'opics_pvoe': checked out '3a3a10ec97a97e9b428848c8ca99b2d214fb05eb'
++ cd /image__pvoe_042723_eval5_scene_gen/opics_pvoe
++ git checkout v6.1.4
+Previous HEAD position was 3a3a10e initialize the repo by passing pre-commit
+HEAD is now at ec2ef44 Merge pull request #29 from MCS-OSU/kashis/fix/return_v_dir
++ cd /image__pvoe_042723_eval5_scene_gen/opics_common
++ git checkout main
+Previous HEAD position was d69b366 add the import hack for pvoe in eval6_agent so that run_opics_scene and run_optics_scene both catch ig
+Switched to branch 'main'
+Your branch is up to date with 'origin/main'.
++ export OPTICS_HOME=/image__pvoe_042723_eval5_scene_gen
++ echo ==============  python dependencies  ===================
+==============  python dependencies  ===================
++ cd /image__pvoe_042723_eval5_scene_gen/opics_pvoe
++ cd /image__pvoe_042723_eval5_scene_gen/opics_pvoe
++ ./all.sh
+Setting up environment CUDA=11...
+Setting conda init...
+Cearting the environment...
+Collecting package metadata (repodata.json): ...working... done
+Solving environment: ...working... done
+
+
+==> WARNING: A newer version of conda exists. <==
+  current version: 22.11.1
+  latest version: 23.3.1
+
+Please update conda by running
+
+    $ conda update -n base -c defaults conda
+
+Or to minimize the number of packages updated during conda update use
+
+     conda install conda=23.3.1
+
+
+
+Downloading and Extracting Packages
+protobuf-3.20.3      | 324 KB    |            |   0% 
+pylev-1.3.0          | 9 KB      |            |   0% [A
+
+keras-applications-1 | 29 KB     |            |   0% [A[A
+
+
+openssl-1.1.1t       | 3.7 MB    |            |   0% [A[A[A
+
+
+
+pastel-0.2.1         | 12 KB     |            |   0% [A[A[A[A
+
+
+
+
+libgfortran5-11.2.0  | 2.0 MB    |            |   0% [A[A[A[A[A
+
+
+
+
+
+grpcio-1.42.0        | 2.1 MB    |            |   0% [A[A[A[A[A[A
+
+
+
+
+
+
+msgpack-python-1.0.3 | 82 KB     |            |   0% [A[A[A[A[A[A[A
+
+
+
+
+
+
+
+html5lib-1.1         | 91 KB     |            |   0% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+google-pasta-0.2.0   | 46 KB     |            |   0% [A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   |            |   0% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+wrapt-1.14.1         | 50 KB     |            |   0% [A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+c-ares-1.19.0        | 118 KB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+setuptools-65.6.3    | 1.1 MB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+requests-2.28.1      | 92 KB     |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+jeepney-0.7.1        | 38 KB     |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+pexpect-4.8.0        | 53 KB     |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+virtualenv-20.16.2   | 6.0 MB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+tomlkit-0.11.1       | 71 KB     |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ... (more hidden) ...[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+keras-applications-1 | 29 KB     | ########## | 100% [A[A
+
+
+openssl-1.1.1t       | 3.7 MB    | #          |  11% [A[A[A
+
+
+
+
+libgfortran5-11.2.0  | 2.0 MB    | 7          |   8% [A[A[A[A[A
+pylev-1.3.0          | 9 KB      | ########## | 100% [Aprotobuf-3.20.3      | 324 KB    | 4          |   5% 
+
+
+
+pastel-0.2.1         | 12 KB     | ########## | 100% [A[A[A[A
+pylev-1.3.0          | 9 KB      | ########## | 100% [A
+
+
+
+pastel-0.2.1         | 12 KB     | ########## | 100% [A[A[A[A
+
+
+openssl-1.1.1t       | 3.7 MB    | ###4       |  35% [A[A[A
+
+
+
+
+libgfortran5-11.2.0  | 2.0 MB    | ##5        |  25% [A[A[A[A[Aprotobuf-3.20.3      | 324 KB    | #####4     |  54% 
+
+
+openssl-1.1.1t       | 3.7 MB    | ######1    |  61% [A[A[A
+
+
+
+
+libgfortran5-11.2.0  | 2.0 MB    | ####1      |  41% [A[A[A[A[A
+
+
+
+
+
+grpcio-1.42.0        | 2.1 MB    |            |   1% [A[A[A[A[A[Aprotobuf-3.20.3      | 324 KB    | ########## | 100% 
+
+
+openssl-1.1.1t       | 3.7 MB    | ########4  |  84% [A[A[A
+
+
+
+
+libgfortran5-11.2.0  | 2.0 MB    | #####8     |  58% [A[A[A[A[A
+
+
+
+
+
+grpcio-1.42.0        | 2.1 MB    | 7          |   8% [A[A[A[A[A[A
+
+
+
+
+
+
+
+html5lib-1.1         | 91 KB     | #7         |  18% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+msgpack-python-1.0.3 | 82 KB     | #9         |  20% [A[A[A[A[A[A[A
+
+
+
+
+
+
+
+html5lib-1.1         | 91 KB     | ########## | 100% [A[A[A[A[A[A[A[A
+
+
+
+
+libgfortran5-11.2.0  | 2.0 MB    | #######9   |  79% [A[A[A[A[A
+
+
+
+
+
+
+
+
+google-pasta-0.2.0   | 46 KB     | ###4       |  35% [A[A[A[A[A[A[A[A[A
+
+
+
+
+
+grpcio-1.42.0        | 2.1 MB    | #6         |  17% [A[A[A[A[A[A
+
+
+openssl-1.1.1t       | 3.7 MB    | ########## | 100% [A[A[A
+
+
+
+
+
+
+msgpack-python-1.0.3 | 82 KB     | ########## | 100% [A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+google-pasta-0.2.0   | 46 KB     | ########## | 100% [A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+c-ares-1.19.0        | 118 KB    | #3         |  14% [A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   |            |   0% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+libgfortran5-11.2.0  | 2.0 MB    | ########## | 100% [A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+c-ares-1.19.0        | 118 KB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+grpcio-1.42.0        | 2.1 MB    | ##8        |  28% [A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+wrapt-1.14.1         | 50 KB     | ###1       |  32% [A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+wrapt-1.14.1         | 50 KB     | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+requests-2.28.1      | 92 KB     | #7         |  17% [A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+requests-2.28.1      | 92 KB     | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+setuptools-65.6.3    | 1.1 MB    | 1          |   1% [A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | 1          |   1% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+grpcio-1.42.0        | 2.1 MB    | ###7       |  37% [A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+pexpect-4.8.0        | 53 KB     | ###        |  30% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+pexpect-4.8.0        | 53 KB     | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+setuptools-65.6.3    | 1.1 MB    | #9         |  19% [A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | 2          |   3% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+grpcio-1.42.0        | 2.1 MB    | ####7      |  47% [A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+jeepney-0.7.1        | 38 KB     | ####2      |  42% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+jeepney-0.7.1        | 38 KB     | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+virtualenv-20.16.2   | 6.0 MB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+setuptools-65.6.3    | 1.1 MB    | #####2     |  52% [A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | 3          |   4% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+grpcio-1.42.0        | 2.1 MB    | #####6     |  56% [A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | 4          |   4% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+setuptools-65.6.3    | 1.1 MB    | ########   |  81% [A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | 5          |   5% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+tomlkit-0.11.1       | 71 KB     | ##2        |  22% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+grpcio-1.42.0        | 2.1 MB    | ######5    |  65% [A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | 7          |   7% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+setuptools-65.6.3    | 1.1 MB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+tomlkit-0.11.1       | 71 KB     | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | 6          |   6% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+grpcio-1.42.0        | 2.1 MB    | #######5   |  75% [A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | #2         |  13% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | 7          |   7% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+grpcio-1.42.0        | 2.1 MB    | ########5  |  85% [A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ... (more hidden) ...[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ... (more hidden) ...[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | #6         |  17% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | 8          |   9% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+grpcio-1.42.0        | 2.1 MB    | #########4 |  95% [A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | ##         |  21% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | 9          |  10% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+grpcio-1.42.0        | 2.1 MB    | ########## | 100% [A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | ##6        |  27% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #1         |  11% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #2         |  12% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | ###2       |  33% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #3         |  14% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | ###8       |  38% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #4         |  15% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | ####3      |  43% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #6         |  16% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | ####8      |  49% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #7         |  17% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | #####3     |  53% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #8         |  18% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | #####9     |  59% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #9         |  19% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | ######3    |  64% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ##         |  21% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | ######8    |  69% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | #######3   |  74% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ##1        |  22% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ##2        |  23% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | #######9   |  79% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ##3        |  24% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | ########5  |  85% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | ########9  |  90% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ##4        |  25% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | #########4 |  95% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ##5        |  26% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | #########9 | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ##6        |  27% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+virtualenv-20.16.2   | 6.0 MB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ##7        |  28% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ##8        |  29% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ##9        |  30% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ###1       |  31% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ###2       |  32% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ###3       |  33% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ###4       |  34% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ###6       |  36% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ###7       |  37% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ###8       |  39% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ###9       |  40% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ####       |  41% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ####2      |  42% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ####3      |  43% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ####4      |  44% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ####5      |  45% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ####6      |  46% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ####7      |  47% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ####8      |  48% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ####9      |  49% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #####      |  50% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #####1     |  51% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #####2     |  52% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #####3     |  53% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #####4     |  54% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #####5     |  55% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #####6     |  57% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #####8     |  58% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #####9     |  59% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ######     |  61% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ######2    |  62% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ######3    |  63% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ######4    |  65% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ######6    |  66% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ######7    |  67% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ######8    |  69% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ######9    |  70% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #######1   |  71% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #######2   |  72% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #######3   |  74% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #######4   |  75% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #######5   |  76% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #######6   |  77% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #######7   |  78% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #######8   |  79% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ########   |  80% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ########1  |  81% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ########2  |  82% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ########3  |  84% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ########4  |  85% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ########5  |  86% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ########7  |  87% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ########8  |  88% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ########9  |  90% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #########  |  91% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #########1 |  92% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #########3 |  93% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #########4 |  94% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #########5 |  95% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #########6 |  97% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #########7 |  98% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | #########8 |  99% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ########## | 100% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+tensorflow-base-1.14 | 84.4 MB   | ########## | 100% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                      [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A                                                     
+                                                     [A
+
+                                                     [A[A
+
+
+                                                     [A[A[A
+
+
+
+                                                     [A[A[A[A
+
+
+
+
+                                                     [A[A[A[A[A
+
+
+
+
+
+                                                     [A[A[A[A[A[A
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+[A
+
+[A[A
+
+
+[A[A[A
+
+
+
+[A[A[A[A
+
+
+
+
+[A[A[A[A[A
+
+
+
+
+
+[A[A[A[A[A[A
+
+
+
+
+
+
+[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+[A
+
+[A[A
+
+
+[A[A[A
+
+
+
+[A[A[A[A
+
+
+
+
+[A[A[A[A[A
+
+
+
+
+
+[A[A[A[A[A[A
+
+
+
+
+
+
+[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+[A
+
+[A[A
+
+
+[A[A[A
+
+
+
+[A[A[A[A
+
+
+
+
+[A[A[A[A[A
+
+
+
+
+
+[A[A[A[A[A[A
+
+
+
+
+
+
+[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+[A
+
+[A[A
+
+
+[A[A[A
+
+
+
+[A[A[A[A
+
+
+
+
+[A[A[A[A[A
+
+
+
+
+
+[A[A[A[A[A[A
+
+
+
+
+
+
+[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A
+Preparing transaction: ...working... done
+Verifying transaction: ...working... done
+Executing transaction: ...working... done
+#
+# To activate this environment, use
+#
+#     $ conda activate env_opics_pvoe
+#
+# To deactivate an active environment, use
+#
+#     $ conda deactivate
+
+Activating the environment...
+Upgrading pip...
+Requirement already satisfied: pip in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (22.3.1)
+Collecting pip
+  Downloading pip-23.1.2-py3-none-any.whl (2.1 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 12.1 MB/s eta 0:00:00
+Installing collected packages: pip
+  Attempting uninstall: pip
+    Found existing installation: pip 22.3.1
+    Uninstalling pip-22.3.1:
+      Successfully uninstalled pip-22.3.1
+Successfully installed pip-23.1.2
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+Installing PyTorch=1.12.1 for CUDA=11.6...
+Looking in links: https://download.pytorch.org/whl/torch_stable.html
+Collecting torch==1.8.0+cu111
+  Downloading https://download.pytorch.org/whl/cu111/torch-1.8.0%2Bcu111-cp37-cp37m-linux_x86_64.whl (1982.2 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.0/2.0 GB 3.3 MB/s eta 0:00:00
+Collecting torchvision==0.9.0+cu111
+  Downloading https://download.pytorch.org/whl/cu111/torchvision-0.9.0%2Bcu111-cp37-cp37m-linux_x86_64.whl (17.6 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 17.6/17.6 MB 13.6 MB/s eta 0:00:00
+Collecting typing-extensions (from torch==1.8.0+cu111)
+  Downloading typing_extensions-4.5.0-py3-none-any.whl (27 kB)
+Requirement already satisfied: numpy in /miniconda3/envs/env_opics_pvoe/lib/python3.7/site-packages (from torch==1.8.0+cu111) (1.21.5)
+Collecting pillow>=4.1.1 (from torchvision==0.9.0+cu111)
+  Downloading Pillow-9.5.0-cp37-cp37m-manylinux_2_28_x86_64.whl (3.4 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.4/3.4 MB 12.6 MB/s eta 0:00:00
+Installing collected packages: typing-extensions, pillow, torch, torchvision
+Successfully installed pillow-9.5.0 torch-1.8.0+cu111 torchvision-0.9.0+cu111 typing-extensions-4.5.0
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+Updating poetry config...
+Installing dependencies using poetry...
+Updating dependencies
+Resolving dependencies...
+<debug>PackageInfo:</debug> Invalid constraint (jupyter-core!=~5.0,>=4.12) found in jupyter-server-2.0.0 dependencies, skipping

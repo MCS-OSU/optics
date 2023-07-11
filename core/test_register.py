@@ -10,22 +10,21 @@ from optics_results.scene_state_history    import SceneStateHistory
 from core.utils                     import optics_info, optics_error, optics_debug, optics_fatal
 
 
-
 class TestRegisterLocal():
     def __init__(self, systest_dirs):
         self.systest_dirs = systest_dirs
+        self.has_requested_job = False
 
     ##########################################################################
     # api used by OpticsTestRunner and OpicsRunState
     ##########################################################################
-    def register_session(self, proj):
+    def derive_session_path(self, spec_name_sans_proj):
         t = int(time.time())
         machine = os.uname()[1]
-        session_start_string = f'# trun_session;{proj};{machine};{t}'
-        session_filename = f'runner_session_{proj}_{machine}_{t}.txt'
+        session_filename = f'runner_session_{spec_name_sans_proj}_{machine}_{t}.txt'
         self.session_path = os.path.join(self.systest_dirs.sessions_dir, session_filename)
-        optics_info(f'registering session')
-        utils.add_last_line(self.session_path, session_start_string)
+        # optics_info(f'registering session')
+        # utils.add_last_line(self.session_path, session_start_string)
 
     def is_session_killed(self):
         session_path = self.session_path
@@ -35,19 +34,30 @@ class TestRegisterLocal():
         return False
 
     def set_session_path(self, session_path):
-        # this is needed because trun.py creates the session.  For systest_run_opics_scene to tweak that session file, 
-        # it needs to know where it is.
+        # this is needed because run_optics_scene.py needs the session_path to be passed in as an argument by  optics_test_runner.py. 
+        # i.e. optics_test_runner.py calls derive_session_path to set it initially, and then needs to pass that derived path in full the
+        # run_optics_script that it calls 
         self.session_path = session_path
 
     def request_job(self, proj, run_mode):
         machine = os.uname()[1]
-        if run_mode == SMOKE_TEST:
+        if run_mode == SMOKE_TEST: 
             request = JOB_REQUEST_SMOKE
         else:
             request = JOB_REQUEST
         job_request = utils.get_register_control_message(request, proj)
         optics_info(f'requesting job')
-        utils.add_last_line(self.session_path, job_request)
+        # utils.add_last_line(self.session_path, job_request) Keeping this commented out for now.  updated code is yet to be tested
+        if not self.has_requested_job:
+            t = int(time.time())
+            machine = os.uname()[1]
+            session_start_string = f'# trun_session;{proj};{machine};{t}'
+            utils.add_last_line(self.session_path, session_start_string)
+            utils.add_last_line(self.session_path, job_request)
+            self.has_requested_job = True
+        else: 
+            utils.add_last_line(self.session_path, job_request)
+
         scene_path = self.await_job_assign_from_tman(machine, self.session_path, 3, 1.5)
         optics_info(f'got job: {scene_path}')
         return scene_path
@@ -244,18 +254,35 @@ class TestRegisterLocal():
             except Exception as e:
                 print('ERROR -- problem with session file: ', session_file)
 
+    def gather_do_types_from_spec(self, do_types_list):
+        self.scenes_do_type = do_types_list
+        return None
+
+
 
     def gather_scene_state_paths(self):
         result = []
         scene_state_dir = self.systest_dirs.scene_state_dir
         type_dirs = os.listdir(scene_state_dir)
+        # print(f'...do_types_list: {self.scenes_do_type}')
+        # print(f'...list of type dirs: {type_dirs}')
         for type_dir in type_dirs:
-            type_dir_path = os.path.join(scene_state_dir, type_dir)
-            files = os.listdir(type_dir_path)
-            for file in files:
-                path = os.path.join(type_dir_path, file)
-                result.append(path)
+            if type_dir not in self.scenes_do_type:
+                pass
+            else:
+                type_dir_path = os.path.join(scene_state_dir, type_dir)
+                # print(f'...gathering scene state paths from {type_dir_path}')
+                files = os.listdir(type_dir_path)
+                # print(f'...found {len(files)} files')
+                for file in files:
+                    # print(f'...found file {file}')
+                    path = os.path.join(type_dir_path, file)
+                    # print(f'...path: {path}')
+                    result.append(path)
         return result
+
+ 
+
 
     def load_scene_state_histories(self):
         scene_state_paths = self.gather_scene_state_paths()
@@ -317,14 +344,14 @@ class TestRegisterLocal():
 
     def clean_systest_data(self,scene_type_choice):
         if scene_type_choice != 'all':
-            scene_type_choice =   "".join(["/",scene_type_choice])
-        else: 
-            scene_type_choice = ''
-        print(f'cleaning systest data...')
+            scene_type_choice =   "".join(["/",scene_type_choice])       
+        print(f'cleaning systest data...')        
         
         if scene_type_choice =='all':
             print('    forgetting sessions')
             os.system(f'rm -rf {self.systest_dirs.sessions_dir}/*')
+            scene_type_choice = ''
+        
         print(f'    forgetting {scene_type_choice} scene states')
         os.system(f'rm -rf {self.systest_dirs.scene_state_dir}{scene_type_choice}/*')
         print(f'    forgetting {scene_type_choice} mcs logs')
@@ -333,26 +360,22 @@ class TestRegisterLocal():
         os.system(f'rm -rf {self.systest_dirs.stdout_logs_dir}{scene_type_choice}/*')
         print(f'    forgetting {scene_type_choice} videos')
         os.system(f'rm -rf {self.systest_dirs.videos_dir}/{scene_type_choice}/*')
-
+        
 class TestRegisterRemote():
     def __init__(self, systest_dirs):
         self.systest_dirs = systest_dirs
+        self.has_requested_job = False
         
     ##########################################################################
     # api used by trun_system_tests.py, trun.py and SceneStatusUpdater
     ##########################################################################
-    def register_session(self, proj):
+    def derive_session_path(self, spec_name_sans_proj):
         t = int(time.time())
         machine = os.uname()[1]
-        session_start_string = f'# trun_session;{proj};{machine};{t}'
-        session_filename = f'runner_session_{proj}_{machine}_{t}.txt'
-        local_path = session_filename
+        session_filename = f'runner_session_{spec_name_sans_proj}_{machine}_{t}.txt'
         self.session_path = os.path.join(self.systest_dirs.sessions_dir, session_filename)
-        f = open(local_path, 'w')
-        f.write(session_start_string + '\n')
-        f.close()
-        optics_info(f'registering session {session_filename}')
-        utils.remote_copy_file(local_path, self.session_path)
+        # optics_info(f'registering session {session_filename}')
+        # utils.remote_copy_file(local_path, self.session_path)
         #utils.remote_add_last_line(self.session_path, session_start_string)
 
 
@@ -367,10 +390,11 @@ class TestRegisterRemote():
         optics_debug('SESSION_KILLED determined as NO')
         return False
 
-        
+ 
     def set_session_path(self, session_path):
-        # this is needed because trun.py creates the session.  For systest_run_opics_scene to tweak that session file, 
-        # it needs to know where it is.
+        # this is needed because run_optics_scene.py needs the session_path to be passed in as an argument by  optics_test_runner.py. 
+        # i.e. optics_test_runner.py calls derive_session_path to set it initially, and then needs to pass that derived path in full the
+        # run_optics_script that it calls 
         self.session_path = session_path
 
 
@@ -382,7 +406,17 @@ class TestRegisterRemote():
             request = JOB_REQUEST
         job_request = utils.get_register_control_message(request, proj)
         optics_info(f'requesting job')
-        utils.remote_add_last_line(self.session_path, job_request)
+        if not self.has_requested_job:
+            t = int(time.time())
+            machine = os.uname()[1]
+            session_start_string = f'# trun_session;{proj};{machine};{t}'
+            utils.remote_add_last_line(self.session_path, session_start_string+'\n'+job_request)
+            # utils.remote_add_last_line(self.session_path, job_request)
+            self.has_requested_job = True
+        else: 
+            utils.remote_add_last_line(self.session_path, job_request)
+
+        # utils.remote_add_last_line(self.session_path, job_request)
         scene_path = self.await_job_assign_from_tman(machine, self.session_path, 20, 5)
         return scene_path
 

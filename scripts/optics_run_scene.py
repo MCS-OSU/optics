@@ -30,7 +30,7 @@ def create_systest_test_register(optics_spec, manager_proximity):
         # trun  will read and write files directly
         test_register = TestRegisterLocal(systest_dirs)
     else:
-        # trun will transact files with ec2b via scp
+        # trun will transact files with OPTICS_DATASTORE via scp
         test_register = TestRegisterRemote(systest_dirs)
     return test_register
 

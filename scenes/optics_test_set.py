@@ -26,6 +26,8 @@ class OpticsTestSet():
             if line.strip() == '':
                 continue
             full_path_to_json_scene_file = os.path.join(root_dir, line.strip())
+            if self.is_multa_training_scene(full_path_to_json_scene_file):
+                continue
             scene_json = SceneJson(full_path_to_json_scene_file)
             max_room_dimension = scene_json.get_max_room_dimension()
             if (max_room_dimension <= MAX_ROOM_DIMENSION):
@@ -44,3 +46,8 @@ class OpticsTestSet():
                 exit_with(f'ERROR - scene path {scene_path} does not exist')
             if not scene_path.endswith('.json'):
                 exit_with(f'ERROR - scene path {scene_path} must end with .json')
+
+    def is_multa_training_scene(self, scene_path):
+        if 'multa_' in scene_path and '_training_' in scene_path:
+            return True
+        return False
