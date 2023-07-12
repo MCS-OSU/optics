@@ -34,6 +34,10 @@ class OpticsSpec():
         self.log_level        = self.load_logging_level(lines)
         self.test_sets        = self.load_test_sets(lines)
         self.controller       = self.load_controller(lines)
+        if self.controller == 'replay':
+            if not 'REPLAY_HOME' in os.environ:
+                print("ERROR - cannot run a replay scene without REPLAY_HOME being set.  REPLAY_HOME should be set to where you ant replay data to be pulled to.")
+                sys.exit()
         self.save_videos      = self.load_save_videos_setting(lines)
         self.mcs_config_path  = self.load_mcs_config_path(self.save_videos)
         self.types_to_run     = self.load_types_to_run(lines)
