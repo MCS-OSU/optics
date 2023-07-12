@@ -2,9 +2,7 @@ jed
 shreya
 venkat
 rajesh
-atharva
 matthew
 ridha
-pranay
 # ec2a
 # ec2b

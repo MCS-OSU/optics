@@ -1,42 +1,37 @@
 import sys, os
 import time
+from remote_control.client_commands import ClientCommands
 from remote_control.messenger import Messenger
-from remote_control.constants import REMOTE_USERS, CLIENT_POLLING_DELAY, REMOTE_ROOT
+from remote_control.runner_names import RunnerNames
+from remote_control.constants import CLIENT_POLLING_DELAY, REMOTE_ROOT
 
 def usage():
     print('usage: python3 remote_client.py <user>')
     sys.exit(1)
 
 if __name__=='__main__':
+    if not 'OPTICS_HOME' in os.environ:
+        print('please set OPTICS_HOME environment variable')
+        sys.exit(1)
+
     if len(sys.argv) != 2:
         usage()
         sys.exit()
+    runner_names = RunnerNames()
     user = sys.argv[1]
-    if not user in REMOTE_USERS:
+    if not user in runner_names.names:
         print(f'invalid user: {user}')
         usage()
 
-    messenger = Messenger(user)
+    messenger = Messenger(user, 'client')
     while True:
         while not messenger.has_incoming_messages():
-            messenger.scan_for_imcoming_messages()
+            messenger.scan_for_inbound_commands()
             time.sleep(CLIENT_POLLING_DELAY)
-        commands = messenger.get_commands()
-        for command in commands:
-            timestamp = command.timestamp
-            command_text = command.command_text
-            command_type = command.command_type
-            command_fname = command.command_fname
-            print(f'{user} : {command}')
-            # re-use the file so it has the command in it already
-            response_fname = f'{timestamp}_{user}_response.txt'
-            os.system(f'mv {command_fname} {response_fname}')
-            f = open(response_fname, 'a')
-            f.write('\n\n         - response -\n\n')
-            f.close()
-            cmd = f'{command_text} >> {response_fname}'
-            os.system(cmd)
-            messenger.send_response(response_fname)
+        client_commands = ClientCommands(messenger)
+        for client_command in client_commands.commands:
+            client_command.execute()
+            messenger.send_response_message(client_command)
             
 
 
