@@ -3,7 +3,7 @@ import time
 from remote_control.message_mux import MessageMux
 from remote_control.constants import SERVER_POLLING_DELAY
 from remote_control.runner_names import RunnerNames
-from remote_control.constants import PING, CONTAINER_GET
+from remote_control.constants import PING, CONTAINER_GET, CONTAINER_RUN, CONTAINER_STOP, CONTAINER_RUN_TEST, CONTAINER_STOP_TEST
 
 def usage():
     print('usage: <user> <command>')
@@ -11,7 +11,7 @@ def usage():
     print('        <user> cget <container_name>')
 
 def is_legal_command(command):
-    if command == PING or command == CONTAINER_GET:
+    if command in [PING, CONTAINER_GET, CONTAINER_RUN, CONTAINER_STOP, CONTAINER_RUN_TEST, CONTAINER_STOP_TEST]:
         return True
     return False
 
