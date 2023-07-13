@@ -123,7 +123,8 @@ class StopContainerCommand(ClientCommand):
         command_line = self.info_lines[0].strip()
         container = command_line.split(' ')[1].replace('.sif','')
         
-        cmd = f'ps -edalf | grep {container} | grep -v grep" > temp.txt'
+        cmd = f'ps -edalf | grep {container} | grep -v grep > temp.txt'
+        print(f'running this command to search for container: {cmd}')
         os.system(cmd)
         f = open('temp.txt', 'r')
         lines = f.readlines()
