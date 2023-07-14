@@ -121,7 +121,7 @@ class Messenger():
 
     def print_responses(self):
         for message_pathname in self.inbound_message_pathnames:
-            print(f'repsonse - {self.name}: {message_pathname}')
+            print(f'response received:')
             f = open(message_pathname, 'r')
             for line in f.readlines():
                 print(f'   {line.strip()}')

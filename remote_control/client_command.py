@@ -157,3 +157,14 @@ class StopContainerCommand(ClientCommand):
         print(f'kill cmd is {kill_cmd}')
         os.system(kill_cmd)
         self.add_response_string(f'killed containe process for {container}')
+
+
+class ListContainerCommand(ClientCommand):
+    def __init__(self, command_path):
+        super().__init__(command_path)
+        
+    def execute(self):
+        files = os.listdir(get_local_container_dir())
+        for file in files:
+            self.add_response_string(file)
+
