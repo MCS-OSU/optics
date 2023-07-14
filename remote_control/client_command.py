@@ -104,12 +104,18 @@ class RunContainerCommand(ClientCommand):
         self.add_response_string(f'launched with: {cmd}')
 
     def get_local_container_path(self, container_name):
-        if os.path.exists(get_local_container_dir() + '/' + container_name + '.sif'):
-            return get_local_container_dir() + '/' + container_name + '.sif'
-        if os.path.exists('/home/jedirv/main_optics/apptainer/sifs/{container_name}.sif'):
-            return '/home/jedirv/main_optics/apptainer/sifs/{container_name}.sif'
-        if os.path.exists('/home/jedirv/dev_optics/apptainer/sifs/{container_name}.sif'):
-            return '/home/jedirv/dev_optics/apptainer/sifs/{container_name}.sif'
+        path = get_local_container_dir() + '/' + container_name + '.sif'
+        print(f'+++++++++++++++++++++ checking for container at {path}')
+        if os.path.exists(path):
+            return path
+        path = f'/home/jedirv/main_optics/apptainer/sifs/{container_name}.sif'
+        print(f'+++++++++++++++++++++ checking for container at {path}')
+        if os.path.exists(path):
+            return path
+        path = f'/home/jedirv/dev_optics/apptainer/sifs/{container_name}.sif'
+        print(f'+++++++++++++++++++++ checking for container at {path}')
+        if os.path.exists(path):
+            return path
         else:
             return 'not_found'
 
