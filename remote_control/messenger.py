@@ -99,11 +99,11 @@ class Messenger():
                 if unanswered_timestamp in timestamps:
                     matching_responses.append(message_fname)
             for message_fname in matching_responses:
-                print(f'removing unanswered_control_message {message_fname}')
+                #print(f'removing unanswered_control_message {message_fname}')
                 self.unanswered_control_messages.remove(message_fname)
 
     def load_incoming_messages(self):
-        print(f'checking dir {self.message_dir_inbound}')
+        #print(f'checking dir {self.message_dir_inbound}')
         files = os.listdir(self.message_dir_inbound)
         if len(files) > 0:
             for fname in files:

@@ -1,6 +1,6 @@
 
-CLIENT_POLLING_DELAY = 2
-SERVER_POLLING_DELAY = 2
+CLIENT_POLLING_DELAY = 1.5
+SERVER_POLLING_DELAY = 1.5
 
 REMOTE_ROOT =  '/home/ubuntu/optics_remote_control'
 TO_USER_REMOTE_DIR = 'messages_to_runner'
