@@ -39,7 +39,7 @@ class Messenger():
         
     def send_control_message(self, command_name, command):
         t = int(time.time())
-        self.log_hubside_messaging(f'{t} {self.name} {command}')
+        self.log_hubside_messaging(f'-> {t} {self.name} {command}')
         tmp_message_path= self.create_message_file(t, command_name, command)
         target_path = os.path.join(REMOTE_ROOT, self.name, TO_USER_REMOTE_DIR)
         remote_copy_file_quiet(tmp_message_path, target_path)

@@ -16,6 +16,17 @@ def is_legal_command(command):
         return True
     return False
 
+def scan_for_responses(message_mux):
+    scan_count = 0
+    while not message_mux.has_incoming_messages() and scan_count < HUB_SCAN_COUNT_LIMIT:
+        time.sleep(SERVER_POLLING_DELAY)
+        message_mux.scan_for_user_responses()
+        scan_count += 1
+    if not scan_count == HUB_SCAN_COUNT_LIMIT:
+        # i.e. we got here because we received an answer
+        message_mux.print_and_log_responses_from_clients()
+        message_mux.archive_inbound_messages()
+
 if __name__=='__main__':
     if not 'OPTICS_HOME' in os.environ:
         print('please set OPTICS_HOME environment variable')
@@ -30,11 +41,14 @@ if __name__=='__main__':
         print('enter command in the form: user command')
         full_command = input('$$ ')
         command_parts = full_command.split()
-        if len(command_parts) == 0:
-            continue
+        
         if len(command_parts) == 1:
             usage()
             continue
+        if len(command_parts) == 0:
+            scan_for_responses(message_mux)
+            continue
+        
         user = command_parts[0]
         if not user in runner_names.names:
             print(f'invalid user: {user}')
@@ -46,16 +60,8 @@ if __name__=='__main__':
         
         if is_legal_command(command_name):
             timestamp = message_mux.send_control_message(user, command_name, command)
-
-            scan_count = 0
-            while not message_mux.has_incoming_messages() and scan_count < HUB_SCAN_COUNT_LIMIT:
-                time.sleep(SERVER_POLLING_DELAY)
-                message_mux.scan_for_user_responses()
-                scan_count += 1
-            if not scan_count == HUB_SCAN_COUNT_LIMIT:
-                # i.e. we got here because we received an answer
-                message_mux.print_and_log_responses_from_clients()
-                message_mux.archive_inbound_messages()
+            scan_for_responses(message_mux)
+            
         else:
             print(f'invalid command: {command}')
             usage()
