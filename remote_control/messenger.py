@@ -133,9 +133,9 @@ class Messenger():
             f = open(message_pathname, 'r')
             lines = f.readlines()
             f.close()
-            s = f'<-{timestamp} {lines[0].strip()}'
+            s = f'<-{timestamp} {self.name} {lines[0].strip()}'
             for i in range(1, len(lines)):
-                s += f':   {lines[i].strip()}'
+                s += f'{lines[i].strip()}'
             s += '\n'
             print(s)
             self.log_hubside_messaging(s)
