@@ -5,7 +5,7 @@ from remote_control.utils import remote_get_container_quiet, get_remote_containe
 class ClientCommand():
     def __init__(self, cmd_path):
         fname = os.path.basename(cmd_path)
-        print(f' ...found command file {fname} in ctor !')
+        #print(f' ...found command file {fname} in ctor !')
         self.timestamp, _, self.command_name = fname.split('.')[0].split('_')
         self.command_path = cmd_path
         f = open(self.command_path, 'r')
@@ -167,4 +167,32 @@ class ListContainerCommand(ClientCommand):
         files = os.listdir(get_local_container_dir())
         for file in files:
             self.add_response_string(file)
+
+
+class DeleteContainerCommand(ClientCommand):
+    def __init__(self, command_path):
+        super().__init__(command_path)
+        
+    def execute(self):
+        command_line = self.info_lines[0].strip()
+        parts = command_line.split(' ')
+        if len(parts) < 2:
+            self.add_response_string('no container name provided')
+            return
+        container_name = parts[1]
+        if '*' == container_name:
+            files = os.listdir(get_local_container_dir())
+            for file in files:
+                os.remove(get_local_container_dir() + '/' + file)
+            self.add_response_string('deleted all containers')
+            return
+
+        container_path = get_local_container_dir() + '/' + container_name
+        if not os.path.exists(container_path):
+            self.add_response_string(f'container {container_name} not found')
+            return
+
+        os.remove(container_path)
+        self.add_response_string(f'deleted container {container_name}')
+
 

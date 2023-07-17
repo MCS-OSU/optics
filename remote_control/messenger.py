@@ -40,7 +40,6 @@ class Messenger():
         tmp_message_path= self.create_message_file(t, command_name, command)
         target_path = os.path.join(REMOTE_ROOT, self.name, TO_USER_REMOTE_DIR)
         remote_copy_file_quiet(tmp_message_path, target_path)
-        print(f'(sent file)')
         message_fname = os.path.basename(tmp_message_path)
         self.note_unanswered_control_message(message_fname)
         os.system(f'mv {tmp_message_path} {self.message_dir_log_out}')
@@ -48,11 +47,11 @@ class Messenger():
 
     def send_response_message(self, client_command):
         message = '\n'.join(client_command.info_lines)
-        print(f'sending message {message}')
+        #print(f'sending message {message}')
         tmp_message_path = self.create_message_file(client_command.timestamp, client_command.command_name, message)
         target_path = os.path.join(REMOTE_ROOT, self.name, FROM_USER_REMOTE_DIR)
         remote_copy_file_quiet(tmp_message_path, target_path)
-        print(f'(sent response)')
+        print(f'\n-> {client_command.timestamp}')
         os.system(f'mv {tmp_message_path} {self.message_dir_log_out}')
        
     def create_message_file(self, t, message_type, message):
@@ -64,7 +63,7 @@ class Messenger():
         return message_path 
 
     def note_unanswered_control_message(self, message_fname):
-        print(f'noting unanswered message for {self.name}: {message_fname}')
+        #print(f'noting unanswered message for {self.name}: {message_fname}')
         self.unanswered_control_messages.append(message_fname)
 
     def scan_for_inbound_commands(self):
@@ -79,9 +78,8 @@ class Messenger():
             self.scan_count = 0
         remote_src = os.path.join(REMOTE_ROOT, self.name, remote_dir + '/*')
         remote_get_file_quiet(remote_src, self.message_dir_inbound)
-        os.system(f'ls {self.message_dir_inbound}')
+        #os.system(f'ls {self.message_dir_inbound}')
         if len(os.listdir(self.message_dir_inbound)) > 0:
-            print(f'received:')
             self.load_incoming_messages()
             self.reconcile_messages()
             remote_path = os.path.join(REMOTE_ROOT, self.name, remote_dir)
@@ -107,7 +105,8 @@ class Messenger():
         files = os.listdir(self.message_dir_inbound)
         if len(files) > 0:
             for fname in files:
-                self.inbound_message_pathnames.append(os.path.join(self.message_dir_inbound,fname))
+                path = os.path.join(self.message_dir_inbound,fname)
+                self.inbound_message_pathnames.append(path)
         else:
             print(f'no messages found for {self.name}')
 
@@ -121,8 +120,12 @@ class Messenger():
 
     def print_responses(self):
         for message_pathname in self.inbound_message_pathnames:
-            print(f'response received:')
+            timestamp = message_pathname.split('/')[-1].split('_')[0]
             f = open(message_pathname, 'r')
-            for line in f.readlines():
-                print(f'   {line.strip()}')
+            lines = f.readlines()
+            f.close()
+            print(f'\n<-{timestamp} {lines[0].strip()}')
+            for i in range(1, len(lines)):
+                print(f':   {lines[i].strip()}')
+            print()
            

@@ -15,6 +15,7 @@ CONTAINER_STOP_TEST = 'cstoptest'
 CONTAINER_RUN = 'crun'
 CONTAINER_STOP = 'cstop'
 CONTAINER_LIST = 'clist'
+CONTAINER_DELETE = 'cdel'
 # roughly 3x average
 max_run_time_for_type = {
     # pvoe

@@ -13,7 +13,7 @@ class MessageMux():
       
 
     def send_control_message(self, user, command_name, command):
-        print(f'sending {command} to {user}')
+        #print(f'sending {command} to {user}')
         if not user in self.users:
             raise Exception(f'invalid user: {user}')
         self.messengers[user].send_control_message(command_name, command)
