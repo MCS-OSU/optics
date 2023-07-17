@@ -1,7 +1,7 @@
 import sys, os
 import time
 from remote_control.message_mux import MessageMux
-from remote_control.constants import SERVER_POLLING_DELAY
+from remote_control.constants import SERVER_POLLING_DELAY, SHOW_HUB_LOG
 from remote_control.runner_names import RunnerNames
 from remote_control.constants import HUB_SCAN_COUNT_LIMIT, PING, CONTAINER_GET, CONTAINER_RUN, CONTAINER_STOP
 from remote_control.constants import CONTAINER_RUN_TEST, CONTAINER_STOP_TEST, CONTAINER_LIST, CONTAINER_DELETE
@@ -43,12 +43,18 @@ if __name__=='__main__':
         command_parts = full_command.split()
         
         if len(command_parts) == 1:
-            usage()
-            continue
+            if command_parts[0] == SHOW_HUB_LOG:
+                with open(hub_log_path, 'r') as f:
+                    for line in f:
+                        print(line, end='')
+                continue
+            else:
+                usage()
+                continue
         if len(command_parts) == 0:
             scan_for_responses(message_mux)
             continue
-        
+
         user = command_parts[0]
         if not user in runner_names.names:
             print(f'invalid user: {user}')

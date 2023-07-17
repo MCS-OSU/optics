@@ -43,6 +43,17 @@ class PingCommand(ClientCommand):
         self.add_response_string('pong')
 
 
+class ShowLogCommand(ClientCommand):
+    def __init__(self, command_path):
+        super().__init__(command_path)
+        
+    def execute(self):
+        f = open(self.client_log_path, 'r')
+        lines = f.readlines()
+        f.close()
+        self.add_response_lines(lines)
+    
+
 class GetContainerCommand(ClientCommand):
     def __init__(self, command_path):
         super().__init__(command_path)

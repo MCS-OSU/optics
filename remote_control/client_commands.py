@@ -1,9 +1,9 @@
 
 import os
 
-from remote_control.constants import PING, CONTAINER_GET, CONTAINER_RUN, CONTAINER_STOP
+from remote_control.constants import PING, SHOW_CLIENT_LOG, CONTAINER_GET, CONTAINER_RUN, CONTAINER_STOP
 from remote_control.constants import CONTAINER_RUN_TEST, CONTAINER_STOP_TEST, CONTAINER_LIST, CONTAINER_DELETE
-from remote_control.client_command import PingCommand, GetContainerCommand, RunContainerCommand, StopContainerCommand
+from remote_control.client_command import PingCommand, ShowLogCommand, GetContainerCommand, RunContainerCommand, StopContainerCommand
 from remote_control.client_command import TestRunContainerCommand, TestStopContainerCommand, ListContainerCommand, DeleteContainerCommand
 
 class ClientCommands():
@@ -33,6 +33,8 @@ class ClientCommands():
                 self.commands.append(ListContainerCommand(p))
             elif command_name == CONTAINER_DELETE:
                 self.commands.append(DeleteContainerCommand(p))
+            elif command_name == SHOW_CLIENT_LOG:
+                self.commands.append(ShowLogCommand(p))
             else:
                 raise Exception(f'unknown command: {command_name}')
         messenger.archive_inbound_messages()

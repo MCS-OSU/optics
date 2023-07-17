@@ -9,6 +9,8 @@ FROM_USER_REMOTE_DIR = 'messages_from_runner'
 # commands
 HUB_SCAN_COUNT_LIMIT = 20
 PING = 'ping'
+SHOW_CLIENT_LOG = 'clog'
+SHOW_HUB_LOG = 'hlog'
 CONTAINER_GET = 'cget'
 CONTAINER_RUN_TEST = 'cruntest'
 CONTAINER_STOP_TEST = 'cstoptest'
