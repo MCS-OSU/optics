@@ -1,11 +1,13 @@
 import os
 import time
 from core.utils import remote_copy_file_quiet, remote_get_file_quiet, remote_delete_file, remote_mv_file
+from remote_control.utils import get_log_path
 from remote_control.constants import TO_USER_REMOTE_DIR, FROM_USER_REMOTE_DIR, REMOTE_ROOT
 
 
 class Messenger():
     def __init__(self, name, position):
+        self.hub_log_path = get_log_path('hub')
         self.name = name
         self.inbound_message_pathnames = []
         self.unanswered_control_messages = []
@@ -37,12 +39,14 @@ class Messenger():
         
     def send_control_message(self, command_name, command):
         t = int(time.time())
+        self.log_hubside_messaging(f'{t} {self.name} {command}')
         tmp_message_path= self.create_message_file(t, command_name, command)
         target_path = os.path.join(REMOTE_ROOT, self.name, TO_USER_REMOTE_DIR)
         remote_copy_file_quiet(tmp_message_path, target_path)
         message_fname = os.path.basename(tmp_message_path)
         self.note_unanswered_control_message(message_fname)
         os.system(f'mv {tmp_message_path} {self.message_dir_log_out}')
+        return t
 
 
     def send_response_message(self, client_command):
@@ -117,15 +121,21 @@ class Messenger():
             timestamps.append(timestamp)
         return timestamps
 
+    def log_hubside_messaging(self, s):
+        f = open(self.hub_log_path, 'a')
+        f.write(s + '\n')
+        f.close()
 
-    def print_responses(self):
+    def print_and_log_responses_from_clients(self):
         for message_pathname in self.inbound_message_pathnames:
             timestamp = message_pathname.split('/')[-1].split('_')[0]
             f = open(message_pathname, 'r')
             lines = f.readlines()
             f.close()
-            print(f'\n<-{timestamp} {lines[0].strip()}')
+            s = f'\n<-{timestamp} {lines[0].strip()}'
             for i in range(1, len(lines)):
-                print(f':   {lines[i].strip()}')
-            print()
+                s += f':   {lines[i].strip()}'
+            s += '\n'
+            print(s)
+            self.log_hubside_messaging(s)
            

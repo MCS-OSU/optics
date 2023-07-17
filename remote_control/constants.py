@@ -7,7 +7,7 @@ TO_USER_REMOTE_DIR = 'messages_to_runner'
 FROM_USER_REMOTE_DIR = 'messages_from_runner'
 
 # commands
-
+HUB_SCAN_COUNT_LIMIT = 20
 PING = 'ping'
 CONTAINER_GET = 'cget'
 CONTAINER_RUN_TEST = 'cruntest'

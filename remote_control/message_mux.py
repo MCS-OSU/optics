@@ -16,7 +16,7 @@ class MessageMux():
         #print(f'sending {command} to {user}')
         if not user in self.users:
             raise Exception(f'invalid user: {user}')
-        self.messengers[user].send_control_message(command_name, command)
+        return self.messengers[user].send_control_message(command_name, command)
         
     def has_incoming_messages(self):
         for user in self.users:
@@ -28,9 +28,9 @@ class MessageMux():
         for user in self.users:
             self.messengers[user].scan_for_incoming_messages(FROM_USER_REMOTE_DIR)
 
-    def print_responses(self):
+    def print_and_log_responses_from_clients(self):
         for user in self.users:
-            self.messengers[user].print_responses()
+            self.messengers[user].print_and_log_responses_from_clients()
 
     def archive_inbound_messages(self):
         for user in self.users:

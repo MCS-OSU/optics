@@ -40,3 +40,16 @@ def remote_get_container_quiet(remote_src, local_dest):
     public_key = get_public_key_path()
     cmd = f'scp -q -i {public_key} {remote_url}:{remote_src} {local_dest} 2>/dev/null'
     os.system(cmd)
+
+
+def remote_get_container(remote_src, local_dest, client_log_path):
+    remote_url = get_optics_containerstore_url()
+    print(f'...fetching remote file {remote_src}')
+    public_key = get_public_key_path()
+    cmd = f'scp -i {public_key} {remote_url}:{remote_src} {local_dest} 2>&1 | tee -a {client_log_path}'
+    os.system(cmd)
+
+def get_log_path(log_type):
+    optics_home = os.environ['OPTICS_HOME']
+    log_path = os.path.join(optics_home, 'remote_control', f'{log_type}.log')
+    return log_path

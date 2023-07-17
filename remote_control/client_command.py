@@ -1,9 +1,9 @@
 import os
-import subprocess
-from remote_control.utils import remote_get_container_quiet, get_remote_container_path, get_local_container_dir
+from remote_control.utils import remote_get_container, get_remote_container_path, get_local_container_dir, get_log_path
 
 class ClientCommand():
     def __init__(self, cmd_path):
+        self.client_log_path = get_log_path('client')
         fname = os.path.basename(cmd_path)
         #print(f' ...found command file {fname} in ctor !')
         self.timestamp, _, self.command_name = fname.split('.')[0].split('_')
@@ -11,16 +11,27 @@ class ClientCommand():
         f = open(self.command_path, 'r')
         self.info_lines = f.readlines()
         f.close()
+        self.log_incoming_command(self.info_lines[0].strip())
+        
         #os.system(f'rm {self.command_path}')
 
     def add_response_string(self, response_string):
         self.info_lines.append(response_string)
+        self.log_response([response_string])
 
     def add_response_lines(self, response_lines):
         self.info_lines.extend(response_lines)
 
-        
+    def log_incoming_command(self, cmd):
+        f = open(self.client_log_path, 'a')
+        f.write(f'\n<- {self.timestamp} {cmd}\n')
+        f.close()
 
+    def log_response(self, lines):
+        f = open(self.client_log_path, 'a')
+        for line in lines:
+            f.write(f'-> {self.timestamp} {line}\n')
+        f.close()
 
 class PingCommand(ClientCommand):
     def __init__(self, command_path):
@@ -40,7 +51,7 @@ class GetContainerCommand(ClientCommand):
         remote_path = get_remote_container_path(container)
         local_containers_dir = get_local_container_dir()
         os.makedirs(local_containers_dir, exist_ok=True)
-        remote_get_container_quiet(remote_path, local_containers_dir)
+        remote_get_container(remote_path, local_containers_dir, self.client_log_path)
         local_container_path = os.path.join(local_containers_dir, container)
         if not os.path.exists(local_container_path):
             self.add_response_string(f'{command_line} failed')

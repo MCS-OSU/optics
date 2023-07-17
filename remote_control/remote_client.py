@@ -22,7 +22,7 @@ if __name__=='__main__':
     if not user in runner_names.names:
         print(f'invalid user: {user}')
         usage()
-
+    
     messenger = Messenger(user, 'client')
     while True:
         while not messenger.has_incoming_messages():
