@@ -51,7 +51,10 @@ class ShowLogCommand(ClientCommand):
         f = open(self.client_log_path, 'r')
         lines = f.readlines()
         f.close()
-        self.add_response_lines(lines)
+        for line in lines:
+            line = line.strip()
+            if line != '':
+                self.add_response_string(line)
     
 
 class GetContainerCommand(ClientCommand):

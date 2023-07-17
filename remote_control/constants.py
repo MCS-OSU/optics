@@ -18,6 +18,19 @@ CONTAINER_RUN = 'crun'
 CONTAINER_STOP = 'cstop'
 CONTAINER_LIST = 'clist'
 CONTAINER_DELETE = 'cdel'
+
+legal_commands = []
+legal_commands.append(PING)
+legal_commands.append(SHOW_CLIENT_LOG)
+legal_commands.append(SHOW_HUB_LOG)
+legal_commands.append(CONTAINER_GET)
+legal_commands.append(CONTAINER_RUN_TEST)
+legal_commands.append(CONTAINER_STOP_TEST)
+legal_commands.append(CONTAINER_RUN)
+legal_commands.append(CONTAINER_STOP)
+legal_commands.append(CONTAINER_LIST)
+legal_commands.append(CONTAINER_DELETE)
+
 # roughly 3x average
 max_run_time_for_type = {
     # pvoe
