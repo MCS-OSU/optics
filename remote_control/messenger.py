@@ -1,5 +1,5 @@
 import os
-import time
+import time, datetime
 from core.utils import remote_copy_file_quiet, remote_get_file_quiet, remote_delete_file, remote_mv_file
 from remote_control.utils import get_log_path
 from remote_control.constants import TO_USER_REMOTE_DIR, FROM_USER_REMOTE_DIR, REMOTE_ROOT
@@ -39,7 +39,7 @@ class Messenger():
         
     def send_control_message(self, command_name, command):
         t = int(time.time())
-        self.log_hubside_messaging(f'-> {t} {self.name} {command}')
+        self.log_hubside_messaging(f'->{t} {self.name} {command}')
         tmp_message_path= self.create_message_file(t, command_name, command)
         target_path = os.path.join(REMOTE_ROOT, self.name, TO_USER_REMOTE_DIR)
         remote_copy_file_quiet(tmp_message_path, target_path)
@@ -122,8 +122,9 @@ class Messenger():
         return timestamps
 
     def log_hubside_messaging(self, s):
+        now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         f = open(self.hub_log_path, 'a')
-        f.write(s + '\n')
+        f.write(str(now) + ' ' + s + '\n')
         f.close()
 
     def print_and_log_responses_from_clients(self):
@@ -132,7 +133,7 @@ class Messenger():
             f = open(message_pathname, 'r')
             lines = f.readlines()
             f.close()
-            s = f'\n<-{timestamp} {lines[0].strip()}'
+            s = f'<-{timestamp} {lines[0].strip()}'
             for i in range(1, len(lines)):
                 s += f':   {lines[i].strip()}'
             s += '\n'

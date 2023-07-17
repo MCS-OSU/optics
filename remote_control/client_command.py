@@ -1,4 +1,4 @@
-import os
+import os, datetime
 from remote_control.utils import remote_get_container, get_remote_container_path, get_local_container_dir, get_log_path
 
 class ClientCommand():
@@ -23,14 +23,16 @@ class ClientCommand():
         self.info_lines.extend(response_lines)
 
     def log_incoming_command(self, cmd):
+        now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         f = open(self.client_log_path, 'a')
-        f.write(f'\n<- {self.timestamp} {cmd}\n')
+        f.write(f'\n{str(now)} <- {self.timestamp} {cmd}\n')
         f.close()
 
     def log_response(self, lines):
+        now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         f = open(self.client_log_path, 'a')
         for line in lines:
-            f.write(f'-> {self.timestamp} {line}\n')
+            f.write(f'{str(now)} -> {self.timestamp} {line}\n')
         f.close()
 
 class PingCommand(ClientCommand):
