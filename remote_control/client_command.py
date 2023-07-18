@@ -11,7 +11,8 @@ class ClientCommand():
         f = open(self.command_path, 'r')
         self.info_lines = f.readlines()
         f.close()
-        self.log_incoming_command(self.info_lines[0].strip())
+        self.command = self.info_lines[0].strip()
+        self.log_incoming_command(self.command)
         
         #os.system(f'rm {self.command_path}')
 
@@ -39,7 +40,7 @@ class PingCommand(ClientCommand):
     def __init__(self, command_path):
         super().__init__(command_path)
         
-    def execute(self):
+    def execute(self, container_run_enabled):
         self.add_response_string('pong')
 
 
@@ -47,7 +48,7 @@ class ShowLogCommand(ClientCommand):
     def __init__(self, command_path):
         super().__init__(command_path)
         
-    def execute(self):
+    def execute(self, container_run_enabled):
         f = open(self.client_log_path, 'r')
         lines = f.readlines()
         f.close()
@@ -61,7 +62,7 @@ class GetContainerCommand(ClientCommand):
     def __init__(self, command_path):
         super().__init__(command_path)
         
-    def execute(self):
+    def execute(self, container_run_enabled):
         command_line = self.info_lines[0].strip()
         container = command_line.split(' ')[1]
         remote_path = get_remote_container_path(container)
@@ -81,21 +82,27 @@ class TestRunContainerCommand(ClientCommand):
     def __init__(self, command_path):
         super().__init__(command_path)
         
-    def execute(self):
-        command_line = self.info_lines[0].strip()
-        delay = command_line.split(' ')[1]
-        count = command_line.split(' ')[2]
-        cmd = "python timer_for_testing_launch_and_stop.py " + delay + " " + count + "&"
-        os.system(cmd)
-        self.add_response_string(f'launched : timer_for_testing_launch_and_stop')
-        
+    def execute(self, container_run_enabled):
+        if container_run_enabled:
+            command_line = self.info_lines[0].strip()
+            parts = command_line.split(' ')
+            if len(parts) < 3:
+                self.add_response_string('usage: <user> cruntest <delay> <count>')
+            else:
+                delay = parts[1]
+                count = parts[2]
+                cmd = "python timer_for_testing_launch_and_stop.py " + delay + " " + count + "&"
+                os.system(cmd)
+                self.add_response_string(f'launched : timer_for_testing_launch_and_stop')
+        else:
+            self.add_response_string('container run disabled')
 
 
 class TestStopContainerCommand(ClientCommand):
     def __init__(self, command_path):
         super().__init__(command_path)
         
-    def execute(self):
+    def execute(self, container_run_enabled):
         cmd = 'ps -edalf | grep "python timer_for_testing_launch" > temp.txt'
         print(f'cmd is {cmd}')
         os.system(cmd)
@@ -116,19 +123,22 @@ class RunContainerCommand(ClientCommand):
     def __init__(self, command_path):
         super().__init__(command_path)
         
-    def execute(self):
-        command_line = self.info_lines[0].strip()
-        container_name = command_line.split(' ')[1].replace('.sif','')
-        container_path = self.get_local_container_path(container_name)
-        if 'not_found' == container_path:
-            self.add_response_string(f'container {container_name} not found')
-            return
-        if 'inter' in container_name:
-            cmd = f'apptainer run --nv {container_path} optics scene_type_provided &'
+    def execute(self, container_run_enabled):
+        if container_run_enabled:
+            command_line = self.info_lines[0].strip()
+            container_name = command_line.split(' ')[1].replace('.sif','')
+            container_path = self.get_local_container_path(container_name)
+            if 'not_found' == container_path:
+                self.add_response_string(f'container {container_name} not found')
+                return
+            if 'inter' in container_name:
+                cmd = f'apptainer run --nv {container_path} optics scene_type_provided &'
+            else:
+                cmd = f'apptainer run --nv {container_path} optics &'
+            os.system(cmd)
+            self.add_response_string(f'launched with: {cmd}')
         else:
-            cmd = f'apptainer run --nv {container_path} optics &'
-        os.system(cmd)
-        self.add_response_string(f'launched with: {cmd}')
+            self.add_response_string(f'-- container run disabled by user --')
 
     def get_local_container_path(self, container_name):
         path = get_local_container_dir() + '/' + container_name + '.sif'
@@ -152,7 +162,7 @@ class StopContainerCommand(ClientCommand):
     def __init__(self, command_path):
         super().__init__(command_path)
         
-    def execute(self):
+    def execute(self, container_run_enabled):
         command_line = self.info_lines[0].strip()
         container = command_line.split(' ')[1].replace('.sif','')
         
@@ -183,14 +193,14 @@ class StopContainerCommand(ClientCommand):
         kill_cmd = 'kill -9 ' + ' '.join(pids)
         print(f'kill cmd is {kill_cmd}')
         os.system(kill_cmd)
-        self.add_response_string(f'killed containe process for {container}')
+        self.add_response_string(f'killed container processes for {container}')
 
 
 class ListContainerCommand(ClientCommand):
     def __init__(self, command_path):
         super().__init__(command_path)
         
-    def execute(self):
+    def execute(self, container_run_enabled):
         files = os.listdir(get_local_container_dir())
         for file in files:
             self.add_response_string(file)
@@ -200,7 +210,7 @@ class DeleteContainerCommand(ClientCommand):
     def __init__(self, command_path):
         super().__init__(command_path)
         
-    def execute(self):
+    def execute(self, container_run_enabled):
         command_line = self.info_lines[0].strip()
         parts = command_line.split(' ')
         if len(parts) < 2:
