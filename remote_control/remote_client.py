@@ -8,7 +8,7 @@ from remote_control.messenger import Messenger
 from remote_control.runner_names import RunnerNames
 from remote_control.constants import CLIENT_POLLING_DELAY
 
-
+ENABLEMENT_PROMPT = 'Container Runs'
 ENABLED = 'Container Runs Enabled'
 DISABLED = 'Container Runs Disabled'
 STATUS = '-STATUS-'
@@ -59,17 +59,20 @@ if __name__=='__main__':
 
     sg.theme('LightGrey')   # Add a touch of color
     # All the stuff inside your window.
-    layout = [  [sg.Text(text=STATUS_DISABLED, key=STATUS)],
-                [sg.Radio(text=ENABLED,  group_id='radiogroup', enable_events=True, font=('Helvetica', 14), key = ENABLED)],
-                [sg.Radio(text=DISABLED, group_id='radiogroup', enable_events=True, font=('Helvetica', 14), key = DISABLED)],
-                [sg.Text('', size=(10,2), font=('Helvetica', 14), key = STATUS, justification='left')],
+    #fbig = ('gothic', 30)
+    container_runs_text = sg.Text(text=ENABLEMENT_PROMPT, key=ENABLEMENT_PROMPT, border_width=3, text_color='white', background_color='red')
+    enable_radio = sg.Radio(text='Enabled',  group_id='radiogroup', enable_events=True, key=ENABLED)
+    disable_radio = sg.Radio(text='Disabled', group_id='radiogroup', enable_events=True, key=DISABLED, default=True)
+    layout = [  [container_runs_text, enable_radio, disable_radio],
+                [sg.Text(text=STATUS_DISABLED, key=STATUS)],
+                [sg.Text('', size=(10,2), font=('Courier', 16), key = STATUS, justification='left')],
                 [sg.Button('Quit') ]]
 
     # Create the Window 
     #status_dict = {'status': STATUS_DISABLED, 'is_run_enabled': False}
     enablement_dict = {'is_run_enabled': False}
     status_dict     = {'status': STATUS_DISABLED}
-    window = sg.Window('Optics Container Run Control', layout, margins = (300,150))
+    window = sg.Window('Optics Container Run Control', layout, margins = (10,10))
     threading.Thread(target=messaging_loop, args=(status_dict, enablement_dict), daemon=True).start()
 
     while True:
@@ -80,10 +83,12 @@ if __name__=='__main__':
         if event == ENABLED:
             enablement_dict['is_run_enabled'] = True
             window[STATUS].update(ENABLED)
+            window[ENABLEMENT_PROMPT].update(background_color='green')
             continue 
         if event == DISABLED:
             enablement_dict['is_run_enabled'] = False
             window[STATUS].update(DISABLED)
+            window[ENABLEMENT_PROMPT].update(background_color='red')
             continue
    
             
