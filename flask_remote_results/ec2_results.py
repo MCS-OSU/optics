@@ -60,6 +60,21 @@ class EC2Results():
         invoke_string = f'cd {self.root_dir};{command}'
         return subprocess.check_output(f'ssh -i {self.pem_path} -l ubuntu {self.url} "{exports_string};{invoke_string}"', shell=True).decode('utf-8')
 
+    def retrieve_video(self, parent_rel_path, rel_path):
+        remote_src_path = f'/home/ubuntu/eval6_systest/{self.proj}/versions/{rel_path}'
+        cwd = os.getcwd()
+        tmp_dest_path = '/tmp/' + rel_path
+        os.makedirs('/tmp/' + parent_rel_path, exist_ok=True)
+        local_dest_path = f'{cwd}/static/media/{self.proj}/{rel_path}'
+        url_rel_path = f'media/{self.proj}/{rel_path}'
+        os.makedirs(os.path.dirname(local_dest_path), exist_ok=True)
+        subprocess.check_output(f'scp -i {self.pem_path} -r {self.url}:{remote_src_path} {tmp_dest_path}', shell=True)
+        print(f'ffmpeg -i {tmp_dest_path} -vcodec h264 -y {local_dest_path}')
+        os.system('ffmpeg -i ' + tmp_dest_path + ' -vcodec h264 -y ' + local_dest_path)
+        os.system('rm ' + tmp_dest_path)
+        return url_rel_path
+
+
 class EC2DResults(EC2Results):
     def __init__(self, proj):
         EC2Results.__init__(self, 'ec2d', EC2D_URL,  '/home/ubuntu/main_optics', proj)
