@@ -62,18 +62,23 @@ class EC2Results():
 
     def retrieve_video(self, parent_rel_path, rel_path):
         remote_src_path = f'/home/ubuntu/eval6_systest/{self.proj}/versions/{rel_path}'
-        cwd = os.getcwd()
-        tmp_dest_path = '/tmp/' + rel_path
-        os.makedirs('/tmp/' + parent_rel_path, exist_ok=True)
-        local_dest_path = f'{cwd}/static/media/{self.proj}/{rel_path}'
-        url_rel_path = f'media/{self.proj}/{rel_path}'
-        os.makedirs(os.path.dirname(local_dest_path), exist_ok=True)
-        subprocess.check_output(f'scp -i {self.pem_path} -r {self.url}:{remote_src_path} {tmp_dest_path}', shell=True)
-        print(f'ffmpeg -i {tmp_dest_path} -vcodec h264 -y {local_dest_path}')
-        os.system('ffmpeg -i ' + tmp_dest_path + ' -vcodec h264 -y ' + local_dest_path)
-        os.system('rm ' + tmp_dest_path)
-        return url_rel_path
+        try:
+            cwd = os.getcwd()
+            tmp_dest_path = '/tmp/' + rel_path
+            os.makedirs('/tmp/' + parent_rel_path, exist_ok=True)
+            local_dest_path = f'{cwd}/static/media/{self.proj}/{rel_path}'
+            url_rel_path = f'media/{self.proj}/{rel_path}'
+            os.makedirs(os.path.dirname(local_dest_path), exist_ok=True)
+            subprocess.check_output(f'scp -i {self.pem_path} -r {self.url}:{remote_src_path} {tmp_dest_path}', shell=True)
+            print(f'ffmpeg -i {tmp_dest_path} -vcodec h264 -y {local_dest_path}')
+            os.system('ffmpeg -i ' + tmp_dest_path + ' -vcodec h264 -y ' + local_dest_path)
+            os.system('rm ' + tmp_dest_path)
+            return url_rel_path
+        except:
+            return None
 
+    def get_types_for_run(self, spec_name):
+        return self.get_remote_result_as_lines(f'ls -1 /home/ubuntu/eval6_systest/{self.proj}/versions/{spec_name}/stdout_logs')
 
 class EC2DResults(EC2Results):
     def __init__(self, proj):

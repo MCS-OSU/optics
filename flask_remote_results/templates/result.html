@@ -1,0 +1,40 @@
+<html>
+<head>
+    <title>Optics Result</title>
+</head>
+<style>
+    #resultContainer {
+        display: flex;
+        flex-direction: column;
+    }
+    #titleBar {
+        justify-content: space-between;
+        max-height:5vh;
+    }
+    /*#sceneLog {
+        background-color: beige;
+        max-height: 15vh;
+        overflow: auto;
+    }*/
+    #stdoutLog {
+        font-family: 'Courier New', Courier, monospace ;
+        max-height: 90vh;
+        overflow: auto;
+    }
+</style>
+<body>
+   
+    <div id="resultContainer">
+        <div id="titleBar">
+            <h2>{{ scene_name }}</h2>
+        </div>
+        <!--<div id="sceneLog">
+            <h3>optics scene log</h3>
+            <span style="white-space:pre-wrap;font-family:\'Courier New\'">{{ scene_log_content }}</span>
+        </div>-->
+        <div id="stdoutLog">
+            <span style="white-space:pre-wrap;font-family:\'Courier New\'">{{ stdout_log_content }}</span>
+        </div>
+    </div>
+</body>
+</html>

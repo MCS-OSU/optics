@@ -1,0 +1,54 @@
+<html>
+<head>
+    <title>Optics Result</title>
+</head>
+<style>
+    #resultContainer {
+        display: flex;
+        flex-direction: column;
+    }
+    #titleBar {
+        /*flex: 1;*/
+        max-height:5vh;
+    }
+    #video {
+        max-height:45vh;
+        overflow: auto;
+    }
+    /*#sceneLog {
+        max-height: 10vh;
+        background-color: beige;
+        overflow: auto;
+    }*/
+    #stdoutLog {
+        font-family: 'Courier New', Courier, monospace;
+        overflow: auto;
+    }
+</style>
+<body>
+    <div id="resultContainer">
+        <div id="titleBar">
+            <h2>{{ scene_name }}</h2>
+        </div>
+        <div id="video">
+            {% if video_url == None %}
+                <p>Video not available</p>
+            {% else %}
+                <video controls><source src="{{ video_url }}" type="video/mp4"></video>
+                <!-- <video width="640" height="480" controls><source src="{{ video_url }}" type="video/mp4"></video>-->
+            {% endif %}
+        </div>
+        <!--<div id="sceneLog">
+            <h3>optics scene log</h3>
+            <span style="white-space:pre-wrap;font-family:\'Courier New\'">{{ scene_log_content }}</span>
+        </div>>-->
+        {% if video_url == None %}
+        <div id="stdoutLog" style="max-height: 80vh;">
+        {% else %}
+        <div id="stdoutLog" style="max-height: 50vh;">
+        {% endif %}
+            <span style="white-space:pre-wrap;font-family:\'Courier New\'">{{ stdout_log_content }}</span>
+        </div>
+    </div>
+</body>
+</html>
