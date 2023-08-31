@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optics Results</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+<body>
+    <form method="POST">
+        {{ form.crf_token }}
+        {{ form.hidden_tag() }}
+        <div class="w3-container w3-orange">
+            <h4>
+                project:
+                {{ form.project_select }} 
+                run:
+                {{ form.run_select }}
+                view:
+                {{ form.view_select }}
+            </h4>
+        </div>
+        <div id="content_div" class="w3-container" style="white-space: pre-wrap;font-family:'Courier New', Courier, monospace">
+            {{ form.content}}
+        </div>
+    </form>
+    <script>
+        let project_select    = document.getElementById("project_select");
+        let optics_run_select = document.getElementById("run_select");
+        let view_select       = document.getElementById("view_select");
+        let content           = document.getElementById("content_div");
+
+        project_select.onchange = function() {
+            url = '/view_select/proj/' + project_select.value + '/' + view_select.value;
+            content.innerHTML = ''
+            console.log(' onchange caused url to be ' + url)
+
+            fetch(url).then(function(response) {
+                response.json().then(function(data){
+                    let optionHtml = '';
+                    for (let optics_run of data.specs) {
+                        if (optics_run.selected) {
+                            optionHtml += '<option value="' + optics_run.id + '" selected>' + optics_run.name + '</option>';
+                        } else {
+                            optionHtml += '<option value="' + optics_run.id + '">' + optics_run.name + '</option>';
+                        }
+                    }
+                    optics_run_select.innerHTML = optionHtml;
+                    content.innerHTML = data.content;
+                })
+            })
+        }
+
+        optics_run_select.onchange = function() {
+            url = '/view_select/run/' + optics_run_select.value + '/proj/' + project_select.value + '/' + view_select.value;
+            content.innerHTML = ''
+            console.log(' onchange caused url to be ' + url)
+
+            fetch(url).then(function(response) {
+                response.json().then(function(data){
+                    let optionHtml = '';
+                    for (let optics_run of data.specs) {
+                        if (optics_run.selected) {
+                            optionHtml += '<option value="' + optics_run.id + '" selected>' + optics_run.name + '</option>';
+                        } else {
+                            optionHtml += '<option value="' + optics_run.id + '">' + optics_run.name + '</option>';
+                        }
+                    }
+                    optics_run_select.innerHTML = optionHtml;
+                    content.innerHTML = data.content;
+                })
+            })
+        }
+
+        view_select.onchange = function() {
+            url = '/view_select/view/' + view_select.value + '/proj/' + project_select.value + '/run/' + optics_run_select.value;
+            content.innerHTML = ''
+            console.log(' onchange caused url to be ' + url)
+
+            fetch(url).then(function(response) {
+                response.json().then(function(data){
+                    content.innerHTML = data.content;
+                })
+            })
+        }
+    </script>
+</body>
+</html>

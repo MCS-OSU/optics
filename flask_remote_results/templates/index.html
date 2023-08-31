@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optics Result</title>
+</head>
+<body>
+    <form method="POST">
+        {{ form.crf_token }}
+        {{ form.hidden_tag() }}
+        project:
+        {{ form.project_select }} 
+        run:
+        {{ form.run_select }}
+        scene_types:
+        {{ form.scene_type_select }}
+        scene_name:
+        {{ form.scene_name_select}}
+    </form>
+    <script>
+        let project_select    = document.getElementById("project_select");
+        let optics_run_select = document.getElementById("run_select");
+        let scene_type_select = document.getElementById("scene_type_select");
+        let scene_name_select = document.getElementById("scene_name_select");
+
+        project_select.onchange = function() {
+            console.log('project_select.onchange')
+            //optics_run_select.innerHTML = '';
+            proj = project_select.value;
+            url = '/proj/' + proj;
+            console.log(' onchange caused url to be ' + url)
+            fetch(url)
+
+            //LEFT OFF HERE - have the route return a json object with the default info for the runs, scene_types, and scene_names
+            // fetch(url).then(function(response) {
+            //     response.json().then(function(data){
+            //         let optionHtml = '';
+            //         for (let optics_run of data.specs) {
+            //             optionHtml += '<option value="' + optics_run.id + '">' + optics_run.name + '</option>';
+            //         }
+            //         optics_run_select.innerHTML = optionHtml;
+            //     })
+            // })
+        }
+
+        // optics_run_select.onchange = function() {
+        //     console.log('optics_run_select.onchange')
+        //     scene_type_select.innerHTML = '';
+        //     proj = project_select.value;
+        //     run_name = optics_run_select.value;
+        //     url = '/' + proj + '/' + run_name + '/scene_type_names';
+        //     console.log(url)
+        //     fetch(url).then(function(response) {
+        //         response.json().then(function(data){
+        //             let optionHtml = '';
+        //             for (let scene_type of data.scene_types) {
+        //                 optionHtml += '<option value="' + scene_type.id + '">' + scene_type.name + '</option>';
+        //             }
+        //             scene_type_select.innerHTML = optionHtml;
+        //         })
+        //     })
+        // }
+    </script>
+</body>
+</html>
