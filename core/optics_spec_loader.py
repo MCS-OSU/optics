@@ -8,7 +8,7 @@ class OpticsSpec():
     def __init__(self, config_path):
         optics_info(f'loading optics config file {config_path}')
         if not os.path.exists(config_path):
-            optics_fatal('{config_path} does not exist')
+            optics_fatal(f'{config_path} does not exist')
 
         self.config_path = config_path
         self.config_fname = os.path.basename(config_path)
