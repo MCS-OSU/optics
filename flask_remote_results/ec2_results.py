@@ -77,8 +77,31 @@ class EC2Results():
         except:
             return None
 
-    def get_types_for_run(self, spec_name):
+    def get_scene_types_for_run(self, spec_name):
         return self.get_remote_result_as_lines(f'ls -1 /home/ubuntu/eval6_systest/{self.proj}/versions/{spec_name}/stdout_logs')
+
+
+    def get_remote_script_result_as_lines(self, rel_dir, script_name, args_as_string):
+        return self.run_remote_script(rel_dir,script_name, args_as_string).split('\n')
+
+    def run_remote_script(self, rel_dir, script_name, args_as_string):
+        python_path = self.get_optics_pythonpath()
+        optics_home = self.get_optics_home()
+        optics_datastore = os.environ['OPTICS_DATASTORE']
+        exports_string = f'export OPTICS_HOME={optics_home};export PYTHONPATH={python_path};export OPTICS_DATASTORE={optics_datastore}'
+        if rel_dir == '':
+            invoke_string = f'cd {self.root_dir};python3 {script_name} {args_as_string}'
+        else:
+            invoke_string = f'cd {self.root_dir};python3 {rel_dir}/{script_name} {args_as_string}'
+        print(f'sending remote invocation: {invoke_string}')
+        cmd = f'ssh -i {self.pem_path} -l ubuntu {self.url} "{exports_string};{invoke_string}"'
+        #print(f'\n\ncmd: {cmd}\n\n')
+        return subprocess.check_output(cmd, shell=True).decode('utf-8')
+
+
+    def get_active_optics_data(self):
+        return self.run_remote_script('flask_remote_results','get_active_optics_data_tree.py', '')
+
 
 class EC2DResults(EC2Results):
     def __init__(self, proj):
