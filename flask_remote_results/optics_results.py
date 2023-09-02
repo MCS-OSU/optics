@@ -10,6 +10,7 @@ active_optics_data_json_string = ec2d.get_active_optics_data().rstrip()
 #print(f'active_optics_data_json_string: {active_optics_data_json_string}')
 active_optics_data = json.loads(active_optics_data_json_string)
 
+
 def get_most_recent_dated_run(runs_object):
     run_names = runs_object.keys()
     numeric_run_names = []
@@ -20,37 +21,37 @@ def get_most_recent_dated_run(runs_object):
     numeric_run_names.sort()
     return numeric_run_names[-1]
 
-def get_default_selection(active_optics_data):
-    proj = 'inter'
+def get_default_run_for_proj(proj):
     most_recent_dated_run = get_most_recent_dated_run(active_optics_data['projects'][proj])
-    print(f' most_recent_dated_run = {most_recent_dated_run}')
-    scene_types = active_optics_data['projects'][proj][most_recent_dated_run].keys()
+    return most_recent_dated_run
+
+def get_default_scene_type_for_run(proj, run):
+    scene_types = active_optics_data['projects'][proj][run].keys()
     scene_type = list(scene_types)[0]
-    print(f'\n\nscene_types = {scene_types}, scene_type = {scene_type}\n\n')
-    scene_names = active_optics_data['projects'][proj][most_recent_dated_run][scene_type]
+    return scene_type
 
+def get_default_scene_name_for_type(proj, run, scene_type):
+    scene_names = active_optics_data['projects'][proj][run][scene_type]
     scene_name = scene_names[0]
-    print(f'\n\nproj = {proj}, most_recent_dated_run = {most_recent_dated_run}, scene_type = {scene_type}, scene_name = {scene_name}\n\n')
-    return proj, most_recent_dated_run, scene_type, scene_name
+    return scene_name
 
-
-def get_default_view_selection(active_optics_data):
+def get_default_view_selection():
     proj = 'inter'
-    most_recent_dated_run = get_most_recent_dated_run(active_optics_data['projects'][proj])
+    default_run = get_default_run_for_proj(proj)
     default_view = 'scores'
-    return proj, most_recent_dated_run, default_view
+    return proj, default_run, default_view
 
-def get_default_selections_for_project(active_optics_data, proj):
-    most_recent_dated_run = get_most_recent_dated_run(active_optics_data['projects'][proj])
-    print(f' most_recent_dated_run = {most_recent_dated_run}')
-    scene_types = active_optics_data['projects'][proj][most_recent_dated_run].keys()
-    scene_type = list(scene_types)[0]
-    print(f'\n\nscene_types = {scene_types}, scene_type = {scene_type}\n\n')
-    scene_names = active_optics_data['projects'][proj][most_recent_dated_run][scene_type]
+def get_default_selections_for_project(proj):
+    default_run = get_default_run_for_proj(proj)
+    default_scene_type = get_default_scene_type_for_run(proj, default_run)
+    default_scene_name = get_default_scene_name_for_type(proj, default_run, default_scene_type)
+    return proj, default_run, default_scene_type, default_scene_name
 
-    scene_name = scene_names[0]
-    print(f'\n\nproj = {proj}, most_recent_dated_run = {most_recent_dated_run}, scene_type = {scene_type}, scene_name = {scene_name}\n\n')
-    return proj, most_recent_dated_run, scene_type, scene_name
+def get_default_scene_type_and_name(proj, run):
+    default_scene_type = get_default_scene_type_for_run(proj, run)
+    default_scene_name = get_default_scene_name_for_type(proj, run, default_scene_type)
+    return default_scene_type, default_scene_name
+
 
 def get_keys_as_tuples(some_dict):
     key_list = []
@@ -70,8 +71,10 @@ def get_list_items_as_tuples(list_object):
         list_tuples.append((item, item))
     return list_tuples
 
+def get_view_names():
+    return ['scores','status','report','scene_result']
 
-def get_configured_view_form(proj, run, view_choice):
+def get_populated_view_form(proj, run, view_choice):
     f = ViewSelectForm()
     f.project_select.choices = ['avoe', 'inter','pvoe']
     f.project_select.default = proj
@@ -81,25 +84,50 @@ def get_configured_view_form(proj, run, view_choice):
     run_tuples = get_keys_as_tuples(info[proj])
     f.run_select.choices = run_tuples
 
-    views = ['scores','status','report','stdout']
-    f.view_select.choices = views
+    f.view_select.choices = get_view_names()
     return f
 
-def get_configured_form(proj, run, scene_type, scene_name):
-    rsf = ResultSelectForm()
-    rsf.project_select.choices = ['avoe', 'inter','pvoe']
-
+def get_run_tuples(proj):
     info = active_optics_data['projects']
-
     run_tuples = get_keys_as_tuples(info[proj])
-    rsf.run_select.choices = run_tuples
+    return run_tuples
 
+def get_scene_type_tuples(proj, run):
+    info = active_optics_data['projects']
     scene_type_tuples = get_keys_as_tuples(info[proj][run])
-    rsf.scene_type_select.choices = scene_type_tuples
+    return scene_type_tuples
 
+def get_scene_name_tuples(proj, run, scene_type):
+    info = active_optics_data['projects']
     scene_name_tuples = get_list_items_as_tuples(info[proj][run][scene_type])
-    rsf.scene_name_select.choices = scene_name_tuples
-    return rsf
+    return scene_name_tuples
+
+# def get_populated_form(proj, run, scene_type, scene_name):
+#     rsf = ResultSelectForm()
+#     rsf.project_select.choices    = ['avoe', 'inter','pvoe']
+#     rsf.run_select.choices        = get_run_tuples(proj)
+#     rsf.scene_type_select.choices = get_scene_type_tuples(proj, run)
+#     rsf.scene_name_select.choices = get_scene_name_tuples(proj, run, scene_type)
+#     return rsf
+
+def get_populated_scene_result_form_for_proj(proj):
+    srf = SceneResultForm()
+    srf.project_select.choices    = ['avoe', 'inter','pvoe']
+    srf.run_select.choices        = get_run_tuples(proj)
+    srf.view_select.choices       = get_view_names()
+    default_run = get_default_run_for_proj(proj)
+    srf.scene_type_select.choices = get_scene_type_tuples(proj, default_run)
+    return srf
+
+def get_populated_scene_result_form_for_run(proj, run):
+    srf = SceneResultForm()
+    srf.project_select.choices    = ['avoe', 'inter','pvoe']
+    srf.run_select.choices        = get_run_tuples(proj)
+    srf.view_select.choices       = get_view_names()
+    srf.scene_type_select.choices = get_scene_type_tuples(proj, run)
+    return srf
+
+
 
 def get_spec_info_for_proj(proj, run):
     ec2d = EC2DResults(proj)
@@ -123,7 +151,7 @@ def get_json_for_proj_run_view(proj, run, view):
     if view == 'scores' or view == 'status' or view == 'report':
         content_string = ec2d.run_remote_script('', 'optics.py',  view + ' specs/' + proj + '_' + run + '.cfg')
         return jsonify({'specs': specs_list, 'content': content_string})
-    elif view == 'stdout':
+    elif view == 'scene_result':
         # TBD
         return jsonify({'specs': specs_list})
 
@@ -132,7 +160,7 @@ def get_json_for_view(proj, run, view):
     if view == 'scores' or view == 'status' or view == 'report':
         content_string = ec2d.run_remote_script('', 'optics.py',  view + ' specs/' + proj + '_' + run + '.cfg')
         return jsonify({'content': content_string})
-    elif view == 'stdout':
+    elif view == 'scene_result':
         # TBD
         return ''
 
@@ -144,29 +172,19 @@ class ViewSelectForm(FlaskForm):
 
 class ResultSelectForm(FlaskForm):
     
-    #default_proj, default_run, default_scene_type, default_scene_name = get_default_selection(active_optics_data)
     project_select    = SelectField('Project',    choices = [])
     run_select        = SelectField('Run',        choices = [])
     scene_type_select = SelectField('Scene Type', choices = [])
     scene_name_select = SelectField('Scene Name', choices = [])
 
+class SceneResultForm(FlaskForm):
+    project_select    = SelectField('Project',    choices = [])
+    run_select        = SelectField('Run',        choices = [])
+    view_select       = SelectField('View',       choices = [])
+    scene_type_select = SelectField('Scene Type', choices = [])
+    # scene_list_area   = TextAreaField('Scene List',    render_kw={"rows": 20, "cols": 40})
+    # stdout_log        = TextAreaField('Stdout Log',    render_kw={"rows": 20, "cols": 60})
 
-# class ResultSelectForm(FlaskForm):
-#     default_proj, default_run, default_scene_type, default_scene_name = get_default_selection(active_optics_data)
-#     project = SelectField('Project', choices=['avoe', 'inter','pvoe'])
-#     project.default = default_proj
-    
-#     projects = active_optics_data['projects']
-#     run_tuples = get_keys_as_tuples(projects[default_proj])
-#     #print(f'run_tuples[0] = {run_tuples[0]}')
-#     optics_run = SelectField('Run', choices = run_tuples)
-   
-
-#     scene_type_tuples = get_keys_as_tuples(projects[default_proj][default_run])
-#     scene_types = SelectField('Scene Type', choices = scene_type_tuples)
-
-#     scene_name_tuples = get_list_items_as_tuples(projects[default_proj][default_run][default_scene_type])
-#     scene_names = SelectField('Scene Name', choices = scene_name_tuples)
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'moot'
@@ -177,8 +195,8 @@ print(f' app.root_path = {app.root_path}')
 
 @app.route("/")
 def index():
-    proj, run, view = get_default_view_selection(active_optics_data)
-    vsf = get_configured_view_form(proj, run, view)
+    proj, run, view = get_default_view_selection()
+    vsf = get_populated_view_form(proj, run, view)
     # had to set these defaults outside the constructor
     vsf.project_select.default = proj
     vsf.run_select.default = run
@@ -189,17 +207,6 @@ def index():
     return render_template('view_select.html', form=vsf)
 
 
-# @app.route("/")
-# def index():
-#     proj, run, scene_type, scene_name = get_default_selection(active_optics_data)
-#     rsf = get_configured_form(proj, run, scene_type, scene_name)
-#     # had to set these defaults outside the constructor
-#     rsf.project_select.default = proj
-#     rsf.run_select.default = run
-#     rsf.scene_type_select.default = scene_type
-#     rsf.scene_name_select.default = scene_name
-#     rsf.process()
-#     return render_template('index.html', form=rsf)
 
 @app.route("/view_select/proj/<string:proj>/<string:view>")
 def get_default_runs_for_project(proj, view):
@@ -214,14 +221,77 @@ def get_runs_for_project(proj, run, view):
 
 @app.route("/view_select/view/<string:view>/proj/<string:proj>/run/<string:run>")
 def get_view_for_project_run(view, proj, run):
-    if view == 'stdout':
+    if view == 'scene_result':
         return 'not implemented yet'
     return get_json_for_view(proj, run, view)
 
+def get_video_url (proj, run, scene_type, scene_name):
+    ec2d = EC2DResults(proj)
+    video_parent_rel_path = f'{run}/videos/{scene_type}'
+    video_rel_path        = f'{run}/videos/{scene_type}/{scene_name}_visual.mp4'
+    url_rel_video_path = ec2d.retrieve_video(video_parent_rel_path, video_rel_path)
+    if url_rel_video_path is None:
+        video_url = None
+    else:
+        video_url = url_for('static',filename=url_rel_video_path)
+    return video_url
+
+def get_result_info(proj,run,scene_type, scene_name):
+    info = active_optics_data['projects']
+    scene_names = info[proj][run][scene_type]
+    ec2d = EC2DResults(proj)
+    stdout_log_rel_path = f'{run}/stdout_logs/{scene_type}/{scene_name}_stdout.txt'
+    log_content = ec2d.get_file_contents_for_rel_path(stdout_log_rel_path)
+    video_url = None
+    if proj == 'inter':
+        video_url = get_video_url(proj, run, scene_type, scene_name)
+    return scene_names, log_content, video_url
+
+def set_scene_result_form_values(srf, proj, run, view, scene_type):
+    srf.project_select.default = proj
+    srf.run_select.default = run
+    srf.view_select.default = view
+    srf.scene_type_select.default = scene_type
+    srf.process()
+
+@app.route("/scene_result/proj/<string:proj>")
+def get_scene_result_for_project(proj):
+    srf = get_populated_scene_result_form_for_proj(proj)
+    default_run = get_default_run_for_proj(proj)
+    scene_type, scene_name = get_default_scene_type_and_name(proj, default_run)
+    set_scene_result_form_values(srf, proj, default_run, 'scene_result', scene_type)
+    scene_names, log_content, video_url = get_result_info(proj, default_run, scene_type, scene_name)
+    return render_template('scene_result_view.html', form=srf, scene_name=scene_name, scene_names=scene_names, log_content=log_content, video_url=video_url)
+
+@app.route("/scene_result/proj/<string:proj>/run/<string:run>")
+def get_scene_result_for_project_run(proj, run):
+    srf = get_populated_scene_result_form_for_run(proj, run)
+    scene_type, scene_name = get_default_scene_type_and_name(proj, run)
+    set_scene_result_form_values(srf, proj, run, 'scene_result', scene_type)
+    scene_names, log_content, video_url = get_result_info(proj, run, scene_type, scene_name)
+    return render_template('scene_result_view.html', form=srf, scene_name=scene_name, scene_names=scene_names, log_content=log_content, video_url=video_url)
+
+
+@app.route("/scene_result/proj/<string:proj>/run/<string:run>/scene_type/<string:scene_type>")
+def get_scene_result_for_project_run_type(proj, run, scene_type):
+    srf = get_populated_scene_result_form_for_run(proj, run)
+    set_scene_result_form_values(srf, proj, run, 'scene_result', scene_type)
+    scene_name = get_default_scene_name_for_type(proj, run, scene_type)
+    scene_names, log_content, video_url = get_result_info(proj, run, scene_type, scene_name)
+    return render_template('scene_result_view.html', form=srf, scene_name=scene_name, scene_names=scene_names, log_content=log_content, video_url=video_url)
+
+
+@app.route("/scene_result/proj/<string:proj>/run/<string:run>/scene_type/<string:scene_type>/scene_name/<string:scene_name>")
+def get_scene_result_for_project_run_type_scene(proj, run, scene_type, scene_name):
+    srf = get_populated_scene_result_form_for_run(proj, run)
+    set_scene_result_form_values(srf, proj, run, 'scene_result', scene_type)
+    scene_names, log_content, video_url = get_result_info(proj, run, scene_type, scene_name)
+    return render_template('scene_result_view.html', form=srf, scene_name=scene_name, scene_names=scene_names, log_content=log_content, video_url=video_url)
+
 # @app.route("/proj/<string:proj>")
 # def show_project_runs(proj):
-#     proj, run, scene_type, scene_name = get_default_selections_for_project(active_optics_data, proj)
-#     rsf = get_configured_form(proj, run, scene_type, scene_name)
+#     proj, run, scene_type, scene_name = get_default_selections_for_project(proj)
+#     rsf = get_populated_form(proj, run, scene_type, scene_name)
 #     rsf.project_select.default = proj
 #     rsf.run_select.default = run
 #     rsf.scene_type_select.default = scene_type
@@ -232,7 +302,7 @@ def get_view_for_project_run(view, proj, run):
 # @app.route("/proj/<string:proj>")
 # def show_project_runs(proj):
 #     print(f' in show_project_runs, proj = {proj}')
-#     proj, default_run, default_scene_type, default_scene_name = get_default_selections_for_project(active_optics_data, proj)
+#     proj, default_run, default_scene_type, default_scene_name = get_default_selections_for_project(proj)
 
 #     print(f' in show_project_runs, proj = {proj}, default_run = {default_run}, default_scene_type = {default_scene_type}, default_scene_name = {default_scene_name}')
 #     projects = active_optics_data['projects']

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optics Results</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+<style>
+
+    #titleBar {
+        /*flex: 1;*/
+        max-height:5vh;
+    }
+    #video {
+        max-height:45vh;
+        overflow: auto;
+    }
+    /*#sceneLog {
+        max-height: 10vh;
+        background-color: beige;
+        overflow: auto;
+    }*/
+    #stdoutLog {
+        font-family: 'Courier New', Courier, monospace;
+        overflow: auto;
+    }
+</style>
+<body>
+    <form method="POST">
+        {{ form.crf_token }}
+        {{ form.hidden_tag() }}
+        <div class="w3-container w3-orange">
+            <h4>
+                project:
+                {{ form.project_select }} 
+                run:
+                {{ form.run_select }}
+                view:
+                {{ form.view_select }}
+                type:
+                {{ form.scene_type_select }}
+            </h4>
+        </div>
+        <div id="scene_info_div" class="w3-container" style="display:flex;flex-direction:row">
+          
+            <div id="scene_list" style="font-family:'Courier New', Courier, monospace;display:flex;flex-direction:column" class="w3-container" >
+                <select size="{{ scene_names|length }}" id="scene_select" style="border:0px;margin-top:10px">
+                    {% for scene in scene_names %}
+                        {% if scene == scene_name %}
+                            <option style="padding-left:6px;padding-right:6px" value="{{ scene }}" selected>{{ scene }}</option>
+                        {% else %}
+                            <option style="padding-left:6px;padding-right:6px" value="{{ scene }}">{{ scene }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div id="results" style="display:flex;flex-direction:column">
+                {% if video_url != None %}
+                <div id="video" class="w3-container" >
+                        <video controls><source src="{{ video_url }}" type="video/mp4"></video>
+                        <!-- <video width="640" height="480" controls><source src="{{ video_url }}" type="video/mp4"></video>-->
+                </div>
+                {% endif %}
+                <!--<div id="sceneLog">
+                    <h3>optics scene log</h3>
+                    <span style="white-space:pre-wrap;font-family:\'Courier New\'">{{ scene_log_content }}</span>
+                </div>>-->
+                {% if video_url == None %}
+                <div id="stdoutLog" class="w3-container" style="max-height: 80vh;">
+                {% else %}
+                <div id="stdoutLog" class="w3-container" style="max-height: 50vh;">
+                {% endif %}
+                    <span style="white-space:pre-wrap;font-family:\'Courier New\'">{{ log_content }}</span>
+                </div>
+            </div>
+        </div>
+    </form>
+    <script>
+        let project_select    = document.getElementById("project_select");
+        let optics_run_select = document.getElementById("run_select");
+        let view_select       = document.getElementById("view_select");
+        let scene_type_select = document.getElementById("scene_type_select");
+        let scene_select      = document.getElementById("scene_select");
+        let scene_info_div    = document.getElementById("scene_info_div");
+        
+        function getLoadingMessage(proj, message){
+            if (proj == 'inter'){
+                result = '<p style="font-size:25px;font-family:Arial">loading stdout and video for ' + message + ' ...</p>'
+            }
+            else {
+                result = '<p style="font-size:25px;font-family:Arial">loading stdout for ' + message + ' ...</p>'
+            }
+            return result
+        }
+
+        project_select.onchange = function() {
+            proj = project_select.value;
+            url = '/scene_result/proj/' + proj;
+            scene_info_div.innerHTML = getLoadingMessage(proj, proj)
+            console.log(' onchange caused url to be ' + url)
+            window.location = url;
+        }
+
+        optics_run_select.onchange = function() {
+            proj = project_select.value;
+            run = optics_run_select.value;
+            view = view_select.value;
+            url = '/scene_result/proj/' + proj + '/run/' + run;
+            scene_info_div.innerHTML = getLoadingMessage(proj,  proj + ' run ' + run)
+            console.log(' onchange caused url to be ' + url)
+            window.location = url
+        }
+
+        view_select.onchange = function() {
+            proj = project_select.value;
+            run = optics_run_select.value;
+            view = view_select.value;
+            url = '/view_select/view/' + view + '/proj/' + proj + '/run/' + run;
+            console.log(' onchange caused url to be ' + url)
+            scene_info_div.innerHTML = getLoadingMessage(proj,  view + ' for ' + proj + ' run ' + run)
+            fetch(url).then(function(response) {
+                response.json().then(function(data){
+                    content.innerHTML = data.content;
+                })
+            })
+        }
+
+        scene_type_select.onchange = function() {
+            proj = project_select.value;
+            run = optics_run_select.value;
+            scene_type = scene_type_select.value;
+            url = '/scene_result/proj/' + proj + '/run/' + run  + '/scene_type/' + scene_type;
+            scene_info_div.innerHTML = getLoadingMessage(proj,  proj + ' run ' + run + ' scene_type ' + scene_type)
+            console.log(' onchange caused url to be ' + url)
+            window.location = url
+        }
+
+        scene_list.onchange = function() {
+            proj = project_select.value;
+            run = optics_run_select.value;
+            scene_type = scene_type_select.value;
+            scene_name = scene_select.options[scene_select.selectedIndex].value;
+            url = '/scene_result/proj/' + proj + '/run/' + run  + '/scene_type/' + scene_type + '/scene_name/' + scene_name;
+            scene_info_div.innerHTML = getLoadingMessage(proj,  'scene_name ' + scene_name)
+            console.log(' onchange caused url to be ' + url)
+            window.location = url
+        }
+    </script>
+</body>
+</html>
