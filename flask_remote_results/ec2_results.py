@@ -4,7 +4,7 @@ from core.constants import EC2A_URL, EC2C_URL, EC2D_URL
 import subprocess
 
 class EC2Results():
-    def __init__(self, name, url, root_dir, proj):
+    def __init__(self, name, url, root_dir):
         if not 'PEM_PATH' in os.environ:
             print('ERROR:  must set env var PEM_PATH to point to your copy of shared-with-opics.pem')
             sys.exit()
@@ -20,24 +20,14 @@ class EC2Results():
         self.script_dir = os.path.join(root_dir,'scripts')
         self.pvoe_script_dir = os.path.join(self.script_dir,'pvoe' )
         self.root_scene_dir = root_dir + '/s'
-        self.proj = proj
         
-    def get_specs_for_project(self):
-        return self.get_remote_result_as_lines(f'ls -1 /home/ubuntu/eval6_systest/{self.proj}/versions')
+    def get_specs_for_project(self, proj):
+        return self.get_remote_result_as_lines(f'ls -1 /home/ubuntu/eval6_systest/{proj}/versions')
 
-    def get_dir_contents_for_rel_path(self, rel_path):
-        return self.get_remote_result_as_lines(f'ls -1 /home/ubuntu/eval6_systest/{self.proj}/versions/{rel_path}')
-
-
-    def get_file_contents_for_rel_path(self, rel_path):
-        s = self.get_remote_result(f'cat /home/ubuntu/eval6_systest/{self.proj}/versions/{rel_path}')
+    def get_file_contents_for_rel_path(self, proj, rel_path):
+        s = self.get_remote_result(f'cat /home/ubuntu/eval6_systest/{proj}/versions/{rel_path}')
         return s
-    # def get_results_dir_contents(self, spec_name, dir_name):
-    #     return self.get_remote_result_as_lines(f'ls -1 /home/ubuntu/eval6_systest/{self.proj}/versions/{spec_name}/{dir_name}')
-    
-    # def get_log_list(self, spec_name):
-    #     return self.get_remote_result_as_lines(f'ls -1 /home/ubuntu/eval6_systest/{self.proj}/versions/{spec_name}/*.log')
-
+   
     def get_remote_scores(self, spec_name):
         lines = self.get_remote_result(f'python optics.py scores specs/{spec_name}')
         print(lines)
@@ -60,14 +50,14 @@ class EC2Results():
         invoke_string = f'cd {self.root_dir};{command}'
         return subprocess.check_output(f'ssh -i {self.pem_path} -l ubuntu {self.url} "{exports_string};{invoke_string}"', shell=True).decode('utf-8')
 
-    def retrieve_video(self, parent_rel_path, rel_path):
-        remote_src_path = f'/home/ubuntu/eval6_systest/{self.proj}/versions/{rel_path}'
+    def retrieve_video(self, proj, parent_rel_path, rel_path):
+        remote_src_path = f'/home/ubuntu/eval6_systest/{proj}/versions/{rel_path}'
         try:
             cwd = os.getcwd()
             tmp_dest_path = '/tmp/' + rel_path
             os.makedirs('/tmp/' + parent_rel_path, exist_ok=True)
-            local_dest_path = f'{cwd}/static/media/{self.proj}/{rel_path}'
-            url_rel_path = f'media/{self.proj}/{rel_path}'
+            local_dest_path = f'{cwd}/static/media/{proj}/{rel_path}'
+            url_rel_path = f'media/{proj}/{rel_path}'
             os.makedirs(os.path.dirname(local_dest_path), exist_ok=True)
             subprocess.check_output(f'scp -i {self.pem_path} -r {self.url}:{remote_src_path} {tmp_dest_path}', shell=True)
             print(f'ffmpeg -i {tmp_dest_path} -vcodec h264 -y {local_dest_path}')
@@ -77,8 +67,8 @@ class EC2Results():
         except:
             return None
 
-    def get_scene_types_for_run(self, spec_name):
-        return self.get_remote_result_as_lines(f'ls -1 /home/ubuntu/eval6_systest/{self.proj}/versions/{spec_name}/stdout_logs')
+    # def get_scene_types_for_run(self, proj, spec_name):
+    #     return self.get_remote_result_as_lines(f'ls -1 /home/ubuntu/eval6_systest/{proj}/versions/{spec_name}/stdout_logs')
 
 
     def get_remote_script_result_as_lines(self, rel_dir, script_name, args_as_string):
@@ -104,5 +94,5 @@ class EC2Results():
 
 
 class EC2DResults(EC2Results):
-    def __init__(self, proj):
-        EC2Results.__init__(self, 'ec2d', EC2D_URL,  '/home/ubuntu/main_optics', proj)
+    def __init__(self):
+        EC2Results.__init__(self, 'ec2d', EC2D_URL,  '/home/ubuntu/main_optics')

@@ -38,7 +38,7 @@
         }
 
         project_select.onchange = function() {
-            url = '/view_select/proj/' + project_select.value + '/' + view_select.value;
+            url = '/view_select/to_proj/' + project_select.value + '/view/' + view_select.value;
             content.innerHTML = getLoadingMessage('Loading ' + view_select.value + ' for default run for project ' + project_select.value + '...')
             console.log(' onchange caused url to be ' + url)
 
@@ -51,7 +51,7 @@
         }
 
         optics_run_select.onchange = function() {
-            url = '/view_select/run/' + optics_run_select.value + '/proj/' + project_select.value + '/' + view_select.value;
+            url = '/view_select/proj/' + project_select.value + '/to_run/' + optics_run_select.value + '/view/' + view_select.value;
             content.innerHTML = getLoadingMessage('Loading ' + view_select.value + ' for run  ' + optics_run_select.value+ '...')
             console.log(' onchange caused url to be ' + url)
 
@@ -77,7 +77,7 @@
 
         view_select.onchange = function() {
             console.log(view_select.value)
-            if (view_select.value == 'scene_result'){
+            if (view_select.value == 'scene result'){
                 content.innerHTML = getLoadingMessage('Loading ' + view_select.value + ' for default scene_type and scene for ' + project_select.value + ' run  ' + optics_run_select.value+ '...')
                 url = '/scene_result/proj/' + project_select.value + '/run/' + optics_run_select.value;
                 console.log('view_select.onchange caused url to be' + url)
@@ -85,7 +85,7 @@
                 window.location = url;
             }
             else {
-                url = '/view_select/view/' + view_select.value + '/proj/' + project_select.value + '/run/' + optics_run_select.value;
+                url = '/view_select/proj/' + project_select.value + '/run/' + optics_run_select.value + '/to_view/' + view_select.value;
                 content.innerHTML = getLoadingMessage('Loading ' + view_select.value + ' for ' + project_select.value + ' run  ' + optics_run_select.value+ '...')
                 console.log(' onchange caused url to be ' + url)
 
