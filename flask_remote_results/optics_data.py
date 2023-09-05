@@ -31,7 +31,8 @@ class OpticsData():
         return scene_type
 
     def get_default_scene_name_for_type(self, proj, run, scene_type):
-        scene_names = self.data['projects'][proj][run][scene_type]
+        scene_names = self.data['projects'][proj][run][scene_type]['scene_names']
+        print(f'scene_names = {scene_names}')
         scene_name = scene_names[0]
         return scene_name
 
@@ -103,7 +104,8 @@ class OpticsData():
 
     def get_result_info(self, proj,run,scene_type, scene_name):
         info = self.data['projects']
-        scene_names = info[proj][run][scene_type]
+        scene_names = info[proj][run][scene_type]['scene_names']
+        print(f'scene_names = {scene_names}')
         ec2d = EC2DResults()
         stdout_log_rel_path = f'{run}/stdout_logs/{scene_type}/{scene_name}_stdout.txt'
         log_content = ec2d.get_file_contents_for_rel_path(proj, stdout_log_rel_path)

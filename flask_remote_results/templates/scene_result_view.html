@@ -55,18 +55,34 @@
                 <select size="{{ scene_names|length }}" id="scene_select" style="border:0px;margin-top:10px">
                     {% for scene in scene_names %}
                         {% if scene == scene_name %}
-                            <option style="padding-left:6px;padding-right:6px" value="{{ scene }}" selected>{{ scene }}</option>
+                            {% if correctness[scene_name] == "correct" %}
+                                <option style="padding-left:6px;padding-right:6px;color:green" value="{{ scene }}" selected>{{ scene }}</option>
+                            {% else if correctness[scene_name] == "incorrect"%}
+                                <option style="padding-left:6px;padding-right:6px;color:red" value="{{ scene }}" selected>{{ scene }}</option>
+                            {% else if correctness[scene_name] == "exception"%}
+                                <option style="padding-left:6px;padding-right:6px;color:yellow" value="{{ scene }}" selected>{{ scene }}</option>
+                            {% else %}
+                                <option style="padding-left:6px;padding-right:6px" value="{{ scene }}" selected>{{ scene }}</option>
+                            {% endif %}
                         {% else %}
-                            <option style="padding-left:6px;padding-right:6px" value="{{ scene }}">{{ scene }}</option>
+                            {% if correctness[scene_name] == "correct" %}
+                                <option style="padding-left:6px;padding-right:6px;color:green" value="{{ scene }}">{{ scene }}</option>
+                            {% else if correctness[scene_name] == "incorrect"%}
+                                <option style="padding-left:6px;padding-right:6px;color:red" value="{{ scene }}">{{ scene }}</option>
+                            {% else if correctness[scene_name] == "exception"%}
+                                <option style="padding-left:6px;padding-right:6px;color:yellow" value="{{ scene }}">{{ scene }}</option>
+                            {% else %}
+                                <option style="padding-left:6px;padding-right:6px" value="{{ scene }}">{{ scene }}</option>
+                            {% endif %}
                         {% endif %}
                     {% endfor %}
                 </select>
             </div>
             <div id="results"  style="display:flex;flex-direction:column" >
                 {% if video_url != None %}
-                <div id="video" style="max-height: 40vh">
+                <div id="video_div" style="max-height: 40vh">
                 <!--<video width="640" height="480" controls><source src="{{ video_url }}" type="video/mp4"></video>-->
-                    <video height="350" controls><source src="{{ video_url }}" type="video/mp4"></video>
+                    <video id="video" height="350" controls><source src="{{ video_url }}" type="video/mp4"></video>
                 </div>
                 {% endif %}
                 
@@ -89,6 +105,7 @@
         let scene_select      = document.getElementById("scene_select");
         let scene_info_div    = document.getElementById("scene_info_div");
         let stdout_log        = document.getElementById("stdoutLog");
+        let video             = document.getElementById("video");
         function getLoadingMessage(proj, message){
             if (proj == 'inter'){
                 result = '<p style="font-size:25px;font-family:Arial">' + message + ' ...</p>'
@@ -155,13 +172,21 @@
             run = optics_run_select.value;
             scene_type = scene_type_select.value;
             scene_name = scene_select.options[scene_select.selectedIndex].value;
-            url = '/scene_result/proj/' + proj + '/run/' + run  + '/scene_type/' + scene_type + '/other_scene_name/' + scene_name;
+
+            url = '/scene_result/proj/' + proj + '/run/' + run  + '/scene_type/' + scene_type + '/other_scene_name_video/' + scene_name;
+            video_div.innerHTML = getLoadingMessage(proj, 'loading video for scene_name ' + scene_name)
+            fetch(url).then(function(response) {
+                response.json().then(function(data){
+                    video_div.innerHTML = '<video id="video" height="350" controls><source src="' + data.video_url + '" type="video/mp4"></video>'
+                })
+            })
+            url = '/scene_result/proj/' + proj + '/run/' + run  + '/scene_type/' + scene_type + '/other_scene_name_result/' + scene_name;
             stdout_log.innerHTML = getLoadingMessage(proj,  'loading scene_name ' + scene_name)
             fetch(url).then(function(response) {
-                    response.json().then(function(data){
-                        stdout_log.innerHTML = data.log_content;
-                    })
+                response.json().then(function(data){
+                    stdout_log.innerHTML = data.log_content;
                 })
+            })
 
             
         }

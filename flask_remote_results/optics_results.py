@@ -165,12 +165,16 @@ def get_scene_result_for_project_run_type_scene(proj, run, scene_type, scene_nam
     return render_template('scene_result_view.html', form=srf, scene_name=scene_name, scene_names=scene_names, log_content=log_content, video_url=video_url)
 
 
-@app.route("/scene_result/proj/<string:proj>/run/<string:run>/scene_type/<string:scene_type>/other_scene_name/<string:scene_name>")
+@app.route("/scene_result/proj/<string:proj>/run/<string:run>/scene_type/<string:scene_type>/other_scene_name_result/<string:scene_name>")
 def get_other_scene_result_for_project_run_type_scene(proj, run, scene_type, scene_name):
     _, log_content, _ = optics_data.get_result_info(proj, run, scene_type, scene_name)
     return jsonify({'log_content': log_content})
 
 
+@app.route("/scene_result/proj/<string:proj>/run/<string:run>/scene_type/<string:scene_type>/other_scene_name_video/<string:scene_name>")
+def get_other_scene_video_for_project_run_type_scene(proj, run, scene_type, scene_name):
+    _, _, video_url = optics_data.get_result_info(proj, run, scene_type, scene_name)
+    return jsonify({'video_url': video_url})
 
 if __name__ == '__main__':
     app.run(debug=True)
