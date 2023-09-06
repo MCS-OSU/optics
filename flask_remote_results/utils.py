@@ -14,3 +14,12 @@ def get_keys_as_tuples(some_dict):
 
 def get_view_names():
     return ['scores','status','report','scene result']
+
+def remove_warning_lines(s):
+    lines = s.split('\n')
+    new_lines = []
+    for line in lines:
+        if 'WARNING' not in line:
+            new_lines.append(line)
+            print(line)
+    return '\n'.join(new_lines)

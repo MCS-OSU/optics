@@ -69,7 +69,8 @@ class EC2Results():
 
     # def get_scene_types_for_run(self, proj, spec_name):
     #     return self.get_remote_result_as_lines(f'ls -1 /home/ubuntu/eval6_systest/{proj}/versions/{spec_name}/stdout_logs')
-
+    def get_correctness_for_scene_type(self, proj, run, scene_type):
+        return self.run_remote_script('flask_remote_results', 'get_correctness_for_scenes.py', f'{proj} {run} {scene_type}')
 
     def get_remote_script_result_as_lines(self, rel_dir, script_name, args_as_string):
         return self.run_remote_script(rel_dir,script_name, args_as_string).split('\n')

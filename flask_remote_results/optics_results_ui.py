@@ -136,16 +136,16 @@ def get_scene_result_for_project(proj):
     default_run = optics_data.get_default_run_for_proj(proj)
     scene_type, scene_name = optics_data.get_default_scene_type_and_name(proj, default_run)
     set_scene_result_form_values(srf, proj, default_run, 'scene result', scene_type)
-    scene_names, log_content, video_url = optics_data.get_result_info(proj, default_run, scene_type, scene_name)
-    return render_template('scene_result_view.html', form=srf, scene_name=scene_name, scene_names=scene_names, log_content=log_content, video_url=video_url)
+    scene_names, log_content, video_url, correctness_info = optics_data.get_result_info(proj, default_run, scene_type, scene_name)
+    return render_template('scene_result_view.html', form=srf, scene_name=scene_name, scene_names=scene_names, log_content=log_content, video_url=video_url, correctness_info = correctness_info)
 
 @app.route("/scene_result/proj/<string:proj>/run/<string:run>")
 def get_scene_result_for_project_run(proj, run):
     srf = get_populated_scene_result_form_for_run(proj, run)
     scene_type, scene_name = optics_data.get_default_scene_type_and_name(proj, run)
     set_scene_result_form_values(srf, proj, run, 'scene result', scene_type)
-    scene_names, log_content, video_url = optics_data.get_result_info(proj, run, scene_type, scene_name)
-    return render_template('scene_result_view.html', form=srf, scene_name=scene_name, scene_names=scene_names, log_content=log_content, video_url=video_url)
+    scene_names, log_content, video_url, correctness_info = optics_data.get_result_info(proj, run, scene_type, scene_name)
+    return render_template('scene_result_view.html', form=srf, scene_name=scene_name, scene_names=scene_names, log_content=log_content, video_url=video_url, correctness_info = correctness_info)
 
 
 @app.route("/scene_result/proj/<string:proj>/run/<string:run>/scene_type/<string:scene_type>")
@@ -153,27 +153,27 @@ def get_scene_result_for_project_run_type(proj, run, scene_type):
     srf = get_populated_scene_result_form_for_run(proj, run)
     set_scene_result_form_values(srf, proj, run, 'scene result', scene_type)
     scene_name = optics_data.get_default_scene_name_for_type(proj, run, scene_type)
-    scene_names, log_content, video_url = optics_data.get_result_info(proj, run, scene_type, scene_name)
-    return render_template('scene_result_view.html', form=srf, scene_name=scene_name, scene_names=scene_names, log_content=log_content, video_url=video_url)
+    scene_names, log_content, video_url, correctness_info = optics_data.get_result_info(proj, run, scene_type, scene_name)
+    return render_template('scene_result_view.html', form=srf, scene_name=scene_name, scene_names=scene_names, log_content=log_content, video_url=video_url, correctness_info = correctness_info)
 
 
 @app.route("/scene_result/proj/<string:proj>/run/<string:run>/scene_type/<string:scene_type>/scene_name/<string:scene_name>")
 def get_scene_result_for_project_run_type_scene(proj, run, scene_type, scene_name):
     srf = get_populated_scene_result_form_for_run(proj, run)
     set_scene_result_form_values(srf, proj, run, 'scene result', scene_type)
-    scene_names, log_content, video_url = optics_data.get_result_info(proj, run, scene_type, scene_name)
-    return render_template('scene_result_view.html', form=srf, scene_name=scene_name, scene_names=scene_names, log_content=log_content, video_url=video_url)
+    scene_names, log_content, video_url, correctness_info = optics_data.get_result_info(proj, run, scene_type, scene_name)
+    return render_template('scene_result_view.html', form=srf, scene_name=scene_name, scene_names=scene_names, log_content=log_content, video_url=video_url, correctness_info = correctness_info)
 
 
 @app.route("/scene_result/proj/<string:proj>/run/<string:run>/scene_type/<string:scene_type>/other_scene_name_result/<string:scene_name>")
 def get_other_scene_result_for_project_run_type_scene(proj, run, scene_type, scene_name):
-    _, log_content, _ = optics_data.get_result_info(proj, run, scene_type, scene_name)
+    _, log_content, _, _ = optics_data.get_result_info(proj, run, scene_type, scene_name)
     return jsonify({'log_content': log_content})
 
 
 @app.route("/scene_result/proj/<string:proj>/run/<string:run>/scene_type/<string:scene_type>/other_scene_name_video/<string:scene_name>")
 def get_other_scene_video_for_project_run_type_scene(proj, run, scene_type, scene_name):
-    _, _, video_url = optics_data.get_result_info(proj, run, scene_type, scene_name)
+    _, _, video_url, _ = optics_data.get_result_info(proj, run, scene_type, scene_name)
     return jsonify({'video_url': video_url})
 
 if __name__ == '__main__':
