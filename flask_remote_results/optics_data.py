@@ -1,6 +1,6 @@
 from flask_remote_results.ec2_results import EC2DResults
 import json
-from utils import get_keys_as_tuples
+from utils import get_keys_as_tuples, remove_warning_lines
 from flask import jsonify, url_for
 
 class OpticsData():
@@ -31,8 +31,8 @@ class OpticsData():
         return scene_type
 
     def get_default_scene_name_for_type(self, proj, run, scene_type):
-        scene_names = self.data['projects'][proj][run][scene_type]['scene_names']
-        print(f'scene_names = {scene_names}')
+        scene_names = sorted(self.data['projects'][proj][run][scene_type]['scene_names'])
+        #print(f'scene_names = {scene_names}')
         scene_name = scene_names[0]
         return scene_name
 
@@ -62,7 +62,7 @@ class OpticsData():
     def get_spec_info_for_proj(self, proj, run):
         specs = self.ec2d.get_specs_for_project(proj)
         specs_list = []
-        print(f'specs = {specs}')
+        #print(f'specs = {specs}')
         for spec in specs:
             spec_obj = {}
             spec_obj['id'] = spec
@@ -104,7 +104,7 @@ class OpticsData():
 
     def get_result_info(self, proj,run,scene_type, scene_name):
         info = self.data['projects']
-        scene_names = info[proj][run][scene_type]['scene_names']
+        scene_names = sorted(info[proj][run][scene_type]['scene_names'])
         print(f'scene_names = {scene_names}')
         ec2d = EC2DResults()
         stdout_log_rel_path = f'{run}/stdout_logs/{scene_type}/{scene_name}_stdout.txt'
@@ -112,4 +112,7 @@ class OpticsData():
         video_url = None
         if proj == 'inter':
             video_url = self.get_video_url(proj, run, scene_type, scene_name)
-        return scene_names, log_content, video_url
+        correctness_info_json_string = ec2d.get_correctness_for_scene_type(proj, run, scene_type)
+        correctness_info_json_string = remove_warning_lines(correctness_info_json_string)
+        correctness_info = json.loads(correctness_info_json_string)
+        return scene_names, log_content, video_url, correctness_info
