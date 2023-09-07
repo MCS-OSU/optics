@@ -90,9 +90,9 @@
                     {% endif %}
                 </div>
                 {% if video_url == None %}
-                <div id="stdout_log" class="results_text w3-container style="max-height: 93vh;">
+                <div id="stdout_log" class="results_text w3-container" style="max-height: 93vh;display:flex;flex-direction: column-reverse;">
                 {% else %}
-                <div id="stdout_log" class="results_text w3-container" style="max-height: 53vh;">
+                <div id="stdout_log" class="results_text w3-container" style="max-height: 53vh;display:flex;flex-direction: column-reverse;">
                 {% endif %}
                     <span class="results_text">{{ log_content }}</span>
                 </div>
@@ -217,6 +217,7 @@
                         stdout_log.style['max-height'] = '53vh';
                     }
                     stdout_log.innerHTML = '<span class="results_text">' + data.log_content + '</span>';
+                    stdout_log.scrollTo(0, stdout_log.scrollHeight)
                 })
             })
 
