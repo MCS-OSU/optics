@@ -84,7 +84,10 @@ def get_correctness(proj, run, scene_type):
     result['scene_names'] = []
     result['correctness'] = {}
     for log_name in log_names:
-        scene_name = log_name.replace('.log','')
+        if proj == 'avoe':
+            scene_name = log_name.split('__')[0]
+        else:
+            scene_name = log_name.replace('.log','')
         result['scene_names'].append(scene_name)
     if proj == 'pvoe' or proj == 'inter':
         for log_name in log_names:
@@ -94,15 +97,18 @@ def get_correctness(proj, run, scene_type):
         # avoe is scored in a pairwise way
         stdout_logs = get_stdout_logs_instance(proj, run, scene_type)
         avoe_pairs = AvoePairs(stdout_logs)
-        pairs_for_type = avoe_pairs.pairs_for_type[scene_type]
-        for scene_name in result['scene_names']:
-            avoe_pair = get_avoe_pair_for_scene_name(pairs_for_type, scene_name)
-            if avoe_pair is None:
-                result['correctness'][scene_name] = 'unknown'
-            elif avoe_pair.is_osu_agent_correct():
-                result['correctness'][scene_name] = 'correct'
-            else:
-                result['correctness'][scene_name] = 'incorrect'
+        if not scene_type in avoe_pairs.pairs_for_type:
+            result['correctness'][scene_name] = 'unknown'
+        else:
+            pairs_for_type = avoe_pairs.pairs_for_type[scene_type]
+            for scene_name in result['scene_names']:
+                avoe_pair = get_avoe_pair_for_scene_name(pairs_for_type, scene_name)
+                if avoe_pair is None:
+                    result['correctness'][scene_name] = 'unknown'
+                elif avoe_pair.is_osu_agent_correct():
+                    result['correctness'][scene_name] = 'correct'
+                else:
+                    result['correctness'][scene_name] = 'incorrect'
     return result
 
 if __name__ == '__main__':
