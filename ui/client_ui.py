@@ -2,7 +2,7 @@ import PySimpleGUI as sg
 import os, sys
 import threading
 import time
-# from scripts.machines import EC2B
+# from scripts.ec2.machines import EC2B
 from ui.container_job_scanner import ContainerJobScanner
 from ui.container_manager import ContainerManager
 from remote_control.remote_messenger import RemoteMessenger

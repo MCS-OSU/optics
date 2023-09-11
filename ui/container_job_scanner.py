@@ -1,5 +1,5 @@
 import time
-#from scripts.machines import EC2B
+#from scripts.ec2.machines import EC2B
 
 STATUS_CHECKING_FOR_JOB   = 'status: checking_for_job every 5 seconds'
 

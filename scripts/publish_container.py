@@ -31,6 +31,6 @@ if __name__ == '__main__':
         print(f'no sif file for spec {spec_name} exists in {os.dirname(sif_path)}')
         sys.exit()
     print('file exists - uploading...')
-    cmd = f'python ec2.py {machine} put_file {sif_path} /home/ubuntu/containers'
+    cmd = f'cd ec2;python ec2.py {machine} put_file {sif_path} /home/ubuntu/containers'
     print(f'running this command: {cmd}')
     os.system(cmd)
