@@ -64,7 +64,8 @@ if __name__=='__main__':
     enable_radio = sg.Radio(text='Enabled',  group_id='radiogroup', enable_events=True, key=ENABLED)
     disable_radio = sg.Radio(text='Disabled', group_id='radiogroup', enable_events=True, key=DISABLED, default=True)
     layout = [  [container_runs_text, enable_radio, disable_radio],
-                [sg.Text(text=STATUS_DISABLED, key=STATUS)],
+                #[sg.Text(text='---', key=STATUS)],
+                [sg.Multiline(default_text='--log--', size=(80, 20), key='log', autoscroll=True)],
                 [sg.Text('', size=(10,2), font=('Courier', 16), key = STATUS, justification='left')],
                 [sg.Button('Quit') ]]
 
@@ -80,6 +81,7 @@ if __name__=='__main__':
         if event in (sg.WINDOW_CLOSED, 'Quit'):   # if user closes window or clicks cancel
             break
         window[STATUS].update(status_dict['status'])
+        window['log'].update(window['log'].get() + '\n' + status_dict['status'])
         if event == ENABLED:
             enablement_dict['is_run_enabled'] = True
             window[STATUS].update(ENABLED)
