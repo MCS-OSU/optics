@@ -82,9 +82,33 @@ def get_public_key_path():
     opics_home = os.environ['OPTICS_HOME']
     return opics_home + '/scripts/ec2/shared-with-opics.pem'
 
+def remote_mv_file(remote_path, target_dir):
+    remote_url = get_optics_datastore_url()
+    public_key = get_public_key_path()
+    cmd = f'ssh -i {public_key} {remote_url} mv {remote_path} {target_dir}'
+    optics_debug(f'running command {cmd}')
+    os.system(cmd)
+
+def remote_delete_file(remote_path):
+    remote_url = get_optics_datastore_url()
+    public_key = get_public_key_path()
+    cmd = f'ssh -i {public_key} {remote_url} rm {remote_path}'
+    optics_debug(f'running command {cmd}')
+    os.system(cmd)
+    
 def remote_copy_file(src, dest):
     fname = os.path.basename(src)
     optics_info(f'...sending {fname}...')
+    remote_url = get_optics_datastore_url()
+    remote_dir = os.path.dirname(dest)
+    remote_ensure_dir_exists(remote_dir)
+    public_key = get_public_key_path()
+    cmd = f'scp -i {public_key} {src} {remote_url}:{dest}'
+    optics_debug(f'running command {cmd}')
+    os.system(cmd)
+
+
+def remote_copy_file_quiet(src, dest):
     remote_url = get_optics_datastore_url()
     remote_dir = os.path.dirname(dest)
     remote_ensure_dir_exists(remote_dir)
@@ -98,7 +122,15 @@ def remote_get_file(remote_src, local_dest):
     remote_fname = os.path.basename(remote_src)
     optics_info(f'...fetching {remote_fname}...')
     public_key = get_public_key_path()
-    cmd = f'scp -q -i {public_key} {remote_url}:{remote_src} {local_dest}'
+    cmd = f'scp -i {public_key} {remote_url}:{remote_src} {local_dest}'
+    optics_debug(f'running command: {cmd}')
+    os.system(cmd)
+
+def remote_get_file_quiet(remote_src, local_dest):
+    remote_url = get_optics_datastore_url()
+    optics_info(f'...fetching remote file {remote_src}')
+    public_key = get_public_key_path()
+    cmd = f'scp -q -i {public_key} {remote_url}:{remote_src} {local_dest} 2>/dev/null'
     optics_debug(f'running command: {cmd}')
     os.system(cmd)
 
