@@ -1,5 +1,5 @@
 import sys, os
-from scripts.machines import EC2A
+from scripts.ec2.machines import EC2A
 
 def usage():
     print('Usage: python remote_results.py scores <spec_path>')

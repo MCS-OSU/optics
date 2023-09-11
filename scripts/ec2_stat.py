@@ -1,4 +1,4 @@
-from scripts.machines import EC2A, EC2C
+from scripts.ec2.machines import EC2A, EC2C
 
 from core.utils import notify_mcs_optics_status
 
