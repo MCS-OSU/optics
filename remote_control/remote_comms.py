@@ -38,6 +38,7 @@ if __name__=='__main__':
     message_mux = MessageMux(runner_names.names)
     while True:
         print(f'\nusers: {runner_names.names}')
+        print(f'commands: {legal_commands}')
         print('enter command in the form: user command')
         full_command = input('$$ ')
         command_parts = full_command.split()

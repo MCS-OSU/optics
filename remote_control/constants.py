@@ -73,31 +73,4 @@ max_run_time_for_type = {
     'sltk':     5,
     'shell':   12,
 
-
-    # #inter
-    # 'holes':   1,
-    # 'lava':    1,
-    # 'agentid': 1,
-    # 'cont':    1,
-    # 'movtarg': 1,
-    # 'obst':    1,
-    # 'tool':    1,
-    # 'occl':    1,
-    # 'ramps':   1,
-    # 'solid':    1,
-    # 'spelim':  1,
-    # 'suprel':   1,
-    # 'iop':     1,
-    # 'math':    1,
-    # 'numcomp':  1,
-    # 'imit':    1,
-    # 'setrot':   1,
-    # 'spatref': 1,
-    # 'reor':     1,
-    # 'tlch':    1,
-    # 'tlas':    1,
-    # 'hidtraj': 1,
-    # 'coltraj': 1,
-    # 'sltk':     1,
-    # 'shell':   1
 }
