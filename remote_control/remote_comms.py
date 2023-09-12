@@ -1,5 +1,6 @@
 import sys, os
 import time
+from remote_control.utils import run_remote_os_cmd
 from remote_control.message_mux import MessageMux
 from remote_control.constants import SERVER_POLLING_DELAY, SHOW_HUB_LOG, legal_commands
 from remote_control.runner_names import RunnerNames
@@ -26,6 +27,15 @@ def scan_for_responses(message_mux):
         # i.e. we got here because we received an answer
         message_mux.print_and_log_responses_from_clients()
         message_mux.archive_inbound_messages()
+
+def run_command_at_ec2(ec2_machine, command):
+    if command == 'clist':
+        print(f'running {command} at {ec2_machine}')
+        result = run_remote_os_cmd(ec2_machine, 'ls -la /home/ubuntu/containers/*.sif')
+        print(result)
+    else:
+        print(f'unknown ec2 meta-command: {command}')
+        usage()
 
 if __name__=='__main__':
     if not 'OPTICS_HOME' in os.environ:
@@ -58,8 +68,14 @@ if __name__=='__main__':
 
         user = command_parts[0]
         if not user in runner_names.names:
-            print(f'invalid user: {user}')
-            continue
+            if user == 'ec2':
+                run_command_at_ec2('ec2a',command_parts[1])
+                run_command_at_ec2('ec2c',command_parts[1])
+                run_command_at_ec2('ec2d',command_parts[1])
+                continue
+            else:
+                print(f'invalid user: {user}')
+                continue
         command_name = command_parts[1]
         command = ''
         for i in range(1, len(command_parts)):

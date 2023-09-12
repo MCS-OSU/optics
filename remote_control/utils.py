@@ -2,6 +2,7 @@
 from pathlib import Path
 import os
 import configparser
+import subprocess
 
 from core.utils import optics_fatal, get_public_key_path
 from core.constants import legal_datastores
@@ -53,3 +54,9 @@ def get_log_path(log_type):
     optics_home = os.environ['OPTICS_HOME']
     log_path = os.path.join(optics_home, 'remote_control', f'{log_type}.log')
     return log_path
+
+def run_remote_os_cmd(ec2_machine, cmd):
+    public_key = get_public_key_path()
+    url = get_url_for_ec2_machine_name(ec2_machine)
+    cmd = f'ssh -i {public_key} -l ubuntu {url} "{cmd}"'
+    return subprocess.check_output(cmd, shell=True).decode('utf-8')
