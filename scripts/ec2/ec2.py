@@ -1,7 +1,7 @@
 
 import os
 import sys
-from scripts.machines import EC2A, EC2C, EC2D
+from scripts.ec2.machines import EC2A, EC2C, EC2D
 
 def verify_2_args(args, cmd, arg1, arg2):
     if not len(args) == 5:

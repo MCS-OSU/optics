@@ -1,6 +1,7 @@
 import os, sys
 import time
 from core.constants import EC2A_URL, EC2C_URL, EC2D_URL
+import subprocess
 
 class EC2():
     def __init__(self, name, url, root_dir):
@@ -175,7 +176,56 @@ class EC2():
         print(f'{self.name} disk space:')
         os.system(f'ssh -i {self.pem_path} -l ubuntu {self.url} "df -h | grep xvda1"')
 
+    def remote_repo_git_command(self, repo_pull_path, command_list):
+        command_root = ['ssh', '-i', self.pem_path, '-l', 'ubuntu', self.url]
+        command_root.extend(['cd', repo_pull_path])
+        command_root.extend([';'])
+        command_root.extend(command_list)
+        result = subprocess.run(command_root, stdout=subprocess.PIPE)
+        result_string =  result.stdout.decode('utf-8')
+        return result_string
 
+
+    def git_result(self, title, result_string):
+        print(f'    {title}:')
+        lines = result_string.split('\n')
+        for line in lines:
+            print(f'       {line}')
+
+    def show_workspace_status(self, repo_pull_path):
+       
+        command_list_branch = ['git', 'branch']
+        result_string = self.remote_repo_git_command(repo_pull_path, command_list_branch)
+        lines = result_string.split('\n')
+        s = ''
+        for line in lines:
+            s += line + '   ' 
+        #print(f'{self.name} {os.path.basename(repo_pull_path)}: {s}')
+        print(f'{self.name} {repo_pull_path}: {s}')
+        
+        command_list_unpushed = 'git log --branches --not --remotes --simplify-by-decoration --decorate --oneline'.split(' ')
+        result_string = self.remote_repo_git_command(repo_pull_path, command_list_unpushed)
+        if not result_string == '\n' and not result_string == '':
+            self.git_result('unpushed changes', result_string)
+
+        command_list_staged = 'git diff --cached --name-only'.split(' ')
+        result_string = self.remote_repo_git_command(repo_pull_path, command_list_staged)
+        if not result_string == '\n' and not result_string == '':
+            self.git_result('staged', result_string)
+
+        command_list_unstaged = 'git diff --name-only  | grep -v opics_common |grep -v opics_pvoe | grep -v opics_inter | grep -v opics'.split(' ')
+        result_string = self.remote_repo_git_command(repo_pull_path, command_list_unstaged)
+        if not result_string == '\n' and not result_string == '':
+            self.git_result('unstaged changes', result_string)
+        
+        # os.system(f'ssh -i {self.pem_path} -l ubuntu {self.url} "cd {repo_pull_path};{branch}"')
+        # print('')
+        # os.system(f'ssh -i {self.pem_path} -l ubuntu {self.url} "cd {repo_pull_path};{unpushed_commits}"')
+        # print('')
+        # os.system(f'ssh -i {self.pem_path} -l ubuntu {self.url} "cd {repo_pull_path};{staged}"')
+        # print('')
+        # os.system(f'ssh -i {self.pem_path} -l ubuntu {self.url} "cd {repo_pull_path};{unstaged_changes}"')
+        # print('')
 
 class EC2D(EC2):
     def __init__(self):
