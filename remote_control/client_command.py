@@ -201,7 +201,10 @@ class StopContainerCommand(ClientCommand):
         for line in lines:
             result = ' '.join(line.split())
             pid = result.split(' ')[3]
-            pids.append(pid)
+            parent_pid = result.split(' ')[4]
+            # only add Unity processes that are children of the container processes
+            if parent_pid in pids:
+                pids.append(pid)
         kill_cmd = 'kill -9 ' + ' '.join(pids)
         print(f'kill cmd is {kill_cmd}')
         os.system(kill_cmd)
