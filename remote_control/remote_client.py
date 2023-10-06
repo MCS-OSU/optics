@@ -22,21 +22,21 @@ def usage():
     sys.exit(1)
 
 
-def messaging_loop(status_dict, enablement_dict):
+def messaging_loop(enablement_dict, log_window):
     while True:
         time.sleep(2)
         count = 1
         while not messenger.has_incoming_messages():
-            status_dict['status'] = f'listening for commands...{count}'
+            log_window.update(log_window.get() + '\n' + f'listening for commands...{count}')
             messenger.scan_for_inbound_commands()
             time.sleep(CLIENT_POLLING_DELAY)
             count+=1
         
         client_commands = ClientCommands(messenger)
         for client_command in client_commands.commands:
-            status_dict['status'] = f'processing command: {client_command.command}'
+            log_window.update(log_window.get() + '\n' + f'processing command: {client_command.command}')
             client_command.execute(enablement_dict['is_run_enabled'])
-            status_dict['status'] = f'(sending response)'
+            log_window.update(log_window.get() + '\n' + f'(sending response)')
             messenger.send_response_message(client_command)
         
 
@@ -74,14 +74,13 @@ if __name__=='__main__':
     enablement_dict = {'is_run_enabled': False}
     status_dict     = {'status': STATUS_DISABLED}
     window = sg.Window('Optics Container Run Control', layout, margins = (10,10))
-    threading.Thread(target=messaging_loop, args=(status_dict, enablement_dict), daemon=True).start()
+    threading.Thread(target=messaging_loop, args=(enablement_dict, window['log']), daemon=True).start()
 
     while True:
         event, values = window.read()
         if event in (sg.WINDOW_CLOSED, 'Quit'):   # if user closes window or clicks cancel
             break
         window[STATUS].update(status_dict['status'])
-        window['log'].update(window['log'].get() + '\n' + status_dict['status'])
         if event == ENABLED:
             enablement_dict['is_run_enabled'] = True
             window[STATUS].update(ENABLED)
