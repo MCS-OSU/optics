@@ -64,6 +64,10 @@ class GetContainerCommand(ClientCommand):
         
     def execute(self, container_run_enabled):
         command_line = self.info_lines[0].strip()
+        parts = command_line.split(' ')
+        if len(parts) != 2:
+            self.add_response_string(f'error: cget command needs <container> argument')
+            return
         container = command_line.split(' ')[1]
         remote_path = get_remote_container_path(container)
         local_containers_dir = get_local_container_dir()
@@ -126,6 +130,10 @@ class RunContainerCommand(ClientCommand):
     def execute(self, container_run_enabled):
         if container_run_enabled:
             command_line = self.info_lines[0].strip()
+            parts = command_line.split(' ')
+            if len(parts) < 2:
+                self.add_response_string('error: crun command needs <container> argument')
+                return
             container_name = command_line.split(' ')[1].replace('.sif','')
             container_path = self.get_local_container_path(container_name)
             if 'not_found' == container_path:
@@ -164,6 +172,10 @@ class StopContainerCommand(ClientCommand):
         
     def execute(self, container_run_enabled):
         command_line = self.info_lines[0].strip()
+        parts = command_line.split(' ')
+        if len(parts) < 2:
+            self.add_response_string('error: cstop command needs <container> argument')
+            return
         container = command_line.split(' ')[1].replace('.sif','')
         
         cmd = f'ps -edalf | grep {container} | grep -v grep > temp.txt'
@@ -214,7 +226,7 @@ class DeleteContainerCommand(ClientCommand):
         command_line = self.info_lines[0].strip()
         parts = command_line.split(' ')
         if len(parts) < 2:
-            self.add_response_string('no container name provided')
+            self.add_response_string('error: cdel command needs <container> argument')
             return
         container_name = parts[1]
         if '*' == container_name:
