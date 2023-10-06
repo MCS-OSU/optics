@@ -77,17 +77,20 @@ if __name__=='__main__':
                 print(f'invalid user: {user}')
                 continue
         command_name = command_parts[1]
-        command = ''
-        for i in range(1, len(command_parts)):
-            command += command_parts[i] + ' '
-        
-        if is_legal_command(command_name):
-            timestamp = message_mux.send_control_message(user, command_name, command)
+        if command_name == '?':
             scan_for_responses(message_mux)
-            
         else:
-            print(f'invalid command: {command}')
-            usage()
-            continue
+            command = ''
+            for i in range(1, len(command_parts)):
+                command += command_parts[i] + ' '
+            
+            if is_legal_command(command_name):
+                timestamp = message_mux.send_control_message(user, command_name, command)
+                scan_for_responses(message_mux)
+                
+            else:
+                print(f'invalid command: {command}')
+                usage()
+                continue
 
     
