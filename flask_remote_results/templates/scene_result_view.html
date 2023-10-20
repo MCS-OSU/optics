@@ -53,33 +53,45 @@
             </h4>
         </div>
         <div id="scene_info_div" class="w3-container" style="display:flex;flex-direction:row">
-            <div id="scene_list" class="results_list" style="max-height:93vh">
-                <select size="{{ scene_names|length }}" id="scene_select" style="border:0px;margin-top:10px;max-height:93vh">
-                    {% for scene in scene_names %}
-                        {% if scene == scene_name %}
-                            {% if correctness_info['correctness'][scene] == "correct" %}
-                                <option style="padding-left:6px;padding-right:6px;background-color:green;color:white;" value="{{ scene }}" selected>{{ scene }}</option>
-                            {% elif correctness_info['correctness'][scene] == "incorrect" %}
-                                <option style="padding-left:6px;padding-right:6px;background-color:red;color:white;font-style:bold" value="{{ scene }}" selected>{{ scene }}</option>
-                            {% elif correctness_info['correctness'][scene] == "exception" %}
-                                <option style="padding-left:6px;padding-right:6px;background-color:black;color:yellow;" value="{{ scene }}" selected>{{ scene }}</option>
+            <div id="scene_list_info" class="w3-container" style="display:flex;flex-direction:column">
+                <div id="scene_list" class="results_list" style="max-height:93vh">
+                    <select size="{{ scene_names|length }}" id="scene_select" style="border:0px;margin-top:10px;max-height:93vh">
+                        {% for scene in scene_names %}
+                            {% if scene == scene_name %}
+                                {% if correctness_info['correctness'][scene] == "correct" %}
+                                    <option style="padding-left:6px;padding-right:6px;background-color:green;color:white;" value="{{ scene }}" selected>{{ scene }}</option>
+                                {% elif correctness_info['correctness'][scene] == "incorrect" %}
+                                    <option style="padding-left:6px;padding-right:6px;background-color:red;color:white;font-style:bold" value="{{ scene }}" selected>{{ scene }}</option>
+                                {% elif correctness_info['correctness'][scene] == "exception" %}
+                                    <option style="padding-left:6px;padding-right:6px;background-color:black;color:yellow;" value="{{ scene }}" selected>{{ scene }}</option>
+                                {% else %}
+                                    <option style="padding-left:6px;padding-right:6px;" value="{{ scene }}" selected>{{ scene }}</option>
+                                {% endif %}
                             {% else %}
-                                <option style="padding-left:6px;padding-right:6px;" value="{{ scene }}" selected>{{ scene }}</option>
+                                {% if correctness_info['correctness'][scene] == "correct" %}
+                                    <option style="padding-left:6px;padding-right:6px;background-color:green;color:white" value="{{ scene }}">{{ scene }}</option>
+                                {% elif correctness_info['correctness'][scene] == "incorrect" %}
+                                    <option style="padding-left:6px;padding-right:6px;background-color:red;color:white;font-weight:bold" value="{{ scene }}">{{ scene }}</option>
+                                {% elif correctness_info['correctness'][scene] == "exception" %}
+                                    <option style="padding-left:6px;padding-right:6px;background-color:black;color:yellow" value="{{ scene }}">{{ scene }}</option>
+                                {% else %}
+                                    <option style="padding-left:6px;padding-right:6px" value="{{ scene }}">{{ scene }}</option>
+                                {% endif %}
                             {% endif %}
-                        {% else %}
-                            {% if correctness_info['correctness'][scene] == "correct" %}
-                                <option style="padding-left:6px;padding-right:6px;background-color:green;color:white" value="{{ scene }}">{{ scene }}</option>
-                            {% elif correctness_info['correctness'][scene] == "incorrect" %}
-                                <option style="padding-left:6px;padding-right:6px;background-color:red;color:white;font-weight:bold" value="{{ scene }}">{{ scene }}</option>
-                            {% elif correctness_info['correctness'][scene] == "exception" %}
-                                <option style="padding-left:6px;padding-right:6px;background-color:black;color:yellow" value="{{ scene }}">{{ scene }}</option>
-                            {% else %}
-                                <option style="padding-left:6px;padding-right:6px" value="{{ scene }}">{{ scene }}</option>
-                            {% endif %}
-                        {% endif %}
-                    {% endfor %}
-                </select>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div id="correct_count">
+                    <span style="padding-right:10px">Correct: {{correctness_info['correct_count']}}</span>
+                </div>
+                <div id="incorrect_count">
+                    <span style="padding-right:10px">Incorrect: {{correctness_info['incorrect_count']}}</span>
+                </div>
+                <div id="exception count_count">
+                    <span style="padding-right:10px">Exception: {{correctness_info['exception_count']}}</span>
+                </div>
             </div>
+            
             <div id="results"  style="display:flex;flex-direction:column" >
                 <div id="video_div_container">
                     {% if video_url != None %}
