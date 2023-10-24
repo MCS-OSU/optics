@@ -115,4 +115,17 @@ class OpticsData():
         correctness_info_json_string = ec2d.get_correctness_for_scene_type(proj, run, scene_type)
         correctness_info_json_string = remove_warning_lines(correctness_info_json_string)
         correctness_info = json.loads(correctness_info_json_string)
+        correct_count = 0
+        incorrect_count = 0
+        exception_count = 0
+        for scene_name in scene_names:
+            if correctness_info['correctness'][scene_name] == 'correct':
+                correct_count += 1
+            elif correctness_info['correctness'][scene_name] == 'incorrect':
+                incorrect_count += 1
+            elif correctness_info['correctness'][scene_name] == 'exception':
+                exception_count += 1
+        correctness_info['correct_count'] = correct_count
+        correctness_info['incorrect_count'] = incorrect_count
+        correctness_info['exception_count'] = exception_count
         return scene_names, log_content, video_url, correctness_info
