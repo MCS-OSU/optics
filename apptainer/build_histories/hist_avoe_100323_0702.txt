@@ -1,0 +1,5 @@
+2023-10-03 14:42:41  
+first
+2023-10-03 14:42:41  avoe_100323_0702.def - regenerated
+2023-10-03 14:42:41  sifs/avoe_100323_0702.sif - build begin
+2023-10-03 14:52:59  sifs/avoe_100323_0702.sif - build complete

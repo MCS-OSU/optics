@@ -1,0 +1,34 @@
+2023-05-31 15:33:46  
+first
+2023-05-31 15:33:46  avoe_053123_eval6.def - regenerated
+2023-05-31 15:33:46  sifs/avoe_053123_eval6.sif - build begin
+2023-05-31 15:40:34  sifs/avoe_053123_eval6.sif - build complete
+2023-05-31 15:44:29  
+relevant spec was not yet pushed when prior container built
+2023-05-31 15:44:29  sifs/avoe_053123_eval6.sif - deleting prior
+2023-05-31 15:44:29  sifs/avoe_053123_eval6.sif - build begin
+2023-05-31 15:51:30  sifs/avoe_053123_eval6.sif - build complete
+2023-06-01 13:25:38  
+fixed pytorch install issue
+2023-06-01 13:25:38  avoe_053123_eval6.def - regenerated
+2023-06-01 13:25:38  sifs/avoe_053123_eval6.sif - deleting prior
+2023-06-01 13:25:38  sifs/avoe_053123_eval6.sif - build begin
+2023-06-01 13:35:17  sifs/avoe_053123_eval6.sif - build complete
+2023-06-01 14:01:47  
+went back to single install script - multiple approach causing too much confusion and maintenance challenge, i.e. forgot colormap
+2023-06-01 14:01:47  avoe_053123_eval6.def - regenerated
+2023-06-01 14:01:47  sifs/avoe_053123_eval6.sif - deleting prior
+2023-06-01 14:01:48  sifs/avoe_053123_eval6.sif - build begin
+2023-06-01 14:12:33  sifs/avoe_053123_eval6.sif - build complete
+2023-06-01 14:22:04  
+forgot to pull updated spec *(%$)(*$()#(*
+2023-06-01 14:22:04  avoe_053123_eval6.def - regenerated
+2023-06-01 14:22:04  sifs/avoe_053123_eval6.sif - deleting prior
+2023-06-01 14:22:04  sifs/avoe_053123_eval6.sif - build begin
+2023-06-01 14:30:43  sifs/avoe_053123_eval6.sif - build complete
+2023-06-01 20:48:48  
+commit problem on prior build
+2023-06-01 20:48:48  avoe_053123_eval6.def - regenerated
+2023-06-01 20:48:48  sifs/avoe_053123_eval6.sif - deleting prior
+2023-06-01 20:48:49  sifs/avoe_053123_eval6.sif - build begin
+2023-06-01 20:56:51  sifs/avoe_053123_eval6.sif - build complete

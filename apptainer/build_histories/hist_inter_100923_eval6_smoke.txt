@@ -1,0 +1,5 @@
+2023-10-09 11:59:36  
+first
+2023-10-09 11:59:36  inter_100923_eval6_smoke.def - regenerated
+2023-10-09 11:59:36  sifs/inter_100923_eval6_smoke.sif - build begin
+2023-10-09 12:12:04  sifs/inter_100923_eval6_smoke.sif - build complete

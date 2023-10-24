@@ -1,0 +1,5 @@
+2023-07-12 15:46:03  
+first
+2023-07-12 15:46:03  inter_071223_eval6.def - regenerated
+2023-07-12 15:46:03  sifs/inter_071223_eval6.sif - build begin
+2023-07-12 16:21:54  sifs/inter_071223_eval6.sif - build complete

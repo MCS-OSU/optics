@@ -1,0 +1,15 @@
+2023-05-15 11:09:17  
+first
+2023-05-15 11:09:17  inter_051523_5w_6new.def - regenerated
+2023-05-15 11:09:17  sifs/inter_051523_5w_6new.sif - build begin
+2023-05-15 21:49:48  sifs/inter_051523_5w_6new.sif - build complete
+2023-05-30 17:47:46  
+seeing if poetry fixed itself
+2023-05-30 17:47:46  inter_051523_5w_6new.def - regenerated
+2023-05-30 17:47:46  sifs/inter_051523_5w_6new.sif - deleting prior
+2023-05-30 17:47:46  sifs/inter_051523_5w_6new.sif - build begin
+2023-05-30 17:57:13  
+had to move ssh keys back into tmp
+2023-05-30 17:57:13  inter_051523_5w_6new.def - regenerated
+2023-05-30 17:57:13  sifs/inter_051523_5w_6new.sif - build begin
+2023-05-30 18:54:16  sifs/inter_051523_5w_6new.sif - build complete
