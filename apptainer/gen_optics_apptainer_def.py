@@ -81,6 +81,8 @@ def get_section_opics_project_code(optics_branch, proj, project_branch,  pull_ti
     s += f'            echo "NOTE - SUCCESSFULLY PULLED IN DOWNWARD... attempting downward build..."\n'
     s += f'            echo " - "\n'
     s += f'            gcc --version\n'
+    s += f'            sudo apt update\n'
+    s += f'            sudo apt install cmake\n'
     s += f'            ./downward/build.py\n'
     s += f'        else\n'
     s += f'            echo " - "\n'
