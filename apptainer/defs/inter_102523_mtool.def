@@ -1,0 +1,121 @@
+Bootstrap: localimage
+From : /home/jedirv/main_optics/apptainer/sifs/ubuntu_python.sif
+
+
+%environment
+    export OPTICS_HOME=$HOME/test__inter_102523_mtool
+    export OPICS_HOME=$OPTICS_HOME/opics_inter
+    export PYTHONPATH=$OPTICS_HOME:$OPTICS_HOME/opics_common
+    export PATH=/miniconda3/bin:$PATH
+    export REPLAY_HOME=$OPICS_HOME/replay_scenes
+
+
+%post
+    cp /tmp/run_inter_102523_mtool.sh /
+    chmod 775 /run_inter_102523_mtool.sh
+
+    ############################################################################
+    # add private key for github auth
+    ############################################################################
+    eval "$(ssh-agent -s)"
+    mkdir /root/.ssh
+    cp /tmp/config /root/.ssh
+    cp /tmp/id_ed25529_031623  /root/.ssh
+    ssh-add /root/.ssh/id_ed25529_031623
+    cd /
+   git clone git@github.com:MCS-OSU/optics.git image__inter_102523_mtool
+    ############################################################################
+    # put the correct branches into play
+    ############################################################################
+    cd image__inter_102523_mtool
+    git checkout main
+    ############################################################################
+    # copy the ssh version of .gitmodules into place to bypass authentication
+    ############################################################################
+    cp ssh_urls_for_git_modules.txt .gitmodules
+    ############################################################################
+    # credential helper for good measure - may be unnecessary with ssh in play
+    ############################################################################
+    git config --global user.name jedirv
+    git config --global credential.helper store
+    git submodule update --init --recursive
+    cd /image__inter_102523_mtool/opics_inter
+    git checkout mtool_073
+    if [ -f /image__inter_102523_mtool/opics_inter/opics_inter/inter/planner/pddl/pddlstream_local/.gitmodules ]; then 
+        echo " - "
+        echo "NOTE - DETECTED MULTI_TOOL downward SUBMODULE REFERENCE - attempting to pull that in..."
+        echo " - "
+        cd /image__inter_102523_mtool/opics_inter/opics_inter/inter/planner/pddl/pddlstream_local
+        git submodule update --init --recursive
+        if [ -f /image__inter_102523_mtool/opics_inter/opics_inter/inter/planner/pddl/pddlstream_local/downward/build.py ]; then 
+            echo " - "
+            echo "NOTE - SUCCESSFULLY PULLED IN DOWNWARD... attempting downward build..."
+            echo " - "
+            gcc --version
+            apt update
+            apt -y install cmake
+            ./downward/build.py
+        else
+            echo " - "
+            echo "NOTE - FAILED TO PULL IN DOWNWARD"
+            echo " - "
+        fi
+    else
+        echo " - "
+        echo "NOTE - DID NOT DETECT MULTI_TOOL downward SUBMODULE REFERENCE"
+        echo " - "
+    fi
+    cd /image__inter_102523_mtool/opics_common
+    git checkout main
+
+
+    ############################################################################
+    # install python dependencies
+    ############################################################################
+    export OPTICS_HOME=/image__inter_102523_mtool
+    echo "==============  python dependencies  ==================="
+    cd /image__inter_102523_mtool/opics_inter
+    cd $OPTICS_HOME/opics_inter
+    ./all.sh
+
+
+    ############################################################################
+    # position models
+    ############################################################################
+    echo "==============  loading models ==================="
+    cd /
+    echo "contents of slash is : "
+    ls
+    ls -la /image__inter_102523_mtool
+    echo "find image__inter_102523_mtool -type d -print0 | xargs -0 chmod 775"
+    find image__inter_102523_mtool -type d -print0 | xargs -0 chmod 775
+
+
+    ############################################################################
+    #                   --- numpy version hack ---
+    # Reduce numpy version to solve error when 1.24.1 is in place:
+    # AttributeError: module 'numpy' has no attribute 'float'
+    ############################################################################
+    python3 -m pip uninstall -y numpy
+    python3 -m pip install numpy==1.23.5
+
+
+    ############################################################################
+    #                   --- mcs controller timeout patch ---
+    # changing from 3 mins to 1 hour:
+    ############################################################################
+    export PYTHONPATH=$OPTICS_HOME
+    cd $OPTICS_HOME/scripts
+    python3 patch_mcs_controller_timeout.py inter 60
+
+
+    ############################################################################
+    #                   --- compare versions of python dependencies ---
+    ############################################################################
+    export PYTHONPATH=$OPTICS_HOME
+    cd $OPTICS_HOME/scripts
+   python3 compare_pip_lists.py inter
+
+
+%runscript
+/run_inter_102523_mtool.sh $1 $2
