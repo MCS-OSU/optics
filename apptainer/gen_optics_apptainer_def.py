@@ -22,6 +22,8 @@ def get_section_environment(proj, run_time_root_name):
     else:
         s += f'    export OPICS_HOME=$OPTICS_HOME/opics_{proj}\n'
         s += f'    export PYTHONPATH=$OPTICS_HOME:$OPTICS_HOME/opics_common\n'
+    if proj == "inter":
+        s += f'    export PYTHONPATH=$PYTHONPATH:$OPTICS_HOME/opics_inter/opics_inter/inter/planner/pddl/pddlstream/\n'
     s += f'    export PATH=/miniconda3/bin:$PATH\n'
     s += f'    export REPLAY_HOME=$OPICS_HOME/replay_scenes\n'
     s += '\n'
@@ -70,7 +72,31 @@ def get_section_opics_project_code(optics_branch, proj, project_branch,  pull_ti
     proj_pull_dir = os.path.join(pull_time_root_name, dirname_for_proj)
     s += f'    cd /{proj_pull_dir}\n'
     s += f'    git checkout {project_branch}\n'
-
+    s += f'    if [ -d /{proj_pull_dir}/opics_inter/inter/planner/pddl/pddlstream ]; then \n'
+    s += f'        echo " - "\n'
+    s += f'        echo "NOTE - DETECTED PDDL SUBMODULE REFERENCE - attempting to pull that in..."\n'
+    s += f'        echo " - "\n'
+    s += f'        cd /{proj_pull_dir}\n'
+    s += f'        git submodule update --init --recursive\n'
+    s += f'        if [ -f /{proj_pull_dir}/opics_inter/inter/planner/pddl/pddlstream/downward/build.py ]; then \n'
+    s += f'            echo " - "\n'
+    s += f'            echo "NOTE - SUCCESSFULLY PULLED IN DOWNWARD... attempting downward build..."\n'
+    s += f'            echo " - "\n'
+    s += f'            gcc --version\n'
+    s += f'            apt update\n'
+    s += f'            apt -y install cmake\n'
+    s += f'            cd /{proj_pull_dir}/opics_inter/inter/planner/pddl/pddlstream\n'
+    s += f'            ./downward/build.py\n'
+    s += f'        else\n'
+    s += f'            echo " - "\n'
+    s += f'            echo "NOTE - FAILED TO PULL IN DOWNWARD"\n'
+    s += f'            echo " - "\n'
+    s += f'        fi\n'
+    s += f'    else\n'
+    s += f'        echo " - "\n'
+    s += f'        echo "NOTE - DID NOT DETECT PDDLSTREAM SUBMODULE REFERENCE"\n'
+    s += f'        echo " - "\n'
+    s += f'    fi\n'
     # checkout opics_common  main
     opics_common_pull_dir = os.path.join(pull_time_root_name, 'opics_common')
     s += f'    cd /{opics_common_pull_dir}\n'
