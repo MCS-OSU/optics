@@ -168,7 +168,7 @@ def get_section_models(model_config_steps, proj):
 
 
 def get_section_numpy_hack(proj):
-    if proj != 'inter':
+    if proj == 'pvoe':
         return ''
     s = '    ############################################################################\n'
     s += '    #                   --- numpy version hack ---\n'
