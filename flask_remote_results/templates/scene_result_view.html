@@ -205,7 +205,7 @@
             scene_type = scene_type_select.value;
             scene_name = scene_select.options[scene_select.selectedIndex].value;
             video_url = null
-            if (proj == 'inter'){
+            if (proj == 'inter' || proj == 'avoe'){
                 url = '/scene_result/proj/' + proj + '/run/' + run  + '/scene_type/' + scene_type + '/other_scene_name_video/' + scene_name;
                 video_div_container.innerHTML = getLoadingMessage(proj, 'loading video for scene_name ' + scene_name)
                 fetch(url).then(function(response) {

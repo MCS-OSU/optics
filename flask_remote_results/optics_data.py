@@ -105,12 +105,12 @@ class OpticsData():
     def get_result_info(self, proj,run,scene_type, scene_name):
         info = self.data['projects']
         scene_names = sorted(info[proj][run][scene_type]['scene_names'])
-        print(f'scene_names = {scene_names}')
+        #print(f'scene_names = {scene_names}')
         ec2d = EC2DResults()
         stdout_log_rel_path = f'{run}/stdout_logs/{scene_type}/{scene_name}_stdout.txt'
         log_content = ec2d.get_file_contents_for_rel_path(proj, stdout_log_rel_path)
         video_url = None
-        if proj == 'inter':
+        if proj == 'inter' or proj == 'avoe':
             video_url = self.get_video_url(proj, run, scene_type, scene_name)
         correctness_info_json_string = ec2d.get_correctness_for_scene_type(proj, run, scene_type)
         correctness_info_json_string = remove_warning_lines(correctness_info_json_string)
