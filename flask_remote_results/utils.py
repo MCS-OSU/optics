@@ -19,7 +19,8 @@ def remove_warning_lines(s):
     lines = s.split('\n')
     new_lines = []
     for line in lines:
-        if 'WARNING' not in line:
+        if 'WARNING' not in line and 'had None for score' not in line:
             new_lines.append(line)
             print(line)
     return '\n'.join(new_lines)
+    
