@@ -145,6 +145,7 @@ class TestRegisterLocal():
             scene_fname = os.path.basename(scene_path)
             scene_name = scene_fname.split('.')[0]
             state_file_path = utils.get_state_path_for_scene_path(scene_path, self.systest_dirs.scene_state_dir)
+            optics_debug(f'state_file_path needed: {state_file_path}')
             utils.ensure_dir_exists(os.path.dirname(state_file_path))
             if not os.path.exists(state_file_path):
                 optics_debug(f'creating {state_file_path}')

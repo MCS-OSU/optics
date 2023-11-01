@@ -3,16 +3,17 @@ From : /home/jedirv/main_optics/apptainer/sifs/ubuntu_python.sif
 
 
 %environment
-    export OPTICS_HOME=$HOME/test__inter_dgx_5w_6new
-    export OPICS_HOME=$OPTICS_HOME/opics_inter
-    export PYTHONPATH=$OPTICS_HOME:$OPTICS_HOME/opics_common
+    export OPTICS_HOME=$HOME/test__avoe_060523_replay_test_eval6
+    export OPICS_HOME=$OPTICS_HOME/opics
+    export PYTHONPATH=$OPTICS_HOME:$OPTICS_HOME/opics_common:$OPTICS_HOME/opics
     export PATH=/miniconda3/bin:$PATH
+    export OPTICS_DATASTORE=ec2b
     export REPLAY_HOME=$OPICS_HOME/replay_scenes
 
 
 %post
-    cp /tmp/run_inter_dgx_5w_6new.sh /
-    chmod 775 /run_inter_dgx_5w_6new.sh
+    cp /tmp/run_avoe_060523_replay_test_eval6.sh /
+    chmod 775 /run_avoe_060523_replay_test_eval6.sh
 
     ############################################################################
     # add private key for github auth
@@ -23,11 +24,11 @@ From : /home/jedirv/main_optics/apptainer/sifs/ubuntu_python.sif
     cp /tmp/id_ed25529_031623  /root/.ssh
     ssh-add /root/.ssh/id_ed25529_031623
     cd /
-   git clone git@github.com:MCS-OSU/optics.git image__inter_dgx_5w_6new
+   git clone git@github.com:MCS-OSU/optics.git image__avoe_060523_replay_test_eval6
     ############################################################################
     # put the correct branches into play
     ############################################################################
-    cd image__inter_dgx_5w_6new
+    cd image__avoe_060523_replay_test_eval6
     git checkout main
     ############################################################################
     # copy the ssh version of .gitmodules into place to bypass authentication
@@ -39,20 +40,22 @@ From : /home/jedirv/main_optics/apptainer/sifs/ubuntu_python.sif
     git config --global user.name jedirv
     git config --global credential.helper store
     git submodule update --init --recursive
-    cd /image__inter_dgx_5w_6new/opics_inter
-    git checkout v6.0.8
-    cd /image__inter_dgx_5w_6new/opics_common
+    cd /image__avoe_060523_replay_test_eval6/opics
+    git checkout avoe_v6.1.3_040223
+    cd /image__avoe_060523_replay_test_eval6/opics_common
     git checkout main
 
 
     ############################################################################
     # install python dependencies
     ############################################################################
-    export OPTICS_HOME=/image__inter_dgx_5w_6new
+    export OPTICS_HOME=/image__avoe_060523_replay_test_eval6
+    export OPICS_HOME=/image__avoe_060523_replay_test_eval6/opics
     echo "==============  python dependencies  ==================="
-    cd /image__inter_dgx_5w_6new/opics_inter
-    cd $OPTICS_HOME/opics_inter
-    ./all.sh
+    cd /image__avoe_060523_replay_test_eval6/opics
+    cd $OPICS_HOME/scripts/avoe
+    chmod 770 setup_avoe_til_poetry.sh
+    ./setup_avoe_til_poetry.sh
 
 
     ############################################################################
@@ -62,18 +65,9 @@ From : /home/jedirv/main_optics/apptainer/sifs/ubuntu_python.sif
     cd /
     echo "contents of slash is : "
     ls
-    ls -la /image__inter_dgx_5w_6new
-    echo "find image__inter_dgx_5w_6new -type d -print0 | xargs -0 chmod 775"
-    find image__inter_dgx_5w_6new -type d -print0 | xargs -0 chmod 775
-
-
-    ############################################################################
-    #                   --- numpy version hack ---
-    # Reduce numpy version to solve error when 1.24.1 is in place:
-    # AttributeError: module 'numpy' has no attribute 'float'
-    ############################################################################
-    python3 -m pip uninstall -y numpy
-    python3 -m pip install numpy==1.23.5
+    ls -la /image__avoe_060523_replay_test_eval6
+    echo "find image__avoe_060523_replay_test_eval6 -type d -print0 | xargs -0 chmod 775"
+    find image__avoe_060523_replay_test_eval6 -type d -print0 | xargs -0 chmod 775
 
 
     ############################################################################
@@ -82,7 +76,7 @@ From : /home/jedirv/main_optics/apptainer/sifs/ubuntu_python.sif
     ############################################################################
     export PYTHONPATH=$OPTICS_HOME
     cd $OPTICS_HOME/scripts
-    python3 patch_mcs_controller_timeout.py inter 60
+    python3 patch_mcs_controller_timeout.py avoe 60
 
 
     ############################################################################
@@ -90,8 +84,8 @@ From : /home/jedirv/main_optics/apptainer/sifs/ubuntu_python.sif
     ############################################################################
     export PYTHONPATH=$OPTICS_HOME
     cd $OPTICS_HOME/scripts
-   python3 compare_pip_lists.py inter
+   python3 compare_pip_lists.py avoe
 
 
 %runscript
-/run_inter_dgx_5w_6new.sh $1 $2
+/run_avoe_060523_replay_test_eval6.sh $1 $2

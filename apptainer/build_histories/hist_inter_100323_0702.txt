@@ -1,0 +1,9 @@
+2023-10-03 12:03:34  
+first
+2023-10-03 12:03:34  inter_100323_0702.def - regenerated
+2023-10-03 12:03:34  sifs/inter_100323_0702.sif - build begin
+2023-10-03 12:17:55  
+forgot to position ssh keys
+2023-10-03 12:17:55  inter_100323_0702.def - regenerated
+2023-10-03 12:17:55  sifs/inter_100323_0702.sif - build begin
+2023-10-03 12:28:26  sifs/inter_100323_0702.sif - build complete

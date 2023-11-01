@@ -1,0 +1,15 @@
+2023-08-22 14:55:57  
+first
+2023-08-22 14:55:57  avoe_082223_0701.def - regenerated
+2023-08-22 14:55:57  sifs/avoe_082223_0701.sif - build begin
+2023-08-22 14:58:35  
+had to fix ssh files
+2023-08-22 14:58:35  avoe_082223_0701.def - regenerated
+2023-08-22 14:58:35  sifs/avoe_082223_0701.sif - build begin
+2023-08-22 15:07:29  sifs/avoe_082223_0701.sif - build complete
+2023-08-22 17:20:52  
+forgot to tick the version of mcs in the avoe branch
+2023-08-22 17:20:52  avoe_082223_0701.def - regenerated
+2023-08-22 17:20:52  sifs/avoe_082223_0701.sif - deleting prior
+2023-08-22 17:20:52  sifs/avoe_082223_0701.sif - build begin
+2023-08-22 17:29:23  sifs/avoe_082223_0701.sif - build complete

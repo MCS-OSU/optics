@@ -1,0 +1,14 @@
+2023-05-18 15:28:18  
+first
+2023-05-18 15:28:18  avoe_051523_ev5_6new.def - regenerated
+2023-05-18 15:28:18  sifs/avoe_051523_ev5_6new.sif - build begin
+2023-05-18 16:13:26  
+commented out scene_gen to avoid poetry
+2023-05-18 16:13:26  avoe_051523_ev5_6new.def - regenerated
+2023-05-18 16:13:26  sifs/avoe_051523_ev5_6new.sif - build begin
+2023-05-18 16:24:11  sifs/avoe_051523_ev5_6new.sif - build complete
+2023-05-19 13:55:22  
+looks up datastore from .optics.ini
+2023-05-19 13:55:22  sifs/avoe_051523_ev5_6new.sif - deleting prior
+2023-05-19 13:55:23  sifs/avoe_051523_ev5_6new.sif - build begin
+2023-05-19 14:04:46  sifs/avoe_051523_ev5_6new.sif - build complete

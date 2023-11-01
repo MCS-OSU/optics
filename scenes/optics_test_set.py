@@ -1,6 +1,7 @@
 import os, sys
 from scenes.scene_json import SceneJson
 from core.constants import MAX_ROOM_DIMENSION
+from core.utils import optics_debug
 
 def exit_with(error_msg):
     print(error_msg)
@@ -30,7 +31,7 @@ class OpticsTestSet():
                 continue
             scene_json = SceneJson(full_path_to_json_scene_file)
             max_room_dimension = scene_json.get_max_room_dimension()
-            if (max_room_dimension <= MAX_ROOM_DIMENSION):
+            if (max_room_dimension <= MAX_ROOM_DIMENSION or True):
                 scene_paths.append(full_path_to_json_scene_file)
                 # if 'ramp' in full_path_to_json_scene_file:
                 #     print(f'FYI - including scene {full_path_to_json_scene_file}')

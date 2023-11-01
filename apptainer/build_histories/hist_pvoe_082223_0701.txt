@@ -1,0 +1,17 @@
+2023-08-22 22:00:58  
+first
+2023-08-22 22:00:58  pvoe_082223_0701.def - regenerated
+2023-08-22 22:00:58  sifs/pvoe_082223_0701.sif - build begin
+2023-08-22 22:11:57  sifs/pvoe_082223_0701.sif - build complete
+2023-08-22 23:20:35  
+just trying again to see if incomprehensible problem was ephemeral
+2023-08-22 23:20:35  pvoe_082223_0701.def - regenerated
+2023-08-22 23:20:35  sifs/pvoe_082223_0701.sif - deleting prior
+2023-08-22 23:20:36  sifs/pvoe_082223_0701.sif - build begin
+2023-08-22 23:30:09  sifs/pvoe_082223_0701.sif - build complete
+2023-08-23 12:29:08  
+change pycocotools version to see if it fixes build problem
+2023-08-23 12:29:08  pvoe_082223_0701.def - regenerated
+2023-08-23 12:29:08  sifs/pvoe_082223_0701.sif - deleting prior
+2023-08-23 12:29:08  sifs/pvoe_082223_0701.sif - build begin
+2023-08-23 12:39:56  sifs/pvoe_082223_0701.sif - build complete

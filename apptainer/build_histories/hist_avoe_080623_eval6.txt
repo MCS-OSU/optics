@@ -1,0 +1,9 @@
+2023-08-06 20:55:07  
+first
+2023-08-06 20:55:08  avoe_080623_eval6.def - regenerated
+2023-08-06 20:55:08  sifs/avoe_080623_eval6.sif - build begin
+2023-08-06 20:57:51  
+had to fix ssh keys after power outage
+2023-08-06 20:57:51  avoe_080623_eval6.def - regenerated
+2023-08-06 20:57:51  sifs/avoe_080623_eval6.sif - build begin
+2023-08-06 21:06:10  sifs/avoe_080623_eval6.sif - build complete

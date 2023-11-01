@@ -1,0 +1,29 @@
+2023-06-05 20:53:58  
+first
+2023-06-05 20:53:58  avoe_060523_replay_test_eval6.def - regenerated
+2023-06-05 20:53:58  sifs/avoe_060523_replay_test_eval6.sif - build begin
+2023-06-05 21:02:10  sifs/avoe_060523_replay_test_eval6.sif - build complete
+2023-06-05 23:21:08  
+aligned use of REPLAY_HOME
+2023-06-05 23:21:08  avoe_060523_replay_test_eval6.def - regenerated
+2023-06-05 23:21:08  sifs/avoe_060523_replay_test_eval6.sif - deleting prior
+2023-06-05 23:21:09  sifs/avoe_060523_replay_test_eval6.sif - build begin
+2023-06-05 23:29:03  sifs/avoe_060523_replay_test_eval6.sif - build complete
+2023-06-05 23:34:50  
+fix indent error
+2023-06-05 23:34:50  sifs/avoe_060523_replay_test_eval6.sif - deleting prior
+2023-06-05 23:34:51  sifs/avoe_060523_replay_test_eval6.sif - build begin
+2023-06-05 23:42:51  sifs/avoe_060523_replay_test_eval6.sif - build complete
+2023-06-09 16:48:52  
+added ubuntu in front of url so pem would work during replay file conversation
+2023-06-09 16:48:52  sifs/avoe_060523_replay_test_eval6.sif - deleting prior
+2023-06-09 16:48:52  sifs/avoe_060523_replay_test_eval6.sif - build begin
+2023-06-09 16:50:04  
+the sh file was missing from tmp - trying again further upstream (2)
+2023-06-09 16:50:04  avoe_060523_replay_test_eval6.def - regenerated
+2023-06-09 16:50:04  sifs/avoe_060523_replay_test_eval6.sif - build begin
+2023-06-09 16:53:41  
+had to reposition ssh config in /tmp
+2023-06-09 16:53:41  avoe_060523_replay_test_eval6.def - regenerated
+2023-06-09 16:53:41  sifs/avoe_060523_replay_test_eval6.sif - build begin
+2023-06-09 17:02:48  sifs/avoe_060523_replay_test_eval6.sif - build complete

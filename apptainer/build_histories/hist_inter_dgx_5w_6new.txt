@@ -9,3 +9,8 @@ changed permissionsof run_script at the wrong stage
 2023-04-19 17:51:42  sifs/inter_dgx_5w_6new.sif - deleting prior
 2023-04-19 17:51:43  sifs/inter_dgx_5w_6new.sif - build begin
 2023-04-19 18:01:09  sifs/inter_dgx_5w_6new.sif - build complete
+2023-08-10 14:25:30  
+documenting using this build output
+2023-08-10 14:25:30  inter_dgx_5w_6new.def - regenerated
+2023-08-10 14:25:30  sifs/inter_dgx_5w_6new.sif - deleting prior
+2023-08-10 14:25:30  sifs/inter_dgx_5w_6new.sif - build begin

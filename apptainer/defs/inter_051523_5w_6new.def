@@ -3,16 +3,16 @@ From : /home/jedirv/main_optics/apptainer/sifs/ubuntu_python.sif
 
 
 %environment
-    export OPTICS_HOME=$HOME/test__inter_dgx_5w_6new
+    export OPTICS_HOME=$HOME/test__inter_051523_5w_6new
     export OPICS_HOME=$OPTICS_HOME/opics_inter
     export PYTHONPATH=$OPTICS_HOME:$OPTICS_HOME/opics_common
     export PATH=/miniconda3/bin:$PATH
-    export REPLAY_HOME=$OPICS_HOME/replay_scenes
+    export OPTICS_DATASTORE=ec2b
 
 
 %post
-    cp /tmp/run_inter_dgx_5w_6new.sh /
-    chmod 775 /run_inter_dgx_5w_6new.sh
+    cp /tmp/run_inter_051523_5w_6new.sh /
+    chmod 775 /run_inter_051523_5w_6new.sh
 
     ############################################################################
     # add private key for github auth
@@ -23,11 +23,11 @@ From : /home/jedirv/main_optics/apptainer/sifs/ubuntu_python.sif
     cp /tmp/id_ed25529_031623  /root/.ssh
     ssh-add /root/.ssh/id_ed25529_031623
     cd /
-   git clone git@github.com:MCS-OSU/optics.git image__inter_dgx_5w_6new
+   git clone git@github.com:MCS-OSU/optics.git image__inter_051523_5w_6new
     ############################################################################
     # put the correct branches into play
     ############################################################################
-    cd image__inter_dgx_5w_6new
+    cd image__inter_051523_5w_6new
     git checkout main
     ############################################################################
     # copy the ssh version of .gitmodules into place to bypass authentication
@@ -39,18 +39,18 @@ From : /home/jedirv/main_optics/apptainer/sifs/ubuntu_python.sif
     git config --global user.name jedirv
     git config --global credential.helper store
     git submodule update --init --recursive
-    cd /image__inter_dgx_5w_6new/opics_inter
+    cd /image__inter_051523_5w_6new/opics_inter
     git checkout v6.0.8
-    cd /image__inter_dgx_5w_6new/opics_common
+    cd /image__inter_051523_5w_6new/opics_common
     git checkout main
 
 
     ############################################################################
     # install python dependencies
     ############################################################################
-    export OPTICS_HOME=/image__inter_dgx_5w_6new
+    export OPTICS_HOME=/image__inter_051523_5w_6new
     echo "==============  python dependencies  ==================="
-    cd /image__inter_dgx_5w_6new/opics_inter
+    cd /image__inter_051523_5w_6new/opics_inter
     cd $OPTICS_HOME/opics_inter
     ./all.sh
 
@@ -62,9 +62,9 @@ From : /home/jedirv/main_optics/apptainer/sifs/ubuntu_python.sif
     cd /
     echo "contents of slash is : "
     ls
-    ls -la /image__inter_dgx_5w_6new
-    echo "find image__inter_dgx_5w_6new -type d -print0 | xargs -0 chmod 775"
-    find image__inter_dgx_5w_6new -type d -print0 | xargs -0 chmod 775
+    ls -la /image__inter_051523_5w_6new
+    echo "find image__inter_051523_5w_6new -type d -print0 | xargs -0 chmod 775"
+    find image__inter_051523_5w_6new -type d -print0 | xargs -0 chmod 775
 
 
     ############################################################################
@@ -94,4 +94,4 @@ From : /home/jedirv/main_optics/apptainer/sifs/ubuntu_python.sif
 
 
 %runscript
-/run_inter_dgx_5w_6new.sh $1 $2
+/run_inter_051523_5w_6new.sh $1 $2
