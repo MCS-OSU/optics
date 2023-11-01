@@ -105,7 +105,7 @@ class OpticsData():
     def get_result_info(self, proj,run,scene_type, scene_name):
         info = self.data['projects']
         scene_names = sorted(info[proj][run][scene_type]['scene_names'])
-        print(f'scene_names = {scene_names}')
+        #print(f'scene_names = {scene_names}')
         ec2d = EC2DResults()
         stdout_log_rel_path = f'{run}/stdout_logs/{scene_type}/{scene_name}_stdout.txt'
         log_content = ec2d.get_file_contents_for_rel_path(proj, stdout_log_rel_path)

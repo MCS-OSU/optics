@@ -115,8 +115,10 @@ class TestRegisterLocal():
 
 
 
-    def store_videos(self, videos_dir):
+    def store_videos(self, videos_dir_path):
         # videos_dir == scene_name
+        optics_info(f'storing videos {videos_dir_path}')
+        videos_dir = os.path.basename(videos_dir_path)
         scene_type = get_abbrev_scene_type_from_filename(videos_dir)
         (src, dest) = utils.get_pathnames_for_video(videos_dir, scene_type, self.systest_dirs.videos_dir, 'topdown')
         utils.ensure_dir_exists(os.path.dirname(dest))
