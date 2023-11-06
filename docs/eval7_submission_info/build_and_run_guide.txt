@@ -1,0 +1,49 @@
+The OPICS evaluation 7 submission uses apptainer containers to contain the environments used by our three systems:
+
+    AVOE - agency violation of expectation
+    PVOE - phyics violaation of expectation
+    INTER - interactive / retrieval
+
+The three apptainer containers are located at
+
+
+~/containers/avoe_102723_helphind.sif
+~/containers/pvoe_040323_eval5_cuda_11.sif
+~/containers/inter_101823_val7.sif 
+
+NOTE - OPICS is not being evaluated on Passive Physics scenes in Evaluation 7, but we left the PVOE container
+that was delivered for Eval6 in place so that PVOE scenes would still run.
+
+
+HOW TO RUN A SCENE
+
+# run the main_optics alias to set headless mode and env variables 
+%main_optics
+
+# cd in to the scripts dir and run the unified launch script
+%cd scripts
+%python opics_eval7_run_scene.py --scene <path_to_scene_file>
+
+
+This script uses the scene category to choose the appropriate container and then invokes
+
+    apptainer run --nv <container path> run_opics_scene <scene_path>
+
+
+
+Since apptainer containers are read only unless you bind directories in from the outside, we avoid the binding issue altogether
+by copying our code image from the container at /image__<container_name> to ~/test__<container_name, so that it can be run in
+writeable space (under the home dir). We are "in the container" environment-wise, but running code that is now outside the container.
+
+Each time a scene is run, the ~/test__<container_name> area is purged and the /image__<container_name> image is copied afresh.
+
+
+To inspect a container,
+
+% apptainer shell <container path>
+
+
+
+
+
+
