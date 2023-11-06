@@ -1,4 +1,4 @@
-The OPICS evaluation 7 submission uses apptainer containers to contain the environments used by our three systems:
+The OPICS evaluation 7 Validation #1 submission uses apptainer containers to contain the environments used by our three systems:
 
     AVOE - agency violation of expectation
     PVOE - phyics violaation of expectation
