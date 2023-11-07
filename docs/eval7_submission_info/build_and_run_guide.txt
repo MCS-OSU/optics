@@ -15,6 +15,61 @@ NOTE - OPICS is not being evaluated on Passive Physics scenes in Evaluation 7, b
 that was delivered for Eval6 in place so that PVOE scenes would still run.
 
 
+Scene types support for Validation run #1:
+
+AVOE Supported
+
+    helper hinderer
+
+AVOE Not Yet Supported
+
+    agent/nonagent
+    social imitation
+    social approach
+    true/false belief
+
+
+
+INTER Supported 
+    
+    container
+    lava
+    holes
+    moving target
+    interactive object permanence
+    occluder
+    ramps
+    solidity
+    spatial elimination
+    support relations
+    tool
+    asymmetric tool
+    imitation
+    set rotation
+    spatial reference   (known bug thwarts all val7 scenes)
+    reorganization
+    tool choice
+    hidden trajectory
+    collision trajectory
+    shell
+
+INTER Not Yet Supported
+
+    hidden set rotation
+    knowledgable agents
+    multi-tool
+
+INTER Not Relevant for OPICS
+    agent identification
+    obstacle
+    math
+    number comparison
+    seeing leads to knowing
+
+
+
+
+
 HOW TO RUN A SCENE
 
 # run the main_optics alias to set headless mode and env variables 
