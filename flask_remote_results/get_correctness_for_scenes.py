@@ -69,8 +69,11 @@ def get_stdout_logs_instance(proj, run, scene_type):
 
 def get_avoe_pair_for_scene_name(pairs, scene_name):
     for pair in pairs:
-        if pair.log_01.scene_name in scene_name or pair.log_02.scene_name in scene_name:
+        if pair.log_01.scene_name in scene_name:
             return pair 
+        if pair.log_02 != None:
+            if pair.log_02.scene_name in scene_name:
+                return pair
     return None
 
 def get_correctness(proj, run, scene_type):
