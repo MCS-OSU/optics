@@ -15,16 +15,16 @@ The three apptainer containers are located at
 that was delivered for Eval6 in place so that PVOE scenes would still run.)
 
 
-Scene types support for Validation run #1:
+Scene types support for Validation run #3 : (INTER unchanged since evaluation 2)
 
-    AVOE Supported
+    AVOE Supported  
 
-        helper hinderer
+        social imitation
 
     AVOE Not Yet Supported
 
         agent/nonagent
-        social imitation
+        helper hinderer
         social approach
         true/false belief
 
@@ -42,22 +42,22 @@ Scene types support for Validation run #1:
         solidity
         spatial elimination
         support relations
-        tool
-        asymmetric tool
         imitation
         set rotation
-        spatial reference   (known bug thwarts all val7 scenes)
         reorganization
-        tool choice
         hidden trajectory
         collision trajectory
         shell
 
-    INTER Not Yet Supported
+    INTER Not Supported for Validation run 2
 
         hidden set rotation
         knowledgable agents
+        spatial reference   (known bug thwarts all val7 scenes)
+        tool
         multi-tool
+        asymmetric tool
+        tool choice
 
     INTER Not Relevant for OPICS
         agent identification
