@@ -268,7 +268,7 @@ class TestRegisterLocal():
 
 
 
-    def gather_scene_state_paths(self):
+    def gather_active_scene_state_paths(self):
         result = []
         scene_state_dir = self.systest_dirs.scene_state_dir
         type_dirs = os.listdir(scene_state_dir)
@@ -293,7 +293,7 @@ class TestRegisterLocal():
 
 
     def load_scene_state_histories(self):
-        scene_state_paths = self.gather_scene_state_paths()
+        scene_state_paths = self.gather_active_scene_state_paths()
         scene_state_paths.sort()
         scene_state_histories = []
         for scene_state_path in scene_state_paths:
@@ -315,23 +315,24 @@ class TestRegisterLocal():
 
     def show_runs_summary(self):
         scene_state_histories = self.load_scene_state_histories()
-        print(utils.header(f' runs: {self.get_completed_scene_count(scene_state_histories)}/{len(scene_state_histories)}'))
+        print(utils.header(f' runs: {self.get_completed_scene_count()}/{len(scene_state_histories)}'))
         opics_run_state = OpicsRunState('')
         opics_run_state.show_runs_summary(scene_state_histories)
 
     def show_gpu_mem_fail_retry_count(self):
         scene_state_histories = self.load_scene_state_histories()
-        print(utils.header(f' runs: {self.get_completed_scene_count(scene_state_histories)}/{len(scene_state_histories)}'))
+        print(utils.header(f' runs: {self.get_completed_scene_count()}/{len(scene_state_histories)}'))
         opics_run_state = OpicsRunState('')
         opics_run_state.show_gpu_mem_fail_retry_count(scene_state_histories)
 
     def show_scene_timings(self):
         scene_state_histories = self.load_scene_state_histories()
-        print(utils.header(f' runs: {self.get_completed_scene_count(scene_state_histories)}/{len(scene_state_histories)}'))
+        print(utils.header(f' runs: {self.get_completed_scene_count()}/{len(scene_state_histories)}'))
         opics_run_state = OpicsRunState('')
         opics_run_state.show_scene_timings(scene_state_histories)
 
-    def get_completed_scene_count(self,scene_state_histories):
+    def get_completed_scene_count(self):
+        scene_state_histories = self.load_scene_state_histories()
         completed_count = 0
         for ssh in scene_state_histories:
             if ssh.is_completed():

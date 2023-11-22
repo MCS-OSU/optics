@@ -10,12 +10,16 @@ from opics_common.results.stats_avoe import StatsAvoe
 from opics_common.results.stats_inter import StatsInter
 from opics_common.results.avoe_pairs import AvoePairs
 from core.optics_dirs import SystestDirectories
+from core.test_register import TestRegisterLocal
+from optics_results.scene_state_histories import SceneStateHistories
 
 class OpticsScores:
     def __init__(self, proj, optics_spec):
         self.proj = proj
         self.optics_spec = optics_spec
         self.systest_dirs = SystestDirectories(str(Path.home()), self.optics_spec)
+        self.scene_state_histories = SceneStateHistories(self.systest_dirs)
+        self.test_register = TestRegisterLocal(self.systest_dirs)
         self.proj_log_dir = self.systest_dirs.result_logs_dir
         self.proj_stdout_log_dir = self.systest_dirs.stdout_logs_dir
 
@@ -102,4 +106,11 @@ class OpticsScores:
             self.inter_stats.results_by_scene_type()
             self.inter_stats.results_by_scene_type_and_cube_id()
             print('')
+
+        self.test_register.gather_do_types_from_spec(self.optics_spec.types_to_run)
+        completed_scene_count = self.test_register.get_completed_scene_count()
+        active_scenes = self.test_register.gather_active_scene_state_paths()
+        percent = int((float(completed_scene_count) / float(len(active_scenes)) ) * 100)
+        print('')
+        print(f' <<<  {completed_scene_count} completed out of {len(active_scenes)} scenes specified to run in optics spec {percent}%  >>>')
     
