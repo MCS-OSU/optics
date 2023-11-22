@@ -296,7 +296,6 @@ class TestRegisterLocal():
         scene_state_paths = self.gather_scene_state_paths()
         scene_state_paths.sort()
         scene_state_histories = []
-        print(utils.header(f' runs: {len(scene_state_paths)}'))
         for scene_state_path in scene_state_paths:
             try:
                 f = open(scene_state_path, 'r')
@@ -316,19 +315,28 @@ class TestRegisterLocal():
 
     def show_runs_summary(self):
         scene_state_histories = self.load_scene_state_histories()
+        print(utils.header(f' runs: {self.get_completed_scene_count(scene_state_histories)}/{len(scene_state_histories)}'))
         opics_run_state = OpicsRunState('')
         opics_run_state.show_runs_summary(scene_state_histories)
 
     def show_gpu_mem_fail_retry_count(self):
         scene_state_histories = self.load_scene_state_histories()
+        print(utils.header(f' runs: {self.get_completed_scene_count(scene_state_histories)}/{len(scene_state_histories)}'))
         opics_run_state = OpicsRunState('')
         opics_run_state.show_gpu_mem_fail_retry_count(scene_state_histories)
 
     def show_scene_timings(self):
         scene_state_histories = self.load_scene_state_histories()
+        print(utils.header(f' runs: {self.get_completed_scene_count(scene_state_histories)}/{len(scene_state_histories)}'))
         opics_run_state = OpicsRunState('')
         opics_run_state.show_scene_timings(scene_state_histories)
 
+    def get_completed_scene_count(self,scene_state_histories):
+        completed_count = 0
+        for ssh in scene_state_histories:
+            if ssh.is_completed():
+                completed_count += 1
+        return completed_count
     ##########################################################################
     # api used by forget_systest_data.py
     ##########################################################################
