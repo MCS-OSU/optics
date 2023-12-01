@@ -65,6 +65,36 @@ class OpticsScores:
         else:
             self.inter_stats = StatsInter(self.opics_logs,'inter')
     
+    def show_totals_diff(self, other_run_scores):
+        other_scores_logs_for_scene_types = other_run_scores.opics_logs.logs[self.proj]
+        proj_logs_for_scene_types = self.opics_logs.logs[self.proj]
+        for scene_type in proj_logs_for_scene_types:
+            if scene_type in other_scores_logs_for_scene_types:
+                self.show_totals_report_for_scene_type(scene_type, other_run_scores)
+                
+
+    def show_totals_report_for_scene_type(self, scene_type, other_run_scores):
+        proj = self.proj
+        other = other_run_scores
+        total = self.opics_logs.get_count_for_proj_scene(proj,scene_type)
+        unknowns = self.opics_logs.count_results_unknown(proj,scene_type)
+        fails    = self.opics_logs.count_results_fail(proj,scene_type)
+        successes= self.opics_logs.count_results_successes(proj,scene_type)
+        exceptions = self.opics_logs.count_results_exceptions(proj,scene_type)
+        print(f' {scene_type} \ttotal{total} \tsuccess{successes}  \tfails {fails} \texcep {exceptions} \tunknowns {unknowns}')
+        ol = other_run_scores.opics_logs
+        o_total       = ol.get_count_for_proj_scene(proj,scene_type)
+        o_unknowns    = ol.count_results_unknown(proj,scene_type)
+        o_fails       = ol.count_results_fail(proj,scene_type)
+        o_successes   = ol.count_results_successes(proj,scene_type)
+        o_exceptions  = ol.count_results_exceptions(proj,scene_type)
+        print(f' {scene_type} \ttotal{o_total} \tsuccess{o_successes}  \tfails {o_fails} \texcep {o_exceptions} \tunknowns {o_unknowns}')
+        print('')
+
+    def show_details_diff(self, other_scores):
+        pass
+
+
     def show_exceptions(self):
         self.opics_logs.express_exceptions(self.proj)
 
