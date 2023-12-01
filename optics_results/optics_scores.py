@@ -68,10 +68,19 @@ class OpticsScores:
     def show_totals_diff(self, other_run_scores):
         other_scores_logs_for_scene_types = other_run_scores.opics_logs.logs[self.proj]
         proj_logs_for_scene_types = self.opics_logs.logs[self.proj]
+        print(f'comparing    {self.optics_spec.config_name}   and   {other_run_scores.optics_spec.config_name}')
         for scene_type in proj_logs_for_scene_types:
             if scene_type in other_scores_logs_for_scene_types:
                 self.show_totals_report_for_scene_type(scene_type, other_run_scores)
                 
+
+    def get_value_change(self, pc, pc_other, label):
+        if pc == pc_other:
+            return f'{label}'
+        if pc > pc_other:
+            return f'-{pc - pc_other} {label}'
+        else:
+            return f'+{pc_other - pc} {label}'
 
     def show_totals_report_for_scene_type(self, scene_type, other_run_scores):
         proj = self.proj
@@ -81,15 +90,35 @@ class OpticsScores:
         fails    = self.opics_logs.count_results_fail(proj,scene_type)
         successes= self.opics_logs.count_results_successes(proj,scene_type)
         exceptions = self.opics_logs.count_results_exceptions(proj,scene_type)
-        print(f' {scene_type} \ttotal{total} \tsuccess{successes}  \tfails {fails} \texcep {exceptions} \tunknowns {unknowns}')
+        #print(f' {scene_type} \ttotal{total} \tsuccess{successes}  \tfails {fails} \texcep {exceptions} \tunknowns {unknowns}')
         ol = other_run_scores.opics_logs
         o_total       = ol.get_count_for_proj_scene(proj,scene_type)
         o_unknowns    = ol.count_results_unknown(proj,scene_type)
         o_fails       = ol.count_results_fail(proj,scene_type)
         o_successes   = ol.count_results_successes(proj,scene_type)
         o_exceptions  = ol.count_results_exceptions(proj,scene_type)
-        print(f' {scene_type} \ttotal{o_total} \tsuccess{o_successes}  \tfails {o_fails} \texcep {o_exceptions} \tunknowns {o_unknowns}')
-        print('')
+        #print(f' {scene_type} \ttotal{o_total} \tsuccess{o_successes}  \tfails {o_fails} \texcep {o_exceptions} \tunknowns {o_unknowns}')
+        
+        pc = int((float(successes) / float(total)) * 100)
+        pc_other = int((float(o_successes) / float(o_total)) * 100)
+        pc_delta = self.get_value_change(pc,         pc_other,      '%')
+        t_delta  = self.get_value_change(total,      o_total,       'total')
+        s_delta  = self.get_value_change(successes,  o_successes,   'success')
+        f_delta  = self.get_value_change(fails,      o_fails,       'fail')
+        e_delta  = self.get_value_change(exceptions, o_exceptions,  'exception')
+        u_delta  = self.get_value_change(unknowns,   o_unknowns,    'unknown')
+        print(f'')
+        print(f'{scene_type.ljust(10)}   {str(pc).ljust(6)}{str(pc_other).ljust(6)}{pc_delta}')
+        print(f'{scene_type.ljust(10)}   {str(total).ljust(6)}{str(o_total).ljust(6)}{t_delta}')
+        if successes != 0 or o_successes != 0:
+            print(f'{scene_type.ljust(10)}   {str(successes).ljust(6)}{str(o_successes).ljust(6)}{s_delta}')
+        if fails != 0 or o_fails != 0:
+            print(f'{scene_type.ljust(10)}   {str(fails).ljust(6)}{str(o_fails).ljust(6)}{f_delta}')
+        if exceptions != 0 or o_exceptions != 0:
+            print(f'{scene_type.ljust(10)}   {str(exceptions).ljust(6)}{str(o_exceptions).ljust(6)}{e_delta}')
+        if unknowns != 0 or o_unknowns != 0:
+            print(f'{scene_type.ljust(10)}   {str(unknowns).ljust(6)}{str(o_unknowns).ljust(6)}{u_delta}')
+
 
     def show_details_diff(self, other_scores):
         pass

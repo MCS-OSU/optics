@@ -64,7 +64,6 @@ if __name__ == '__main__':
     optics_scores_2 = OpticsScores(proj1,optics_spec_2)
 
     print(f'\n\n              -  difference {scope} -\n\n')
-
     if scope == 'totals':
         optics_scores_1.show_totals_diff(optics_scores_2)
     elif scope == 'details':
