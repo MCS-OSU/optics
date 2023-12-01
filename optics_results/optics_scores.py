@@ -65,14 +65,26 @@ class OpticsScores:
         else:
             self.inter_stats = StatsInter(self.opics_logs,'inter')
     
+    def get_all_scene_types_in_play(self, logs_for_scene_types, other_logs_for_scene_types):
+        all_types = []
+        all_types.extend(logs_for_scene_types)
+        for scene_type in other_logs_for_scene_types:
+            if not scene_type in all_types:
+                all_types.append(scene_type)
+        return sorted(all_types)
+
     def show_totals_diff(self, other_run_scores):
         other_scores_logs_for_scene_types = other_run_scores.opics_logs.logs[self.proj]
         proj_logs_for_scene_types = self.opics_logs.logs[self.proj]
         print(f'comparing    {self.optics_spec.config_name}   and   {other_run_scores.optics_spec.config_name}')
-        for scene_type in proj_logs_for_scene_types:
-            if scene_type in other_scores_logs_for_scene_types:
-                self.show_totals_report_for_scene_type(scene_type, other_run_scores)
-                
+        all_scene_types_in_play = self.get_all_scene_types_in_play(proj_logs_for_scene_types, other_scores_logs_for_scene_types)
+        for scene_type in all_scene_types_in_play:
+            if scene_type in other_scores_logs_for_scene_types and scene_type in proj_logs_for_scene_types:
+                self.show_comparison_report_for_scene_type(scene_type, other_run_scores)
+            elif not(scene_type in other_scores_logs_for_scene_types) and scene_type in proj_logs_for_scene_types:
+                self.show_this_run_report_for_scene_type(scene_type)
+            else:
+                self.show_other_run_report_for_scene_type(scene_type, other_run_scores)
 
     def get_value_change(self, pc, pc_other, label):
         if pc == pc_other:
@@ -82,7 +94,49 @@ class OpticsScores:
         else:
             return f'+{pc_other - pc} {label}'
 
-    def show_totals_report_for_scene_type(self, scene_type, other_run_scores):
+    def show_other_run_report_for_scene_type(self, other_run_scores):
+        ol = other_run_scores.opics_logs
+        o_total       = ol.get_count_for_proj_scene(proj,scene_type)
+        o_unknowns    = ol.count_results_unknown(proj,scene_type)
+        o_fails       = ol.count_results_fail(proj,scene_type)
+        o_successes   = ol.count_results_successes(proj,scene_type)
+        o_exceptions  = ol.count_results_exceptions(proj,scene_type)
+        pc_other = int((float(o_successes) / float(o_total)) * 100)
+
+        print(f'')
+        print(f'{scene_type.ljust(14)}   {" ".ljust(10)}{str(o_total).ljust(10)} total')
+        if successes != 0 or o_successes != 0:
+            print(f'{scene_type.ljust(14)}   {" ".ljust(10)}{str(o_successes).ljust(10)} success')
+        if fails != 0 or o_fails != 0:
+            print(f'{scene_type.ljust(14)}   {" ".ljust(10)}{str(o_fails).ljust(10)} fails')
+        if exceptions != 0 or o_exceptions != 0:
+            print(f'{scene_type.ljust(14)}   {" ".ljust(10)}{str(o_exceptions).ljust(10)} exception')
+        if unknowns != 0 or o_unknowns != 0:
+            print(f'{scene_type.ljust(14)}   {" ".ljust(10)}{str(o_unknowns).ljust(10)} unknown')
+        print(f'{scene_type.ljust(14)}   {" ".ljust(10)}{str(pc_other).ljust(10)} %')
+
+    def show_this_run_report_for_scene_type(self, scene_type):
+        proj = self.proj
+        total = self.opics_logs.get_count_for_proj_scene(proj,scene_type)
+        unknowns = self.opics_logs.count_results_unknown(proj,scene_type)
+        fails    = self.opics_logs.count_results_fail(proj,scene_type)
+        successes= self.opics_logs.count_results_successes(proj,scene_type)
+        exceptions = self.opics_logs.count_results_exceptions(proj,scene_type)
+        pc = int((float(successes) / float(total)) * 100)
+
+        print(f'')
+        print(f'{scene_type.ljust(14)}   {str(total).ljust(10)}{" ".ljust(10)} total')
+        if successes != 0:
+            print(f'{scene_type.ljust(14)}   {str(successes).ljust(10)}{" ".ljust(10)} success')
+        if fails != 0:
+            print(f'{scene_type.ljust(14)}   {str(fails).ljust(10)}{" ".ljust(10)} fails')
+        if exceptions != 0:
+            print(f'{scene_type.ljust(14)}   {str(exceptions).ljust(10)}{" ".ljust(10)} exception')
+        if unknowns != 0:
+            print(f'{scene_type.ljust(14)}   {str(unknowns).ljust(10)}{" ".ljust(10) } unknown')
+        print(f'{scene_type.ljust(14)}   {str(pc).ljust(10)}{" ".ljust(10)} %')
+
+    def show_comparison_report_for_scene_type(self, scene_type, other_run_scores):
         proj = self.proj
         other = other_run_scores
         total = self.opics_logs.get_count_for_proj_scene(proj,scene_type)
@@ -108,20 +162,24 @@ class OpticsScores:
         e_delta  = self.get_value_change(exceptions, o_exceptions,  'exception')
         u_delta  = self.get_value_change(unknowns,   o_unknowns,    'unknown')
         print(f'')
-        print(f'{scene_type.ljust(10)}   {str(pc).ljust(6)}{str(pc_other).ljust(6)}{pc_delta}')
-        print(f'{scene_type.ljust(10)}   {str(total).ljust(6)}{str(o_total).ljust(6)}{t_delta}')
+        print(f'{scene_type.ljust(14)}   {str(total).ljust(10)}{str(o_total).ljust(10)}{t_delta}')
         if successes != 0 or o_successes != 0:
-            print(f'{scene_type.ljust(10)}   {str(successes).ljust(6)}{str(o_successes).ljust(6)}{s_delta}')
+            print(f'{scene_type.ljust(14)}   {str(successes).ljust(10)}{str(o_successes).ljust(10)}{s_delta}')
         if fails != 0 or o_fails != 0:
-            print(f'{scene_type.ljust(10)}   {str(fails).ljust(6)}{str(o_fails).ljust(6)}{f_delta}')
+            print(f'{scene_type.ljust(14)}   {str(fails).ljust(10)}{str(o_fails).ljust(10)}{f_delta}')
         if exceptions != 0 or o_exceptions != 0:
-            print(f'{scene_type.ljust(10)}   {str(exceptions).ljust(6)}{str(o_exceptions).ljust(6)}{e_delta}')
+            print(f'{scene_type.ljust(14)}   {str(exceptions).ljust(10)}{str(o_exceptions).ljust(10)}{e_delta}')
         if unknowns != 0 or o_unknowns != 0:
-            print(f'{scene_type.ljust(10)}   {str(unknowns).ljust(6)}{str(o_unknowns).ljust(6)}{u_delta}')
+            print(f'{scene_type.ljust(14)}   {str(unknowns).ljust(10)}{str(o_unknowns).ljust(10)}{u_delta}')
+        print(f'{scene_type.ljust(14)}   {str(pc).ljust(10)}{str(pc_other).ljust(10)}{pc_delta}')
 
-
-    def show_details_diff(self, other_scores):
-        pass
+    def show_details_diff(self, other_run_scores):
+        other_scores_logs_for_scene_types = other_run_scores.opics_logs.logs[self.proj]
+        proj_logs_for_scene_types = self.opics_logs.logs[self.proj]
+        print(f'comparing    {self.optics_spec.config_name}   and   {other_run_scores.optics_spec.config_name}')
+        for scene_type in proj_logs_for_scene_types:
+            if scene_type in other_scores_logs_for_scene_types:
+                self.show_totals_report_for_scene_type(scene_type, other_run_scores)
 
 
     def show_exceptions(self):
