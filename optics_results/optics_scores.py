@@ -177,10 +177,76 @@ class OpticsScores:
         other_scores_logs_for_scene_types = other_run_scores.opics_logs.logs[self.proj]
         proj_logs_for_scene_types = self.opics_logs.logs[self.proj]
         print(f'comparing    {self.optics_spec.config_name}   and   {other_run_scores.optics_spec.config_name}')
+        all_scene_types = []
         for scene_type in proj_logs_for_scene_types:
-            if scene_type in other_scores_logs_for_scene_types:
-                self.show_totals_report_for_scene_type(scene_type, other_run_scores)
+            all_scene_types.append(scene_type)
+        for scene_type in other_scores_logs_for_scene_types:
+            if not scene_type in all_scene_types:
+                all_scene_types.append(scene_type)
+        all_scene_types = sorted(all_scene_types)
+        for scene_type in all_scene_types:
+            self.show_details_report_for_scene_type(scene_type, other_run_scores)
 
+    def show_details_report_for_scene_type(self, scene_type, other_run_scores):
+        proj = self.proj
+        # map scene_names to scene_logs for my runs
+        my_logs = {}
+        if scene_type in self.opics_logs.logs[proj]:
+            logs_in_my_run = self.opics_logs.logs[proj][scene_type]
+            for scene_log in logs_in_my_run:
+                my_logs[scene_log.scene_name] = scene_log
+        # map scene_names to scene_logs for other runs
+        other_logs = {}
+        if scene_type in other_run_scores.opics_logs.logs[proj]:
+            logs_in_other_run = other_run_scores.opics_logs.logs[proj][scene_type]
+            for scene_log in logs_in_other_run:
+                other_logs[scene_log.scene_name] = scene_log
+
+        # gather all scene names
+        all_scenes_in_play = []
+        for scene_name in my_logs:
+            all_scenes_in_play.append(scene_name)
+        for scene_name in other_logs:
+            if not scene_name in all_scenes_in_play:
+                all_scenes_in_play.append(scene_name)
+        all_scenes_in_play = sorted(all_scenes_in_play)
+
+        # decide how o display
+        for scene_name in all_scenes_in_play:
+            if scene_name in my_logs and scene_name in other_logs:
+                self.show_scene_comparison(scene_name, my_logs[scene_name], other_logs[scene_name])
+            elif scene_name in my_logs and not scene_name in other_logs:
+                self.show_my_scene_info(scene_name, my_logs[scene_name])
+            else:
+                self.show_other_scene_info(scene_name, other_logs[scene_name])
+
+
+    def show_scene_comparison(self, scene_name, my_log, other_log):
+        my_result = self.get_result_code(my_log)
+        other_result = self.get_result_code(other_log)
+        flag = ''
+        if my_result != other_result:
+            flag = 'differ'
+        print(f'{scene_name.ljust(30)}{my_result.ljust(8)},  {other_result.ljust(8)}  {flag}')
+        
+    def show_my_scene_info(self, scene_name, my_log):
+        my_result = self.get_result_code(my_log)
+        print(f'{scene_name.ljust(30)}{my_result.ljust(8)},')
+
+    def show_other_scene_info(self, scene_name, other_log):
+        other_result = self.get_result_code(other_log)
+        print(f'{scene_name.ljust(30)}{" ".ljust(8)},  {other_result}')
+
+    def get_result_code(self, scene_log):
+        if scene_log.is_unknown_result():
+            return 'unkn'
+        if scene_log.is_succeed():
+            return 'succeed'
+        if scene_log.is_failure():
+            return 'FAIL'
+        if scene_log.is_exception():
+            return 'EXCEPT'
+        return '?'
 
     def show_exceptions(self):
         self.opics_logs.express_exceptions(self.proj)
