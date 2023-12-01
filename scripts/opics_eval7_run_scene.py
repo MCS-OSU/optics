@@ -6,7 +6,7 @@ import traceback
 import json
 
 container_for_project = {}
-container_for_project['avoe' ] = 'avoe_102723_helphind.sif'
+container_for_project['avoe' ] = 'avoe_111923_socimit_val7.sif'
 container_for_project['inter'] = 'inter_111623_val7.sif'
 container_for_project['pvoe' ] = 'pvoe_040323_eval5_cuda_11.sif'
 
