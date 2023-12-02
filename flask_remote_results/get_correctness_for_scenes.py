@@ -109,6 +109,8 @@ def get_correctness(proj, run, scene_type):
                 avoe_pair = get_avoe_pair_for_scene_name(pairs_for_type, scene_name)
                 if avoe_pair is None:
                     result['correctness'][scene_name] = 'unknown'
+                elif avoe_pair.is_exception_scene(scene_name):
+                    result['correctness'][scene_name] = 'exception'
                 elif avoe_pair.is_osu_agent_correct():
                     result['correctness'][scene_name] = 'correct'
                 else:
@@ -129,7 +131,6 @@ if __name__ == '__main__':
         run_name = run_name.replace('inter_','')
     elif parts[0] == 'pvoe':
         run_name == run_name.replace('pvoe_','')
-
     scene_type = sys.argv[3]
     result_object = get_correctness(proj, run_name, scene_type)
     s = json.dumps(result_object, indent=2)
