@@ -80,6 +80,7 @@ def get_correctness(proj, run, scene_type):
     result = {}
     versions_root = os.path.join(optics_data_root, proj, 'versions')
     log_dir = os.path.join(versions_root, run, 'logs')
+
     if not os.path.exists(log_dir):
         return {}
     type_dir = os.path.join(log_dir, scene_type)
@@ -120,6 +121,15 @@ if __name__ == '__main__':
         sys.exit()
     proj = sys.argv[1]
     run_name = sys.argv[2]
+    # ensure project name is pulled off the run name as that is passed in the other param
+    parts = run_name.split('_')
+    if parts[0] == 'avoe':
+        run_name = run_name.replace('avoe_','')
+    elif parts[0] == 'inter':
+        run_name = run_name.replace('inter_','')
+    elif parts[0] == 'pvoe':
+        run_name == run_name.replace('pvoe_','')
+
     scene_type = sys.argv[3]
     result_object = get_correctness(proj, run_name, scene_type)
     s = json.dumps(result_object, indent=2)
