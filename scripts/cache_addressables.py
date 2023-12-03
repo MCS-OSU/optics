@@ -1,7 +1,7 @@
 import argparse
 import os
 
-from scripts.unity_executable_provider import \
+from machine_common_sense.unity_executable_provider import \
     UnityExecutableProvider
 
 '''
