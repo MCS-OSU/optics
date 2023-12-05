@@ -64,6 +64,8 @@
                                     <option style="padding-left:6px;padding-right:6px;background-color:red;color:white;font-style:bold" value="{{ scene }}" selected>{{ scene }}</option>
                                 {% elif correctness_info['correctness'][scene] == "exception" %}
                                     <option style="padding-left:6px;padding-right:6px;background-color:black;color:yellow;" value="{{ scene }}" selected>{{ scene }}</option>
+                                {% elif correctness_info['correctness'][scene] == "unknown" %}
+                                    <option style="padding-left:6px;padding-right:6px;background-color:brown;color:white;" value="{{ scene }}" selected>{{ scene }}</option>
                                 {% else %}
                                     <option style="padding-left:6px;padding-right:6px;" value="{{ scene }}" selected>{{ scene }}</option>
                                 {% endif %}
@@ -74,6 +76,8 @@
                                     <option style="padding-left:6px;padding-right:6px;background-color:red;color:white;font-weight:bold" value="{{ scene }}">{{ scene }}</option>
                                 {% elif correctness_info['correctness'][scene] == "exception" %}
                                     <option style="padding-left:6px;padding-right:6px;background-color:black;color:yellow" value="{{ scene }}">{{ scene }}</option>
+                                {% elif correctness_info['correctness'][scene] == "unknown" %}
+                                    <option style="padding-left:6px;padding-right:6px;background-color:brown;color:white;" value="{{ scene }}" selected>{{ scene }}</option>
                                 {% else %}
                                     <option style="padding-left:6px;padding-right:6px" value="{{ scene }}">{{ scene }}</option>
                                 {% endif %}
@@ -89,6 +93,9 @@
                 </div>
                 <div id="exception count_count">
                     <span style="padding-right:10px">Exception: {{correctness_info['exception_count']}}</span>
+                </div>
+                <div id="unknown count_count">
+                    <span style="padding-right:10px">Unknown: {{correctness_info['unknown_count']}}</span>
                 </div>
             </div>
             
