@@ -118,6 +118,7 @@ class OpticsData():
         correct_count = 0
         incorrect_count = 0
         exception_count = 0
+        unknown_count = 0
         for scene_name in scene_names:
             if scene_name in correctness_info['correctness']:
                 if correctness_info['correctness'][scene_name] == 'correct':
@@ -126,7 +127,10 @@ class OpticsData():
                     incorrect_count += 1
                 elif correctness_info['correctness'][scene_name] == 'exception':
                     exception_count += 1
+                elif correctness_info['correctness'][scene_name] == 'unknown':
+                    unknown_count += 1
         correctness_info['correct_count'] = correct_count
         correctness_info['incorrect_count'] = incorrect_count
         correctness_info['exception_count'] = exception_count
+        correctness_info['unknown_count'] = unknown_count
         return scene_names, log_content, video_url, correctness_info
