@@ -2,6 +2,7 @@ import os, sys
 
 from core.optics_spec_loader           import OpticsSpec
 from optics_results.optics_scores      import OpticsScores
+from optics_results.results_compare_inter import ResultsCompareInter
 
 def resolve_given_optics_spec_path(given_path):
     if given_path.startswith('/'):
@@ -60,13 +61,31 @@ if __name__ == '__main__':
         print(f'projects for these specs are different: {proj1} vs {proj2} - cannot meaningfully compare')
         sys.exit()
 
+    if proj1 not in ['avoe','inter','pvoe']:
+        print(f'project must be either avoe, inter, or pvoe')
+        sys.exit()
+
     optics_scores_1 = OpticsScores(proj1,optics_spec_1)
     optics_scores_2 = OpticsScores(proj1,optics_spec_2)
 
-    print(f'\n\n              -  difference {scope} -\n\n')
-    if scope == 'totals':
-        optics_scores_1.show_totals_diff(optics_scores_2)
-    elif scope == 'details':
-        optics_scores_1.show_details_diff(optics_scores_2)
-    else:
-        pass
+
+    if proj1 == 'inter' or proj1 == 'pvoe':
+        #rci = ResultsCompareInter(optics_score_1, optics_score_2)
+        print(f'\n\n              - INTER runs difference {scope} -\n\n')
+        if scope == 'totals':
+            rci.show_totals_diff()
+            optics_scores_1.show_totals_diff(optics_scores_2)
+        elif scope == 'details':
+            #rci.show_details_diff()
+            optics_scores_1.show_details_diff(optics_scores_2)
+        else:
+            pass
+    else #'avoe':
+        print('not yet implemented')
+        # print(f'\n\n              - AVOE runs difference {scope} -\n\n')
+        # if scope == 'totals':
+        #     optics_scores_1.show_totals_diff_avoe(optics_scores_2)
+        # elif scope == 'details':
+        #     optics_scores_1.show_details_diff_avoe(optics_scores_2)
+        # else:
+        #     pass
