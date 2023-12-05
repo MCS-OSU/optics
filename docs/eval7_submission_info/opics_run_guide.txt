@@ -7,9 +7,9 @@ The OPICS evaluation 7 Validation #1 submission uses apptainer containers to con
 The three apptainer containers are located at
 
 
-~/containers/avoe_102723_helphind.sif
+~/containers/avoe_120423_eval7.sif
 ~/containers/pvoe_040323_eval5_cuda_11.sif
-~/containers/inter_101823_val7.sif 
+~/containers/inter_120423_eval7.sif 
 
 (NOTE - OPICS is not being evaluated on Passive Physics scenes in Evaluation 7, but we left the PVOE container
 that was delivered for Eval6 in place so that PVOE scenes would still run.)
@@ -72,7 +72,7 @@ Scene types support for Validation run #3 : (INTER unchanged since evaluation 2)
 
 HOW TO RUN A SCENE
 
-# run the main_optics alias to set headless mode and env variables 
+# run the main_optics alias to set headless mode and env variables and cd into the main_opics_dir
 %main_optics
 
 # cd in to the scripts dir and run the unified launch script
