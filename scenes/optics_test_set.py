@@ -26,6 +26,8 @@ class OpticsTestSet():
         for line in lines:
             if line.strip() == '':
                 continue
+            if line.startswith('#'):
+                continue
             full_path_to_json_scene_file = os.path.join(root_dir, line.strip())
             if self.is_multa_training_scene(full_path_to_json_scene_file):
                 continue

@@ -270,9 +270,19 @@ def parse_job_assign(job_assign):
     optics_debug(f'...parsed job_assign as: {machine}, {command}, {scene_path}')
     return machine, command, scene_path
 
+def translate_ec2_machine_name(name):
+    if name == EC2A_UNAME_OUTPUT:
+        return 'ec2a'
+    if name == EC2C_UNAME_OUTPUT:
+        return 'ec2c'
+    if name == EC2D_UNAME_OUTPUT:
+        return 'ec2d'
+    return name 
+
 def parse_job_request(job_request):
     fields = job_request.split(';')
     machine = fields[1]
+    machine = translate_ec2_machine_name(machine)
     command = fields[2]
     optics_debug(f'...parsed job_request as: {machine}, {command}')
     return machine, command
